@@ -1,134 +1,101 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-14 18:07 · 28 new paper(s) scored this run
+Last updated: 2026-05-14 18:15 · 28 new paper(s) scored this run
 
 ## New Papers (this run)
 
+### 🔴 [Query-Adaptive Hybrid Search] — Score 10/10
+> This paper describes a query-adaptive hybrid search framework that directly replaces static mixing weights with a module predicting the right Alpha for each incoming query.
+
+**POC idea:** Modify the RAG pipeline to use query-adaptive Alpha prediction, replacing the existing IDF-based alpha with the new module.
+
 ### 🔴 [CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs] — Score 9/10
-> The paper proposes a new method for evaluating LLMs by measuring semantic diversity, directly applicable to evaluating LLM outputs used in my daily work.
+> The paper directly addresses scalable creativity evaluation of LLMs, which is implementable with minimal adaptation for RAGs and other systems requiring LLM output assessment.
 
-**POC idea:** Implement the CAD score method to evaluate and contrast the creativity and diversity of different LLM outputs in a retrieval pipeline.
+### ⚪ [KALEFormer a transformer based model integrating KMeans clustering and LDA for market basket analysis] — Score 5/10
+> The technique combines LDA and KMeans with a transformer, but it is unclear whether the primary focus of the transformer is on LLM-based tasks or a recommendation system, and market basket analysis is unrelated to RAG pipelines or LLM inference optimisation.
 
-### 🔴 [Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series] — Score 9/10
-> This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, which is relevant to implementing retrieval pipelines and AI agents.
+### ⚪ [Drop-in density-aware partitioning for tree-based anomaly detection] — Score 5/10
+> Density-aware partitioning for anomaly detection may be applicable with adaptation for LLM-specific tasks, but the primary focus is on tree-based anomaly detection, not LLMs or embeddings.
 
-**POC idea:** It could be used to develop a proof-of-concept for dynamic sequence comparison in AI agent-based predictive maintenance systems.
+### ⚪ [Adjusting B-Tree for Better Usability: Nodes as Files Instead of Disk Blocks] — Score 5/10
+> Improves B-Tree usability by replacing nodes as disk blocks with nodes as files, which is an adaptation relevant to systems engineering but not directly applicable to RAG or LLMs.
 
-### 🔴 [The attribution crisis in LLM search results: Estimating ecosystem exploitation] — Score 8/10
-> The paper discusses ecosystem exploitation in LLM search results, which is relevant to AI engineers implementing and evaluating retrieval pipelines and LLM applications.
+**POC idea:** Implement a proof-of-concept that measures SQLite's B-Tree performance with the proposed file-based design against its native block-based design.
 
-**POC idea:** A potential proof-of-concept idea could be developing a system to track and provide visibility to external knowledge sources used by LLMs.
+### ⚪ [The attribution crisis in LLM search results: Estimating ecosystem exploitation] — Score 4/10
+> This paper discusses the concept of ecosystem exploitation in the context of LLMs, but does not propose any specific techniques directly applicable to RAG pipeline optimization or LLM engineering.
 
-### 🔴 [Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy] — Score 8/10
-> The paper addresses labelled data scarcity in defect classification, which could be an issue in implementing computer vision applications including those that utilize LLMs and retrieval pipelines.
+### ⚪ [Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy] — Score 4/10
+> Paper discusses building a computer vision pipeline for defect classification, but its focus is on generic ML concepts and not LLM or retrieval applications.
 
-**POC idea:** This paper might inspire the development of few-shot learning techniques for specific use cases in AI engineering, such as defect classification in scanning tunnelling microscopy.
+### ⚪ [Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model] — Score 4/10
+> The paper proposes a deep learning system for group recommendations, but the focus is on generic ML with transformers rather than a specific application in LLMs or retrieval.
 
-### 🔴 [Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model] — Score 8/10
-> The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
+### ⚪ [A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams] — Score 4/10
+> The paper describes a general event processing engine with multiple components, but the specific paradigm does not necessarily integrate declarative processes and event streams in the context of LLM inference or retrieval.
 
-**POC idea:** Potential proof of concept idea: Implementing a two-stage deep learning system for group recommendations in a real-world LLM application, leveraging user preferences and dining constraints.
+### ⚪ [Detecting Phishing Emails Using GloVe Word Embeddings and Ensemble Machine Learning Model] — Score 4/10
+> The paper uses GloVe word embeddings, but as a component in a phishing detection system, which is unrelated to the AI systems this engineer builds.
 
-### 🔴 [A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams] — Score 8/10
-> This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
+### ⚪ [A lightweight approach to software fault localization using static features of statements in cloud computing environments] — Score 3/10
+> The paper discusses software fault localization for small codebases using static features, which is not directly applicable to LLM inference optimisation or retrieval architecture.
 
-**POC idea:** Integrating event streams with declarative processes for more accurate event-driven decision-making in retrieval pipelines and AI agents.
+### ⚪ [Industrial chain risk monitoring with explainable dynamic knowledge graph learning] — Score 2/10
+> The paper presents a domain-specific application of AI in supply chain risk monitoring, but lacks direct relevance to LLM or retrieval engineering.
 
-### 🔴 [Opinion Maximization Based on Fairness in Social Networks] — Score 8/10
-> The paper presents a framework to maximize overall positive opinion in social networks while ensuring fairness for minority groups, which is related to the application of Influence Maximization in marketing influencer campaigns.
+### ⚪ [VogFashion: an AI-driven intelligent system for fashion design] — Score 2/10
+> The paper is about using AI for fashion design, a domain-specific application with no clear connection to the development of AI systems.
 
-**POC idea:** The concept of fairness in social network optimization could be applied to real-world influence maximization scenarios.
+### ⚪ [Latent Twins] — Score 2/10
+> The paper is about a scientific machine learning approach, not a technique directly applicable to building production systems like LLM applications or hybrid search.
 
-### 🔴 [Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models] — Score 8/10
-> The paper explores the application of ML-based alternatives to NWP, focusing on forecasting extreme events, which is relevant to the development of LLM applications and retrieval pipelines.
+### ⚪ [Opinion Maximization Based on Fairness in Social Networks] — Score 2/10
+> The paper focuses on influencer marketing and fairness in social networks, using machine learning and optimization techniques that are not directly related to RAG, LM, or retrieval.
 
-**POC idea:** This paper could be used as a basis for implementing a new retrieval technique or LLM evaluation approach in weather forecasting applications.
+### ⚪ [Reinforcement Learning-Driven Enterprise Financial Management and Spatiotemporal Convolution Optimization Model] — Score 2/10
+> RL is used in the financial domain, which is unrelated to AI engineering for production systems
 
-### 🔴 [OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging] — Score 8/10
-> This paper applies to online regression, which is relevant to implementing dynamic estimation models for user properties values, a real estate application.
+### ⚪ [Grey Wolf Optimization and Deep Belief Networks for Data-Efficient Forecasting in Smart Renewable Energy Systems] — Score 2/10
+> The paper uses deep learning for a domain-specific application unrelated to AI engineering, specifically renewable energy forecasting.
 
-**POC idea:** Possible Proof of Concept: Integrate OLR-WAA into a property value estimation system to improve accuracy in real-time, dynamic property valuation.
+### ⚪ [OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging] — Score 2/10
+> The paper describes an online regression technique to combat concept drift, which, although a general ML problem, is not directly relevant to LLM or retrieval engineering
 
-### 🟡 [Industrial chain risk monitoring with explainable dynamic knowledge graph learning] — Score 7/10
-> The paper applies explainable dynamic knowledge graph learning to industrial chain risk monitoring, which is similar to retrieval pipeline applications in AI engineering.
+### ⚪ [Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series] — Score 2/10
+> The paper proposes a technique for time series matching, which might be tangentially related to LLM-based time series embeddings, but is fundamentally a ML tool for a domain application.
 
-**POC idea:** Possible proof-of-concept is to integrate knowledge graph learning into existing retrieval pipelines for real-time industrial chain risk monitoring.
+### ⚪ [TAM: ternary agreement model. A novel approach to lead-lag analysis in cryptocurrency markets] — Score 1/10
+> This paper uses AI for a domain-specific application (financial market lead-lag analysis) without any direct relevance to LLMs, retrieval, or hybrid search.
 
-### 🟡 [KALEFormer a transformer based model integrating KMeans clustering and LDA for market basket analysis] — Score 7/10
-> The paper proposes a transformer-based model integrating KMeans clustering and LDA for market basket analysis, applicable to AI engineering work in retail recommendation systems.
+### ⚪ [PWD-MFS: a lightweight multispectral fusion network for detection of pine wilt disease with UAV imagery] — Score 1/10
+> The paper is about pine wilt disease detection using AI models, which is a domain-specific application, not directly related to RAG pipelines, LLM applications, or hybrid search.
 
-### 🟡 [Detecting Phishing Emails Using GloVe Word Embeddings and Ensemble Machine Learning Model] — Score 7/10
-> The paper combines GloVe word embeddings with an ensemble machine learning model for phishing email detection, which involves techniques relevant to NLP and ML engineering work, such as embedding usage and model stacking.
+### ⚪ [Utilizing Video Deepfakes for Paper Voting Privacy Defense] — Score 1/10
+> The paper focuses on improving election security and anonymity, using video deepfakes for voting privacy defense, with no apparent connection to AI engineering
 
-**POC idea:** A proof of concept could involve applying this ensemble model and GloVe embeddings to a small-scale phishing email dataset.
-
-### 🟡 [Reinforcement Learning-Driven Enterprise Financial Management and Spatiotemporal Convolution Optimization Model] — Score 7/10
-> The paper applies reinforcement learning to financial management, which may involve optimization and retrieval pipelines relevant to AI engineering work.
-
-**POC idea:** Building a reinforcement learning model to optimize capital allocation could inspire a proof-of-concept for optimizing resource allocation in other domains.
-
-### 🟡 [Drop-in density-aware partitioning for tree-based anomaly detection] — Score 7/10
-> It improves the Isolation Forest algorithm, which can be relevant for anomaly detection in AI agents or agent decision-making processes.
-
-**POC idea:** This paper could serve as a starting point for implementing a density-aware anomaly detection system in an existing AI setup.
-
-### 🟡 [Efficient multi-robot exploration of unknown environments using inverted ant colony optimization and reinforcement learning] — Score 7/10
-> The paper applies reinforcement learning and a unique optimization algorithm to coordinate multiple robots, showing potential applications in complex search and discovery tasks, but doesn't directly apply to production systems I implement.
-
-**POC idea:** Exploring a similar approach with inverted ant colony optimization algorithm and reinforcement learning could potentially be applied to optimize retrieval pipelines or agent navigation systems.
-
-### 🟡 [VogFashion: an AI-driven intelligent system for fashion design] — Score 6/10
-> The paper touches on generative AI pipeline for fashion design, but it doesn't directly apply to daily tasks like RAG, LLM evaluation, or vector search.
-
-**POC idea:** However, a generative AI pipeline for fashion design could be tangentially related to RAG and retrieval techniques, but would require significant adaptation and modification.
-
-### 🟡 [Generative AI for seismic data enhancement: a novel workflow using stable diffusion models] — Score 6/10
-> The paper explores the application of Stable Diffusion models in enhancing seismic data, which can be related to AI engineering work in retrieval pipelines and LLM applications but requires some abstraction.
-
-**POC idea:** The idea of using generative AI for data enhancement is applicable, but the specific implementation using Stable Diffusion models is not directly applicable to the mentioned AI engineering techniques.
-
-### 🟡 [Grey Wolf Optimization and Deep Belief Networks for Data-Efficient Forecasting in Smart Renewable Energy Systems] — Score 6/10
-> The paper combines Deep Belief Network and Grey Wolf Optimization to create a data-efficient forecasting pipeline, which seems tangentially related to AI engineering work such as LLM evaluation and retrieval pipelines.
-
-**POC idea:** Using Grey Wolf Optimization for hyperparameter tuning of Deep Belief Networks in a production environment.
-
-### 🟡 [A lightweight approach to software fault localization using static features of statements in cloud computing environments] — Score 6/10
-> The paper presents an approach using static features of statements in cloud computing environments for software fault localization, which is relevant to AI engineering work related to software testing and debugging.
-
-**POC idea:** This approach could be integrated with retrieval pipelines for efficient fault localization.
-
-### ⚪ [TAM: ternary agreement model. A novel approach to lead-lag analysis in cryptocurrency markets] — Score 5/10
-> While the paper's focus on lead-lag analysis and ternary agreement models is relevant to AI engineering, its direct application to RAG systems, LLM applications, retrieval pipelines, and AI agents is unclear.
-
-**POC idea:** However, the concept of understanding temporal relationships in data, which could be analogous to LLM evaluation or prompt optimisation, might be transferable to AI engineering work.
-
-### ⚪ [Latent Twins] — Score 5/10
-> The paper discusses a unified operator model that could replace numerical solvers with a learnable system, which has some implications for inference optimisation and retrieval pipelines.
-
-**POC idea:** Explore whether the Latent Twins approach could be adapted for use in AI agents.
-
-### ⚪ [A real-time adaptive traffic light control algorithm at urban intersections for smart cities] — Score 4/10
-> The paper proposes traffic light control algorithms and vehicle-to-infrastructure protocols but does not directly implement AI techniques relevant to daily work.
-
-### ⚪ [PWD-MFS: a lightweight multispectral fusion network for detection of pine wilt disease with UAV imagery] — Score 3/10
-> Paper's focus is on disease detection with multispectral imagery, which is not directly applicable to AI engineering work.
-
-### ⚪ [Utilizing Video Deepfakes for Paper Voting Privacy Defense] — Score 3/10
-> The paper discusses a unique approach to paper voting privacy, which doesn't directly relate to the author's daily work in AI engineering and RAG systems implementation.
-
-### ⚪ [Semi-autonomous exploration of martian and lunar analogues with a legged robot using a Raman-equipped robotic arm and microscopic imager] — Score 2/10
-> The paper's content is about a mars rover using a Raman-equipped robotic arm and microscopic imager, which seems to have no direct relation to AI engineering work or daily tasks such as RAG, hybrid search, LLM eval, agents, or embeddings.
-
-### ⚪ [Adjusting B-Tree for Better Usability: Nodes as Files Instead of Disk Blocks] — Score 2/10
-> The paper focuses on optimizing the B-Tree data structure for usability, which is relevant to computer science but does not directly relate to AI engineering work.
-
-**POC idea:** Adopting the approach of representing nodes as files might not be applicable to AI engineering work, especially considering the significant differences in data types and storage requirements.
+### ⚪ [A real-time adaptive traffic light control algorithm at urban intersections for smart cities] — Score 1/10
+> This paper uses deep learning for a domain-specific application (urban traffic control), with no focus on AI systems or technique relevant to RAG/LLMs.
 
 ### ⚪ [Interactive Sports Auxiliary Training Architecture Based on Computer Contact Point Constraints] — Score 1/10
-> The paper's application of computer vision and real-time detection to sports training has limited relevance to common AI engineering tasks like RAG systems and LLM applications.
+> This paper is about a computer vision architecture for track and field training, with no direct application to LLMs or retrieval systems.
+
+### ⚪ [Generative AI for seismic data enhancement: a novel workflow using stable diffusion models] — Score 1/10
+> The paper uses AI for a domain-specific task unrelated to AI system engineering.
+
+### ⚪ [Semi-autonomous exploration of martian and lunar analogues with a legged robot using a Raman-equipped robotic arm and microscopic imager] — Score 1/10
+> No apparent relevance to natural language processing, large language models, or retrieval-based architectures;
+
+### ⚪ [Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models] — Score 1/10
+> This paper is a domain-specific application of AI models for weather forecasting and lacks any relevance to the direct development of RAG pipelines, LLM applications, or other production systems relevant to the AI engineer's work.
 
 ## Previously Tracked
 
 _Papers from earlier scans are appended here automatically._
+
+- 🔴 **Query-Adaptive Hybrid Search** (score 10/10) — This paper describes a query-adaptive hybrid search framework that directly replaces static mixing weights with a module predicting the right Alpha for each incoming query.
+- 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper directly addresses scalable creativity evaluation of LLMs, which is implementable with minimal adaptation for RAGs and other systems requiring LLM output assessment.
+
+- 🔴 **Query-Adaptive Hybrid Search** (score 8/10) — The paper proposes a dynamic retrieval framework that replaces static mixing weights with a module that predicts the right retrieval strategy for each incoming query, which is applicable to AI engineering work in designing hybrid search systems.
 
 - 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper proposes a new method for evaluating LLMs by measuring semantic diversity, directly applicable to evaluating LLM outputs used in my daily work.
 - 🔴 **Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series** (score 9/10) — This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, which is relevant to implementing retrieval pipelines and AI agents.

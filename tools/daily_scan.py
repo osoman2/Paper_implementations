@@ -22,7 +22,7 @@ import re
 import urllib.request
 import urllib.parse
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date
 
 try:
     import anthropic
@@ -43,7 +43,7 @@ REPO_ROOT    = Path(__file__).parent.parent
 STATE_FILE   = Path(__file__).parent / ".seen_ids.json"
 INBOX_MD     = REPO_ROOT / "INBOX.md"
 SENDER       = "noreply@newsletter.journalclub.io"
-RELEVANCE_THRESHOLD = 6   # papers scoring >= this are "high relevance"
+RELEVANCE_THRESHOLD = 7   # papers scoring >= this trigger asyncRewake notification
 GMAIL_CREDS  = Path.home() / ".gmail-mcp" / "token.json"
 
 # ---------------------------------------------------------------------------
@@ -124,22 +124,40 @@ def fetch_email_content(msg_id: str, token: str) -> dict:
 # ---------------------------------------------------------------------------
 
 RELEVANCE_PROMPT = """\
-You are evaluating research papers for an AI engineer who implements production RAG \
-systems, LLM applications, retrieval pipelines, and AI agents.
+You are a strict relevance filter for an AI engineer who builds production systems: \
+RAG pipelines, LLM applications, hybrid search, AI agents, embeddings, and LLM inference optimisation.
+
+Your job is to score papers for DIRECT implementability, not vague conceptual similarity.
+Be conservative. A paper about recommendation systems is NOT automatically relevant to RAG.
+A paper using "AI" or "deep learning" for an unrelated domain (weather, finance, biology, traffic) scores 1–3.
+
+CALIBRATION EXAMPLES (use these as anchors):
+- "Query-adaptive hybrid search with IDF-based alpha" → 10 (literally what RAG engineers tune)
+- "CAD score: semantic diversity metric for LLM outputs" → 9 (direct LLM evaluation tool)
+- "Speculative decoding for faster LLM inference" → 10 (core inference optimisation)
+- "ColBERT late interaction for passage retrieval" → 9 (retrieval architecture)
+- "Isolation Forest improvement for anomaly detection" → 5 (generic ML, not LLM-specific)
+- "Recommendation system with transformer+clustering" → 4 (uses transformers, but not for LLMs)
+- "RL for financial portfolio management" → 2 (RL is ML, but domain is finance, not AI systems)
+- "Precipitation forecasting with AI weather models" → 1 (domain application, not AI engineering)
+- "Traffic light control with deep learning" → 1 (domain application)
+- "Pine wilt disease detection with CNNs" → 1 (domain application)
+
+SCORING RUBRIC:
+8–10: Must implement a technique directly usable in: hybrid search, RAG chunking/retrieval/reranking,
+      LLM output evaluation, prompt optimisation, embedding models, agent memory, inference speed/cost.
+      No adaptation needed — drop-in applicable.
+5–7:  Technique is applicable with some adaptation. Must use LLMs, embeddings, or retrieval as a
+      core component (not just "uses transformers for X unrelated task").
+1–4:  Generic ML, domain-specific AI, or no LLM/retrieval component.
 
 Paper title: {title}
 
-Paper abstract/summary:
+Paper content:
 {body}
 
-Score this paper's relevance on a scale of 1–10 where:
-10 = directly implements a technique I use daily (RAG, hybrid search, LLM eval, agents, embeddings, inference optimisation)
-7–9 = clearly applicable to AI engineering work (new retrieval technique, LLM evaluation, prompt optimisation, vector search)
-4–6 = tangentially related (general ML, recommendation systems, NLP classification)
-1–3 = not relevant (IoT, healthcare imaging, traffic control, climate, astronomy, etc.)
-
-Respond with ONLY valid JSON, no markdown fences:
-{{"score": <int 1-10>, "reason": "<one sentence>", "implement": <true/false>, "poc_idea": "<one sentence or empty string>"}}"""
+Respond with ONLY valid JSON (no markdown fences, no extra text):
+{{"score": <int 1-10>, "reason": "<one crisp sentence on why this score, not just rephrasing the title>", "implement": <true if score>=8>, "poc_idea": "<concrete one-sentence POC description, or empty string if score<7>"}}"""
 
 
 def score_paper(title: str, body: str) -> dict:
@@ -175,14 +193,22 @@ def score_paper(title: str, body: str) -> dict:
 # State management
 # ---------------------------------------------------------------------------
 
-def load_seen() -> set[str]:
+def load_state() -> dict:
     if STATE_FILE.exists():
-        return set(json.loads(STATE_FILE.read_text()))
-    return set()
+        data = json.loads(STATE_FILE.read_text())
+        # backwards compat: old format was just a list of IDs
+        if isinstance(data, list):
+            return {"seen_ids": data, "last_run_date": None}
+        return data
+    return {"seen_ids": [], "last_run_date": None}
 
 
-def save_seen(seen: set[str]) -> None:
-    STATE_FILE.write_text(json.dumps(sorted(seen)))
+def save_state(state: dict) -> None:
+    STATE_FILE.write_text(json.dumps(state, indent=2))
+
+
+def already_ran_today(state: dict) -> bool:
+    return state.get("last_run_date") == date.today().isoformat()
 
 # ---------------------------------------------------------------------------
 # Report writer
@@ -249,8 +275,16 @@ def append_to_backlog(results: list[dict]) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
+    force = "--force" in sys.argv
+
     if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("GROQ_API_KEY")):
         print("[scan] No LLM API key found (ANTHROPIC_API_KEY or GROQ_API_KEY) — skipping.", file=sys.stderr)
+        return 0
+
+    state = load_state()
+
+    if not force and already_ran_today(state):
+        print(f"[scan] Already ran today ({state['last_run_date']}). Use --force to override.", file=sys.stderr)
         return 0
 
     print("[scan] Authenticating with Gmail…", file=sys.stderr)
@@ -262,11 +296,13 @@ def main() -> int:
 
     print("[scan] Fetching email IDs…", file=sys.stderr)
     all_ids = fetch_email_ids(token)
-    seen    = load_seen()
+    seen    = set(state["seen_ids"])
     new_ids = [i for i in all_ids if i not in seen]
 
     if not new_ids:
-        print("[scan] No new papers.", file=sys.stderr)
+        print("[scan] No new emails.", file=sys.stderr)
+        state["last_run_date"] = date.today().isoformat()
+        save_state(state)
         return 0
 
     print(f"[scan] {len(new_ids)} new email(s) to process.", file=sys.stderr)
@@ -293,7 +329,9 @@ def main() -> int:
         except Exception as e:
             print(f"[scan] Error on {msg_id}: {e}", file=sys.stderr)
 
-    save_seen(seen)
+    state["seen_ids"] = sorted(seen)
+    state["last_run_date"] = date.today().isoformat()
+    save_state(state)
     write_inbox(results, len(new_ids))
     append_to_backlog(results)
 
