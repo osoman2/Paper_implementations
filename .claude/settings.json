@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /home/user/Paper_implementations && python tools/daily_scan.py 2>&1 | tail -3",
+            "async": true,
+            "asyncRewake": true,
+            "rewakeSummary": "📬 JournalClub scan: new relevant papers found",
+            "rewakeMessage": "The daily JournalClub.io paper scan completed and found new high-relevance papers for AI engineering. Read INBOX.md for details and ask the user if they want to implement the top candidate.",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
