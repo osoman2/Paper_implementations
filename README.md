@@ -72,3 +72,14 @@ Prioritise papers that are:
 | Folder | Paper / Technique | Key Gain | Status |
 |--------|-------------------|----------|--------|
 | [`hybrid-search`](./hybrid-search/) | Query-Adaptive Hybrid Search (DAT + vstash) | +2–17% NDCG@10 over fixed-weight hybrid | ✅ Done |
+| [`cad-score`](./cad-score/) | CAD Score: Context-Aware Semantic Diversity (Kim et al. 2025) | Objective LLM creativity evaluation without human judges | ✅ Done |
+
+## Paper Backlog (from JournalClub.io)
+
+Papers sourced and assessed for relevance. Sorted by implementation priority.
+
+| Paper | Why relevant | Priority |
+|-------|-------------|----------|
+| A synergistic engine paradigm for real-time, context-aware decision-making | Event-driven pattern matching + state tracking — applicable to agent orchestration | Medium |
+| Drop-in density-aware partitioning for tree-based anomaly detection | Improved Isolation Forest — useful for LLM/system output monitoring | Medium |
+| The attribution crisis in LLM search results | Research on LLM attribution gap — informs RAG citation design | Low (research) |
