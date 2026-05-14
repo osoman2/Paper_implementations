@@ -23,3 +23,8 @@ Each POC will live in its own folder and will include an independent Python envi
 │   └── src/
 │
 └── README.md
+```
+
+## Claude Guidelines
+- Use /vrl-implement and /vrl research
+- Not implement full front/back always, if it can be fully implemented in the frontend, do it; if it should have backend use python with Streamlit, NiceGUI, Gradio, or Taipy, 
