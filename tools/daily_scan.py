@@ -51,8 +51,16 @@ GMAIL_CREDS  = Path.home() / ".gmail-mcp" / "token.json"
 # ---------------------------------------------------------------------------
 
 def _gmail_token() -> str:
-    with open(GMAIL_CREDS) as f:
-        creds = json.load(f)
+    # Cloud/routine environment: credentials via env vars
+    if os.environ.get("GMAIL_REFRESH_TOKEN"):
+        creds = {
+            "client_id":     os.environ["GMAIL_CLIENT_ID"],
+            "client_secret": os.environ["GMAIL_CLIENT_SECRET"],
+            "refresh_token": os.environ["GMAIL_REFRESH_TOKEN"],
+        }
+    else:
+        with open(GMAIL_CREDS) as f:
+            creds = json.load(f)
     data = urllib.parse.urlencode({
         "client_id": creds["client_id"],
         "client_secret": creds["client_secret"],
