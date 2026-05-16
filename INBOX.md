@@ -1,10 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-16 05:07 · 1 new paper(s) scored this run
+Last updated: 2026-05-16 14:30 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Statistical fault analysis of Ascon: multiple distinguishers and impossible-state exploitation] — Score 0/10
-> This paper is about statistical fault analysis of an encryption algorithm, and does not involve any LLM or retrieval techniques, nor is it relevant to production system engineering.
+### ⚪ [Vision-Based Measurement of Breathing Deformation in Wind Turbine Blade Fatigue Test] — Score 1/10
+> Domain-specific computer vision paper for wind turbine structural testing; no LLM, retrieval, or AI engineering component.
 
 ## Previously Tracked
 

@@ -28,3 +28,10 @@ High-IDF (rare/technical) queries lean sparse (BM25); low-IDF (conceptual) queri
 
 Context-Aware Diversity metric for LLM output evaluation.
 Unlike raw embedding spread, CAD penalises responses that merely paraphrase the prompt.
+
+### 📈 DSSW — Score 9/10
+**Paper:** Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series
+
+Segments each series into overlapping sub-sequences, then runs a DTW-style DP alignment
+at the sub-sequence level. Useful for comparing embedding-drift trajectories, agent-state
+histories, or sequential retrieval-score runs. O(n/stride · m/stride) vs O(n·m) for DTW.

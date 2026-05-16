@@ -4,6 +4,7 @@ Paper POCs — multi-tab Gradio demo.
 Tabs:
   1. Query-Adaptive Hybrid Search (DAT / vstash) — score 10/10
   2. CAD Score: Context-Aware Semantic Diversity — score 9/10
+  3. Dynamic Sub-Sequence Warping (DSSW) — score 9/10
 """
 
 import os
@@ -13,6 +14,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 import gradio as gr
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
 
 # ---------------------------------------------------------------------------
 # Tab 1 — Query-Adaptive Hybrid Search
@@ -199,6 +204,140 @@ def cad_evaluate_live(prompt: str, n_responses: int, use_creative_system: bool, 
 
 
 # ---------------------------------------------------------------------------
+# Tab 3 — Dynamic Sub-Sequence Warping (DSSW)
+# ---------------------------------------------------------------------------
+from dssw.algorithm import dssw_distance, dtw_distance, euclidean_distance
+
+DSSW_EXAMPLES = {
+    "Embedding drift (shifted)": (
+        [0.1, 0.15, 0.2, 0.3, 0.45, 0.6, 0.7, 0.75, 0.8, 0.78, 0.7, 0.6,
+         0.5, 0.42, 0.38, 0.35, 0.32, 0.3, 0.28, 0.25, 0.22, 0.2, 0.19, 0.18,
+         0.17, 0.16, 0.15, 0.14, 0.13, 0.12],
+        [0.08, 0.12, 0.18, 0.28, 0.42, 0.58, 0.68, 0.73, 0.79, 0.77, 0.69, 0.58,
+         0.48, 0.40, 0.36, 0.33, 0.30, 0.28, 0.26, 0.23, 0.20, 0.19, 0.18, 0.17,
+         0.16, 0.15, 0.14, 0.13, 0.12, 0.11],
+    ),
+    "Retrieval score trajectories (different speed)": (
+        [0.9, 0.88, 0.85, 0.83, 0.80, 0.78, 0.75, 0.73, 0.70, 0.68,
+         0.65, 0.63, 0.60, 0.58, 0.55, 0.53, 0.50, 0.48, 0.45, 0.43,
+         0.40, 0.38, 0.35, 0.33, 0.30, 0.28, 0.25, 0.23, 0.20, 0.18],
+        [0.9, 0.87, 0.83, 0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50,
+         0.45, 0.40, 0.35, 0.30, 0.25, 0.20, 0.18, 0.17, 0.16, 0.15,
+         0.14, 0.13, 0.12, 0.11, 0.10, 0.09, 0.08, 0.07, 0.06, 0.05],
+    ),
+    "Agent memory: similar patterns, noisy": (
+        [1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4,
+         5, 4, 3, 2, 1, 2, 3, 4, 5, 4],
+        [1.1, 2.2, 3.1, 3.9, 5.1, 3.8, 2.9, 2.1, 0.9, 2.0, 3.2, 4.1, 4.9, 3.9,
+         3.1, 2.0, 1.1, 1.9, 3.1, 4.0, 5.2, 3.7, 3.0, 2.2, 0.8, 2.1, 3.0, 4.2,
+         4.8, 3.8],
+    ),
+    "Completely unrelated series": (
+        [1, 1, 1, 1, 5, 5, 5, 5, 1, 1, 1, 1, 5, 5, 5, 5, 1, 1, 1, 1,
+         5, 5, 5, 5, 1, 1, 1, 1, 5, 5],
+        [3, 3.1, 3.2, 3.1, 3, 2.9, 2.8, 2.9, 3, 3.1, 3.2, 3.1, 3, 2.9, 2.8, 2.9,
+         3, 3.1, 3.2, 3.1, 3, 2.9, 2.8, 2.9, 3, 3.1, 3.2, 3.1, 3, 2.9],
+    ),
+}
+
+
+def _parse_series(text: str) -> list[float]:
+    text = text.strip().strip("[]")
+    return [float(x.strip()) for x in text.replace(";", ",").split(",") if x.strip()]
+
+
+def dssw_run(
+    ts1_text: str,
+    ts2_text: str,
+    subseq_len: int,
+    stride: int,
+):
+    try:
+        ts1 = _parse_series(ts1_text)
+        ts2 = _parse_series(ts2_text)
+    except Exception:
+        return "Could not parse input — use comma-separated numbers.", None
+
+    if len(ts1) < subseq_len or len(ts2) < subseq_len:
+        return (
+            f"Series too short for sub-sequence length {subseq_len}. "
+            f"Use at least {subseq_len} values in each series.",
+            None,
+        )
+
+    try:
+        dssw_dist, D, path = dssw_distance(ts1, ts2, subseq_len, stride)
+        dtw_dist  = dtw_distance(ts1, ts2)
+        eucl_dist = euclidean_distance(ts1, ts2)
+    except Exception as e:
+        return f"Computation error: {e}", None
+
+    n_subs1 = D.shape[0]
+    n_subs2 = D.shape[1]
+
+    summary = f"""
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **DSSW distance** | **{dssw_dist:.4f}** | Normalised; lower = more similar |
+| Standard DTW | {dtw_dist:.4f} | Point-level alignment |
+| Euclidean (truncated) | {eucl_dist:.4f} | No time-warping |
+| Sub-sequences (series 1) | {n_subs1} | len={subseq_len}, stride={stride} |
+| Sub-sequences (series 2) | {n_subs2} | len={subseq_len}, stride={stride} |
+| Warping path steps | {len(path)} | — |
+""".strip()
+
+    # ── Plot ──────────────────────────────────────────────────────────────
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4))
+    fig.patch.set_facecolor("#f9f9f9")
+
+    # 1. Raw time series
+    ax = axes[0]
+    ax.plot(ts1, label="Series 1", color="#2196F3", linewidth=1.8)
+    ax.plot(ts2, label="Series 2", color="#FF5722", linewidth=1.8, linestyle="--")
+    ax.set_title("Input Series", fontsize=11)
+    ax.legend(fontsize=9)
+    ax.set_xlabel("Time step")
+    ax.grid(True, alpha=0.3)
+
+    # 2. Sub-sequence distance matrix
+    ax = axes[1]
+    im = ax.imshow(D, aspect="auto", cmap="YlOrRd", origin="lower")
+    plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    if len(path):
+        px = [p[1] for p in path]
+        py = [p[0] for p in path]
+        ax.plot(px, py, "b-o", markersize=4, linewidth=1.5, label="Warping path")
+        ax.legend(fontsize=8)
+    ax.set_xlabel("Sub-seqs of Series 2")
+    ax.set_ylabel("Sub-seqs of Series 1")
+    ax.set_title("DSSW Distance Matrix + Path", fontsize=11)
+
+    # 3. Distance bar chart comparison
+    ax = axes[2]
+    methods = ["DSSW\n(normalised×100)", "DTW\n(normalised×100)", "Euclidean\n(normalised×100)"]
+    scale = max(dtw_dist, eucl_dist, 1e-9) / 100
+    vals   = [dssw_dist * 100 / (scale if scale else 1),
+              dtw_dist / (scale if scale else 1),
+              eucl_dist / (scale if scale else 1)]
+    colors = ["#4CAF50", "#2196F3", "#FF9800"]
+    bars   = ax.bar(methods, vals, color=colors, edgecolor="white", linewidth=0.8)
+    for bar, v in zip(bars, vals):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
+                f"{v:.1f}", ha="center", va="bottom", fontsize=9)
+    ax.set_title("Distance Comparison (relative)", fontsize=11)
+    ax.set_ylabel("Relative distance")
+    ax.grid(True, axis="y", alpha=0.3)
+
+    plt.tight_layout()
+    return summary, fig
+
+
+def dssw_load_example(example_name: str):
+    ts1, ts2 = DSSW_EXAMPLES[example_name]
+    return str(ts1)[1:-1], str(ts2)[1:-1]
+
+
+# ---------------------------------------------------------------------------
 # Combined multi-tab app
 # ---------------------------------------------------------------------------
 
@@ -218,7 +357,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Paper | Score | Tab |\n"
         "|-------|-------|-----|\n"
         "| Query-Adaptive Hybrid Search (DAT/vstash) | 🔴 10/10 | Hybrid Search |\n"
-        "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |"
+        "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |\n"
+        "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |"
     )
 
     with gr.Tabs():
@@ -344,6 +484,69 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "---\n"
                 "**Interpreting scores:**  \n"
                 "CAD > 0.15 → good diversity · CAD 0.05–0.15 → moderate · CAD < 0.05 → low"
+            )
+
+        # ── Tab 3: DSSW ──────────────────────────────────────────────────
+        with gr.Tab("📈 DSSW"):
+            gr.Markdown(
+                "## Dynamic Sub-Sequence Warping (DSSW)\n"
+                "**Paper: Score 9/10 — Representation-Based Similarity for Long Time Series**\n\n"
+                "DSSW segments each series into overlapping sub-sequences and runs a DTW-style "
+                "dynamic-programming alignment *at the sub-sequence level*. This makes it "
+                "tractable for long series while staying sensitive to local shape patterns — "
+                "useful for comparing embedding-drift trajectories, agent-state histories, or "
+                "sequential retrieval-score runs."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    dssw_ex_selector = gr.Dropdown(
+                        list(DSSW_EXAMPLES.keys()),
+                        value=list(DSSW_EXAMPLES.keys())[0],
+                        label="Load example",
+                    )
+                    dssw_load_btn = gr.Button("Load example", size="sm")
+                with gr.Column(scale=1):
+                    dssw_subseq_len = gr.Slider(3, 20, value=8, step=1,
+                                                label="Sub-sequence length")
+                    dssw_stride     = gr.Slider(1, 10, value=4, step=1,
+                                                label="Stride")
+
+            with gr.Row():
+                dssw_ts1 = gr.Textbox(
+                    label="Series 1 (comma-separated numbers)",
+                    lines=2,
+                    value=str(list(DSSW_EXAMPLES.values())[0][0])[1:-1],
+                )
+                dssw_ts2 = gr.Textbox(
+                    label="Series 2 (comma-separated numbers)",
+                    lines=2,
+                    value=str(list(DSSW_EXAMPLES.values())[0][1])[1:-1],
+                )
+
+            dssw_btn = gr.Button("Compute DSSW", variant="primary")
+
+            dssw_summary = gr.Markdown(label="Distance metrics")
+            dssw_plot    = gr.Plot(label="Visualisation")
+
+            dssw_load_btn.click(
+                fn=dssw_load_example,
+                inputs=[dssw_ex_selector],
+                outputs=[dssw_ts1, dssw_ts2],
+            )
+            dssw_btn.click(
+                fn=dssw_run,
+                inputs=[dssw_ts1, dssw_ts2, dssw_subseq_len, dssw_stride],
+                outputs=[dssw_summary, dssw_plot],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**DSSW vs DTW:**  \n"
+                "Standard DTW aligns individual points — O(n·m) per pair. "
+                "DSSW reduces this to O(n/stride · m/stride) at the sub-sequence level, "
+                "trading fine-grained alignment for speed on long series. "
+                "Lower DSSW distance = more structurally similar trajectories."
             )
 
 if __name__ == "__main__":
