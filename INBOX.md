@@ -1,15 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-15 02:11 · 2 new paper(s) scored this run
+Last updated: 2026-05-16 05:07 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### 🔴 [Query-Adaptive Hybrid Search] — Score 10/10
-> The paper describes a technique to dynamically predict the right alpha for hybrid retrieval, directly applicable to RAG and other retrieval-based systems.
-
-**POC idea:** Experiment with implementing a simple query-adaptive hybrid search module using a pre-trained model like BART to predict alpha values
-
-### ⚪ [PWD-MFS: a lightweight multispectral fusion network for detection of pine wilt disease with UAV imagery] — Score 1/10
-> This paper addresses domain-specific AI for pine wilt disease detection, with no connection to AI engineering systems.
+### ⚪ [Statistical fault analysis of Ascon: multiple distinguishers and impossible-state exploitation] — Score 0/10
+> This paper is about statistical fault analysis of an encryption algorithm, and does not involve any LLM or retrieval techniques, nor is it relevant to production system engineering.
 
 ## Previously Tracked
 
