@@ -5,6 +5,7 @@ Tabs:
   1. Query-Adaptive Hybrid Search (DAT / vstash) — score 10/10
   2. CAD Score: Context-Aware Semantic Diversity — score 9/10
   3. Dynamic Sub-Sequence Warping (DSSW) — score 9/10
+  4. Synergistic Engine (CEP + Declarative Rules for RAG) — score 8/10
 """
 
 import os
@@ -208,6 +209,134 @@ def cad_evaluate_live(prompt: str, n_responses: int, use_creative_system: bool, 
 # ---------------------------------------------------------------------------
 from dssw.algorithm import dssw_distance, dtw_distance, euclidean_distance
 
+# ---------------------------------------------------------------------------
+# Tab 4 — Synergistic Engine (CEP + Declarative Rules)
+# ---------------------------------------------------------------------------
+from synergistic_engine import DecisionEngine, Event, EventType
+
+_se_engine = DecisionEngine()
+
+SE_EVENT_PRESETS = {
+    "Keyword/technical query (high IDF)": {
+        "type": EventType.QUERY,
+        "payload": {"text": "BM25 Okapi term frequency inverse document frequency", "idf_score": 0.82},
+        "source": "user",
+    },
+    "Semantic/conceptual query (low IDF)": {
+        "type": EventType.QUERY,
+        "payload": {"text": "how do language models understand context?", "idf_score": 0.22},
+        "source": "user",
+    },
+    "Balanced hybrid query (mid IDF)": {
+        "type": EventType.QUERY,
+        "payload": {"text": "retrieval augmented generation pipeline", "idf_score": 0.50},
+        "source": "user",
+    },
+    "Context retrieved from vector store": {
+        "type": EventType.CONTEXT_RETRIEVED,
+        "payload": {"chunks": 5, "score": 0.87},
+        "source": "retriever",
+    },
+    "Tool call (web search)": {
+        "type": EventType.TOOL_CALLED,
+        "payload": {"tool": "web_search", "query": "latest RAG techniques 2025"},
+        "source": "agent",
+    },
+    "Low-confidence response": {
+        "type": EventType.RESPONSE_GENERATED,
+        "payload": {"confidence": 0.38, "tokens": 120},
+        "source": "llm",
+    },
+    "High-confidence response": {
+        "type": EventType.RESPONSE_GENERATED,
+        "payload": {"confidence": 0.91, "tokens": 85},
+        "source": "llm",
+    },
+    "Error event": {
+        "type": EventType.ERROR,
+        "payload": {"message": "retrieval timeout", "code": 504},
+        "source": "retriever",
+    },
+}
+
+ACTION_COLORS = {
+    "USE_SPARSE_RETRIEVAL":  "#2196F3",
+    "USE_DENSE_RETRIEVAL":   "#9C27B0",
+    "USE_HYBRID_SEARCH":     "#4CAF50",
+    "FALLBACK_RETRIEVAL":    "#F44336",
+    "RERANK_RESULTS":        "#FF9800",
+    "REGENERATE_HIGH_TEMP":  "#E91E63",
+    "SERVE_FROM_CACHE":      "#607D8B",
+}
+
+ACTION_LABELS = {
+    "USE_SPARSE_RETRIEVAL":  "BM25 / Sparse Retrieval",
+    "USE_DENSE_RETRIEVAL":   "Dense / Semantic Retrieval",
+    "USE_HYBRID_SEARCH":     "Hybrid Search (α ≈ 0.5)",
+    "FALLBACK_RETRIEVAL":    "Fallback Retrieval",
+    "RERANK_RESULTS":        "Cross-Encoder Reranking",
+    "REGENERATE_HIGH_TEMP":  "Regenerate (High Temp)",
+    "SERVE_FROM_CACHE":      "Cache Hit — Skip Retrieval",
+}
+
+
+def se_emit_event(preset_name: str, event_log: list):
+    preset = SE_EVENT_PRESETS[preset_name]
+    event = Event(type=preset["type"], payload=preset["payload"], source=preset["source"])
+    result = _se_engine.process_event(event)
+
+    # Build event log entry
+    action_label = ACTION_LABELS.get(result.action, result.action or "No decision")
+    log_entry = {
+        "event": preset_name,
+        "type": event.type.value,
+        "action": action_label,
+        "fired_rules": result.fired_rules,
+    }
+    if event_log is None:
+        event_log = []
+    event_log = event_log + [log_entry]
+
+    # Build rule evaluation table
+    rows = []
+    for name, fired, action, priority in result.all_evaluations:
+        icon = "✅" if fired else "⬜"
+        rows.append(f"| {icon} | {name} | P{priority} | `{action}` |")
+    rule_table = (
+        "| Status | Rule | Priority | Action |\n"
+        "|--------|------|----------|--------|\n"
+        + "\n".join(rows)
+    )
+
+    # Build stream log
+    stream_lines = []
+    for i, e in enumerate(_se_engine.stream.recent(), 1):
+        stream_lines.append(f"**{i}.** `{e.type.value}` from `{e.source}` — {e.payload}")
+    stream_md = "\n\n".join(stream_lines) if stream_lines else "_empty_"
+
+    decision_md = f"## Decision: {action_label}\n\n{result.explanation}"
+
+    return decision_md, rule_table, stream_md, event_log
+
+
+def se_reset(event_log: list):
+    _se_engine.reset()
+    return "## Decision: _reset — stream cleared_", "", "_empty_", []
+
+
+def se_format_log(event_log: list) -> str:
+    if not event_log:
+        return "_No events emitted yet._"
+    rows = []
+    for i, entry in enumerate(event_log, 1):
+        fired = ", ".join(entry["fired_rules"]) if entry["fired_rules"] else "_none_"
+        rows.append(f"| {i} | `{entry['type']}` | {entry['event'][:35]} | {entry['action']} | {fired} |")
+    return (
+        "| # | Type | Event | Decision | Fired Rules |\n"
+        "|---|------|-------|----------|-------------|\n"
+        + "\n".join(rows)
+    )
+
 DSSW_EXAMPLES = {
     "Embedding drift (shifted)": (
         [0.1, 0.15, 0.2, 0.3, 0.45, 0.6, 0.7, 0.75, 0.8, 0.78, 0.7, 0.6,
@@ -358,7 +487,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "|-------|-------|-----|\n"
         "| Query-Adaptive Hybrid Search (DAT/vstash) | 🔴 10/10 | Hybrid Search |\n"
         "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |\n"
-        "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |"
+        "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |\n"
+        "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |"
     )
 
     with gr.Tabs():
@@ -547,6 +677,88 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "DSSW reduces this to O(n/stride · m/stride) at the sub-sequence level, "
                 "trading fine-grained alignment for speed on long series. "
                 "Lower DSSW distance = more structurally similar trajectories."
+            )
+
+        # ── Tab 4: Synergistic Engine ─────────────────────────────────────
+        with gr.Tab("⚡ Synergistic Engine"):
+            gr.Markdown(
+                "## Synergistic Engine: CEP + Declarative Rules for RAG\n"
+                "**Paper: 'A synergistic engine paradigm for real-time, context-aware decision-making: "
+                "integrating declarative processes and event streams' — Score 8/10**\n\n"
+                "Combines **Complex Event Processing (CEP)** with a **declarative rule engine** to make "
+                "context-aware retrieval and generation decisions in real time. As an agent emits events "
+                "(queries, tool calls, context retrievals, errors), the engine pattern-matches against "
+                "a set of declarative IF-THEN rules to select the right retrieval or generation strategy — "
+                "no hard-coded if/else chains needed.\n\n"
+                "**RAG applicability:** Query routing (sparse vs dense vs hybrid), reranking triggers, "
+                "error escalation, cache-hit detection, and response-quality monitoring."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    se_preset = gr.Dropdown(
+                        list(SE_EVENT_PRESETS.keys()),
+                        value=list(SE_EVENT_PRESETS.keys())[0],
+                        label="Emit an event",
+                        info="Select a simulated event to inject into the stream",
+                    )
+                    with gr.Row():
+                        se_emit_btn  = gr.Button("▶ Emit Event", variant="primary")
+                        se_reset_btn = gr.Button("🔄 Reset Stream", variant="secondary")
+
+                with gr.Column(scale=1):
+                    gr.Markdown(
+                        "### How it works\n"
+                        "1. Select an event preset and click **Emit Event**\n"
+                        "2. The event is appended to the sliding window stream\n"
+                        "3. All declarative rules are evaluated against the full stream\n"
+                        "4. The highest-priority rule that fires determines the decision\n"
+                        "5. Build up a multi-event sequence to trigger complex patterns"
+                    )
+
+            se_event_store = gr.State([])
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Current Decision")
+                    se_decision_md = gr.Markdown("_Emit an event to see a decision._")
+                with gr.Column():
+                    gr.Markdown("### Rule Evaluation")
+                    se_rule_table  = gr.Markdown("_Rules evaluated here after first event._")
+
+            gr.Markdown("### Event Stream (sliding window)")
+            se_stream_md = gr.Markdown("_empty_")
+
+            gr.Markdown("### Session Log")
+            se_log_md = gr.Markdown("_No events emitted yet._")
+
+            se_emit_btn.click(
+                fn=se_emit_event,
+                inputs=[se_preset, se_event_store],
+                outputs=[se_decision_md, se_rule_table, se_stream_md, se_event_store],
+            ).then(
+                fn=se_format_log,
+                inputs=[se_event_store],
+                outputs=[se_log_md],
+            )
+            se_reset_btn.click(
+                fn=se_reset,
+                inputs=[se_event_store],
+                outputs=[se_decision_md, se_rule_table, se_stream_md, se_event_store],
+            ).then(
+                fn=se_format_log,
+                inputs=[se_event_store],
+                outputs=[se_log_md],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Rule priorities (higher = evaluated first):**  \n"
+                "P10: Error escalation · P9: Cache hit detection · P8: Sparse/dense routing  \n"
+                "P7: Low-confidence regeneration · P6: Post-tool reranking · P5: Hybrid fallback\n\n"
+                "**Key insight from the paper:** Separating *what to decide* (declarative rules) from "
+                "*how decisions execute* (action handlers) makes the system inspectable, auditable, "
+                "and easy to extend — unlike imperative if/else routing logic embedded in agent code."
             )
 
 if __name__ == "__main__":
