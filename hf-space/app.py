@@ -6,6 +6,7 @@ Tabs:
   2. CAD Score: Context-Aware Semantic Diversity — score 9/10
   3. Dynamic Sub-Sequence Warping (DSSW) — score 9/10
   4. Synergistic Engine (CEP + Declarative Rules for RAG) — score 8/10
+  5. Attribution Crisis (LLM Search Attribution Scorer) — score 8/10
 """
 
 import os
@@ -213,6 +214,159 @@ from dssw.algorithm import dssw_distance, dtw_distance, euclidean_distance
 # Tab 4 — Synergistic Engine (CEP + Declarative Rules)
 # ---------------------------------------------------------------------------
 from synergistic_engine import DecisionEngine, Event, EventType
+
+# ---------------------------------------------------------------------------
+# Tab 5 — Attribution Crisis
+# ---------------------------------------------------------------------------
+from attribution_crisis import AttributionScorer, Document as AttrDoc, RagResponse, AttributionReport
+
+AC_CORPUS = [
+    AttrDoc("ac1", "Retrieval-Augmented Generation (Lewis et al., 2020)",
+            "Retrieval-Augmented Generation (RAG) combines a parametric memory with a non-parametric memory. "
+            "The model retrieves relevant documents from an external corpus and conditions generation on them. "
+            "RAG models are trained end-to-end and can be updated by swapping the document index. "
+            "The retriever uses dense passage retrieval with FAISS for efficient approximate nearest neighbour search.",
+            "https://arxiv.org/abs/2005.11401"),
+    AttrDoc("ac2", "Dense Passage Retrieval (Karpukhin et al., 2020)",
+            "Dense Passage Retrieval (DPR) uses dual-encoder BERT models to embed questions and passages. "
+            "It outperforms BM25 for open-domain QA. DPR fine-tunes encoders on question-passage pairs. "
+            "Passages are pre-embedded and indexed with FAISS for millisecond retrieval at scale.",
+            "https://arxiv.org/abs/2004.04906"),
+    AttrDoc("ac3", "BM25 Okapi Ranking",
+            "BM25 is a probabilistic bag-of-words retrieval function. It ranks documents based on "
+            "term frequency and inverse document frequency. BM25 uses saturation to cap the impact of "
+            "very high term frequencies. It remains a strong baseline for keyword-heavy queries.",
+            "https://en.wikipedia.org/wiki/Okapi_BM25"),
+    AttrDoc("ac4", "Self-RAG (Asai et al., 2023)",
+            "Self-RAG learns to retrieve, generate and critique using reflection tokens. "
+            "The model decides when to retrieve additional passages, evaluates retrieved passages "
+            "for relevance and supports generation claims, and rates the quality of its own outputs. "
+            "Self-RAG outperforms standard RAG on factual accuracy benchmarks.",
+            "https://arxiv.org/abs/2310.11511"),
+    AttrDoc("ac5", "RAGAS: Automated Evaluation for RAG Pipelines",
+            "RAGAS evaluates RAG pipelines on faithfulness, answer relevancy and context recall. "
+            "Faithfulness measures whether the answer is grounded in the retrieved context. "
+            "Answer relevancy checks how well the answer addresses the question. "
+            "Context recall assesses whether all necessary information was retrieved.",
+            "https://arxiv.org/abs/2309.15217"),
+]
+
+_ac_scorer = AttributionScorer(AC_CORPUS)
+
+AC_PRESET_RESPONSES = {
+    "Well-attributed (cites all sources)": RagResponse(
+        query="How does RAG combine retrieval and generation?",
+        answer=(
+            "RAG combines a parametric memory with a non-parametric memory by retrieving relevant documents "
+            "from an external corpus and conditioning generation on them [ac1]. "
+            "The retriever typically uses Dense Passage Retrieval (DPR) with dual-encoder BERT models "
+            "and FAISS for efficient approximate nearest neighbour search [ac2]. "
+            "For keyword-heavy queries, BM25 remains a strong baseline [ac3]."
+        ),
+        cited_ids=["ac1", "ac2", "ac3"],
+    ),
+    "Partially attributed (misses one source)": RagResponse(
+        query="How does RAG combine retrieval and generation?",
+        answer=(
+            "RAG combines parametric and non-parametric memory. The model retrieves relevant documents "
+            "from an external corpus and conditions generation on them [ac1]. "
+            "Dense Passage Retrieval uses dual-encoder BERT models pre-embedded with FAISS. "
+            "BM25 remains a strong baseline for keyword-heavy queries."
+        ),
+        cited_ids=["ac1"],
+    ),
+    "High exploitation risk (no citations)": RagResponse(
+        query="How does RAG combine retrieval and generation?",
+        answer=(
+            "RAG combines a parametric memory with a non-parametric memory. "
+            "The model retrieves relevant documents from an external corpus and conditions generation on them. "
+            "RAG models are trained end-to-end and can be updated by swapping the document index. "
+            "The retriever uses dense passage retrieval with FAISS for efficient approximate nearest neighbour search. "
+            "Dense Passage Retrieval outperforms BM25 for open-domain QA."
+        ),
+        cited_ids=[],
+    ),
+    "Hallucinated answer (no real source)": RagResponse(
+        query="What is the best LLM for production RAG?",
+        answer=(
+            "The best LLM for production RAG is QuantumGPT-7, which was released in 2024 by DeepMind. "
+            "It achieves 98% factual accuracy on all benchmarks and requires only 2GB of VRAM. "
+            "It natively supports 10 million token context windows with no performance degradation."
+        ),
+        cited_ids=[],
+    ),
+    "Self-RAG adaptive retrieval": RagResponse(
+        query="How does Self-RAG improve answer quality?",
+        answer=(
+            "Self-RAG learns to retrieve, generate and critique using reflection tokens [ac4]. "
+            "The model decides when to retrieve additional passages and evaluates their relevance. "
+            "This approach outperforms standard RAG on factual accuracy benchmarks. "
+            "Evaluation can be automated using frameworks like RAGAS [ac5]."
+        ),
+        cited_ids=["ac4", "ac5"],
+    ),
+}
+
+
+def ac_run_preset(preset_name: str):
+    response = AC_PRESET_RESPONSES[preset_name]
+    report   = _ac_scorer.score(response)
+    return _ac_format_report(report)
+
+
+def ac_run_custom(query: str, answer: str, cited_ids_text: str):
+    cited = [c.strip() for c in cited_ids_text.replace(",", " ").split() if c.strip()]
+    response = RagResponse(query=query, answer=answer, cited_ids=cited)
+    report   = _ac_scorer.score(response)
+    return _ac_format_report(report)
+
+
+def _ac_format_report(report: AttributionReport):
+    risk_icon = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}[report.exploitation_risk]
+
+    summary_md = f"""
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Attribution score** | **{report.attribution_score:.2f}** | 0 = none, 1 = perfect |
+| Exploitation risk | {risk_icon} **{report.exploitation_risk}** | HIGH = reproduced without credit |
+| Citation recall (top-3) | {report.citation_recall:.0%} | Fraction of top sources cited |
+| Max lexical coverage | {report.max_lexical_coverage:.1%} | Highest n-gram overlap with any source |
+| Max semantic coverage | {report.max_semantic_coverage:.2f} | Highest cosine sim with any source |
+| Mean semantic coverage | {report.mean_semantic_coverage:.2f} | Avg cosine sim across all sources |
+""".strip()
+
+    rows = []
+    for a in report.source_attributions:
+        cited_icon = "✅" if a.is_cited else "⬜"
+        rows.append(
+            f"| {cited_icon} | {a.doc_id} | {a.doc_title[:45]} | "
+            f"{a.lexical_overlap:.1%} | {a.semantic_overlap:.2f} |"
+        )
+    source_table = (
+        "| Cited | Doc ID | Title | Lexical overlap | Semantic sim |\n"
+        "|-------|--------|-------|----------------|---------------|\n"
+        + "\n".join(rows)
+    )
+
+    explain_md = f"""
+**How exploitation risk is computed:**
+
+`exploit_signal = max_lexical_overlap × (1 − citation_recall)`
+
+`{report.max_lexical_coverage:.3f} × (1 − {report.citation_recall:.2f}) = {report.max_lexical_coverage * (1 - report.citation_recall):.3f}`
+
+- **HIGH** (> 0.25): Large portions of a source were reproduced without citation — likely ecosystem exploitation.
+- **MEDIUM** (0.10–0.25): Moderate content reuse with partial attribution.
+- **LOW** (< 0.10): Either content is mostly original or sources are properly cited.
+
+**Attribution score formula:**
+
+`attr_score = citation_recall × 0.5 + (1 − exploit_signal) × 0.5`
+
+`= {report.citation_recall:.2f} × 0.5 + (1 − {report.max_lexical_coverage * (1 - report.citation_recall):.3f}) × 0.5 = {report.attribution_score:.2f}`
+""".strip()
+
+    return summary_md, source_table, explain_md
 
 _se_engine = DecisionEngine()
 
@@ -488,7 +642,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Query-Adaptive Hybrid Search (DAT/vstash) | 🔴 10/10 | Hybrid Search |\n"
         "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |\n"
         "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |\n"
-        "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |"
+        "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |\n"
+        "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |"
     )
 
     with gr.Tabs():
@@ -759,6 +914,78 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Key insight from the paper:** Separating *what to decide* (declarative rules) from "
                 "*how decisions execute* (action handlers) makes the system inspectable, auditable, "
                 "and easy to extend — unlike imperative if/else routing logic embedded in agent code."
+            )
+
+        # ── Tab 5: Attribution Crisis ─────────────────────────────────────
+        with gr.Tab("📜 Attribution Crisis"):
+            gr.Markdown(
+                "## Attribution Crisis: LLM Search Attribution Scorer\n"
+                "**Paper: 'The attribution crisis in LLM search results: Estimating ecosystem exploitation' — Score 8/10**\n\n"
+                "When LLMs generate answers from retrieved documents, they often reproduce substantial portions "
+                "of source content *without citing it* — exploiting the ecosystem. This tool quantifies that gap "
+                "using **lexical overlap** (n-gram coverage), **semantic similarity** (TF-IDF cosine), and "
+                "**citation recall** against the retrieved document set.\n\n"
+                "**RAG applicability:** Audit your RAG pipeline's attribution behaviour. Identify responses "
+                "that reproduce source content without credit, compute exploitation risk, and enforce citation policies."
+            )
+
+            with gr.Tabs():
+                with gr.Tab("Preset Examples"):
+                    gr.Markdown("Select a preset RAG response to see how attribution is scored.")
+                    ac_preset_dd = gr.Dropdown(
+                        list(AC_PRESET_RESPONSES.keys()),
+                        value=list(AC_PRESET_RESPONSES.keys())[0],
+                        label="RAG response preset",
+                    )
+                    ac_preset_btn = gr.Button("Score Attribution", variant="primary")
+
+                    with gr.Row():
+                        ac_pre_summary = gr.Markdown(label="Attribution Summary")
+                        ac_pre_explain = gr.Markdown(label="Score Explanation")
+                    ac_pre_sources = gr.Markdown(label="Per-Source Breakdown")
+
+                    ac_preset_btn.click(
+                        fn=ac_run_preset,
+                        inputs=[ac_preset_dd],
+                        outputs=[ac_pre_summary, ac_pre_sources, ac_pre_explain],
+                    )
+
+                with gr.Tab("Custom Input"):
+                    gr.Markdown(
+                        "Paste your own query, RAG response, and cited document IDs "
+                        f"to score against the built-in corpus. Available doc IDs: "
+                        f"`{', '.join(d.id for d in AC_CORPUS)}`"
+                    )
+                    with gr.Row():
+                        ac_cust_query  = gr.Textbox(label="Query", lines=1,
+                                                    placeholder="What question was asked?")
+                        ac_cust_ids    = gr.Textbox(label="Cited doc IDs (space or comma separated)",
+                                                    lines=1, placeholder="ac1 ac2")
+                    ac_cust_answer = gr.Textbox(label="RAG-generated answer", lines=6,
+                                                placeholder="Paste the LLM response here…")
+                    ac_cust_btn = gr.Button("Score Attribution", variant="primary")
+
+                    with gr.Row():
+                        ac_cust_summary = gr.Markdown(label="Attribution Summary")
+                        ac_cust_explain = gr.Markdown(label="Score Explanation")
+                    ac_cust_sources = gr.Markdown(label="Per-Source Breakdown")
+
+                    ac_cust_btn.click(
+                        fn=ac_run_custom,
+                        inputs=[ac_cust_query, ac_cust_answer, ac_cust_ids],
+                        outputs=[ac_cust_summary, ac_cust_sources, ac_cust_explain],
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Exploitation risk levels:**  \n"
+                "🔴 HIGH (> 0.25): Substantial source content reproduced without citation  \n"
+                "🟡 MEDIUM (0.10–0.25): Moderate reuse, partial attribution  \n"
+                "🟢 LOW (< 0.10): Minimal reuse or fully attributed\n\n"
+                "**Key insight from the paper:** LLM-powered search systems systematically "
+                "reproduce publisher content without attribution, creating an exploitation asymmetry — "
+                "users receive synthesised answers while original authors lose traffic and credit. "
+                "This scorer makes that risk measurable and actionable at the pipeline level."
             )
 
 if __name__ == "__main__":
