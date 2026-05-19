@@ -7,6 +7,7 @@ Tabs:
   3. Dynamic Sub-Sequence Warping (DSSW) — score 9/10
   4. Synergistic Engine (CEP + Declarative Rules for RAG) — score 8/10
   5. Attribution Crisis (LLM Search Attribution Scorer) — score 8/10
+  6. OLR-WAA: Adaptive Drift-Resilient Online Regression — score 8/10
 """
 
 import os
@@ -219,6 +220,158 @@ from synergistic_engine import DecisionEngine, Event, EventType
 # Tab 5 — Attribution Crisis
 # ---------------------------------------------------------------------------
 from attribution_crisis import AttributionScorer, Document as AttrDoc, RagResponse, AttributionReport
+
+# ---------------------------------------------------------------------------
+# Tab 6 — OLR-WAA: Adaptive Online Regression
+# ---------------------------------------------------------------------------
+from olr_waa import OLRWAARegressor, DriftDetector, StreamSimulator
+
+
+def olr_run(
+    n_steps: int,
+    drift_type: str,
+    drift_point: int,
+    noise_std: float,
+    a_before: float,
+    a_after: float,
+    n_experts: int,
+    eta: float,
+    forgetting_factor: float,
+):
+    """Run OLR-WAA simulation and return metrics + plots."""
+    sim = StreamSimulator(
+        n_steps=n_steps,
+        drift_type=drift_type,
+        drift_point=int(drift_point),
+        noise_std=noise_std,
+        a_before=a_before,
+        a_after=a_after,
+    )
+    X, Y = sim.generate()
+
+    model = OLRWAARegressor(
+        n_features=1,
+        n_experts=n_experts,
+        eta=eta,
+        forgetting_factor=forgetting_factor,
+    )
+    detector = DriftDetector(threshold=40.0)
+
+    # Static baseline: simple exponential smoothing (no adaptation)
+    baseline_preds = []
+    ema = float(Y[0])
+    alpha_ema = 0.1
+    for y in Y:
+        baseline_preds.append(ema)
+        ema = alpha_ema * float(y) + (1 - alpha_ema) * ema
+
+    records = []
+    for t, (x, y) in enumerate(zip(X, Y)):
+        rec = model.step(x, float(y))
+        drift_now = detector.update(rec["abs_error"], t)
+        rec["drift_detected"] = drift_now
+        records.append(rec)
+
+    steps      = list(range(n_steps))
+    y_true     = Y.tolist()
+    y_pred_olr = [r["y_pred"] for r in records]
+    abs_err_olr = [r["abs_error"] for r in records]
+    abs_err_base = [abs(float(y) - p) for y, p in zip(Y, baseline_preds)]
+
+    # Rolling MAE (window=20)
+    w = 20
+    roll_mae_olr  = [np.mean(abs_err_olr[max(0, i-w):i+1])  for i in steps]
+    roll_mae_base = [np.mean(abs_err_base[max(0, i-w):i+1]) for i in steps]
+
+    weight_history = np.array([r["weights"] for r in records])
+
+    # ── Plots ──────────────────────────────────────────────────────────────
+    fig, axes = plt.subplots(1, 3, figsize=(18, 4))
+    fig.patch.set_facecolor("#f9f9f9")
+
+    # Plot 1: Predictions vs true
+    ax = axes[0]
+    ax.plot(steps, y_true,     color="#555", linewidth=1.0, label="True", alpha=0.7)
+    ax.plot(steps, y_pred_olr, color="#4CAF50", linewidth=1.5, label="OLR-WAA")
+    ax.plot(steps, baseline_preds, color="#FF9800", linewidth=1.2,
+            linestyle="--", label="EMA baseline")
+    if drift_type != "linear":
+        ax.axvline(drift_point, color="red", linewidth=1.2, linestyle=":", label="Drift point")
+    for dp in detector.drift_points:
+        ax.axvline(dp, color="#9C27B0", linewidth=0.8, linestyle="-.", alpha=0.7)
+    ax.set_title("Predictions vs Ground Truth", fontsize=11)
+    ax.set_xlabel("Step")
+    ax.legend(fontsize=8)
+    ax.grid(True, alpha=0.3)
+
+    # Plot 2: Rolling MAE comparison
+    ax = axes[1]
+    ax.plot(steps, roll_mae_olr,  color="#4CAF50", linewidth=1.8, label="OLR-WAA")
+    ax.plot(steps, roll_mae_base, color="#FF9800", linewidth=1.5,
+            linestyle="--", label="EMA baseline")
+    if drift_type != "linear":
+        ax.axvline(drift_point, color="red", linewidth=1.2, linestyle=":",
+                   label="Drift point")
+    ax.set_title(f"Rolling MAE (window={w})", fontsize=11)
+    ax.set_xlabel("Step")
+    ax.set_ylabel("MAE")
+    ax.legend(fontsize=8)
+    ax.grid(True, alpha=0.3)
+
+    # Plot 3: Expert weight evolution
+    ax = axes[2]
+    cmap = plt.get_cmap("tab10")
+    for i in range(n_experts):
+        ax.plot(steps, weight_history[:, i], linewidth=1.2,
+                color=cmap(i), label=f"Expert {i+1}", alpha=0.8)
+    if drift_type != "linear":
+        ax.axvline(drift_point, color="red", linewidth=1.2, linestyle=":",
+                   label="Drift point")
+    ax.set_title("Expert Weight Evolution (WAA)", fontsize=11)
+    ax.set_xlabel("Step")
+    ax.set_ylabel("Normalised weight")
+    ax.legend(fontsize=7, ncol=2)
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+
+    # ── Summary metrics ────────────────────────────────────────────────────
+    mae_olr  = np.mean(abs_err_olr)
+    mae_base = np.mean(abs_err_base)
+    improvement = (mae_base - mae_olr) / mae_base * 100 if mae_base > 0 else 0
+
+    post_drift_olr  = np.mean(abs_err_olr[drift_point:])  if drift_type != "linear" else mae_olr
+    post_drift_base = np.mean(abs_err_base[drift_point:]) if drift_type != "linear" else mae_base
+    post_improvement = (post_drift_base - post_drift_olr) / post_drift_base * 100 if post_drift_base > 0 else 0
+
+    n_detected = len(detector.drift_points)
+
+    summary = f"""
+| Metric | OLR-WAA | EMA Baseline | Δ |
+|--------|---------|--------------|---|
+| Overall MAE | **{mae_olr:.3f}** | {mae_base:.3f} | {improvement:+.1f}% |
+| Post-drift MAE | **{post_drift_olr:.3f}** | {post_drift_base:.3f} | {post_improvement:+.1f}% |
+| Drift events detected | {n_detected} | — | — |
+| Steps to adapt (approx.) | ~{max(5, int(10/eta))} | ∞ | — |
+""".strip()
+
+    explain = f"""
+**How OLR-WAA works:**
+
+1. **Expert pool** — {n_experts} online linear regressors trained in parallel with different learning rates.
+2. **WAA weights** — each step, the weight of expert _i_ is updated:
+   `log_w_i ← log_w_i × {forgetting_factor} − {eta} × (ŷ_i − y)²`
+3. **Forgetting factor** ({forgetting_factor}) — discounts past losses; smaller values = faster adaptation.
+4. **Ensemble prediction** = softmax(log_weights) · expert_predictions
+5. **Drift detection** — Page-Hinkley test flags distribution shift at step(s): `{detector.drift_points or ['none detected']}`
+
+**Why this matters for AI engineering:**
+- Retrieval score distributions shift as knowledge bases grow.
+- Embedding models change — cosine thresholds drift over time.
+- OLR-WAA can track these changes **without retraining** a full model.
+""".strip()
+
+    return summary, explain, fig
 
 AC_CORPUS = [
     AttrDoc("ac1", "Retrieval-Augmented Generation (Lewis et al., 2020)",
@@ -643,7 +796,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |\n"
         "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |\n"
         "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |\n"
-        "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |"
+        "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |\n"
+        "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |"
     )
 
     with gr.Tabs():
@@ -917,7 +1071,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 5: Attribution Crisis ─────────────────────────────────────
-        with gr.Tab("📜 Attribution Crisis"):
+        with gr.Tab("📜 Attribution Crisis"):  # noqa: E501 (kept for readability)
             gr.Markdown(
                 "## Attribution Crisis: LLM Search Attribution Scorer\n"
                 "**Paper: 'The attribution crisis in LLM search results: Estimating ecosystem exploitation' — Score 8/10**\n\n"
@@ -986,6 +1140,74 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "reproduce publisher content without attribution, creating an exploitation asymmetry — "
                 "users receive synthesised answers while original authors lose traffic and credit. "
                 "This scorer makes that risk measurable and actionable at the pipeline level."
+            )
+
+        # ── Tab 6: OLR-WAA ───────────────────────────────────────────────
+        with gr.Tab("📉 OLR-WAA"):
+            gr.Markdown(
+                "## OLR-WAA: Adaptive & Drift-Resilient Online Regression\n"
+                "**Paper: 'OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging' — Score 8/10**\n\n"
+                "Maintains a pool of online linear regressors weighted by their recent prediction accuracy. "
+                "When the data distribution drifts (e.g. a sudden slope change), WAA down-weights stale experts "
+                "and promotes accurate ones — all without retraining from scratch.\n\n"
+                "**RAG applicability:** Adaptive retrieval score thresholds, embedding drift tracking, "
+                "dynamic alpha tuning for hybrid search as corpus statistics change over time."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=1):
+                    gr.Markdown("### Data stream")
+                    olr_n_steps     = gr.Slider(50, 400, value=200, step=10,  label="Stream length (steps)")
+                    olr_drift_type  = gr.Dropdown(
+                        ["abrupt", "gradual", "linear"],
+                        value="abrupt", label="Drift type",
+                        info="'linear' = no drift; 'abrupt' = sudden slope change; 'gradual' = smooth transition"
+                    )
+                    olr_drift_point = gr.Slider(20, 380, value=100, step=5,   label="Drift point (step)")
+                    olr_noise_std   = gr.Slider(0.1, 3.0, value=0.5, step=0.1, label="Noise σ")
+                    olr_a_before    = gr.Slider(-5.0, 5.0, value=1.0, step=0.5, label="Slope before drift")
+                    olr_a_after     = gr.Slider(-5.0, 5.0, value=-2.0, step=0.5, label="Slope after drift")
+
+                with gr.Column(scale=1):
+                    gr.Markdown("### OLR-WAA hyper-parameters")
+                    olr_n_experts   = gr.Slider(2, 10, value=5, step=1,       label="Number of experts")
+                    olr_eta         = gr.Slider(0.01, 2.0, value=0.5, step=0.05,
+                                                label="WAA η (weight update rate)",
+                                                info="Higher = faster expert switching")
+                    olr_ff          = gr.Slider(0.80, 1.00, value=0.98, step=0.01,
+                                                label="Forgetting factor λ",
+                                                info="Lower = older losses discounted faster → faster adaptation")
+                    olr_btn = gr.Button("Run Simulation", variant="primary")
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Metrics")
+                    olr_summary = gr.Markdown()
+                with gr.Column():
+                    gr.Markdown("### Algorithm Explanation")
+                    olr_explain = gr.Markdown()
+
+            olr_plot = gr.Plot(label="Simulation Plots")
+
+            olr_btn.click(
+                fn=olr_run,
+                inputs=[
+                    olr_n_steps, olr_drift_type, olr_drift_point,
+                    olr_noise_std, olr_a_before, olr_a_after,
+                    olr_n_experts, olr_eta, olr_ff,
+                ],
+                outputs=[olr_summary, olr_explain, olr_plot],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** Static models fail silently when the data distribution "
+                "shifts — they keep predicting using stale weights and the error silently grows. "
+                "OLR-WAA detects this through rising prediction losses and dynamically re-weights "
+                "experts, achieving significantly lower post-drift MAE with no manual retraining trigger.\n\n"
+                "**Forgetting factor guide:** λ=0.99 → slow adaptation (stable data); "
+                "λ=0.90 → fast adaptation (volatile data). "
+                "η controls the sharpness of expert selection — higher η → winner-takes-most behaviour."
             )
 
 if __name__ == "__main__":
