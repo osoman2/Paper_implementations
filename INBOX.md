@@ -1,13 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-18 (via Gmail MCP) · 2 new paper(s) scored this run
+Last updated: 2026-05-19 13:43 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Disambiguating Software Property Descriptions: A Solution Proposal and Evaluation] — Score 3/10
-> Software engineering ontology paper about standardising quality metric definitions (latency, throughput, etc.); no LLM/RAG component, purely a software quality metamodel framework.
-
-### ⚪ [Fast-Locking Frequency-Hopping PLL Using Dual-Edge Low-Duty-Cycle PFD With Cycle Slip Suppression] — Score 1/10
-> Electronics/hardware paper on phase-locked loop design; entirely unrelated to LLMs, retrieval, or AI engineering.
+### ⚪ [On the Effect of the Time Step in Discrete-Time Framework Analysis] — Score 1/10
+> The paper explores the difference between analog and digital signals in telecommunications, but does not mention or discuss any AI or machine learning-related concepts.
 
 ## Previously Tracked
 
