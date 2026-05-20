@@ -8,6 +8,7 @@ Tabs:
   4. Synergistic Engine (CEP + Declarative Rules for RAG) — score 8/10
   5. Attribution Crisis (LLM Search Attribution Scorer) — score 8/10
   6. OLR-WAA: Adaptive Drift-Resilient Online Regression — score 8/10
+  7. Bi-Stage Adaptive RAG (Group Recommendation → RAG reranking) — score 8/10
 """
 
 import os
@@ -225,6 +226,165 @@ from attribution_crisis import AttributionScorer, Document as AttrDoc, RagRespon
 # Tab 6 — OLR-WAA: Adaptive Online Regression
 # ---------------------------------------------------------------------------
 from olr_waa import OLRWAARegressor, DriftDetector, StreamSimulator
+
+# ---------------------------------------------------------------------------
+# Tab 7 — Bi-Stage Adaptive RAG
+# ---------------------------------------------------------------------------
+from bi_stage_rag import MultiAspectQuery, Stage1Retriever, AdaptiveReranker
+from bi_stage_rag.retriever import Document as BSDocument
+
+BS_CORPUS = [
+    BSDocument("d1",  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"),
+    BSDocument("d2",  "Attention Is All You Need — Transformer architecture by Vaswani et al."),
+    BSDocument("d3",  "GPT-4 Technical Report — OpenAI large multimodal language model"),
+    BSDocument("d4",  "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (Lewis et al.)"),
+    BSDocument("d5",  "Dense Passage Retrieval for Open-Domain Question Answering (Karpukhin et al.)"),
+    BSDocument("d6",  "BM25 Okapi probabilistic ranking model for information retrieval"),
+    BSDocument("d7",  "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction"),
+    BSDocument("d8",  "LlamaIndex is a data framework for building LLM-powered retrieval applications"),
+    BSDocument("d9",  "LangChain provides tools to compose language model chains and agents"),
+    BSDocument("d10", "Vector databases like Qdrant, Pinecone, and Weaviate store embeddings at scale"),
+    BSDocument("d11", "Elasticsearch supports full-text search using inverted index and BM25 scoring"),
+    BSDocument("d12", "Fine-tuning sentence transformers improves domain-specific semantic similarity"),
+    BSDocument("d13", "Reciprocal Rank Fusion combines ranked lists from heterogeneous retrieval systems"),
+    BSDocument("d14", "Hybrid search blends sparse BM25 and dense vector retrieval for better recall"),
+    BSDocument("d15", "Cross-encoder reranking rescores candidate documents with a BERT-based model"),
+    BSDocument("d16", "Mixtral 8x7B — sparse mixture of experts model for efficient language generation"),
+    BSDocument("d17", "Anthropic Claude 3 — constitutional AI approach to safe and helpful assistants"),
+    BSDocument("d18", "Tree of Thoughts prompting enables LLMs to explore multiple reasoning paths"),
+    BSDocument("d19", "Self-RAG: Learning to retrieve, generate, and critique with reflection tokens"),
+    BSDocument("d20", "Multi-vector retrieval with ColBERT outperforms single-vector bi-encoder models"),
+]
+
+_bs_retriever = Stage1Retriever(BS_CORPUS)
+_bs_reranker  = AdaptiveReranker()
+_bs_doc_map   = {d.id: d for d in BS_CORPUS}
+
+BS_PRESETS = {
+    "Retrieval + efficiency": (
+        "retrieval augmented generation pipeline",
+        ["fast efficient low latency", "dense vector search embedding"],
+    ),
+    "Transformer architecture depth": (
+        "transformer attention mechanism",
+        ["BERT fine-tuning language model", "multi-head self-attention layers"],
+    ),
+    "Hybrid search strategies": (
+        "combining sparse and dense retrieval",
+        ["BM25 keyword scoring", "semantic similarity cosine distance"],
+    ),
+    "LLM agents and tools": (
+        "LLM agent tool use reasoning",
+        ["chain of thought prompting", "self-critique reflection tokens"],
+    ),
+}
+
+
+def bs_run(
+    query: str,
+    aspect1: str,
+    aspect2: str,
+    top_k: int,
+    temperature: float,
+    use_fixed_weights: bool,
+    fixed_w1: float,
+    fixed_w2: float,
+):
+    aspects = [a.strip() for a in [aspect1, aspect2] if a.strip()]
+    if not query.strip():
+        return "Enter a query first.", "", "", ""
+    if not aspects:
+        aspects = ["relevance", "quality"]
+
+    mq = MultiAspectQuery(text=query, aspects=aspects)
+    candidates = _bs_retriever.generate_candidates(mq, top_k_per_aspect=max(top_k, 8))
+
+    fixed_w = None
+    if use_fixed_weights and aspects:
+        total = fixed_w1 + fixed_w2 + 1e-9
+        fixed_w = [fixed_w1 / total, fixed_w2 / total]
+        if len(aspects) == 1:
+            fixed_w = [1.0]
+
+    results = _bs_reranker.rerank(
+        candidates, query, aspects, _bs_doc_map,
+        temperature=temperature, fixed_weights=fixed_w,
+    )[:top_k]
+
+    # Stage 1 table: candidates per aspect
+    s1_rows = []
+    aspect_names = ["main_query"] + [f"aspect_{i+1}" for i in range(len(aspects))]
+    for cand in sorted(candidates, key=lambda c: c.max_score, reverse=True)[:top_k]:
+        scores_str = " | ".join(
+            f"{an}={cand.aspect_scores.get(an, 0):.2f}" for an in aspect_names
+        )
+        s1_rows.append(f"| {cand.doc_id} | {scores_str} | {_bs_doc_map[cand.doc_id].text[:55]}… |")
+
+    aspect_header = " | ".join(aspect_names)
+    s1_table = (
+        f"| Doc ID | {aspect_header} | Text |\n"
+        + "|--------|" + "--------|" * len(aspect_names) + "------|\n"
+        + "\n".join(s1_rows)
+    )
+
+    # Stage 2 table: re-ranked results
+    s2_rows = []
+    for r in results:
+        weight_str = " | ".join(f"{k}={v:.3f}" for k, v in r.aspect_weights.items())
+        s2_rows.append(
+            f"| {r.rank} | {r.doc_id} | {r.final_score:.4f} | {weight_str} | {r.text[:50]}… |"
+        )
+
+    weight_header = " | ".join(r.aspect_weights.keys()) if results else "weights"
+    s2_table = (
+        f"| Rank | Doc ID | Score | {weight_header} | Text |\n"
+        + "|------|--------|-------|" + "-------|" * len(results[0].aspect_weights if results else {}) + "------|\n"
+        + "\n".join(s2_rows)
+    )
+
+    # Attention weights explanation
+    if results:
+        w_display = "\n".join(
+            f"- **{k}**: {v:.3f}" for k, v in results[0].aspect_weights.items()
+        )
+        attn_md = (
+            f"### Adaptive Attention Weights (temperature={temperature})\n\n"
+            f"{w_display}\n\n"
+            f"**Interpretation:** Aspects more similar to the main query receive higher "
+            f"attention weight. Temperature controls sharpness: low T → winner-takes-most."
+        )
+    else:
+        attn_md = "_No results._"
+
+    explain_md = f"""
+**How Bi-Stage Adaptive RAG works (from the paper):**
+
+1. **Stage 1 — Candidate Generation**: BM25 scores each document independently against
+   the main query **and** each aspect (e.g., "fast", "dense vector"). The top-K per aspect
+   are merged into a candidate pool of size ≤ K × (1 + N_aspects).
+
+2. **Stage 2 — Adaptive Reranking**: Attention weights are computed from TF-IDF cosine
+   similarity between each aspect and the main query:
+   `weight_i = softmax(sim(query, aspect_i) / τ)`
+   Final score = 0.5 × main_query_score + 0.5 × Σ(weight_i × aspect_i_score)
+
+3. **Why it matters for RAG**: Multi-faceted queries (e.g., "efficient Python RAG for beginners")
+   benefit from per-aspect retrieval. Adaptive weights let the dominant aspect drive ranking
+   without requiring hand-tuned static weights for every query type.
+
+**Paper insight:** Replacing fixed aggregation with a learned/dynamic attention over preference
+aspects gave 5–15% NDCG improvement in group recommendation settings — analogous to per-query
+alpha tuning in hybrid search.
+""".strip()
+
+    return s1_table, s2_table, attn_md, explain_md
+
+
+def bs_load_preset(preset_name: str):
+    q, aspects = BS_PRESETS[preset_name]
+    a1 = aspects[0] if len(aspects) > 0 else ""
+    a2 = aspects[1] if len(aspects) > 1 else ""
+    return q, a1, a2
 
 
 def olr_run(
@@ -797,7 +957,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |\n"
         "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |\n"
         "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |\n"
-        "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |"
+        "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |\n"
+        "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |"
     )
 
     with gr.Tabs():
@@ -1208,6 +1369,90 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Forgetting factor guide:** λ=0.99 → slow adaptation (stable data); "
                 "λ=0.90 → fast adaptation (volatile data). "
                 "η controls the sharpness of expert selection — higher η → winner-takes-most behaviour."
+            )
+
+        # ── Tab 7: Bi-Stage Adaptive RAG ──────────────────────────────────
+        with gr.Tab("🎯 Bi-Stage RAG"):
+            gr.Markdown(
+                "## Bi-Stage Adaptive RAG\n"
+                "**Paper: 'Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model' — Score 8/10**\n\n"
+                "Adapts group-recommendation's two-stage pipeline to RAG: "
+                "**Stage 1** generates per-aspect candidate pools with BM25, "
+                "**Stage 2** adaptively reranks using attention weights computed from "
+                "aspect–query similarity. No hand-tuning of weights needed — they are "
+                "computed on-the-fly from the query content.\n\n"
+                "**RAG applicability:** Multi-faceted queries (e.g. 'fast Python RAG for beginners') "
+                "decompose into aspects; attention routing ensures the most relevant aspects "
+                "dominate the final ranking without static per-query configuration."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    bs_preset_dd = gr.Dropdown(
+                        list(BS_PRESETS.keys()),
+                        value=list(BS_PRESETS.keys())[0],
+                        label="Load preset",
+                    )
+                    bs_load_btn = gr.Button("Load preset", size="sm")
+
+                    bs_query  = gr.Textbox(label="Main query", lines=1,
+                                           placeholder="retrieval augmented generation pipeline")
+                    bs_asp1   = gr.Textbox(label="Aspect 1", lines=1,
+                                           placeholder="fast efficient low latency")
+                    bs_asp2   = gr.Textbox(label="Aspect 2", lines=1,
+                                           placeholder="dense vector search embedding")
+
+                with gr.Column(scale=1):
+                    bs_topk   = gr.Slider(3, 10, value=5, step=1, label="Top-K results")
+                    bs_temp   = gr.Slider(0.1, 2.0, value=0.5, step=0.1,
+                                         label="Attention temperature τ",
+                                         info="Low → winner-takes-most; High → uniform weights")
+                    bs_fixed  = gr.Checkbox(value=False, label="Use manual fixed weights")
+                    with gr.Row():
+                        bs_fw1 = gr.Slider(0.0, 1.0, value=0.5, step=0.05,
+                                           label="Fixed weight: Aspect 1")
+                        bs_fw2 = gr.Slider(0.0, 1.0, value=0.5, step=0.05,
+                                           label="Fixed weight: Aspect 2")
+
+            bs_btn = gr.Button("Run Bi-Stage RAG", variant="primary")
+
+            gr.Markdown("### Stage 1 — Candidate Pool (BM25 per aspect)")
+            bs_s1_table = gr.Markdown()
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Stage 2 — Adaptive Re-ranked Results")
+                    bs_s2_table = gr.Markdown()
+                with gr.Column():
+                    bs_attn_md  = gr.Markdown()
+
+            bs_explain = gr.Markdown()
+
+            bs_load_btn.click(
+                fn=bs_load_preset,
+                inputs=[bs_preset_dd],
+                outputs=[bs_query, bs_asp1, bs_asp2],
+            )
+            bs_btn.click(
+                fn=bs_run,
+                inputs=[bs_query, bs_asp1, bs_asp2, bs_topk, bs_temp, bs_fixed, bs_fw1, bs_fw2],
+                outputs=[bs_s1_table, bs_s2_table, bs_attn_md, bs_explain],
+            )
+            bs_query.submit(
+                fn=bs_run,
+                inputs=[bs_query, bs_asp1, bs_asp2, bs_topk, bs_temp, bs_fixed, bs_fw1, bs_fw2],
+                outputs=[bs_s1_table, bs_s2_table, bs_attn_md, bs_explain],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** In group recommendation, each group member "
+                "represents an 'aspect' of collective preference. The bi-stage pipeline first "
+                "generates individual candidate sets then uses adaptive attention to weight "
+                "each member's contribution — analogous to how multi-aspect queries in RAG "
+                "benefit from per-aspect retrieval followed by attention-based fusion.\n\n"
+                "**Temperature guide:** τ=0.1 → almost all weight on the most-similar aspect; "
+                "τ=1.0 → moderate differentiation; τ=2.0 → near-uniform weights (equivalent to fixed α=0.5)."
             )
 
 if __name__ == "__main__":

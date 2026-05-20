@@ -1,10 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-19 13:43 · 1 new paper(s) scored this run
+Last updated: 2026-05-20 14:00 · 2 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [On the Effect of the Time Step in Discrete-Time Framework Analysis] — Score 1/10
-> The paper explores the difference between analog and digital signals in telecommunications, but does not mention or discuss any AI or machine learning-related concepts.
+### ⚪ [Designing High-Entropy Alloys With Low Stacking Fault Energy Through Interpretable Machine Learning] — Score 2/10
+> Domain application of ensemble ML (MLP + SVR + XGBoost) to materials science alloy design; no LLM, retrieval, or RAG engineering components.
+
+### ⚪ [Disambiguating Software Property Descriptions: A Solution Proposal and Evaluation] — Score 4/10
+> Formal ontology (PMO) for standardising software quality metrics (latency, throughput, reliability); indirectly relevant to LLM evaluation framework design but requires substantial adaptation and has no drop-in applicability.
 
 ## Previously Tracked
 
@@ -23,7 +26,7 @@ _Papers from earlier scans are appended here automatically._
 - 🔴 **Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series** (score 9/10) — This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, which is relevant to implementing retrieval pipelines and AI agents.
 - 🔴 **The attribution crisis in LLM search results: Estimating ecosystem exploitation** (score 8/10) — The paper discusses ecosystem exploitation in LLM search results, which is relevant to AI engineers implementing and evaluating retrieval pipelines and LLM applications.
 - 🔴 **Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy** (score 8/10) — The paper addresses labelled data scarcity in defect classification, which could be an issue in implementing computer vision applications including those that utilize LLMs and retrieval pipelines.
-- 🔴 **Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model** (score 8/10) — The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
+- ✅ **Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model** (score 8/10) — **IMPLEMENTED (Tab 7)** — The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
 - 🔴 **A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams** (score 8/10) — This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
 - 🔴 **Opinion Maximization Based on Fairness in Social Networks** (score 8/10) — The paper presents a framework to maximize overall positive opinion in social networks while ensuring fairness for minority groups, which is related to the application of Influence Maximization in marketing influencer campaigns.
 - 🔴 **Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models** (score 8/10) — The paper explores the application of ML-based alternatives to NWP, focusing on forecasting extreme events, which is relevant to the development of LLM applications and retrieval pipelines.
