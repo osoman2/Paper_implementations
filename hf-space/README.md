@@ -35,3 +35,11 @@ Unlike raw embedding spread, CAD penalises responses that merely paraphrase the 
 Segments each series into overlapping sub-sequences, then runs a DTW-style DP alignment
 at the sub-sequence level. Useful for comparing embedding-drift trajectories, agent-state
 histories, or sequential retrieval-score runs. O(n/stride · m/stride) vs O(n·m) for DTW.
+
+### 🌐 Opinion Maximization with Fairness — Score 8/10
+**Paper:** Opinion Maximization Based on Fairness in Social Networks
+
+Greedy influence maximisation with a fairness budget that guarantees minority-group seed coverage.
+Demonstrates that requiring ≥1 minority seed often increases total spread (the minority cluster
+is dense internally) while closing the majority/minority coverage gap.
+RAG analogy: graph-RAG seed selection, knowledge graph traversal fairness, agent activation routing.

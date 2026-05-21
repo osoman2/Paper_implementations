@@ -9,6 +9,7 @@ Tabs:
   5. Attribution Crisis (LLM Search Attribution Scorer) — score 8/10
   6. OLR-WAA: Adaptive Drift-Resilient Online Regression — score 8/10
   7. Bi-Stage Adaptive RAG (Group Recommendation → RAG reranking) — score 8/10
+  8. Opinion Maximization with Fairness (Social Network Influence) — score 8/10
 """
 
 import os
@@ -231,6 +232,13 @@ from olr_waa import OLRWAARegressor, DriftDetector, StreamSimulator
 # Tab 7 — Bi-Stage Adaptive RAG
 # ---------------------------------------------------------------------------
 from bi_stage_rag import MultiAspectQuery, Stage1Retriever, AdaptiveReranker
+# ---------------------------------------------------------------------------
+# Tab 8 — Opinion Maximization with Fairness
+# ---------------------------------------------------------------------------
+from opinion_maximization import SocialGraph, simulate_cascade, greedy_maximize
+
+_OM_GRAPH = SocialGraph.sample_network(n_majority=15, n_minority=5, seed=42)
+_OM_POS   = _OM_GRAPH.layout_positions()
 from bi_stage_rag.retriever import Document as BSDocument
 
 BS_CORPUS = [
@@ -937,6 +945,96 @@ def dssw_load_example(example_name: str):
 # Combined multi-tab app
 # ---------------------------------------------------------------------------
 
+def _om_draw_graph(seeds: list[int], title: str, ax):
+    pos = _OM_POS
+    graph = _OM_GRAPH
+    seed_set = set(seeds)
+
+    # Draw edges
+    for i in range(graph.n):
+        for j in range(i + 1, graph.n):
+            w = graph.adj[i, j]
+            if w > 0:
+                xi, yi = pos[i]
+                xj, yj = pos[j]
+                ax.plot([xi, xj], [yi, yj], color="#aaa", linewidth=w * 3,
+                        alpha=0.4, zorder=1)
+
+    # Draw nodes
+    for nid, node in graph.nodes.items():
+        x, y = pos[nid]
+        color  = "#2196F3" if node.group == "majority" else "#FF9800"
+        size   = 280 if nid in seed_set else 120
+        marker = "*" if nid in seed_set else "o"
+        ax.scatter(x, y, s=size, c=color, marker=marker, zorder=3,
+                   edgecolors="black" if nid in seed_set else "none",
+                   linewidths=1.5)
+        ax.text(x, y + 0.18, node.label, ha="center", va="bottom",
+                fontsize=7, zorder=4)
+
+    ax.set_title(title, fontsize=10)
+    ax.set_xlim(-3.0, 4.0)
+    ax.set_ylim(-2.2, 2.2)
+    ax.axis("off")
+
+
+def om_run(k: int, fairness_budget: int, n_sims: int):
+    k = max(1, min(k, 8))
+    fairness_budget = max(0, min(fairness_budget, k, len(_OM_GRAPH.group_ids("minority"))))
+
+    seeds_plain, stats_plain  = greedy_maximize(_OM_GRAPH, k=k, fairness_budget=0, n_sims=n_sims)
+    seeds_fair,  stats_fair   = greedy_maximize(_OM_GRAPH, k=k, fairness_budget=fairness_budget, n_sims=n_sims)
+
+    def badge(v: float) -> str:
+        return "🟢" if v >= 0.6 else "🟡" if v >= 0.3 else "🔴"
+
+    comparison = f"""
+| Metric | Unconstrained | Fairness-constrained |
+|--------|--------------|----------------------|
+| Seeds selected | `{seeds_plain}` | `{seeds_fair}` |
+| Mean spread | **{stats_plain['mean_spread']:.2f}** nodes | **{stats_fair['mean_spread']:.2f}** nodes |
+| Majority coverage | {badge(stats_plain['majority_coverage'])} {stats_plain['majority_coverage']:.1%} | {badge(stats_fair['majority_coverage'])} {stats_fair['majority_coverage']:.1%} |
+| Minority coverage | {badge(stats_plain['minority_coverage'])} {stats_plain['minority_coverage']:.1%} | {badge(stats_fair['minority_coverage'])} {stats_fair['minority_coverage']:.1%} |
+| Fairness gap | {stats_plain['fairness_gap']:.1%} | **{stats_fair['fairness_gap']:.1%}** |
+""".strip()
+
+    seeds_plain_groups = [_OM_GRAPH.nodes[s].group for s in seeds_plain]
+    seeds_fair_groups  = [_OM_GRAPH.nodes[s].group for s in seeds_fair]
+    plain_detail = (
+        f"**Seeds (unconstrained):** {seeds_plain}\n\n"
+        f"Groups: {seeds_plain_groups}\n\n"
+        f"Spread: {stats_plain['mean_spread']:.2f} / {_OM_GRAPH.n} nodes  \n"
+        f"Coverage — Majority: {stats_plain['majority_coverage']:.1%}  · "
+        f"Minority: {stats_plain['minority_coverage']:.1%}"
+    )
+    fair_detail = (
+        f"**Seeds (fairness budget={fairness_budget}):** {seeds_fair}\n\n"
+        f"Groups: {seeds_fair_groups}\n\n"
+        f"Spread: {stats_fair['mean_spread']:.2f} / {_OM_GRAPH.n} nodes  \n"
+        f"Coverage — Majority: {stats_fair['majority_coverage']:.1%}  · "
+        f"Minority: {stats_fair['minority_coverage']:.1%}"
+    )
+
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig.patch.set_facecolor("#f9f9f9")
+    _om_draw_graph(seeds_plain, f"Unconstrained (k={k})", axes[0])
+    _om_draw_graph(seeds_fair,  f"Fairness-constrained (budget={fairness_budget})", axes[1])
+
+    # Legend
+    import matplotlib.patches as mpatches
+    legend_elements = [
+        mpatches.Patch(color="#2196F3", label="Majority group"),
+        mpatches.Patch(color="#FF9800", label="Minority group"),
+        plt.scatter([], [], marker="*", s=180, c="gray", edgecolors="black",
+                    linewidths=1.5, label="Seed node"),
+    ]
+    fig.legend(handles=legend_elements, loc="lower center", ncol=3, fontsize=9,
+               framealpha=0.9, bbox_to_anchor=(0.5, -0.02))
+    plt.tight_layout(rect=[0, 0.05, 1, 1])
+
+    return comparison, plain_detail, fair_detail, fig
+
+
 HS_DEMO_QUERIES = [
     "BM25 Okapi",
     "how do transformers handle long sequences",
@@ -958,7 +1056,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |\n"
         "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |\n"
         "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |\n"
-        "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |"
+        "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |\n"
+        "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |"
     )
 
     with gr.Tabs():
@@ -1453,6 +1552,79 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "benefit from per-aspect retrieval followed by attention-based fusion.\n\n"
                 "**Temperature guide:** τ=0.1 → almost all weight on the most-similar aspect; "
                 "τ=1.0 → moderate differentiation; τ=2.0 → near-uniform weights (equivalent to fixed α=0.5)."
+            )
+
+        # ── Tab 8: Opinion Maximization with Fairness ─────────────────────
+        with gr.Tab("🌐 Opinion Maximization"):
+            gr.Markdown(
+                "## Opinion Maximization Based on Fairness in Social Networks\n"
+                "**Paper: 'Opinion Maximization Based on Fairness in Social Networks' — Score 8/10**\n\n"
+                "Selects a set of **seed nodes** in a social graph to maximise the spread of a positive opinion "
+                "(e.g., endorsement, product recommendation, or RAG system feedback) while ensuring that "
+                "**minority groups** receive proportional coverage — not just the well-connected majority.\n\n"
+                "**RAG applicability:** Influence maximisation governs knowledge propagation in graph-RAG systems "
+                "(e.g., which documents to prioritise as 'seeds' in a knowledge graph traversal) "
+                "and agent orchestration (which agents to activate first to maximise information spread). "
+                "Fairness constraints ensure underrepresented topics receive retrieval coverage.\n\n"
+                "🔵 **Blue** = majority group nodes &nbsp;&nbsp; 🟠 **Orange** = minority group nodes &nbsp;&nbsp; "
+                "**★** = selected seed node"
+            )
+
+            with gr.Row():
+                with gr.Column(scale=1):
+                    om_k       = gr.Slider(1, 8, value=3, step=1,
+                                           label="k — number of seeds to select")
+                    om_fair    = gr.Slider(0, 5, value=1, step=1,
+                                          label="Fairness budget (min minority seeds)")
+                    om_sims    = gr.Slider(20, 120, value=60, step=10,
+                                          label="Monte-Carlo simulations (higher = more accurate, slower)")
+                    om_btn     = gr.Button("Run Optimisation", variant="primary")
+
+                with gr.Column(scale=1):
+                    gr.Markdown(
+                        "### Network structure\n"
+                        "- **20 nodes**: 15 majority (blue), 5 minority (orange)\n"
+                        "- Intra-group edges are **denser** (homophily)\n"
+                        "- Cross-group edges are **sparse** (bridging)\n\n"
+                        "### Algorithm\n"
+                        "1. **Phase 1 (fairness):** Greedily pick `fairness_budget` seeds from "
+                        "minority nodes, maximising marginal spread at each step.\n"
+                        "2. **Phase 2 (greedy):** Fill remaining `k − budget` slots from all "
+                        "nodes using the standard greedy approximation (≥ 63% of optimum).\n"
+                        "3. **Cascade simulation:** Weighted Independent Cascade — each activated "
+                        "node spreads opinion to neighbours with probability = edge weight."
+                    )
+
+            gr.Markdown("### Comparison: Unconstrained vs Fairness-Constrained")
+            om_comparison = gr.Markdown()
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Unconstrained result")
+                    om_plain_md = gr.Markdown()
+                with gr.Column():
+                    gr.Markdown("### Fairness-constrained result")
+                    om_fair_md  = gr.Markdown()
+
+            om_plot = gr.Plot(label="Network visualisation")
+
+            om_btn.click(
+                fn=om_run,
+                inputs=[om_k, om_fair, om_sims],
+                outputs=[om_comparison, om_plain_md, om_fair_md, om_plot],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** Pure greedy influence maximisation ignores group structure — "
+                "it systematically over-selects high-degree nodes in the majority cluster, leaving minority "
+                "nodes under-covered. The fairness budget forces at least one minority seed, which "
+                "activates the tightly-knit minority cluster and **often increases total spread** "
+                "while dramatically closing the coverage gap.\n\n"
+                "**RAG analogy:** In a knowledge graph, 'majority nodes' are popular documents linked "
+                "by many edges; 'minority nodes' are niche but authoritative sources. "
+                "A pure PageRank seed selection would always surface the popular documents — "
+                "a fairness budget ensures niche topics receive retrieval coverage."
             )
 
 if __name__ == "__main__":
