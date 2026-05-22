@@ -1,13 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-20 14:00 · 2 new paper(s) scored this run
+Last updated: 2026-05-22 · 2 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Designing High-Entropy Alloys With Low Stacking Fault Energy Through Interpretable Machine Learning] — Score 2/10
-> Domain application of ensemble ML (MLP + SVR + XGBoost) to materials science alloy design; no LLM, retrieval, or RAG engineering components.
+### 🔴 [TopoMAS: Large Language Model Driven Topological Materials Multi-Agent System] — Score 8/10
+> LLM-driven multi-agent system (CoreAgent → KnowledgeAgent → PropertyAgent → SynthesisAgent → ValidationAgent) for topological materials discovery. Directly implements a hierarchical agent-routing architecture with knowledge-graph retrieval, HITL feedback loops, and automated DFT failure recovery — all patterns applicable to production RAG orchestration and LLM agent pipelines. **IMPLEMENTED (Tab 9)**
 
-### ⚪ [Disambiguating Software Property Descriptions: A Solution Proposal and Evaluation] — Score 4/10
-> Formal ontology (PMO) for standardising software quality metrics (latency, throughput, reliability); indirectly relevant to LLM evaluation framework design but requires substantial adaptation and has no drop-in applicability.
+### ⚪ [Reading between the green lines: A framework for scalable greenwashing detection] — Score 5/10
+> NLP pipeline (VADER sentiment + embedding cosine similarity) for detecting greenwashing in corporate sustainability reports. Uses embeddings and cosine similarity relevant to vector search, but the core contribution (GTS formula) is domain-specific and not directly applicable to RAG or LLM evaluation.
 
 ## Previously Tracked
 

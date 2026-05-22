@@ -10,6 +10,7 @@ Tabs:
   6. OLR-WAA: Adaptive Drift-Resilient Online Regression — score 8/10
   7. Bi-Stage Adaptive RAG (Group Recommendation → RAG reranking) — score 8/10
   8. Opinion Maximization with Fairness (Social Network Influence) — score 8/10
+  9. TopoMAS: LLM-Driven Topological Materials Multi-Agent System — score 8/10
 """
 
 import os
@@ -236,6 +237,13 @@ from bi_stage_rag import MultiAspectQuery, Stage1Retriever, AdaptiveReranker
 # Tab 8 — Opinion Maximization with Fairness
 # ---------------------------------------------------------------------------
 from opinion_maximization import SocialGraph, simulate_cascade, greedy_maximize
+
+# ---------------------------------------------------------------------------
+# Tab 9 — TopoMAS: LLM-Driven Topological Materials Multi-Agent System
+# ---------------------------------------------------------------------------
+from topomas import MultiAgentOrchestrator
+
+_topo_orchestrator = MultiAgentOrchestrator()
 
 _OM_GRAPH = SocialGraph.sample_network(n_majority=15, n_minority=5, seed=42)
 _OM_POS   = _OM_GRAPH.layout_positions()
@@ -1043,6 +1051,54 @@ HS_DEMO_QUERIES = [
     "Karpukhin dense passage",
 ]
 
+
+# ---------------------------------------------------------------------------
+# Tab 9 helpers — TopoMAS
+# ---------------------------------------------------------------------------
+def topomas_run(query: str, top_k: int) -> tuple[str, str, str]:
+    if not query.strip():
+        return "", "", ""
+    trace = _topo_orchestrator.run(query.strip(), top_k=int(top_k))
+    agent_trace_md = trace.to_markdown_trace()
+    answer_md = trace.final_answer
+
+    # Build property table
+    prop_rows = []
+    for v in trace.validation_verdicts:
+        formula = v.get("formula", "?")
+        topo = "Yes" if v.get("is_topological") else "No"
+        cls = v.get("topo_class", "—")
+        gap = v.get("band_gap_eV", "—")
+        inv = v.get("topological_invariant", "—")
+        inv_type = v.get("invariant_type", "—")
+        stab = v.get("stability", "—")
+        verdict = v.get("verdict", "—")
+        prop_rows.append(
+            f"| {formula} | {topo} | {cls} | {gap} | {inv_type}={inv} | {stab} | {verdict} |"
+        )
+
+    if prop_rows:
+        prop_table = (
+            "| Formula | Topological | Class | Gap (eV) | Invariant | Stability | Verdict |\n"
+            "|---------|-------------|-------|----------|-----------|-----------|----------|\n"
+            + "\n".join(prop_rows)
+        )
+    else:
+        prop_table = "_No property data available for this query._"
+
+    return agent_trace_md, prop_table, answer_md
+
+
+TOPO_DEMO_QUERIES = [
+    "topological insulators for quantum computing",
+    "Bi2Se3 properties",
+    "Weyl semimetal applications",
+    "find stable topological materials",
+    "suggest new topological material",
+    "validate topological properties of MnBi2Te4",
+    "compare HgTe and Bi2Te3",
+]
+
 with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         "# Paper POCs — AI Engineering\n"
@@ -1057,7 +1113,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |\n"
         "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |\n"
         "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |\n"
-        "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |"
+        "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |\n"
+        "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |"
     )
 
     with gr.Tabs():
@@ -1625,6 +1682,61 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "by many edges; 'minority nodes' are niche but authoritative sources. "
                 "A pure PageRank seed selection would always surface the popular documents — "
                 "a fairness budget ensures niche topics receive retrieval coverage."
+            )
+
+        # ── Tab 9: TopoMAS ────────────────────────────────────────────
+        with gr.Tab("🔬 TopoMAS"):
+            gr.Markdown(
+                "## TopoMAS: LLM-Driven Topological Materials Multi-Agent System\n"
+                "**Paper: Zhang et al. (MGE Advances, 2026) — Score 8/10**\n\n"
+                "TopoMAS unifies topological-materials discovery into a coordinated multi-agent pipeline. "
+                "A **CoreAgent** decomposes your natural-language query into subtasks and dispatches them "
+                "to specialist agents: **KnowledgeAgent** (KG retrieval), **PropertyAgent** (DFT-level analysis), "
+                "**SynthesisAgent** (hypothetical candidate generation), and **ValidationAgent** (invariant checking).\n\n"
+                "This architecture mirrors production LLM-agent systems (RAG orchestrators, tool-calling chains) "
+                "and demonstrates how hierarchical task decomposition improves reliability over monolithic LLM calls."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=3):
+                    topo_query = gr.Textbox(
+                        label="Materials query",
+                        placeholder="e.g. 'topological insulators for spintronics', 'Bi2Se3 properties', 'suggest new topological material'",
+                        lines=2,
+                    )
+                with gr.Column(scale=1):
+                    topo_top_k = gr.Slider(1, 5, value=3, step=1, label="Max KG hits")
+
+            topo_examples = gr.Examples(
+                examples=TOPO_DEMO_QUERIES,
+                inputs=topo_query,
+                label="Example queries",
+            )
+
+            topo_btn = gr.Button("Run Multi-Agent Pipeline", variant="primary")
+
+            with gr.Row():
+                topo_trace_md = gr.Markdown(label="Agent Execution Trace")
+
+            topo_prop_md = gr.Markdown(label="Property & Validation Table")
+            topo_answer_md = gr.Markdown(label="Final Answer")
+
+            topo_btn.click(
+                fn=topomas_run,
+                inputs=[topo_query, topo_top_k],
+                outputs=[topo_trace_md, topo_prop_md, topo_answer_md],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** Individual LLMs perform poorly on specialised topological-materials "
+                "reasoning when used in isolation. Wrapping them in a multi-agent framework with access to curated "
+                "knowledge graphs, troubleshooting databases, and specialised calculation agents **dramatically "
+                "improves accuracy and robustness**.\n\n"
+                "**RAG / agent analogy:** The same principle applies to production RAG systems — a monolithic "
+                "LLM call is fragile; a pipeline with dedicated retrieval, reranking, citation, and validation "
+                "agents is more reliable, auditable, and extensible. TopoMAS provides a concrete, "
+                "domain-specific existence proof of this architecture."
             )
 
 if __name__ == "__main__":
