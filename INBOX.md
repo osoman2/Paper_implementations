@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-22 · 2 new paper(s) scored this run
+Last updated: 2026-05-23 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Dynamic Facial Expression Recognition of Learners via Adaptive Global Attention and Differential Temporal Transformer] — Score 3/10
+> Domain-specific computer vision application for educational facial expression tracking using a hybrid spatial-temporal transformer; no LLM, retrieval, or RAG component makes it non-applicable to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### 🔴 [TopoMAS: Large Language Model Driven Topological Materials Multi-Agent System] — Score 8/10
 > LLM-driven multi-agent system (CoreAgent → KnowledgeAgent → PropertyAgent → SynthesisAgent → ValidationAgent) for topological materials discovery. Directly implements a hierarchical agent-routing architecture with knowledge-graph retrieval, HITL feedback loops, and automated DFT failure recovery — all patterns applicable to production RAG orchestration and LLM agent pipelines. **IMPLEMENTED (Tab 9)**
@@ -25,7 +30,7 @@ _Papers from earlier scans are appended here automatically._
 - 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper proposes a new method for evaluating LLMs by measuring semantic diversity, directly applicable to evaluating LLM outputs used in my daily work.
 - 🔴 **Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series** (score 9/10) — This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, which is relevant to implementing retrieval pipelines and AI agents.
 - 🔴 **The attribution crisis in LLM search results: Estimating ecosystem exploitation** (score 8/10) — The paper discusses ecosystem exploitation in LLM search results, which is relevant to AI engineers implementing and evaluating retrieval pipelines and LLM applications.
-- 🔴 **Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy** (score 8/10) — The paper addresses labelled data scarcity in defect classification, which could be an issue in implementing computer vision applications including those that utilize LLMs and retrieval pipelines.
+- ✅ **Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy** (score 8/10) — **IMPLEMENTED (Tab 10)** — The paper addresses labelled data scarcity in defect classification, which could be an issue in implementing computer vision applications including those that utilize LLMs and retrieval pipelines.
 - ✅ **Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model** (score 8/10) — **IMPLEMENTED (Tab 7)** — The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
 - 🔴 **A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams** (score 8/10) — This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
 - ✅ **Opinion Maximization Based on Fairness in Social Networks** (score 8/10) — **IMPLEMENTED (Tab 8)** — The paper presents a framework to maximize overall positive opinion in social networks while ensuring fairness for minority groups, applicable to graph-RAG seed node selection and knowledge graph traversal with fairness guarantees.

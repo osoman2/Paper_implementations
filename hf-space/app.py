@@ -11,6 +11,7 @@ Tabs:
   7. Bi-Stage Adaptive RAG (Group Recommendation → RAG reranking) — score 8/10
   8. Opinion Maximization with Fairness (Social Network Influence) — score 8/10
   9. TopoMAS: LLM-Driven Topological Materials Multi-Agent System — score 8/10
+ 10. Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG Query Routing — score 8/10
 """
 
 import os
@@ -242,6 +243,11 @@ from opinion_maximization import SocialGraph, simulate_cascade, greedy_maximize
 # Tab 9 — TopoMAS: LLM-Driven Topological Materials Multi-Agent System
 # ---------------------------------------------------------------------------
 from topomas import MultiAgentOrchestrator
+
+# ---------------------------------------------------------------------------
+# Tab 10 — Label Scarcity: Semi-Supervised Pseudo-Labeling
+# ---------------------------------------------------------------------------
+from label_scarcity import SemiSupervisedLabeler, LabeledExample, PseudoLabelResult
 
 _topo_orchestrator = MultiAgentOrchestrator()
 
@@ -1043,6 +1049,188 @@ def om_run(k: int, fairness_budget: int, n_sims: int):
     return comparison, plain_detail, fair_detail, fig
 
 
+# ---------------------------------------------------------------------------
+# Tab 10 helpers — Label Scarcity / Semi-Supervised Pseudo-Labeling
+# ---------------------------------------------------------------------------
+
+LS_PRESETS = {
+    "RAG Query Routing (factual vs conceptual)": {
+        "labeled": [
+            LabeledExample("What is the capital of France?", "factual"),
+            LabeledExample("Who invented the telephone?", "factual"),
+            LabeledExample("When was the Eiffel Tower built?", "factual"),
+            LabeledExample("How does photosynthesis work conceptually?", "conceptual"),
+            LabeledExample("Explain the philosophy behind transformer attention.", "conceptual"),
+            LabeledExample("What is the intuition behind embeddings?", "conceptual"),
+        ],
+        "unlabeled": [
+            "Who wrote Pride and Prejudice?",
+            "How do neural networks learn representations?",
+            "What year did World War II end?",
+            "Why do language models hallucinate?",
+            "How many planets are in the solar system?",
+            "What is the difference between RAG and fine-tuning?",
+            "What is the boiling point of water?",
+            "Explain the role of attention in LLMs.",
+            "When was Python first released?",
+            "How does contrastive learning work?",
+            "Who is the CEO of OpenAI?",
+            "What is the intuition behind BM25 scoring?",
+            "How many bones are in the human body?",
+            "Why does sparse retrieval work well for keyword queries?",
+            "What is the height of Mount Everest?",
+        ],
+    },
+    "Intent Classification (retrieve vs generate vs summarize)": {
+        "labeled": [
+            LabeledExample("Find all documents about transformer architecture.", "retrieve"),
+            LabeledExample("Search for papers on hybrid search.", "retrieve"),
+            LabeledExample("Look up the definition of cosine similarity.", "retrieve"),
+            LabeledExample("Write a summary of the RAG pipeline.", "generate"),
+            LabeledExample("Create an explanation of BM25 for a beginner.", "generate"),
+            LabeledExample("Compose a blog post about vector databases.", "generate"),
+            LabeledExample("Condense this 10-page paper into 3 bullet points.", "summarize"),
+            LabeledExample("Give me the key takeaways from this document.", "summarize"),
+            LabeledExample("Summarize the findings from the literature review.", "summarize"),
+        ],
+        "unlabeled": [
+            "Get me all papers on LLM evaluation metrics.",
+            "Draft a technical overview of dense retrieval.",
+            "Distill the main points from this report.",
+            "Locate any documents mentioning ColBERT.",
+            "Write a comparison between BM25 and DPR.",
+            "Boil down this paper to its essential contribution.",
+            "Fetch the most recent papers on speculative decoding.",
+            "Generate a step-by-step tutorial on RAG.",
+            "Compress the abstract into one sentence.",
+            "Find documents where the author discusses fairness.",
+            "Build a narrative around the retrieved context.",
+            "Extract the key claims from the methodology section.",
+        ],
+    },
+    "Retrieval Strategy (sparse vs dense vs hybrid)": {
+        "labeled": [
+            LabeledExample("BM25 term frequency inverse document frequency keyword exact match", "sparse"),
+            LabeledExample("Okapi BM25 probabilistic ranking token overlap", "sparse"),
+            LabeledExample("inverted index lexical search vocabulary lookup", "sparse"),
+            LabeledExample("semantic similarity cosine distance embedding vector", "dense"),
+            LabeledExample("sentence transformer BERT encoder dense passage retrieval", "dense"),
+            LabeledExample("neural embedding nearest neighbour faiss similarity", "dense"),
+            LabeledExample("blend sparse dense retrieval fusion alpha weight", "hybrid"),
+            LabeledExample("reciprocal rank fusion combine BM25 semantic score", "hybrid"),
+            LabeledExample("adaptive alpha mixing retrieval strategies ensemble", "hybrid"),
+        ],
+        "unlabeled": [
+            "keyword exact match term lookup TF-IDF scoring",
+            "neural encoder deep embedding representation similarity",
+            "combined retrieval system alpha parameter tuning",
+            "BERT sentence encoding passage similarity search",
+            "token presence vocabulary boolean search",
+            "weighted ensemble retrieval methods fusion score",
+            "approximate nearest neighbour search HNSW index",
+            "n-gram overlap matching bag of words",
+            "query-adaptive blending of retrieval strategies",
+            "document frequency corpus statistics IDF weight",
+            "cross-encoder reranking neural scoring pipeline",
+            "linear combination sparse dense results merging",
+        ],
+    },
+}
+
+
+def ls_run(
+    preset_name: str,
+    confidence_threshold: float,
+    max_rounds: int,
+    k_neighbors: int,
+    extra_unlabeled: str,
+) -> tuple[str, str, str, str]:
+    preset = LS_PRESETS[preset_name]
+    labeled = preset["labeled"]
+    unlabeled = list(preset["unlabeled"])
+
+    for line in extra_unlabeled.strip().splitlines():
+        line = line.strip()
+        if line:
+            unlabeled.append(line)
+
+    labeler = SemiSupervisedLabeler(
+        confidence_threshold=confidence_threshold,
+        max_rounds=int(max_rounds),
+        k=int(k_neighbors),
+    )
+    results, round_stats = labeler.fit_predict(labeled, unlabeled)
+
+    # Seed table
+    seed_rows = [
+        f"| {e.label} | {e.text} |"
+        for e in labeled
+    ]
+    seed_table = (
+        "| Label | Text |\n|-------|------|\n" + "\n".join(seed_rows)
+    )
+
+    # Results table
+    res_rows = []
+    for r in results:
+        icon = "✅" if r.accepted else "❌"
+        res_rows.append(
+            f"| {icon} | {r.text[:55]} | **{r.predicted_label}** | "
+            f"{r.confidence:.3f} | {r.nearest_neighbor_text[:40]}… |"
+        )
+    res_table = (
+        "| Status | Unlabeled Text | Pseudo-Label | Confidence | Nearest Seed |\n"
+        "|--------|---------------|--------------|------------|---------------|\n"
+        + "\n".join(res_rows)
+    )
+
+    # Round stats
+    stat_rows = []
+    for s in round_stats:
+        dist_str = ", ".join(f"{k}={v}" for k, v in s["label_distribution"].items())
+        stat_rows.append(
+            f"| {s['round']} | {s['accepted']} | {s['remaining']} | "
+            f"{s['pool_size']} | {dist_str} |"
+        )
+    if stat_rows:
+        stats_md = (
+            "| Round | Accepted | Remaining | Pool size | Label distribution |\n"
+            "|-------|----------|-----------|-----------|--------------------|\n"
+            + "\n".join(stat_rows)
+        )
+    else:
+        stats_md = "_No rounds completed._"
+
+    n_accepted = sum(1 for r in results if r.accepted)
+    n_total = len(results)
+    n_seeds = len(labeled)
+    expansion = (n_accepted / n_seeds * 100) if n_seeds else 0
+
+    explain_md = f"""
+**How Semi-Supervised Pseudo-Labeling works (from the paper):**
+
+1. **Seed labeled pool** — Start with {n_seeds} labeled examples (scarce annotations).
+2. **TF-IDF embedding** — All texts (labeled + unlabeled) encoded into TF-IDF vectors.
+3. **k-NN assignment** — Each unlabeled item gets a pseudo-label via weighted majority
+   vote over its {k_neighbors} nearest labeled neighbors.
+4. **Confidence filtering** — Only predictions with confidence ≥ {confidence_threshold} are accepted.
+   Accepted items join the labeled pool and improve future rounds.
+5. **Iterative expansion** — Process repeats for up to {int(max_rounds)} rounds, growing
+   the pool from {n_seeds} seeds → {n_seeds + n_accepted} labeled items (+{expansion:.0f}%).
+
+**Results:** {n_accepted}/{n_total} unlabeled items pseudo-labeled with confidence ≥ {confidence_threshold}.
+
+**Why this matters for AI engineering:**
+- **Query routing in RAG**: Classify incoming queries (factual/semantic/hybrid) with
+  just a handful of labeled examples per class — no large annotation budget needed.
+- **Intent detection**: Label queries for tool-calling agents with 5–10 seeds per intent.
+- **Embedding fine-tuning data**: Generate pseudo-labeled pairs to expand training sets
+  for sentence transformer fine-tuning when gold labels are scarce.
+""".strip()
+
+    return seed_table, res_table, stats_md, explain_md
+
+
 HS_DEMO_QUERIES = [
     "BM25 Okapi",
     "how do transformers handle long sequences",
@@ -1114,7 +1302,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |\n"
         "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |\n"
         "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |\n"
-        "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |"
+        "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |\n"
+        "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |"
     )
 
     with gr.Tabs():
@@ -1737,6 +1926,94 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "LLM call is fragile; a pipeline with dedicated retrieval, reranking, citation, and validation "
                 "agents is more reliable, auditable, and extensible. TopoMAS provides a concrete, "
                 "domain-specific existence proof of this architecture."
+            )
+
+        # ── Tab 10: Label Scarcity — Semi-Supervised Pseudo-Labeling ─────────
+        with gr.Tab("🏷️ Label Scarcity"):
+            gr.Markdown(
+                "## Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG\n"
+                "**Paper: 'Overcoming labelled data scarcity for defect classification "
+                "in scanning tunnelling microscopy' — Score 8/10**\n\n"
+                "Demonstrates how to **expand a tiny labeled set** into a large pseudo-labeled "
+                "training corpus using iterative k-NN assignment in TF-IDF embedding space. "
+                "Start with just 3–9 labeled examples per class — the algorithm propagates "
+                "labels to unlabeled items by confidence-filtered nearest-neighbor votes, "
+                "growing the pool over multiple self-training rounds.\n\n"
+                "**RAG applicability:** Query intent classification, retrieval strategy routing "
+                "(sparse/dense/hybrid), and embedding fine-tuning data generation — all cases "
+                "where you have abundant unlabeled queries but only a handful of annotations."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    ls_preset_dd = gr.Dropdown(
+                        list(LS_PRESETS.keys()),
+                        value=list(LS_PRESETS.keys())[0],
+                        label="Preset scenario",
+                        info="Pre-loaded labeled seeds + unlabeled pool",
+                    )
+                    ls_extra = gr.Textbox(
+                        label="Additional unlabeled items (one per line, optional)",
+                        lines=4,
+                        placeholder="Add your own unlabeled queries here…",
+                    )
+                with gr.Column(scale=1):
+                    ls_threshold = gr.Slider(
+                        0.05, 0.9, value=0.25, step=0.05,
+                        label="Confidence threshold",
+                        info="Min confidence to accept a pseudo-label (lower = more labels, less precise)",
+                    )
+                    ls_rounds = gr.Slider(
+                        1, 5, value=3, step=1,
+                        label="Max self-training rounds",
+                        info="More rounds = more propagation from early pseudo-labels",
+                    )
+                    ls_k = gr.Slider(
+                        1, 7, value=3, step=1,
+                        label="k (nearest neighbors for vote)",
+                        info="Higher k = smoother decision boundary, less sensitive to outliers",
+                    )
+
+            ls_btn = gr.Button("Run Pseudo-Labeling", variant="primary")
+
+            gr.Markdown("### Seed Labeled Examples")
+            ls_seed_table = gr.Markdown()
+
+            gr.Markdown("### Pseudo-Label Results")
+            ls_results_table = gr.Markdown()
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Self-Training Round Statistics")
+                    ls_stats_md = gr.Markdown()
+                with gr.Column():
+                    ls_explain_md = gr.Markdown()
+
+            ls_btn.click(
+                fn=ls_run,
+                inputs=[ls_preset_dd, ls_threshold, ls_rounds, ls_k, ls_extra],
+                outputs=[ls_seed_table, ls_results_table, ls_stats_md, ls_explain_md],
+            )
+            ls_preset_dd.change(
+                fn=ls_run,
+                inputs=[ls_preset_dd, ls_threshold, ls_rounds, ls_k, ls_extra],
+                outputs=[ls_seed_table, ls_results_table, ls_stats_md, ls_explain_md],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** Training classifiers with only a few labeled "
+                "samples per class is possible when you exploit the geometric structure of the "
+                "embedding space — nearby points tend to share the same label. Self-training "
+                "iteratively grows the labeled pool, and confidence thresholding prevents "
+                "low-quality pseudo-labels from corrupting later rounds.\n\n"
+                "**Threshold guide:** 0.05–0.15 → aggressive expansion (many pseudo-labels, "
+                "some errors); 0.25–0.40 → balanced; 0.50+ → conservative (high precision, "
+                "fewer labels). Start low and increase if you see label noise.\n\n"
+                "**RAG workflow:** (1) Label 5–10 queries per intent class manually. "
+                "(2) Run pseudo-labeling on 1,000s of unlabeled production queries. "
+                "(3) Use the expanded set to fine-tune a sentence transformer or train a "
+                "lightweight router — replacing a much costlier full annotation campaign."
             )
 
 if __name__ == "__main__":
