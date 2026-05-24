@@ -12,6 +12,7 @@ Tabs:
   8. Opinion Maximization with Fairness (Social Network Influence) — score 8/10
   9. TopoMAS: LLM-Driven Topological Materials Multi-Agent System — score 8/10
  10. Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG Query Routing — score 8/10
+ 11. Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries — score 8/10
 """
 
 import os
@@ -248,6 +249,12 @@ from topomas import MultiAgentOrchestrator
 # Tab 10 — Label Scarcity: Semi-Supervised Pseudo-Labeling
 # ---------------------------------------------------------------------------
 from label_scarcity import SemiSupervisedLabeler, LabeledExample, PseudoLabelResult
+
+# ---------------------------------------------------------------------------
+# Tab 11 — Extreme Event AI: Reliability Calibration
+# ---------------------------------------------------------------------------
+from extreme_event_ai import ModelComparison, BUILTIN_MODELS as EEA_MODELS
+from extreme_event_ai import CalibrationReport  # noqa: F401 (used in type hints)
 
 _topo_orchestrator = MultiAgentOrchestrator()
 
@@ -1287,6 +1294,200 @@ TOPO_DEMO_QUERIES = [
     "compare HgTe and Bi2Te3",
 ]
 
+
+# ---------------------------------------------------------------------------
+# Tab 11 helpers — Extreme Event AI: Reliability Calibration
+# ---------------------------------------------------------------------------
+
+EEA_CORPUS = [
+    # Normal queries — common vocabulary, average length
+    "what is retrieval augmented generation",
+    "how does BM25 work",
+    "explain embeddings in vector databases",
+    "what is a language model",
+    "how to fine-tune BERT",
+    "explain cosine similarity",
+    "what is a transformer",
+    "how does attention mechanism work",
+    "difference between sparse and dense retrieval",
+    "what is prompt engineering",
+    "how to evaluate RAG pipelines",
+    "what is semantic search",
+    "how does FAISS work",
+    "explain reciprocal rank fusion",
+    "what is chunking in RAG",
+    "how to improve retrieval recall",
+    "what is a cross-encoder",
+    "explain knowledge graphs in RAG",
+    "how to reduce hallucinations in LLMs",
+    "what are embedding models",
+    # Extreme queries — rare terms, unusual phrasing, domain-specific jargon
+    "Milvus HNSW ef_construction parameter tuning IVF_FLAT nprobe",
+    "ColBERTv2 MaxSim late interaction token-level embedding compression",
+    "FlashAttention-2 tiling algorithm memory bandwidth IO-bound computation",
+    "SPLADE sparse learned representation vocabulary expansion regularisation",
+    "Matryoshka Representation Learning adaptive embedding dimensionality truncation",
+    "pg_vector ivfflat vs hnsw index recall tradeoff quantization",
+    "Lost in the middle positional bias long context window retrieval degradation",
+    "xq",  # very short out-of-vocabulary query
+    "BEIR benchmark zero-shot transfer heterogeneous retrieval evaluation TREC",
+    "bi-encoder dual-encoder training hard negatives in-batch negatives curriculum",
+]
+
+EEA_QUERY_PRESETS = {
+    "Mixed (normal + extreme)": EEA_CORPUS,
+    "Normal queries only": EEA_CORPUS[:20],
+    "Extreme queries only": EEA_CORPUS[20:],
+    "Custom sample": [
+        "what is hybrid search",
+        "BM25 Okapi probabilistic ranking term frequency saturation",
+        "how does semantic search work",
+        "HNSW graph index approximate nearest neighbour search Hnswlib efSearch",
+        "explain RAG pipeline",
+        "MMR maximal marginal relevance diversity reranking lambda threshold",
+        "how to use LangChain",
+        "ColBERT token-level late interaction MaxSim operator query expansion",
+    ],
+}
+
+_eea_comparison = ModelComparison(corpus=EEA_CORPUS, extreme_percentile=0.75)
+
+
+def eea_run(
+    preset_name: str,
+    selected_models: list[str],
+    extreme_percentile: float,
+    custom_queries_text: str,
+) -> tuple[str, str, str, object]:
+    """Run extreme event reliability calibration and return results."""
+    if preset_name == "Custom — use text box":
+        queries = [q.strip() for q in custom_queries_text.strip().splitlines() if q.strip()]
+    else:
+        queries = list(EEA_QUERY_PRESETS.get(preset_name, EEA_CORPUS))
+
+    if len(queries) < 4:
+        return "Need at least 4 queries.", "", "", None
+    if not selected_models:
+        selected_models = ["BM25 (sparse)", "Adaptive Hybrid (query-IDF α)"]
+
+    comparison = ModelComparison(corpus=EEA_CORPUS, extreme_percentile=extreme_percentile)
+    reports = comparison.run(queries, selected_models)
+    classified = comparison.classify_queries(queries)
+
+    # Query classification table
+    q_rows = []
+    for q, score, qtype in sorted(classified, key=lambda x: x[1], reverse=True)[:20]:
+        icon = "🔴" if qtype == "extreme" else "🟢"
+        q_rows.append(f"| {icon} {qtype} | {score:.3f} | {q[:70]} |")
+    q_table = (
+        "| Type | Extremity | Query |\n"
+        "|------|-----------|-------|\n"
+        + "\n".join(q_rows)
+        + f"\n\n_Showing top 20 of {len(queries)} queries. "
+        f"🔴 extreme: {sum(1 for _,_,t in classified if t=='extreme')} · "
+        f"🟢 normal: {sum(1 for _,_,t in classified if t=='normal')}_"
+    )
+
+    # Calibration summary table
+    cal_rows = []
+    for mname, rep in reports.items():
+        oc_icon_n = "🔴" if rep.overconfidence_normal > 0.1 else "🟡" if rep.overconfidence_normal > 0.03 else "🟢"
+        oc_icon_e = "🔴" if rep.overconfidence_extreme > 0.1 else "🟡" if rep.overconfidence_extreme > 0.03 else "🟢"
+        deg = rep.accuracy_normal - rep.accuracy_extreme
+        deg_icon = "🔴" if deg > 0.15 else "🟡" if deg > 0.07 else "🟢"
+        cal_rows.append(
+            f"| **{mname}** | "
+            f"{rep.accuracy_normal:.1%} | {rep.accuracy_extreme:.1%} | "
+            f"{deg_icon} {deg:+.1%} | "
+            f"{rep.ece_normal:.3f} | {rep.ece_extreme:.3f} | "
+            f"{oc_icon_n} {rep.overconfidence_normal:+.3f} | "
+            f"{oc_icon_e} {rep.overconfidence_extreme:+.3f} |"
+        )
+    cal_table = (
+        "| Model | Acc Normal | Acc Extreme | Degradation | ECE Normal | ECE Extreme "
+        "| Overconf Normal | Overconf Extreme |\n"
+        "|-------|-----------|------------|-------------|-----------|------------|"
+        "----------------|------------------|\n"
+        + "\n".join(cal_rows)
+    )
+
+    explain_md = """
+**How Extreme Event Reliability works (from the paper):**
+
+1. **Query classification** — Each query receives an *extremity score* based on:
+   - Mean IDF of query tokens (rare/technical terms → higher score)
+   - Query length deviation from corpus median
+   - Out-of-vocabulary fraction
+   Queries above the {pct}th percentile are labelled **extreme**.
+
+2. **Model simulation** — Each strategy generates (confidence, is_correct) per query.
+   Strategies are parameterised by their known degradation on extreme inputs:
+   - BM25 degrades sharply on rare-term queries (vocabulary gap)
+   - Dense retrieval generalises better but can be overconfident on novel phrasing
+   - Adaptive hybrid mitigates degradation by per-query alpha tuning
+
+3. **Reliability calibration (ECE)** — Expected Calibration Error measures the gap
+   between predicted confidence and actual accuracy across confidence buckets.
+   `ECE = Σ (|bucket| / N) × |mean_conf_bucket − frac_correct_bucket|`
+   Lower ECE = better calibrated.
+
+4. **Overconfidence** = mean(predicted_confidence) − actual_accuracy.
+   Positive = overconfident (model claims higher confidence than it deserves).
+
+**Paper's key finding — applied to RAG:**
+AI models that achieve good *average* performance are often poorly calibrated on
+**extreme events** (rare queries, OOV terms, adversarial inputs). Specifically:
+- Overconfidence on extreme inputs is systematic and larger than on normal inputs
+- Models with adaptive mechanisms (adaptive hybrid) show smaller reliability gaps
+- ECE on extreme queries ≈ 2–5× ECE on normal queries for non-adaptive methods
+""".format(pct=int(extreme_percentile * 100)).strip()
+
+    # ── Reliability diagram plot ──────────────────────────────────────────
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig.patch.set_facecolor("#f9f9f9")
+    fig.suptitle("Reliability Diagrams: Normal vs Extreme Queries", fontsize=13)
+
+    cmap = plt.get_cmap("tab10")
+    for ax_idx, (split_name, bucket_attr) in enumerate([
+        ("Normal queries", "reliability_buckets_normal"),
+        ("Extreme queries", "reliability_buckets_extreme"),
+    ]):
+        ax = axes[ax_idx]
+        ax.plot([0, 1], [0, 1], "k--", linewidth=1.2, label="Perfect calibration", alpha=0.6)
+        ax.fill_between([0, 1], [0, 0], [1, 1], alpha=0.04, color="gray")
+
+        for m_idx, (mname, rep) in enumerate(reports.items()):
+            buckets = getattr(rep, bucket_attr)
+            if not buckets:
+                continue
+            xs = [b[0] for b in buckets]
+            ys = [b[1] for b in buckets]
+            ece_val = rep.ece_normal if split_name == "Normal queries" else rep.ece_extreme
+            ax.plot(xs, ys, "o-", color=cmap(m_idx), linewidth=1.8, markersize=5,
+                    label=f"{mname} (ECE={ece_val:.3f})")
+
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0, 1)
+        ax.set_xlabel("Mean confidence (in bucket)", fontsize=10)
+        ax.set_ylabel("Fraction correct", fontsize=10)
+        ax.set_title(split_name, fontsize=11)
+        ax.legend(fontsize=8, loc="upper left")
+        ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    return q_table, cal_table, explain_md, fig
+
+
+EEA_DEMO_QUERIES_LIST = [
+    "BM25 Okapi",
+    "HNSW graph index approximate nearest neighbour",
+    "what is semantic search",
+    "ColBERT MaxSim late interaction token embeddings",
+    "explain RAG",
+    "SPLADE sparse learned vocabulary expansion regularisation",
+]
+
+
 with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         "# Paper POCs — AI Engineering\n"
@@ -1303,7 +1504,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |\n"
         "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |\n"
         "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |\n"
-        "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |"
+        "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |\n"
+        "| Extreme Event AI: Reliability Calibration for RAG | 🔴 8/10 | Extreme Event AI |"
     )
 
     with gr.Tabs():
@@ -2014,6 +2216,93 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "(2) Run pseudo-labeling on 1,000s of unlabeled production queries. "
                 "(3) Use the expanded set to fine-tune a sentence transformer or train a "
                 "lightweight router — replacing a much costlier full annotation campaign."
+            )
+
+        # ── Tab 11: Extreme Event AI — Reliability Calibration ───────────────
+        with gr.Tab("🌡️ Extreme Event AI"):
+            gr.Markdown(
+                "## Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries\n"
+                "**Paper: 'Predictability of precipitation extremes in the Western United States "
+                "and the U.S. Gulf Coast using AI weather models' — Score 8/10**\n\n"
+                "The paper finds that AI weather models (Aurora, GenCast, Pangu, GraphCast) that "
+                "achieve strong *average* performance are systematically **less reliable on "
+                "extreme precipitation events** — the tail of the distribution where calibration "
+                "and overconfidence matter most.\n\n"
+                "**RAG analogy:** Retrieval strategies that look good on average benchmarks can "
+                "be poorly calibrated on **extreme queries** — rare vocabulary, very long/short "
+                "inputs, out-of-distribution phrasing. This tab quantifies that gap using "
+                "**Expected Calibration Error (ECE)** and reliability diagrams split by "
+                "normal vs. extreme query sets.\n\n"
+                "🟢 **Normal queries** = common vocabulary, average length  \n"
+                "🔴 **Extreme queries** = rare terms (high IDF), OOV tokens, length outliers"
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    eea_preset_dd = gr.Dropdown(
+                        list(EEA_QUERY_PRESETS.keys()) + ["Custom — use text box"],
+                        value="Mixed (normal + extreme)",
+                        label="Query set",
+                        info="Pre-loaded query sets that mix normal and extreme inputs",
+                    )
+                    eea_custom_txt = gr.Textbox(
+                        label="Custom queries (one per line, used when preset = 'Custom')",
+                        lines=6,
+                        placeholder="Enter one query per line…\n\nBM25 Okapi\nColBERT MaxSim late interaction\nhow does semantic search work",
+                    )
+
+                with gr.Column(scale=1):
+                    eea_models_dd = gr.CheckboxGroup(
+                        list(EEA_MODELS.keys()),
+                        value=["BM25 (sparse)", "Dense retrieval", "Adaptive Hybrid (query-IDF α)"],
+                        label="Retrieval strategies to compare",
+                    )
+                    eea_percentile = gr.Slider(
+                        0.50, 0.95, value=0.75, step=0.05,
+                        label="Extreme percentile threshold",
+                        info="Queries above this extremity percentile are labelled 'extreme'",
+                    )
+
+            eea_btn = gr.Button("Run Reliability Calibration", variant="primary")
+
+            gr.Markdown("### Query Classification (normal vs extreme)")
+            eea_q_table = gr.Markdown()
+
+            gr.Markdown("### Calibration Summary")
+            eea_cal_table = gr.Markdown()
+
+            with gr.Row():
+                with gr.Column():
+                    eea_explain_md = gr.Markdown()
+                with gr.Column():
+                    eea_plot = gr.Plot(label="Reliability Diagrams")
+
+            eea_btn.click(
+                fn=eea_run,
+                inputs=[eea_preset_dd, eea_models_dd, eea_percentile, eea_custom_txt],
+                outputs=[eea_q_table, eea_cal_table, eea_explain_md, eea_plot],
+            )
+            eea_preset_dd.change(
+                fn=eea_run,
+                inputs=[eea_preset_dd, eea_models_dd, eea_percentile, eea_custom_txt],
+                outputs=[eea_q_table, eea_cal_table, eea_explain_md, eea_plot],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** AI models that perform well on *average* metrics "
+                "can be systematically overconfident on extreme events — the tail of the input "
+                "distribution where reliability matters most. Reliability diagrams and ECE make "
+                "this gap visible and quantifiable.\n\n"
+                "**RAG implication:** Standard benchmarks (BEIR, MTEB) evaluate average "
+                "performance. Production systems face extreme queries (rare terminology, "
+                "adversarial phrasing, OOV tokens) where your retriever's confidence scores "
+                "may be poorly calibrated. ECE on an extreme-query split should be part of "
+                "every retrieval pipeline evaluation.\n\n"
+                "**ECE guide:** 0.00–0.03 → well-calibrated; 0.03–0.08 → moderate; "
+                "0.08+ → poorly calibrated. Compare ECE_normal vs ECE_extreme — "
+                "a large gap signals that your model's confidence is less trustworthy "
+                "precisely when the query is hardest."
             )
 
 if __name__ == "__main__":

@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-23 · 1 new paper(s) scored this run
+Last updated: 2026-05-24 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Dynamic Facial Expression Recognition of Learners via Adaptive Global Attention and Differential Temporal Transformer] — Score 3/10
-> Domain-specific computer vision application for educational facial expression tracking using a hybrid spatial-temporal transformer; no LLM, retrieval, or RAG component makes it non-applicable to AI engineering production systems.
+### ⚪ [Self-adaptive weighting and sampling for physics-informed neural networks] — Score 1/10
+> Physics-Informed Neural Networks (PINNs) for solving PDEs in physics simulations; this is a domain-specific scientific ML technique with no connection to LLM evaluation, RAG pipelines, or retrieval engineering.
 
 ## Previously Tracked (this run)
+
+### ⚪ [Dynamic Facial Expression Recognition of Learners via Adaptive Global Attention and Differential Temporal Transformer] — Score 3/10
+> Domain-specific computer vision application for educational facial expression tracking using a hybrid spatial-temporal transformer; no LLM, retrieval, or RAG component makes it non-applicable to AI engineering production systems.
 
 ### 🔴 [TopoMAS: Large Language Model Driven Topological Materials Multi-Agent System] — Score 8/10
 > LLM-driven multi-agent system (CoreAgent → KnowledgeAgent → PropertyAgent → SynthesisAgent → ValidationAgent) for topological materials discovery. Directly implements a hierarchical agent-routing architecture with knowledge-graph retrieval, HITL feedback loops, and automated DFT failure recovery — all patterns applicable to production RAG orchestration and LLM agent pipelines. **IMPLEMENTED (Tab 9)**
@@ -34,7 +37,7 @@ _Papers from earlier scans are appended here automatically._
 - ✅ **Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model** (score 8/10) — **IMPLEMENTED (Tab 7)** — The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
 - 🔴 **A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams** (score 8/10) — This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
 - ✅ **Opinion Maximization Based on Fairness in Social Networks** (score 8/10) — **IMPLEMENTED (Tab 8)** — The paper presents a framework to maximize overall positive opinion in social networks while ensuring fairness for minority groups, applicable to graph-RAG seed node selection and knowledge graph traversal with fairness guarantees.
-- 🔴 **Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models** (score 8/10) — The paper explores the application of ML-based alternatives to NWP, focusing on forecasting extreme events, which is relevant to the development of LLM applications and retrieval pipelines.
+- ✅ **Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models** (score 8/10) — **IMPLEMENTED (Tab 11)** — The paper explores the application of ML-based alternatives to NWP, focusing on forecasting extreme events, which is relevant to the development of LLM applications and retrieval pipelines. POC: Extreme Event AI reliability calibration for RAG edge-case queries.
 - ✅ **OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging** (score 8/10) — **IMPLEMENTED (Tab 6)** — This paper applies to online regression, which is relevant to implementing dynamic estimation models for user properties values, a real estate application.
 - 🟡 **Industrial chain risk monitoring with explainable dynamic knowledge graph learning** (score 7/10) — The paper applies explainable dynamic knowledge graph learning to industrial chain risk monitoring, which is similar to retrieval pipeline applications in AI engineering.
 - 🟡 **KALEFormer a transformer based model integrating KMeans clustering and LDA for market basket analysis** (score 7/10) — The paper proposes a transformer-based model integrating KMeans clustering and LDA for market basket analysis, applicable to AI engineering work in retail recommendation systems.
