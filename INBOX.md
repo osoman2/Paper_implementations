@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-24 · 1 new paper(s) scored this run
+Last updated: 2026-05-25 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Self-adaptive weighting and sampling for physics-informed neural networks] — Score 1/10
-> Physics-Informed Neural Networks (PINNs) for solving PDEs in physics simulations; this is a domain-specific scientific ML technique with no connection to LLM evaluation, RAG pipelines, or retrieval engineering.
+### ⚪ [sFWI: physics-informed score-based generative modeling for robust full waveform inversion] — Score 2/10
+> Domain-specific geophysics application (seismic full waveform inversion) using score-based diffusion models; the technique is innovative but the domain is earth sciences, not LLM evaluation, RAG pipelines, or retrieval engineering.
 
 ## Previously Tracked (this run)
+
+### ⚪ [Self-adaptive weighting and sampling for physics-informed neural networks] — Score 1/10
+> Physics-Informed Neural Networks (PINNs) for solving PDEs in physics simulations; this is a domain-specific scientific ML technique with no connection to LLM evaluation, RAG pipelines, or retrieval engineering.
 
 ### ⚪ [Dynamic Facial Expression Recognition of Learners via Adaptive Global Attention and Differential Temporal Transformer] — Score 3/10
 > Domain-specific computer vision application for educational facial expression tracking using a hybrid spatial-temporal transformer; no LLM, retrieval, or RAG component makes it non-applicable to AI engineering production systems.
@@ -21,21 +24,15 @@ Last updated: 2026-05-24 · 1 new paper(s) scored this run
 
 _Papers from earlier scans are appended here automatically._
 
-- 🔴 **Query-Adaptive Hybrid Search** (score 10/10) — The paper describes a technique to dynamically predict the right alpha for hybrid retrieval, directly applicable to RAG and other retrieval-based systems.
+- ✅ **Query-Adaptive Hybrid Search** (score 10/10) — **IMPLEMENTED (Tab 1)** — The paper describes a technique to dynamically predict the right alpha for hybrid retrieval (IDF-based alpha computation), directly applicable to RAG and other retrieval-based systems.
 
-- 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper presents a direct evaluation metric for LLM outputs, specifically tailored for assessing semantic diversity in creative tasks.
+- ✅ **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — **IMPLEMENTED (Tab 2)** — The paper presents a direct evaluation metric for LLM outputs, specifically tailored for assessing semantic diversity in creative tasks.
 
-- 🔴 **Query-Adaptive Hybrid Search** (score 10/10) — This paper describes a query-adaptive hybrid search framework that directly replaces static mixing weights with a module predicting the right Alpha for each incoming query.
-- 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper directly addresses scalable creativity evaluation of LLMs, which is implementable with minimal adaptation for RAGs and other systems requiring LLM output assessment.
-
-- 🔴 **Query-Adaptive Hybrid Search** (score 8/10) — The paper proposes a dynamic retrieval framework that replaces static mixing weights with a module that predicts the right retrieval strategy for each incoming query, which is applicable to AI engineering work in designing hybrid search systems.
-
-- 🔴 **CAD score: context-aware semantic diversity for scalable creativity evaluation of LLMs** (score 9/10) — The paper proposes a new method for evaluating LLMs by measuring semantic diversity, directly applicable to evaluating LLM outputs used in my daily work.
-- 🔴 **Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series** (score 9/10) — This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, which is relevant to implementing retrieval pipelines and AI agents.
-- 🔴 **The attribution crisis in LLM search results: Estimating ecosystem exploitation** (score 8/10) — The paper discusses ecosystem exploitation in LLM search results, which is relevant to AI engineers implementing and evaluating retrieval pipelines and LLM applications.
+- ✅ **Dynamic Sub-Sequence Warping: A Representation-Based Similarity Measure for Long Time Series** (score 9/10) — **IMPLEMENTED (Tab 3)** — This paper proposes a dynamic sequence warping technique that is applicable to comparing and matching long time series data, relevant to implementing retrieval pipelines and AI agents.
+- ✅ **The attribution crisis in LLM search results: Estimating ecosystem exploitation** (score 8/10) — **IMPLEMENTED (Tab 5)** — The paper discusses ecosystem exploitation in LLM search results, which is relevant to AI engineers implementing and evaluating retrieval pipelines and LLM applications.
 - ✅ **Overcoming labelled data scarcity for defect classification in scanning tunnelling microscopy** (score 8/10) — **IMPLEMENTED (Tab 10)** — The paper addresses labelled data scarcity in defect classification, which could be an issue in implementing computer vision applications including those that utilize LLMs and retrieval pipelines.
 - ✅ **Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model** (score 8/10) — **IMPLEMENTED (Tab 7)** — The proposed bi-stage adaptive deep learning model for group recommendations is clearly applicable to implementation in LLM applications and retrieval pipelines.
-- 🔴 **A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams** (score 8/10) — This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
+- ✅ **A synergistic engine paradigm for real-time, context-aware decision-making: integrating declarative processes and event streams** (score 8/10) — **IMPLEMENTED (Tab 4)** — This paper's technique for integrating declarative processes with event streams could enhance the context-aware decision-making capabilities of retrieval pipelines and RAG systems.
 - ✅ **Opinion Maximization Based on Fairness in Social Networks** (score 8/10) — **IMPLEMENTED (Tab 8)** — The paper presents a framework to maximize overall positive opinion in social networks while ensuring fairness for minority groups, applicable to graph-RAG seed node selection and knowledge graph traversal with fairness guarantees.
 - ✅ **Predictability of precipitation extremes in the Western United States and the U.S. Gulf Coast using AI weather models** (score 8/10) — **IMPLEMENTED (Tab 11)** — The paper explores the application of ML-based alternatives to NWP, focusing on forecasting extreme events, which is relevant to the development of LLM applications and retrieval pipelines. POC: Extreme Event AI reliability calibration for RAG edge-case queries.
 - ✅ **OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging** (score 8/10) — **IMPLEMENTED (Tab 6)** — This paper applies to online regression, which is relevant to implementing dynamic estimation models for user properties values, a real estate application.
