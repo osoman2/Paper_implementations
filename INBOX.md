@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-25 · 1 new paper(s) scored this run
+Last updated: 2026-05-26 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [sFWI: physics-informed score-based generative modeling for robust full waveform inversion] — Score 2/10
-> Domain-specific geophysics application (seismic full waveform inversion) using score-based diffusion models; the technique is innovative but the domain is earth sciences, not LLM evaluation, RAG pipelines, or retrieval engineering.
+### ⚪ [Multi-Scale Spatio-Temporal Transformer Network for Intelligent Healthcare and Transportation Systems: A Generative AI Approach] — Score 3/10
+> Domain-specific spatio-temporal traffic prediction system for emergency vehicle routing; integrates hospital-rhythm signals (shift changes, clinic hours) into GNN+attention forecasting — not an LLM/RAG/retrieval technique despite the "Generative AI" title.
 
 ## Previously Tracked (this run)
+
+### ⚪ [sFWI: physics-informed score-based generative modeling for robust full waveform inversion] — Score 2/10
+> Domain-specific geophysics application (seismic full waveform inversion) using score-based diffusion models; the technique is innovative but the domain is earth sciences, not LLM evaluation, RAG pipelines, or retrieval engineering.
 
 ### ⚪ [Self-adaptive weighting and sampling for physics-informed neural networks] — Score 1/10
 > Physics-Informed Neural Networks (PINNs) for solving PDEs in physics simulations; this is a domain-specific scientific ML technique with no connection to LLM evaluation, RAG pipelines, or retrieval engineering.
