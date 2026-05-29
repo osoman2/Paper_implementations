@@ -1,20 +1,23 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-28 · 1 new paper(s) scored this run
+Last updated: 2026-05-29 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [TricP: A Novel Approach for Human Activity Recognition Using Tricky Predator Optimization Based on Inception and LSTM] — Score 2/10
+> Domain-specific HAR application using a bio-inspired metaheuristic (Tricky Predator Optimization, coyote-hunting-inspired population search) to tune Inception-LSTM hyperparameters for surveillance video activity recognition; no LLM, retrieval, RAG, or agent component.
+
+## Previously Tracked (this run)
 
 ### ⚪ [AI-driven dynamic electronic road pricing to reduce air pollution and traffic congestion] — Score 2/10
 > Domain-specific transportation policy paper using evolutionary multi-objective optimization (NSGA-II/III) to generate Pareto-optimal dynamic road-toll schedules balancing pollution, congestion, and driver cost. Interesting optimization framing but purely an urban-mobility/policy application — no LLM, retrieval, RAG, or agent component.
 
-## Previously Tracked (this run)
+## Previously Tracked (older runs)
 
 ### ⚪ [A Fuzzy-IoT Irrigation Framework with LoRa-Based Connectivity for Climate Resilient Agriculture in Semi-Arid Regions] — Score 1/10
 > Domain-specific IoT/agriculture application combining fuzzy logic decision-making with LoRa wireless communication for smart irrigation management in water-scarce regions; no LLM, retrieval, or RAG component — pure embedded-systems engineering for agricultural sensor networks.
 
 ### ⚪ [Multi-Scale Spatio-Temporal Transformer Network for Intelligent Healthcare and Transportation Systems: A Generative AI Approach] — Score 3/10
 > Domain-specific spatio-temporal traffic prediction system for emergency vehicle routing; integrates hospital-rhythm signals (shift changes, clinic hours) into GNN+attention forecasting — not an LLM/RAG/retrieval technique despite the "Generative AI" title.
-
-## Previously Tracked (older runs)
 
 ### ⚪ [sFWI: physics-informed score-based generative modeling for robust full waveform inversion] — Score 2/10
 > Domain-specific geophysics application (seismic full waveform inversion) using score-based diffusion models; the technique is innovative but the domain is earth sciences, not LLM evaluation, RAG pipelines, or retrieval engineering.
