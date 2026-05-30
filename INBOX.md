@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-29 · 1 new paper(s) scored this run
+Last updated: 2026-05-30 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [TricP: A Novel Approach for Human Activity Recognition Using Tricky Predator Optimization Based on Inception and LSTM] — Score 2/10
-> Domain-specific HAR application using a bio-inspired metaheuristic (Tricky Predator Optimization, coyote-hunting-inspired population search) to tune Inception-LSTM hyperparameters for surveillance video activity recognition; no LLM, retrieval, RAG, or agent component.
+### ⚪ [A Temporally Disentangled Contrastive Diffusion Model for Spatiotemporal Imputation] — Score 3/10
+> Domain-specific application of diffusion models to spatiotemporal sensor imputation (traffic and air-quality datasets); uses trend/seasonal disentanglement and GNN spatial conditioning with contrastive loss — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
 
 ## Previously Tracked (this run)
+
+### ⚪ [TricP: A Novel Approach for Human Activity Recognition Using Tricky Predator Optimization Based on Inception and LSTM] — Score 2/10
+> Domain-specific HAR application using a bio-inspired metaheuristic (Tricky Predator Optimization, coyote-hunting-inspired population search) to tune Inception-LSTM hyperparameters for surveillance video activity recognition; no LLM, retrieval, RAG, or agent component.
 
 ### ⚪ [AI-driven dynamic electronic road pricing to reduce air pollution and traffic congestion] — Score 2/10
 > Domain-specific transportation policy paper using evolutionary multi-objective optimization (NSGA-II/III) to generate Pareto-optimal dynamic road-toll schedules balancing pollution, congestion, and driver cost. Interesting optimization framing but purely an urban-mobility/policy application — no LLM, retrieval, RAG, or agent component.
