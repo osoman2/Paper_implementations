@@ -1,20 +1,23 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-30 · 1 new paper(s) scored this run
+Last updated: 2026-05-31 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Comparison of Three Optimization Algorithms for Designing a Robust Power System With an Advanced Heffron-Phillips Model] — Score 2/10
+> Pure power-engineering paper comparing Genetic Algorithm, Moth-Flame Optimization, and Snake Optimization for tuning a Power System Stabilizer (PSS) against Low-Frequency Oscillations in electrical grids; no LLM, retrieval, RAG, or agent component — domain-specific electrical engineering with no drop-in applicability to AI production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [A Temporally Disentangled Contrastive Diffusion Model for Spatiotemporal Imputation] — Score 3/10
 > Domain-specific application of diffusion models to spatiotemporal sensor imputation (traffic and air-quality datasets); uses trend/seasonal disentanglement and GNN spatial conditioning with contrastive loss — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
 
-## Previously Tracked (this run)
+## Previously Tracked (older runs)
 
 ### ⚪ [TricP: A Novel Approach for Human Activity Recognition Using Tricky Predator Optimization Based on Inception and LSTM] — Score 2/10
 > Domain-specific HAR application using a bio-inspired metaheuristic (Tricky Predator Optimization, coyote-hunting-inspired population search) to tune Inception-LSTM hyperparameters for surveillance video activity recognition; no LLM, retrieval, RAG, or agent component.
 
 ### ⚪ [AI-driven dynamic electronic road pricing to reduce air pollution and traffic congestion] — Score 2/10
 > Domain-specific transportation policy paper using evolutionary multi-objective optimization (NSGA-II/III) to generate Pareto-optimal dynamic road-toll schedules balancing pollution, congestion, and driver cost. Interesting optimization framing but purely an urban-mobility/policy application — no LLM, retrieval, RAG, or agent component.
-
-## Previously Tracked (older runs)
 
 ### ⚪ [A Fuzzy-IoT Irrigation Framework with LoRa-Based Connectivity for Climate Resilient Agriculture in Semi-Arid Regions] — Score 1/10
 > Domain-specific IoT/agriculture application combining fuzzy logic decision-making with LoRa wireless communication for smart irrigation management in water-scarce regions; no LLM, retrieval, or RAG component — pure embedded-systems engineering for agricultural sensor networks.
