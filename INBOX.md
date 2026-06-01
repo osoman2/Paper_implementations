@@ -1,17 +1,20 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-05-31 · 1 new paper(s) scored this run
+Last updated: 2026-06-01 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Leveraging scale separation and stochastic closure for data-driven prediction of chaotic dynamics] — Score 2/10
+> Domain-specific computational fluid dynamics paper (Zighed et al., Sorbonne) proposing a two-stage probabilistic framework (VAE+Transformer reduced-order model + Gaussian Process closure) for turbulent flow prediction — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Comparison of Three Optimization Algorithms for Designing a Robust Power System With an Advanced Heffron-Phillips Model] — Score 2/10
 > Pure power-engineering paper comparing Genetic Algorithm, Moth-Flame Optimization, and Snake Optimization for tuning a Power System Stabilizer (PSS) against Low-Frequency Oscillations in electrical grids; no LLM, retrieval, RAG, or agent component — domain-specific electrical engineering with no drop-in applicability to AI production systems.
 
-## Previously Tracked (this run)
+## Previously Tracked (older runs)
 
 ### ⚪ [A Temporally Disentangled Contrastive Diffusion Model for Spatiotemporal Imputation] — Score 3/10
 > Domain-specific application of diffusion models to spatiotemporal sensor imputation (traffic and air-quality datasets); uses trend/seasonal disentanglement and GNN spatial conditioning with contrastive loss — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
-
-## Previously Tracked (older runs)
 
 ### ⚪ [TricP: A Novel Approach for Human Activity Recognition Using Tricky Predator Optimization Based on Inception and LSTM] — Score 2/10
 > Domain-specific HAR application using a bio-inspired metaheuristic (Tricky Predator Optimization, coyote-hunting-inspired population search) to tune Inception-LSTM hyperparameters for surveillance video activity recognition; no LLM, retrieval, RAG, or agent component.
