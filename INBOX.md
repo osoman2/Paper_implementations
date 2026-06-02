@@ -1,10 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-01 · 1 new paper(s) scored this run
+Last updated: 2026-06-02 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Leveraging scale separation and stochastic closure for data-driven prediction of chaotic dynamics] — Score 2/10
-> Domain-specific computational fluid dynamics paper (Zighed et al., Sorbonne) proposing a two-stage probabilistic framework (VAE+Transformer reduced-order model + Gaussian Process closure) for turbulent flow prediction — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
+### ⚪ [Principal component analysis and K-means clustering of fuel–air mixing in gas turbine combustors] — Score 2/10
+> Domain-specific computational fluid dynamics paper (Salvador-Jasin et al., Loughborough University) applying PCA, K-means, and Large-Eddy Simulation to analyze fuel-air mixing patterns in gas turbine combustors — no LLM, retrieval, RAG, or agent component; domain-specific aerospace engineering not drop-in applicable to AI production systems.
 
 ## Previously Tracked (this run)
 
