@@ -1,20 +1,23 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-03 · 1 new paper(s) scored this run
+Last updated: 2026-06-04 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [A machine learning approach using autoencoders to perform quality control on meteorological data] — Score 2/10
+> Domain-specific meteorological QC application (Spohn et al., Met Éireann) comparing standard autoencoders, VAEs, and LSTM autoencoders for anomaly detection in weather station time-series — LSTM-AE wins but the contribution is entirely within the meteorology/QC domain; no LLM, retrieval, RAG, or agent component, and not drop-in applicable to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Deep learning framework for enhanced neutrino reconstruction of single-line events in the ANTARES telescope] — Score 1/10
 > Domain-specific particle physics paper (Albert et al., University of Strasbourg) applying a modular deep CNN (N-fit) to reconstruct direction, position, energy, and event type from single-line hits in the ANTARES underwater neutrino telescope — no LLM, retrieval, RAG, or agent component; domain-specific astrophysics engineering not drop-in applicable to AI production systems.
 
-## Previously Tracked (this run)
+## Previously Tracked (older runs)
 
 ### ⚪ [Principal component analysis and K-means clustering of fuel–air mixing in gas turbine combustors] — Score 2/10
 > Domain-specific computational fluid dynamics paper (Salvador-Jasin et al., Loughborough University) applying PCA, K-means, and Large-Eddy Simulation to analyze fuel-air mixing patterns in gas turbine combustors — no LLM, retrieval, RAG, or agent component; domain-specific aerospace engineering not drop-in applicable to AI production systems.
 
 ### ⚪ [Comparison of Three Optimization Algorithms for Designing a Robust Power System With an Advanced Heffron-Phillips Model] — Score 2/10
 > Pure power-engineering paper comparing Genetic Algorithm, Moth-Flame Optimization, and Snake Optimization for tuning a Power System Stabilizer (PSS) against Low-Frequency Oscillations in electrical grids; no LLM, retrieval, RAG, or agent component — domain-specific electrical engineering with no drop-in applicability to AI production systems.
-
-## Previously Tracked (older runs)
 
 ### ⚪ [A Temporally Disentangled Contrastive Diffusion Model for Spatiotemporal Imputation] — Score 3/10
 > Domain-specific application of diffusion models to spatiotemporal sensor imputation (traffic and air-quality datasets); uses trend/seasonal disentanglement and GNN spatial conditioning with contrastive loss — no LLM, retrieval, RAG, or agent component; technique not drop-in applicable to AI engineering production systems.
