@@ -1,17 +1,22 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-04 · 1 new paper(s) scored this run
+Last updated: 2026-06-05 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🟡 [Analogical reasoning with large language models: a co-creative framework and benchmarking of LLMs in design ideation] — Score 6/10
+> LLM-driven co-creative agent (ALIA, Kokate et al., IIT) using structured synectics stages (problem identification → keyword exploration → cross-domain analogy excursion → dialectical conflict resolution) with real-time STT+summarization; LLM is the core engine but the domain is design ideation, not RAG/retrieval/evaluation — applicable with adaptation to multi-stage agent query expansion workflows.
+
+**POC idea:** Multi-stage analogical query expansion agent using structured 4-phase prompting (problem framing → keyword expansion → cross-domain analogy → dialectical synthesis) to enrich RAG queries with diverse retrieval perspectives.
+
+## Previously Tracked (this run)
 
 ### ⚪ [A machine learning approach using autoencoders to perform quality control on meteorological data] — Score 2/10
 > Domain-specific meteorological QC application (Spohn et al., Met Éireann) comparing standard autoencoders, VAEs, and LSTM autoencoders for anomaly detection in weather station time-series — LSTM-AE wins but the contribution is entirely within the meteorology/QC domain; no LLM, retrieval, RAG, or agent component, and not drop-in applicable to AI engineering production systems.
 
-## Previously Tracked (this run)
+## Previously Tracked (older runs)
 
 ### ⚪ [Deep learning framework for enhanced neutrino reconstruction of single-line events in the ANTARES telescope] — Score 1/10
 > Domain-specific particle physics paper (Albert et al., University of Strasbourg) applying a modular deep CNN (N-fit) to reconstruct direction, position, energy, and event type from single-line hits in the ANTARES underwater neutrino telescope — no LLM, retrieval, RAG, or agent component; domain-specific astrophysics engineering not drop-in applicable to AI production systems.
-
-## Previously Tracked (older runs)
 
 ### ⚪ [Principal component analysis and K-means clustering of fuel–air mixing in gas turbine combustors] — Score 2/10
 > Domain-specific computational fluid dynamics paper (Salvador-Jasin et al., Loughborough University) applying PCA, K-means, and Large-Eddy Simulation to analyze fuel-air mixing patterns in gas turbine combustors — no LLM, retrieval, RAG, or agent component; domain-specific aerospace engineering not drop-in applicable to AI production systems.
