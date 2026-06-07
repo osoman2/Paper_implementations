@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-06 · 1 new paper(s) scored this run
+Last updated: 2026-06-07 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [A Formation Inversion Algorithm Based on Collaborative Fuzzy Gradient Neural Dynamics for Natural Gamma Logging While Drilling] — Score 1/10
-> Domain-specific oil & gas drilling paper (Liu et al., Lanzhou University) framing geological formation inversion as a constrained nonconvex optimization problem solved by CFGND — a hybrid fuzzy-logic + gradient-neural-dynamics algorithm combining population-based global search with local refinement. No LLM, retrieval, RAG, or agent component; domain is geophysics/drilling engineering with no drop-in applicability to AI production systems.
+### ⚪ [Alert System for Non-Responsive State of an Elderly Person] — Score 1/10
+> Classical computer vision pipeline (ORB + K-means + Random Forest + Farneback optical flow) for elderly healthcare monitoring (Mane et al., Vishwakarma Institute of Technology) — no LLM, embeddings, retrieval, or RAG component; pure domain-specific healthcare application not drop-in applicable to AI production systems.
 
 ## Previously Tracked (this run)
+
+### ⚪ [A Formation Inversion Algorithm Based on Collaborative Fuzzy Gradient Neural Dynamics for Natural Gamma Logging While Drilling] — Score 1/10
+> Domain-specific oil & gas drilling paper (Liu et al., Lanzhou University) framing geological formation inversion as a constrained nonconvex optimization problem solved by CFGND — a hybrid fuzzy-logic + gradient-neural-dynamics algorithm combining population-based global search with local refinement. No LLM, retrieval, RAG, or agent component; domain is geophysics/drilling engineering with no drop-in applicability to AI production systems.
 
 ### 🟡 [Analogical reasoning with large language models: a co-creative framework and benchmarking of LLMs in design ideation] — Score 6/10
 > LLM-driven co-creative agent (ALIA, Kokate et al., IIT) using structured synectics stages (problem identification → keyword exploration → cross-domain analogy excursion → dialectical conflict resolution) with real-time STT+summarization; LLM is the core engine but the domain is design ideation, not RAG/retrieval/evaluation — applicable with adaptation to multi-stage agent query expansion workflows.
