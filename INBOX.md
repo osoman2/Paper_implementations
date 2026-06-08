@@ -1,12 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-07 · 1 new paper(s) scored this run
+Last updated: 2026-06-08 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Alert System for Non-Responsive State of an Elderly Person] — Score 1/10
-> Classical computer vision pipeline (ORB + K-means + Random Forest + Farneback optical flow) for elderly healthcare monitoring (Mane et al., Vishwakarma Institute of Technology) — no LLM, embeddings, retrieval, or RAG component; pure domain-specific healthcare application not drop-in applicable to AI production systems.
+### ⚪ [Carbon-aware scheduling and distributionally robust optimization for cloud systems: forecasting, battery storage, and adaptive ambiguity refinement] — Score 2/10
+> Operations research paper applying DRO + CVaR + Benders decomposition to carbon-aware cloud job scheduling (Ruparel et al.); LSTM used only for electricity/carbon intensity time-series forecasting — no LLM, embeddings, RAG, or agent pipeline component; domain-specific cloud infrastructure green computing optimization with no drop-in applicability to AI engineering production systems.
 
 ## Previously Tracked (this run)
+
+### ⚪ [Alert System for Non-Responsive State of an Elderly Person] — Score 1/10
+> Classical computer vision pipeline (ORB + K-means + Random Forest + Farneback optical flow) for elderly healthcare monitoring (Mane et al., Vishwakarma Institute of Technology) — no LLM, embeddings, retrieval, or RAG component; pure domain-specific healthcare application not drop-in applicable to AI production systems.
 
 ### ⚪ [A Formation Inversion Algorithm Based on Collaborative Fuzzy Gradient Neural Dynamics for Natural Gamma Logging While Drilling] — Score 1/10
 > Domain-specific oil & gas drilling paper (Liu et al., Lanzhou University) framing geological formation inversion as a constrained nonconvex optimization problem solved by CFGND — a hybrid fuzzy-logic + gradient-neural-dynamics algorithm combining population-based global search with local refinement. No LLM, retrieval, RAG, or agent component; domain is geophysics/drilling engineering with no drop-in applicability to AI production systems.
