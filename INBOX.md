@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-08 · 1 new paper(s) scored this run
+Last updated: 2026-06-09 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Characterizing wind-dependent low-frequency ambient sound with ocean observatories initiative hydrophones] — Score 1/10
+> Domain-specific ocean acoustics paper (Ragland et al., Woods Hole Oceanographic Institution) using 8-year OOI hydrophone recordings to characterize wind-speed vs. low-frequency ambient sound relationships via piecewise regression across two seafloor sites — purely geophysical signal processing study with no LLM, embeddings, RAG, or agent pipeline component; oceanography domain with no drop-in applicability to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Carbon-aware scheduling and distributionally robust optimization for cloud systems: forecasting, battery storage, and adaptive ambiguity refinement] — Score 2/10
 > Operations research paper applying DRO + CVaR + Benders decomposition to carbon-aware cloud job scheduling (Ruparel et al.); LSTM used only for electricity/carbon intensity time-series forecasting — no LLM, embeddings, RAG, or agent pipeline component; domain-specific cloud infrastructure green computing optimization with no drop-in applicability to AI engineering production systems.
