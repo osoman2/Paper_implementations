@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-10 · 1 new paper(s) scored this run
+Last updated: 2026-06-11 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Optical Flow Enables Hand Tracking With EyeGlove Low-Cost Cameras in Confined Environments] — Score 1/10
+> Domain-specific computer vision hardware paper (Sun et al., University of Nottingham) presenting EyeGlove, a wearable finger-mounted dual-camera inspection system for confined industrial spaces (e.g., turbine engine cavities); uses Lucas-Kanade sparse optical flow for hand trajectory estimation and magnet-snapped stereo baseline calibration — no LLM, embeddings, RAG, or agent pipeline component; robotics/CV hardware domain with no drop-in applicability to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Terrestrial Cyborg Insects for Real-Life Applications] — Score 1/10
 > Domain-specific biorobotics review paper (Le et al., University of Queensland) cataloging locomotion control, onboard sensing, autonomous navigation, power systems, and real-world applications of cyborg insects (cockroaches, beetles, grasshoppers) equipped with electronic backpacks for search-and-rescue and hazard detection — no LLM, embeddings, RAG, or agent pipeline component; bioengineering/robotics domain with no drop-in applicability to AI engineering production systems.
