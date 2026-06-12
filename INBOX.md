@@ -1,10 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-11 · 1 new paper(s) scored this run
+Last updated: 2026-06-12 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [Optical Flow Enables Hand Tracking With EyeGlove Low-Cost Cameras in Confined Environments] — Score 1/10
-> Domain-specific computer vision hardware paper (Sun et al., University of Nottingham) presenting EyeGlove, a wearable finger-mounted dual-camera inspection system for confined industrial spaces (e.g., turbine engine cavities); uses Lucas-Kanade sparse optical flow for hand trajectory estimation and magnet-snapped stereo baseline calibration — no LLM, embeddings, RAG, or agent pipeline component; robotics/CV hardware domain with no drop-in applicability to AI engineering production systems.
+### ⚪ [A Flexible and Energy-Efficient Compute-in-Memory Accelerator for Kolmogorov–Arnold Networks] — Score 2/10
+> Hardware chip design paper (Sudarshan et al., Peter Grunberg Institute) introducing KA-CIM, a compute-in-memory accelerator purpose-built for Kolmogorov–Arnold Networks (KANs) using piecewise-linear function approximation and memristive 1T1R cells with RC-discharge sensing; reports ~2000× energy-delay improvement over CPU for KAN inference — domain-specific hardware/chip-design paper with no LLM, RAG, retrieval, or agent pipeline component; not drop-in applicable to AI engineering production systems.
 
 ## Previously Tracked (this run)
 
