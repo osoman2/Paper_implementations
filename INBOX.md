@@ -1,12 +1,18 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-12 · 1 new paper(s) scored this run
+Last updated: 2026-06-13 · 2 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### ⚪ [A Flexible and Energy-Efficient Compute-in-Memory Accelerator for Kolmogorov–Arnold Networks] — Score 2/10
-> Hardware chip design paper (Sudarshan et al., Peter Grunberg Institute) introducing KA-CIM, a compute-in-memory accelerator purpose-built for Kolmogorov–Arnold Networks (KANs) using piecewise-linear function approximation and memristive 1T1R cells with RC-discharge sensing; reports ~2000× energy-delay improvement over CPU for KAN inference — domain-specific hardware/chip-design paper with no LLM, RAG, retrieval, or agent pipeline component; not drop-in applicable to AI engineering production systems.
+### ⚪ [An automatic detection model for spread through air spaces in postoperative pathological sections based on deep learning in NSCLC] — Score 2/10
+> Domain-specific computational pathology paper (Zhang et al., Harbin Medical University) presenting STAS-Net, a two-stage pipeline combining DeepLabv3+ (5× tumor segmentation) and modified YOLOv7 (40× STAS detection with spatial-channel cross-attention and adaptive spatial feature fusion) for lung cancer air-space spread detection — no LLM, RAG, retrieval, or agent pipeline component; medical computer vision with no drop-in applicability to AI engineering production systems.
+
+### ⚪ [Optical Flow Enables Hand Tracking With EyeGlove Low-Cost Cameras in Confined Environments] — Score 1/10
+> Domain-specific industrial inspection hardware paper (Sun et al., University of Nottingham) introducing EyeGlove, a wearable finger-mounted dual-camera system using Lucas-Kanade sparse optical flow for hand tracking inside turbine engines — no LLM, embeddings, RAG, or agent pipeline component; robotics/hardware engineering with no drop-in applicability to AI engineering production systems.
 
 ## Previously Tracked (this run)
+
+### ⚪ [A Flexible and Energy-Efficient Compute-in-Memory Accelerator for Kolmogorov–Arnold Networks] — Score 2/10
+> Hardware chip design paper (Sudarshan et al., Peter Grunberg Institute) introducing KA-CIM, a compute-in-memory accelerator purpose-built for Kolmogorov–Arnold Networks (KANs) using piecewise-linear function approximation and memristive 1T1R cells with RC-discharge sensing; reports ~2000× energy-delay improvement over CPU for KAN inference — domain-specific hardware/chip-design paper with no LLM, RAG, retrieval, or agent pipeline component; not drop-in applicable to AI engineering production systems.
 
 ### ⚪ [Terrestrial Cyborg Insects for Real-Life Applications] — Score 1/10
 > Domain-specific biorobotics review paper (Le et al., University of Queensland) cataloging locomotion control, onboard sensing, autonomous navigation, power systems, and real-world applications of cyborg insects (cockroaches, beetles, grasshoppers) equipped with electronic backpacks for search-and-rescue and hazard detection — no LLM, embeddings, RAG, or agent pipeline component; bioengineering/robotics domain with no drop-in applicability to AI engineering production systems.
