@@ -1,7 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-13 · 2 new paper(s) scored this run
+Last updated: 2026-06-14 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🟡 [Concept drift detection in district heating: A characterization framework and detector-centric benchmark] — Score 5/10
+> Domain-specific concept drift benchmarking paper (Derzsi et al., RWTH Aachen University, Journal of Energy and AI, 2026) proposing a 4-stage characterization framework (data processing → representation → dissimilarity measurement → hypothesis testing) for systematically comparing drift detectors on district heating load forecasting data — no LLM, embeddings, or retrieval component; the framework is transferable to RAG pipeline drift monitoring but requires significant adaptation, and the evaluated detectors performed poorly even in the target domain.
+
+**POC idea:** Apply the 4-stage characterization framework to systematically evaluate and compare concept drift detectors for monitoring RAG pipeline performance degradation (embedding score drift, BM25 distribution shift, alpha drift over time).
+
+## Previously Tracked (this run)
 
 ### ⚪ [An automatic detection model for spread through air spaces in postoperative pathological sections based on deep learning in NSCLC] — Score 2/10
 > Domain-specific computational pathology paper (Zhang et al., Harbin Medical University) presenting STAS-Net, a two-stage pipeline combining DeepLabv3+ (5× tumor segmentation) and modified YOLOv7 (40× STAS detection with spatial-channel cross-attention and adaptive spatial feature fusion) for lung cancer air-space spread detection — no LLM, RAG, retrieval, or agent pipeline component; medical computer vision with no drop-in applicability to AI engineering production systems.
