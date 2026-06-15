@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-14 · 1 new paper(s) scored this run
+Last updated: 2026-06-15 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Scalable Platform Enabling Reservoir Computing With Nanoporous Oxide Memristors for Image Recognition and Time Series Prediction] — Score 2/10
+> Hardware neuromorphic computing paper (Donald et al., Loughborough University, Advanced Intelligent Systems, 2026) presenting a physical nanoporous niobium oxide memristor as a reservoir computing substrate for time-series prediction and image recognition — no LLM, RAG, retrieval, or agent pipeline component; domain-specific neuromorphic hardware engineering with no drop-in applicability to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### 🟡 [Concept drift detection in district heating: A characterization framework and detector-centric benchmark] — Score 5/10
 > Domain-specific concept drift benchmarking paper (Derzsi et al., RWTH Aachen University, Journal of Energy and AI, 2026) proposing a 4-stage characterization framework (data processing → representation → dissimilarity measurement → hypothesis testing) for systematically comparing drift detectors on district heating load forecasting data — no LLM, embeddings, or retrieval component; the framework is transferable to RAG pipeline drift monitoring but requires significant adaptation, and the evaluated detectors performed poorly even in the target domain.
