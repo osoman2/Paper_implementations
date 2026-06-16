@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-15 · 1 new paper(s) scored this run
+Last updated: 2026-06-16 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [A Scene-Adaptive Super-Resolution Framework for Video Compression] — Score 2/10
+> Domain-specific video compression paper (Zha et al., Jinan University, Journal of Imaging, 2026) proposing SASVC — a pipeline that downsamples video, encodes it with a standard codec, and reconstructs it at the receiver using a frozen SR backbone augmented with scene-adaptive LoRA-style adapter modules whose compressed deltas are transmitted as a side channel — no LLM, RAG, retrieval, or agent pipeline component; video-engineering technique not drop-in applicable to AI production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Scalable Platform Enabling Reservoir Computing With Nanoporous Oxide Memristors for Image Recognition and Time Series Prediction] — Score 2/10
 > Hardware neuromorphic computing paper (Donald et al., Loughborough University, Advanced Intelligent Systems, 2026) presenting a physical nanoporous niobium oxide memristor as a reservoir computing substrate for time-series prediction and image recognition — no LLM, RAG, retrieval, or agent pipeline component; domain-specific neuromorphic hardware engineering with no drop-in applicability to AI engineering production systems.
