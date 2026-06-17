@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-16 · 1 new paper(s) scored this run
+Last updated: 2026-06-17 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Predicting fishing vs. not-fishing in small-scale fisheries: A sample vessel tracking dataset and a reproducible machine learning approach] — Score 1/10
+> Domain-specific fisheries application (Lattanzi et al., Institute of Marine Biological Resources and Biotechnologies, SoftwareX, 2026) building a binary GPS-trajectory classifier (Logistic Regression, Decision Tree, Random Forest, XGBoost) to distinguish fishing from non-fishing vessel movement in small-scale fleets — no LLM, RAG, retrieval, or agent pipeline component; domain-specific marine biology / fisheries monitoring application not drop-in applicable to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [A Scene-Adaptive Super-Resolution Framework for Video Compression] — Score 2/10
 > Domain-specific video compression paper (Zha et al., Jinan University, Journal of Imaging, 2026) proposing SASVC — a pipeline that downsamples video, encodes it with a standard codec, and reconstructs it at the receiver using a frozen SR backbone augmented with scene-adaptive LoRA-style adapter modules whose compressed deltas are transmitted as a side channel — no LLM, RAG, retrieval, or agent pipeline component; video-engineering technique not drop-in applicable to AI production systems.
