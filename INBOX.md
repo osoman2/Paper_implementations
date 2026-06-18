@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-17 · 1 new paper(s) scored this run
+Last updated: 2026-06-18 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [DFL-RUL: Decentralized Federated Learning for Battery Remaining Useful Life Estimation on Heterogeneous Edge-to-cloud] — Score 2/10
+> Domain-specific EV battery degradation paper (Pournazari et al., University of Warwick, Energy and AI, 2026) building a decentralized federated LSTM system to estimate remaining battery life across heterogeneous edge-to-cloud clients using FedAvg aggregation — no LLM, RAG, retrieval, or agent pipeline component; domain-specific battery engineering with no drop-in applicability to AI production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Predicting fishing vs. not-fishing in small-scale fisheries: A sample vessel tracking dataset and a reproducible machine learning approach] — Score 1/10
 > Domain-specific fisheries application (Lattanzi et al., Institute of Marine Biological Resources and Biotechnologies, SoftwareX, 2026) building a binary GPS-trajectory classifier (Logistic Regression, Decision Tree, Random Forest, XGBoost) to distinguish fishing from non-fishing vessel movement in small-scale fleets — no LLM, RAG, retrieval, or agent pipeline component; domain-specific marine biology / fisheries monitoring application not drop-in applicable to AI engineering production systems.
