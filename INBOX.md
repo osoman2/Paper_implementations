@@ -1,7 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-18 · 1 new paper(s) scored this run
+Last updated: 2026-06-19 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🟡 [A relaxation approach to layerwise determination of learning rates in deep neural networks] — Score 6/10
+> Generic training optimization paper (Min et al., Ewha Womans University, Array, 2026) presenting a block-coordinate gradient descent framework where each layer gets its own learning rate via relaxed Lipschitz minimization — no direct LLM, RAG, retrieval, or agent pipeline component; training technique applicable with significant adaptation to LLM fine-tuning layer-wise LR scheduling (e.g., LoRA/PEFT).
+
+**POC idea:** Apply layerwise relaxed learning rates to LLM fine-tuning with LoRA adapters, benchmarking convergence vs. global learning rate schedules.
+
+## Previously Tracked (this run)
 
 ### ⚪ [DFL-RUL: Decentralized Federated Learning for Battery Remaining Useful Life Estimation on Heterogeneous Edge-to-cloud] — Score 2/10
 > Domain-specific EV battery degradation paper (Pournazari et al., University of Warwick, Energy and AI, 2026) building a decentralized federated LSTM system to estimate remaining battery life across heterogeneous edge-to-cloud clients using FedAvg aggregation — no LLM, RAG, retrieval, or agent pipeline component; domain-specific battery engineering with no drop-in applicability to AI production systems.
