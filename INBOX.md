@@ -1,12 +1,10 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-19 · 1 new paper(s) scored this run
+Last updated: 2026-06-20 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
 
-### 🟡 [A relaxation approach to layerwise determination of learning rates in deep neural networks] — Score 6/10
-> Generic training optimization paper (Min et al., Ewha Womans University, Array, 2026) presenting a block-coordinate gradient descent framework where each layer gets its own learning rate via relaxed Lipschitz minimization — no direct LLM, RAG, retrieval, or agent pipeline component; training technique applicable with significant adaptation to LLM fine-tuning layer-wise LR scheduling (e.g., LoRA/PEFT).
-
-**POC idea:** Apply layerwise relaxed learning rates to LLM fine-tuning with LoRA adapters, benchmarking convergence vs. global learning rate schedules.
+### ⚪ [Reference-free k-mer based dissimilarity measures for metagenomes comparison] — Score 1/10
+> Domain-specific bioinformatics paper (Gallina et al., University of Padova, Frontiers in Bioinformatics, 2026) testing whether Bray-Curtis and Jaccard dissimilarity metrics remain reliable when applied to reference-free k-mer profiles of metagenomic samples instead of species-count profiles — no LLM, RAG, retrieval, or agent pipeline component; pure metagenomics/ecology application with no drop-in applicability to AI engineering production systems.
 
 ## Previously Tracked (this run)
 
