@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-20 · 1 new paper(s) scored this run
+Last updated: 2026-06-21 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Visual navigation method for intelligent flight of highway inspection unmanned aerial vehicle] — Score 1/10
+> Domain-specific robotics/computer vision paper (Song et al., Inner Mongolia University of Technology, Machine Learning: Engineering, 2026) presenting UAV-YOLO — a YOLOv3-tiny-based perception-to-control pipeline combining anchor box reclustering, SPPCSP-M spatial pyramid pooling, spatial attention, CIOU-NMS, and DeepSORT tracking to autonomously fly a drone along highway centerlines for road inspection — no LLM, RAG, retrieval, or agent pipeline component; domain-specific autonomous UAV navigation with no drop-in applicability to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [Reference-free k-mer based dissimilarity measures for metagenomes comparison] — Score 1/10
 > Domain-specific bioinformatics paper (Gallina et al., University of Padova, Frontiers in Bioinformatics, 2026) testing whether Bray-Curtis and Jaccard dissimilarity metrics remain reliable when applied to reference-free k-mer profiles of metagenomic samples instead of species-count profiles — no LLM, RAG, retrieval, or agent pipeline component; pure metagenomics/ecology application with no drop-in applicability to AI engineering production systems.
