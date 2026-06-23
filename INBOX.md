@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-22 · 1 new paper(s) scored this run
+Last updated: 2026-06-23 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [ELY-SLAM: An efficient SLAM algorithm with lightweight YOLO-based collaborative perception] — Score 1/10
+> Domain-specific robotics/SLAM paper (Zhao et al., UCSI University, Array, 2026) proposing ELY-SLAM — a dynamic-environment SLAM framework layering LSR-YOLO bounding-box detection, Lucas-Kanade pyramidal optical flow, and PROSAC outlier rejection on top of ORB-SLAM3 to filter moving-object features before pose estimation — no LLM, embeddings, RAG, or retrieval pipeline component; pure robotics/computer-vision engineering with no drop-in applicability to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [No cancer left behind: a testbed and demonstration of concept for photoacoustic tumor bed inspection] — Score 1/10
 > Domain-specific surgical robotics / medical imaging paper (Connolly et al., Queen's University, Computer Assisted Surgery, 2026) presenting an experimental testbed combining a da Vinci robot, photoacoustic laser excitation, external ultrasound detection, RGB-D depth sensing, electromagnetic tracking, and 3D Slicer navigation to prototype and compare intraoperative tumor-bed inspection workflows — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific medical imaging engineering with no drop-in applicability to AI engineering production systems.
