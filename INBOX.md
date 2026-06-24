@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-23 · 1 new paper(s) scored this run
+Last updated: 2026-06-24 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Transfer learning for T-cell response prediction] — Score 2/10
+> Domain-specific bioinformatics/immunology paper (Stadelmaier et al., Eberhard Karls University of Tübingen, BMC Bioinformatics, 2026) building transformer-based models (BASE-T, ADA-T with adversarial domain adaptation, FINE-T with per-source fine-tuning) to predict T-cell immune responses to peptide sequences. Key contribution is a domain-aware evaluation scheme that detects shortcut learning by computing group-level AUC within peptide-source × MHC-allele strata — removing the ability to cheat by learning dataset composition instead of biology. The shortcut-learning detection framework has abstract relevance to LLM benchmark inflation, but the core domain (peptide immunogenicity, MHC binding) is purely medical and not drop-in applicable to AI engineering production systems.
+
+## Previously Tracked (this run)
 
 ### ⚪ [ELY-SLAM: An efficient SLAM algorithm with lightweight YOLO-based collaborative perception] — Score 1/10
 > Domain-specific robotics/SLAM paper (Zhao et al., UCSI University, Array, 2026) proposing ELY-SLAM — a dynamic-environment SLAM framework layering LSR-YOLO bounding-box detection, Lucas-Kanade pyramidal optical flow, and PROSAC outlier rejection on top of ORB-SLAM3 to filter moving-object features before pose estimation — no LLM, embeddings, RAG, or retrieval pipeline component; pure robotics/computer-vision engineering with no drop-in applicability to AI engineering production systems.
