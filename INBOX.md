@@ -1,7 +1,17 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-24 · 1 new paper(s) scored this run
+Last updated: 2026-06-25 · 2 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [GrepSeek: Direct Corpus Interaction — Hybrid Search for AI Agents] — Score 9/10
+> Drop-in applicable: DCI bypasses vector embeddings for exact-match retrieval (error codes, version constraints, file paths) while semantic retrieval handles broad recall — GrepSeek fuses both via RRF achieving nDCG@10=0.847 (+19% vs pure semantic RAG). Direct POC: implement a hybrid search demo with BM25 semantic layer + regex DCI layer + RRF fusion over a corpus containing both natural-language docs and exact identifiers.
+> **Source:** AlphaSignal newsletter deep-dive · 2026-05-31 · Scored via Gmail connector
+
+**POC idea:** Gradio demo with three search modes (semantic / DCI / hybrid) over a corpus of AI engineering documents — showing exactly where semantic search fails on exact strings and DCI recovers them.
+**Implemented:** Yes — `hf-space/grepseek_dci/` · Tab 12 in `hf-space/app.py` (2026-06-25)
+
+### ⚪ [Practical guidelines for multiple instance learning in computational pathology] — Score 2/10
+> Medical imaging paper (computational pathology) evaluating how embedding model choice affects survival prediction in multiple instance learning pipelines — no LLM, RAG, or retrieval pipeline component; domain-specific medical imaging with no drop-in applicability to AI engineering production systems.
 
 ### ⚪ [Transfer learning for T-cell response prediction] — Score 2/10
 > Domain-specific bioinformatics/immunology paper (Stadelmaier et al., Eberhard Karls University of Tübingen, BMC Bioinformatics, 2026) building transformer-based models (BASE-T, ADA-T with adversarial domain adaptation, FINE-T with per-source fine-tuning) to predict T-cell immune responses to peptide sequences. Key contribution is a domain-aware evaluation scheme that detects shortcut learning by computing group-level AUC within peptide-source × MHC-allele strata — removing the ability to cheat by learning dataset composition instead of biology. The shortcut-learning detection framework has abstract relevance to LLM benchmark inflation, but the core domain (peptide immunogenicity, MHC binding) is purely medical and not drop-in applicable to AI engineering production systems.

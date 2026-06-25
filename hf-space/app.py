@@ -13,6 +13,7 @@ Tabs:
   9. TopoMAS: LLM-Driven Topological Materials Multi-Agent System — score 8/10
  10. Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG Query Routing — score 8/10
  11. Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries — score 8/10
+ 12. GrepSeek DCI: Direct Corpus Interaction — Hybrid Search for AI Agents — score 9/10
 """
 
 import os
@@ -33,6 +34,17 @@ import numpy as np
 from hybrid_search.retriever import Document, SparseRetriever, DenseRetriever
 from hybrid_search.query_analyzer import QueryAnalyzer
 from hybrid_search.fusion import score_fusion, rrf_fusion
+
+# ---------------------------------------------------------------------------
+# Tab 12 — GrepSeek DCI: Direct Corpus Interaction
+# ---------------------------------------------------------------------------
+from grepseek_dci.engine import (
+    semantic_search as dci_semantic_search,
+    dci_search,
+    hybrid_search as dci_hybrid_search,
+    format_results_md,
+)
+from grepseek_dci.corpus import CORPUS as DCI_CORPUS
 
 CORPUS = [
     Document("d1",  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", {}),
@@ -2303,6 +2315,130 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "0.08+ → poorly calibrated. Compare ECE_normal vs ECE_extreme — "
                 "a large gap signals that your model's confidence is less trustworthy "
                 "precisely when the query is hardest."
+            )
+
+        # ------------------------------------------------------------------
+        # Tab 12 — GrepSeek DCI
+        # ------------------------------------------------------------------
+        with gr.Tab("🖥️ GrepSeek DCI"):
+            gr.Markdown(
+                "## GrepSeek: Direct Corpus Interaction — Hybrid Search for AI Agents\n"
+                "**Paper source:** AlphaSignal deep-dive · 2026-05-31 · Score 🔴 9/10\n\n"
+                "### Why RAG fails on exact strings\n"
+                "Traditional RAG pipelines embed documents into vectors. This blurs exact "
+                "identifiers: error codes (`OOM_CODE_0x4F5E`), version constraints "
+                "(`transformers>=4.36.0`), alert IDs (`ALERT-INC-2892`). "
+                "An AI agent debugging a production incident needs **exact** lookup, not semantic "
+                "similarity.\n\n"
+                "**Direct Corpus Interaction (DCI)** bypasses embeddings and uses regex/grep "
+                "directly over raw document text — the same way a human developer would. "
+                "**GrepSeek** extends DCI with RL-based navigation and sharded-parallel execution "
+                "for **7.6× throughput** improvement.\n\n"
+                "**Hybrid** = semantic retrieval (broad recall) + DCI (precision) fused via RRF:\n"
+                "> `score(d) = Σ 1 / (60 + rank_i(d))`\n\n"
+                "| Method | nDCG@10 |\n"
+                "|--------|---------|\n"
+                "| Pure semantic RAG | 0.712 |\n"
+                "| Pure BM25 keyword | 0.763 |\n"
+                "| GrepSeek DCI only | 0.781 |\n"
+                "| **GrepSeek Hybrid (DCI + semantic + RRF)** | **0.847** |"
+            )
+
+            with gr.Row():
+                with gr.Column(scale=3):
+                    dci_query_txt = gr.Textbox(
+                        label="Semantic query",
+                        placeholder="e.g.  memory error in embedding worker",
+                        lines=1,
+                    )
+                    dci_pattern_txt = gr.Textbox(
+                        label="DCI / grep pattern  (regex, optional — defaults to query if empty)",
+                        placeholder="e.g.  OOM_CODE_0x4F5E",
+                        lines=1,
+                    )
+                    with gr.Row():
+                        dci_mode_radio = gr.Radio(
+                            ["Semantic", "DCI / Grep", "Hybrid"],
+                            value="Hybrid",
+                            label="Search mode",
+                        )
+                        dci_topk = gr.Slider(1, 12, value=5, step=1, label="Top-K")
+                    dci_btn = gr.Button("Search", variant="primary")
+
+                with gr.Column(scale=2):
+                    gr.Markdown("### Corpus preview")
+                    corpus_preview_md = "\n".join(
+                        f"- **[{d.metadata.get('type','').upper()}]** {d.text[:80]}…"
+                        for d in DCI_CORPUS
+                    )
+                    gr.Markdown(corpus_preview_md)
+
+            gr.Markdown("---")
+            with gr.Tabs():
+                with gr.Tab("🔀 Active mode result"):
+                    dci_main_out = gr.Markdown()
+                with gr.Tab("🧠 Semantic only"):
+                    dci_sem_out = gr.Markdown()
+                with gr.Tab("🖥️ DCI / Grep only"):
+                    dci_dci_out = gr.Markdown()
+
+            gr.Examples(
+                examples=[
+                    ["memory error embedding worker",     "OOM_CODE_0x4F5E",       "Hybrid"],
+                    ["rate limit exceeded API",           "ALERT.*C7742|HTTP 429",  "Hybrid"],
+                    ["version constraint transformers",   "transformers>=",         "DCI / Grep"],
+                    ["how does hybrid search work",       "",                       "Semantic"],
+                    ["incident alert vector db timeout",  "ALERT-INC-2892",        "Hybrid"],
+                    ["OOM_CODE_0x4F5E",                   "OOM_CODE_0x4F5E",       "DCI / Grep"],
+                ],
+                inputs=[dci_query_txt, dci_pattern_txt, dci_mode_radio],
+                label="Example queries — try semantic-only then DCI-only to see the difference",
+            )
+
+            def _dci_run(query: str, pattern: str, mode: str, top_k: int):
+                if not query.strip() and not pattern.strip():
+                    msg = "_Enter a query or grep pattern._"
+                    return msg, msg, msg
+
+                pat = pattern.strip() or query.strip()
+
+                if mode == "Semantic":
+                    sem_r = dci_semantic_search(query, top_k=top_k)
+                    dci_r = []
+                    main_r = sem_r
+                elif mode == "DCI / Grep":
+                    sem_r = []
+                    dci_r = dci_search(pat, top_k=top_k)
+                    main_r = dci_r
+                else:
+                    sem_r = dci_semantic_search(query, top_k=top_k)
+                    dci_r = dci_search(pat, top_k=top_k)
+                    main_r = dci_hybrid_search(query, pat, top_k=top_k)
+
+                highlight = pat if mode != "Semantic" else query
+                return (
+                    format_results_md(main_r, highlight),
+                    format_results_md(sem_r, query) if sem_r else "_Not used._",
+                    format_results_md(dci_r, pat)   if dci_r else "_Not used._",
+                )
+
+            dci_btn.click(
+                fn=_dci_run,
+                inputs=[dci_query_txt, dci_pattern_txt, dci_mode_radio, dci_topk],
+                outputs=[dci_main_out, dci_sem_out, dci_dci_out],
+            )
+            dci_query_txt.submit(
+                fn=_dci_run,
+                inputs=[dci_query_txt, dci_pattern_txt, dci_mode_radio, dci_topk],
+                outputs=[dci_main_out, dci_sem_out, dci_dci_out],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight:** Semantic search finds documents _about_ memory errors; "
+                "DCI finds documents _containing_ `OOM_CODE_0x4F5E`. Hybrid retrieves both, "
+                "ranked by RRF. This is the core of the GrepSeek paper: give agents a "
+                "terminal, not just a vector database."
             )
 
 if __name__ == "__main__":
