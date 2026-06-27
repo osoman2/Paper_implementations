@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-26 · 2 new paper(s) scored this run
+Last updated: 2026-06-27 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Mitigating data incompleteness in additive manufacturing using imputation techniques] — Score 2/10
+> Domain-specific manufacturing engineering paper (Mojumder et al., Washington State University, Machine Learning: Engineering, 2026) benchmarking ten data imputation techniques (mean, median, mode, kNN, MICE, SVD, random forest, GMMs, XGBoost, VAEs) on laser powder bed fusion additive manufacturing datasets with controlled missing-data scenarios — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific materials-science imputation study with no drop-in applicability to AI engineering production systems.
+
+## Previously Scanned (2026-06-26)
 
 ### ⚪ [A hierarchical Bayesian approach for predictive analytics of depression severity in medical students] — Score 2/10
 > Domain-specific healthcare analytics paper (Chen et al., Dartmouth College, Healthcare Analytics, 2026) applying hierarchical Bayesian regression with partial pooling to predict PHQ-9 depression-severity scores in medical students using Healthy Minds survey covariates — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific medical/statistical modeling not drop-in applicable to AI engineering production systems.
