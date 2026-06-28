@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-27 · 1 new paper(s) scored this run
+Last updated: 2026-06-28 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Detecting Uncoded Self-Harm in Veterans' Electronic Health Records Using Positive and Unlabeled Learning: Retrospective Cohort Study] — Score 2/10
+> Domain-specific medical informatics paper (Kumar et al., University of New Mexico Health Sciences Center, Journal of Medical Internet Research, 2026) applying Positive Unlabeled (PU) Learning via the PULSNAR algorithm (XGBoost-based classifier with biased-sample correction and subgroup clustering) to detect undercoded self-harm events in Veterans Health Administration electronic health records — no LLM, RAG, retrieval, or agent pipeline component; PU learning framing has abstract relevance to training-data annotation problems but the core domain is clinical informatics not drop-in applicable to AI engineering production systems.
+
+## Previously Scanned (2026-06-27)
 
 ### ⚪ [Mitigating data incompleteness in additive manufacturing using imputation techniques] — Score 2/10
 > Domain-specific manufacturing engineering paper (Mojumder et al., Washington State University, Machine Learning: Engineering, 2026) benchmarking ten data imputation techniques (mean, median, mode, kNN, MICE, SVD, random forest, GMMs, XGBoost, VAEs) on laser powder bed fusion additive manufacturing datasets with controlled missing-data scenarios — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific materials-science imputation study with no drop-in applicability to AI engineering production systems.
