@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-28 · 1 new paper(s) scored this run
+Last updated: 2026-06-29 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Towards an MLOps infrastructure for Elastic Pattern experimentation] — Score 3/10
+> MLOps platform paper (Rodriguez-Cardos et al., University of Castilla-La Mancha, SoftwareX, 2026) presenting an Airflow + MLflow + Docker pipeline that auto-generates and runs the 84 parameter-grid configurations of Elastic Pattern classifiers (7 feature representations × 3 aggregation strategies × 4 deformation methods) in parallel, logging results for cross-configuration comparison — no LLM, RAG, retrieval, or agent pipeline component; the MLOps orchestration pattern (Airflow DAGs + MLflow tracking) is generic and well-established, domain is a niche cognitive-psychology-inspired classification framework with no drop-in applicability to AI engineering production systems.
+
+## Previously Scanned (2026-06-28)
 
 ### ⚪ [Detecting Uncoded Self-Harm in Veterans' Electronic Health Records Using Positive and Unlabeled Learning: Retrospective Cohort Study] — Score 2/10
 > Domain-specific medical informatics paper (Kumar et al., University of New Mexico Health Sciences Center, Journal of Medical Internet Research, 2026) applying Positive Unlabeled (PU) Learning via the PULSNAR algorithm (XGBoost-based classifier with biased-sample correction and subgroup clustering) to detect undercoded self-harm events in Veterans Health Administration electronic health records — no LLM, RAG, retrieval, or agent pipeline component; PU learning framing has abstract relevance to training-data annotation problems but the core domain is clinical informatics not drop-in applicable to AI engineering production systems.
