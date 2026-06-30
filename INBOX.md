@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-29 · 1 new paper(s) scored this run
+Last updated: 2026-06-30 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Bayesian deep learning for uncertainty aware medical image segmentation correction and feature engineering: Applications to OCT imaging] — Score 3/10
+> Domain-specific medical imaging paper (Ball et al., University of Liverpool, Informatics in Medicine Unlocked, 2026) modifying a U-Net segmentation pipeline for OCT retinal imaging to output per-pixel epistemic and aleatoric uncertainty maps via Bayesian weight sampling (64 MC-dropout forward passes) — no LLM, RAG, retrieval, or agent pipeline component; uncertainty quantification concepts (epistemic vs aleatoric) have abstract applicability to RAG confidence calibration but the implementation is entirely domain-specific ophthalmology with no drop-in applicability to AI engineering production systems.
+
+## Previously Scanned (2026-06-29)
 
 ### ⚪ [Towards an MLOps infrastructure for Elastic Pattern experimentation] — Score 3/10
 > MLOps platform paper (Rodriguez-Cardos et al., University of Castilla-La Mancha, SoftwareX, 2026) presenting an Airflow + MLflow + Docker pipeline that auto-generates and runs the 84 parameter-grid configurations of Elastic Pattern classifiers (7 feature representations × 3 aggregation strategies × 4 deformation methods) in parallel, logging results for cross-configuration comparison — no LLM, RAG, retrieval, or agent pipeline component; the MLOps orchestration pattern (Airflow DAGs + MLflow tracking) is generic and well-established, domain is a niche cognitive-psychology-inspired classification framework with no drop-in applicability to AI engineering production systems.
