@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-06-30 · 1 new paper(s) scored this run
+Last updated: 2026-07-01 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [An automated analytics approach for diabetic retinopathy detection with ensemble deep learning models in healthcare] — Score 2/10
+> Domain-specific medical imaging paper (Khandakar et al., University of Barishal, Healthcare Analytics, 2026) presenting an ensemble feature-fusion pipeline combining ResNet18, Xception, DenseNet201, and InceptionV3 backbones (ReXDen / ReXInDen configurations) for binary diabetic retinopathy classification on retinal fundus photographs — no LLM, RAG, retrieval, or agent pipeline component; pure ophthalmology/clinical-CV application with no drop-in applicability to AI engineering production systems.
+
+## Previously Scanned (2026-06-30)
 
 ### ⚪ [Bayesian deep learning for uncertainty aware medical image segmentation correction and feature engineering: Applications to OCT imaging] — Score 3/10
 > Domain-specific medical imaging paper (Ball et al., University of Liverpool, Informatics in Medicine Unlocked, 2026) modifying a U-Net segmentation pipeline for OCT retinal imaging to output per-pixel epistemic and aleatoric uncertainty maps via Bayesian weight sampling (64 MC-dropout forward passes) — no LLM, RAG, retrieval, or agent pipeline component; uncertainty quantification concepts (epistemic vs aleatoric) have abstract applicability to RAG confidence calibration but the implementation is entirely domain-specific ophthalmology with no drop-in applicability to AI engineering production systems.
