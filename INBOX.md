@@ -1,7 +1,12 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-02 · 1 new paper(s) scored this run
+Last updated: 2026-07-03 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Data-driven discovery of meteotsunami patterns from sparse observations] — Score 1/10
+> Domain-specific oceanography/geophysics paper (Fauzi et al., Northumbria University, Environmental Data Science, 2026) applying Dynamic Mode Decomposition (DMD) for optimal offshore sensor placement and Optimal Interpolation data assimilation to reconstruct meteotsunami wavefields from sparse buoy observations — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific geophysics/ocean-science application with no drop-in applicability to AI engineering production systems.
+
+## Previously Scanned (2026-07-02)
 
 ### ⚪ [Looking around: comparing eye-tracking metrics among designers with and without ADHD during convergent and divergent thinking tasks] — Score 2/10
 > Domain-specific cognitive psychology paper (Kimball et al., Lafayette College, Design Science, 2026) comparing eye-tracking metrics (saccade frequency, fixation duration, latent pupil diameter) between engineering students with and without ADHD during divergent and convergent design-thinking tasks via ANOVA — no LLM, RAG, retrieval, or agent pipeline component; pure cognitive psychology/UX application with no drop-in applicability to AI engineering production systems.
