@@ -14,6 +14,7 @@ Tabs:
  10. Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG Query Routing — score 8/10
  11. Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries — score 8/10
  12. GrepSeek DCI: Direct Corpus Interaction — Hybrid Search for AI Agents — score 9/10
+ 13. DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG — score 8/10
 """
 
 import os
@@ -45,6 +46,16 @@ from grepseek_dci.engine import (
     format_results_md,
 )
 from grepseek_dci.corpus import CORPUS as DCI_CORPUS
+
+# ---------------------------------------------------------------------------
+# Tab 13 — DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG
+# ---------------------------------------------------------------------------
+from deepseek_lattice_kg.query_engine import (
+    kg_rag_search,
+    bm25_search,
+    build_graph_data,
+)
+from deepseek_lattice_kg.knowledge_graph import Edge as KGEdge
 
 CORPUS = [
     Document("d1",  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", {}),
@@ -1517,7 +1528,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |\n"
         "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |\n"
         "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |\n"
-        "| Extreme Event AI: Reliability Calibration for RAG | 🔴 8/10 | Extreme Event AI |"
+        "| Extreme Event AI: Reliability Calibration for RAG | 🔴 8/10 | Extreme Event AI |\n"
+        "| GrepSeek DCI: Hybrid Search for AI Agents | 🔴 9/10 | GrepSeek DCI |\n"
+        "| DeepSeek-Lattice-KG: Knowledge Graph RAG | 🔴 8/10 | KG-RAG |"
     )
 
     with gr.Tabs():
@@ -2439,6 +2452,161 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "DCI finds documents _containing_ `OOM_CODE_0x4F5E`. Hybrid retrieves both, "
                 "ranked by RRF. This is the core of the GrepSeek paper: give agents a "
                 "terminal, not just a vector database."
+            )
+
+        # ── Tab 13: DeepSeek-Lattice-KG — Knowledge Graph RAG ────────────────
+        with gr.Tab("🧠 KG-RAG"):
+            gr.Markdown(
+                "## DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG\n"
+                "**Paper: Shu et al., Xi'an Jiaotong University, MGE Advances 2026 — Score 8/10**\n\n"
+                "The paper fine-tunes DeepSeek-R1-14B on domain text, then augments it with a **Neo4j "
+                "knowledge graph** built from 50,000 publications. At inference, user queries become "
+                "**Cypher graph queries** that retrieve a relevant *subgraph* of entity-relationship "
+                "triples — not just similar text chunks. This structured context raises accuracy from "
+                "71.7% (base LLM) → 82.9% (fine-tune alone) → **94.8%** (fine-tune + KG).\n\n"
+                "**RAG applicability:** The NL → Cypher → subgraph → LLM context pipeline is "
+                "domain-agnostic. Below: compare plain BM25 retrieval vs KG-RAG on the same query "
+                "over an AI engineering knowledge graph."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=3):
+                    kg_query = gr.Textbox(
+                        label="Query",
+                        placeholder="e.g. 'how does KG-RAG reduce hallucination?' or 'explain hybrid search'",
+                        lines=2,
+                    )
+                with gr.Column(scale=1):
+                    kg_hops = gr.Slider(1, 2, value=1, step=1, label="Graph hops")
+
+            gr.Examples(
+                examples=[
+                    ["how does KG-RAG reduce hallucination?"],
+                    ["explain hybrid search and its components"],
+                    ["what is the difference between fine-tuning and RAG?"],
+                    ["how are embedding models used in dense retrieval?"],
+                    ["why does hallucination happen and how to fix it?"],
+                ],
+                inputs=kg_query,
+                label="Example queries",
+            )
+
+            kg_btn = gr.Button("Run KG-RAG vs BM25", variant="primary")
+
+            with gr.Row():
+                with gr.Column():
+                    kg_entities_md = gr.Markdown(label="Extracted Entities + Cypher Queries")
+                with gr.Column():
+                    kg_bm25_md = gr.Markdown(label="Plain BM25 Results")
+
+            kg_context_md = gr.Markdown(label="KG-RAG Retrieved Subgraph Context")
+            kg_graph_img = gr.Plot(label="Subgraph Visualization")
+
+            def _kg_run(query: str, hops: int):
+                if not query.strip():
+                    return "_Enter a query._", "_Enter a query._", "_Enter a query._", None
+
+                # KG-RAG pipeline
+                entities, cyphers, sub_nodes, sub_edges, context = kg_rag_search(query, hops=hops)
+
+                # Entity + Cypher display
+                ent_lines = ["### Extracted Entities\n"]
+                for e in entities:
+                    ent_lines.append(f"- **{e}**")
+                ent_lines.append("\n### Generated Cypher Queries\n")
+                for c in cyphers:
+                    ent_lines.append(f"```cypher\n{c}\n```\n")
+                ent_md = "\n".join(ent_lines)
+
+                # BM25 baseline
+                bm25_results = bm25_search(query, top_k=4)
+                bm25_lines = ["### BM25 Results (plain text retrieval)\n"]
+                for title, text, score in bm25_results:
+                    bm25_lines.append(f"**{title}** (score: {score:.3f})\n> {text[:120]}…\n")
+                bm25_md = "\n".join(bm25_lines)
+
+                # Subgraph visualization
+                fig = _draw_subgraph(entities, sub_nodes, sub_edges)
+
+                return ent_md, bm25_md, context, fig
+
+            def _draw_subgraph(
+                anchor_entities: list[str],
+                sub_nodes: set[str],
+                sub_edges: list[KGEdge],
+            ):
+                fig, ax = plt.subplots(figsize=(10, 7))
+                ax.set_facecolor("#0f1117")
+                fig.patch.set_facecolor("#0f1117")
+
+                if not sub_nodes:
+                    ax.text(0.5, 0.5, "No subgraph to display", ha="center", va="center",
+                            color="white", transform=ax.transAxes)
+                    return fig
+
+                nodes = list(sub_nodes)
+                n = len(nodes)
+                idx = {name: i for i, name in enumerate(nodes)}
+
+                # circular layout
+                angles = [2 * np.pi * i / n for i in range(n)]
+                xs = [np.cos(a) for a in angles]
+                ys = [np.sin(a) for a in angles]
+
+                # draw edges
+                for e in sub_edges:
+                    if e.src in idx and e.dst in idx:
+                        x0, y0 = xs[idx[e.src]], ys[idx[e.src]]
+                        x1, y1 = xs[idx[e.dst]], ys[idx[e.dst]]
+                        ax.annotate(
+                            "", xy=(x1, y1), xytext=(x0, y0),
+                            arrowprops=dict(arrowstyle="->", color="#555", lw=1.0,
+                                            connectionstyle="arc3,rad=0.1"),
+                        )
+                        mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+                        ax.text(mx, my, e.rel, fontsize=6, color="#aaa", ha="center",
+                                va="center", style="italic")
+
+                # draw nodes
+                for name in nodes:
+                    i = idx[name]
+                    color = "#e74c3c" if name in anchor_entities else "#3498db"
+                    ax.scatter(xs[i], ys[i], s=800, c=color, zorder=3, alpha=0.9)
+                    ax.text(xs[i], ys[i] + 0.12, name, fontsize=8, ha="center",
+                            va="bottom", color="white", fontweight="bold",
+                            bbox=dict(boxstyle="round,pad=0.2", fc="#1a1a2e", ec="none", alpha=0.7))
+
+                ax.set_xlim(-1.5, 1.5)
+                ax.set_ylim(-1.5, 1.5)
+                ax.axis("off")
+                ax.set_title(
+                    "Retrieved Subgraph  (🔴 = query entity · 🔵 = neighbor)",
+                    color="white", fontsize=11, pad=12,
+                )
+                fig.tight_layout()
+                return fig
+
+            kg_btn.click(
+                fn=_kg_run,
+                inputs=[kg_query, kg_hops],
+                outputs=[kg_entities_md, kg_bm25_md, kg_context_md, kg_graph_img],
+            )
+            kg_query.submit(
+                fn=_kg_run,
+                inputs=[kg_query, kg_hops],
+                outputs=[kg_entities_md, kg_bm25_md, kg_context_md, kg_graph_img],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight from the paper:** Plain RAG retrieves similar *documents*; "
+                "KG-RAG retrieves *entity relationships* — it knows that `KG-RAG --reduces--> Hallucination` "
+                "because that edge exists in the graph, not just because the words appear near each other. "
+                "The 71.7% → 94.8% jump shows that structured relational context adds information "
+                "that dense-vector similarity alone cannot recover.\n\n"
+                "**Pattern:** NL query → entity extraction → Cypher → subgraph → structured context → LLM. "
+                "This pipeline is domain-agnostic: swap the lattice-materials KG for your domain's KG "
+                "(legal entities, product catalog, code API graph) and the architecture is identical."
             )
 
 if __name__ == "__main__":

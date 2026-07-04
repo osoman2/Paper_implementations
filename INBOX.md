@@ -1,7 +1,16 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-03 · 1 new paper(s) scored this run
+Last updated: 2026-07-04 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [DeepSeek-Lattice-KG: A Compact Language Model With Knowledge Graph Augmentation for Lattice Structure Design] — Score 8/10
+> Drop-in applicable KG-RAG architecture: fine-tunes DeepSeek-R1-14B on domain data via PEFT, then augments at inference with a Neo4j knowledge graph (50K papers, hundreds of thousands of entity-relationship triples) — user queries are converted to Cypher graph queries, retrieve a relevant subgraph of typed entity relationships, and inject structured context into the LLM; raises accuracy 71.7% (base) → 82.9% (fine-tune alone) → 94.8% (fine-tune + KG); the NL→Cypher→subgraph→LLM pipeline is domain-agnostic and directly applicable to any domain-specific production RAG system.
+> **Source:** AlphaSignal newsletter deep-dive · 2026-07-04 · Scored via Gmail connector
+
+**POC idea:** Gradio demo showing KG-RAG vs plain BM25 on an AI engineering knowledge graph — entity extraction → Cypher-like query → subgraph retrieval with relationship-aware context vs flat text similarity — with subgraph visualization.
+**Implemented:** Yes — `hf-space/deepseek_lattice_kg/` · Tab 13 in `hf-space/app.py` (2026-07-04)
+
+## Previously Scanned (2026-07-03)
 
 ### ⚪ [Data-driven discovery of meteotsunami patterns from sparse observations] — Score 1/10
 > Domain-specific oceanography/geophysics paper (Fauzi et al., Northumbria University, Environmental Data Science, 2026) applying Dynamic Mode Decomposition (DMD) for optimal offshore sensor placement and Optimal Interpolation data assimilation to reconstruct meteotsunami wavefields from sparse buoy observations — no LLM, RAG, retrieval, or agent pipeline component; pure domain-specific geophysics/ocean-science application with no drop-in applicability to AI engineering production systems.
