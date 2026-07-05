@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-04 · 1 new paper(s) scored this run
+Last updated: 2026-07-05 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [LEPA: Low-Overhead and Efficient Privacy-Preserving Authentication Scheme in VANETs] — Score 2/10
+> Domain-specific vehicular networking paper (Moni et al., Embry Riddle Aeronautical University, Network, 2026) combining Merkle Hash Trees and Cuckoo filters to replace per-pseudonym CRL revocation lists in VANETs — groups a vehicle's pseudonym pool into a Merkle tree, stores only the root fingerprint in a Cuckoo filter, reducing revocation storage from 525 GB to 50 MB for 4M vehicles; no LLM, RAG, retrieval, or agent component; pure network security engineering not drop-in applicable to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-05 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-04)
 
 ### 🔴 [DeepSeek-Lattice-KG: A Compact Language Model With Knowledge Graph Augmentation for Lattice Structure Design] — Score 8/10
 > Drop-in applicable KG-RAG architecture: fine-tunes DeepSeek-R1-14B on domain data via PEFT, then augments at inference with a Neo4j knowledge graph (50K papers, hundreds of thousands of entity-relationship triples) — user queries are converted to Cypher graph queries, retrieve a relevant subgraph of typed entity relationships, and inject structured context into the LLM; raises accuracy 71.7% (base) → 82.9% (fine-tune alone) → 94.8% (fine-tune + KG); the NL→Cypher→subgraph→LLM pipeline is domain-agnostic and directly applicable to any domain-specific production RAG system.
