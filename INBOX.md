@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-05 · 1 new paper(s) scored this run
+Last updated: 2026-07-06 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Credit card fraud classification using applied machine learning – a comparative study of 24 machine learning algorithms] — Score 2/10
+> Traditional ML classification benchmark (Amamba et al., Kent State University, Journal of Advanced Engineering and Computation, 2026) presenting an "Adaptive Data Handling Framework" combining stratified splits, imbalance-aware weighting, and domain-informed feature selection tested across 24 classifiers (logistic regression, SVMs, Naive Bayes variants, bi/trilayered neural networks) on a credit-card fraud dataset — no LLM, RAG, retrieval, or agent pipeline component; class-imbalance handling (SMOTE, cost-sensitive weighting, stratified splits) and feature selection have abstract relevance to ML pipeline hygiene but the system is pure domain-specific fraud-detection ML with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-06 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-05)
 
 ### ⚪ [LEPA: Low-Overhead and Efficient Privacy-Preserving Authentication Scheme in VANETs] — Score 2/10
 > Domain-specific vehicular networking paper (Moni et al., Embry Riddle Aeronautical University, Network, 2026) combining Merkle Hash Trees and Cuckoo filters to replace per-pseudonym CRL revocation lists in VANETs — groups a vehicle's pseudonym pool into a Merkle tree, stores only the root fingerprint in a Cuckoo filter, reducing revocation storage from 525 GB to 50 MB for 4M vehicles; no LLM, RAG, retrieval, or agent component; pure network security engineering not drop-in applicable to AI engineering production systems.
