@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-06 · 1 new paper(s) scored this run
+Last updated: 2026-07-07 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Foundation model for screening severe mitral regurgitation and severe aortic stenosis from coronary angiograms] — Score 2/10
+> Domain-specific cardiology paper (Zhang et al., Chinese PLA General Hospital, Visual Computing for Industry, Biomedicine, and Art, 2026) building a video foundation model (ViT-12, 768d, spatiotemporal cube tokenization + momentum encoder) pre-trained on unlabeled angiography clips and fine-tuned with a MLP head to produce binary yes/no classifications for severe aortic stenosis and severe mitral regurgitation from routine coronary angiogram video — no LLM, RAG, retrieval, or agent pipeline component; video ViT architecture concepts are generic but the domain is pure clinical cardiology not drop-in applicable to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-07 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-06)
 
 ### ⚪ [Credit card fraud classification using applied machine learning – a comparative study of 24 machine learning algorithms] — Score 2/10
 > Traditional ML classification benchmark (Amamba et al., Kent State University, Journal of Advanced Engineering and Computation, 2026) presenting an "Adaptive Data Handling Framework" combining stratified splits, imbalance-aware weighting, and domain-informed feature selection tested across 24 classifiers (logistic regression, SVMs, Naive Bayes variants, bi/trilayered neural networks) on a credit-card fraud dataset — no LLM, RAG, retrieval, or agent pipeline component; class-imbalance handling (SMOTE, cost-sensitive weighting, stratified splits) and feature selection have abstract relevance to ML pipeline hygiene but the system is pure domain-specific fraud-detection ML with no drop-in applicability to AI engineering production systems.
