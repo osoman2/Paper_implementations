@@ -1,7 +1,20 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-07 · 1 new paper(s) scored this run
+Last updated: 2026-07-08 · 2 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [Self-Harness & HarnessX: Why self-improving harnesses are the next frontier for AI developers] — Score 9/10
+> Drop-in applicable agent harness optimization: Self-Harness (Shanghai AI Lab) enables agents to autonomously rewrite operating rules via a 3-stage loop (weakness mining from failure traces → harness proposal → regression-validated injection), boosting pass rates 33–60% on Terminal-Bench-2.0; HarnessX (Xiaomi Darwin Agent Team) treats the agent as a composable 9-component behavior pipeline (context assembly, memory, tools, control flow, observability) with an AEGIS RL optimizer that dynamically searches for better component combinations — 9B Qwen model: 33% → 47% on GAIA benchmark; both frameworks are domain-agnostic and directly applicable to any production AI agent pipeline.
+> **Source:** AlphaSignal newsletter deep-dive · 2026-07-05 · Scored via Gmail connector
+
+**POC idea:** Gradio demo simulating the Self-Harness 3-stage loop: run task batch → mine failure patterns → propose rule injections → validate with regression tests → show before/after pass rate improvement by task category.
+**Implemented:** Yes — `hf-space/self_harness/` · Tab 14 in `hf-space/app.py` (2026-07-08)
+
+### ⚪ [Leveraging a Passive MRAM Crossbar for Hardware-in-the-Loop and Continual learning] — Score 2/10
+> Hardware neuromorphic computing paper (Drouhin et al., Spin-ion Technologies, IEEE Journal on Exploratory Solid-State Computational Devices and Circuits, 2026) demonstrating that a passive MRAM crossbar array (magnetic tunnel junctions at grid intersections) can serve as a physical substrate for binary neural network inference, hardware-in-the-loop training (HIL loop: program weights → measure conductances → feed back into training), and simple continual learning with metaplasticity — no LLM, RAG, retrieval, or agent pipeline component; domain-specific neuromorphic hardware engineering with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-08 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-07)
 
 ### ⚪ [Foundation model for screening severe mitral regurgitation and severe aortic stenosis from coronary angiograms] — Score 2/10
 > Domain-specific cardiology paper (Zhang et al., Chinese PLA General Hospital, Visual Computing for Industry, Biomedicine, and Art, 2026) building a video foundation model (ViT-12, 768d, spatiotemporal cube tokenization + momentum encoder) pre-trained on unlabeled angiography clips and fine-tuned with a MLP head to produce binary yes/no classifications for severe aortic stenosis and severe mitral regurgitation from routine coronary angiogram video — no LLM, RAG, retrieval, or agent pipeline component; video ViT architecture concepts are generic but the domain is pure clinical cardiology not drop-in applicable to AI engineering production systems.

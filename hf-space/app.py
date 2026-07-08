@@ -15,6 +15,7 @@ Tabs:
  11. Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries — score 8/10
  12. GrepSeek DCI: Direct Corpus Interaction — Hybrid Search for AI Agents — score 9/10
  13. DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG — score 8/10
+ 14. Self-Harness: Self-Improving AI Agent Harness (Self-Harness + HarnessX) — score 9/10
 """
 
 import os
@@ -56,6 +57,17 @@ from deepseek_lattice_kg.query_engine import (
     build_graph_data,
 )
 from deepseek_lattice_kg.knowledge_graph import Edge as KGEdge
+
+# ---------------------------------------------------------------------------
+# Tab 14 — Self-Harness: Self-Improving AI Agent Harness
+# ---------------------------------------------------------------------------
+from self_harness import (
+    BaseHarness,
+    HarnessRule,
+    TASK_LIBRARY,
+    HarnessOptimizer,
+)
+from self_harness.harness import BUILTIN_RULES
 
 CORPUS = [
     Document("d1",  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", {}),
@@ -1530,7 +1542,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |\n"
         "| Extreme Event AI: Reliability Calibration for RAG | 🔴 8/10 | Extreme Event AI |\n"
         "| GrepSeek DCI: Hybrid Search for AI Agents | 🔴 9/10 | GrepSeek DCI |\n"
-        "| DeepSeek-Lattice-KG: Knowledge Graph RAG | 🔴 8/10 | KG-RAG |"
+        "| DeepSeek-Lattice-KG: Knowledge Graph RAG | 🔴 8/10 | KG-RAG |\n"
+        "| Self-Harness & HarnessX: Self-Improving Agent Harness | 🔴 9/10 | Self-Harness |"
     )
 
     with gr.Tabs():
@@ -2607,6 +2620,271 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Pattern:** NL query → entity extraction → Cypher → subgraph → structured context → LLM. "
                 "This pipeline is domain-agnostic: swap the lattice-materials KG for your domain's KG "
                 "(legal entities, product catalog, code API graph) and the architecture is identical."
+            )
+
+        # ── Tab 14: Self-Harness — Self-Improving AI Agent Harness ───────────
+        with gr.Tab("🔄 Self-Harness"):
+            gr.Markdown(
+                "## Self-Harness & HarnessX: Self-Improving AI Agent Harnesses\n"
+                "**Source: AlphaSignal deep-dive · 2026-07-05 · Score 9/10**\n\n"
+                "Two complementary frameworks for autonomous harness evolution without human intervention:\n\n"
+                "- **Self-Harness** (Shanghai AI Lab): 3-stage loop — **(1) Weakness Mining** collects "
+                "failure traces, **(2) Harness Proposal** generates targeted rule injections, "
+                "**(3) Proposal Validation** regression-tests changes before promoting them. "
+                "Boosts pass rates **33–60%** on Terminal-Bench-2.0.\n"
+                "- **HarnessX** (Xiaomi Darwin Agent Team): Treats the agent as a 9-component behavior "
+                "pipeline (context assembly, memory, tools, control flow…). AEGIS optimizer uses RL to "
+                "search for better component combinations. 9B model: 33% → 47% on GAIA benchmark.\n\n"
+                "**Why this matters for AI engineering:** Manual harness engineering breaks when you swap "
+                "models or encounter edge cases. Self-improving harnesses adapt automatically — the model "
+                "analyzes its own crash logs and rewrites its operating rules."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=2):
+                    sh_task_selector = gr.CheckboxGroup(
+                        choices=[f"{t.id}: {t.description}" for t in TASK_LIBRARY],
+                        value=[f"{t.id}: {t.description}" for t in TASK_LIBRARY[:10]],
+                        label="Task batch to run (select tasks for the agent)",
+                    )
+                with gr.Column(scale=1):
+                    sh_initial_rules = gr.CheckboxGroup(
+                        choices=[f"{r.id}: {r.description}" for r in BUILTIN_RULES],
+                        value=[],
+                        label="Initial harness rules (active before optimization)",
+                    )
+                    sh_top_k = gr.Slider(1, 4, value=2, step=1, label="Top-K failure patterns to fix")
+                    sh_seed = gr.Slider(0, 99, value=42, step=1, label="Random seed")
+
+            sh_btn = gr.Button("▶ Run Self-Harness Loop (3 stages)", variant="primary")
+
+            with gr.Tabs():
+                with gr.Tab("Stage 1: Weakness Mining"):
+                    sh_mining_out = gr.Markdown(label="Mining Results")
+                with gr.Tab("Stage 2: Harness Proposal"):
+                    sh_proposal_out = gr.Markdown(label="Proposed Rule Injections")
+                with gr.Tab("Stage 3: Validation"):
+                    sh_validation_out = gr.Markdown(label="Before vs After Validation")
+                with gr.Tab("Execution Traces"):
+                    sh_traces_out = gr.Markdown(label="Sample Execution Traces")
+                with gr.Tab("Performance Chart"):
+                    sh_chart_out = gr.Plot(label="Pass Rate: Before vs After")
+
+            gr.Examples(
+                examples=[
+                    [
+                        [f"{t.id}: {t.description}" for t in TASK_LIBRARY[:10]],
+                        [],
+                        2, 42
+                    ],
+                    [
+                        [f"{t.id}: {t.description}" for t in TASK_LIBRARY if t.category == "api"],
+                        ["R01: File existence check"],
+                        2, 7
+                    ],
+                    [
+                        [f"{t.id}: {t.description}" for t in TASK_LIBRARY],
+                        [],
+                        3, 99
+                    ],
+                ],
+                inputs=[sh_task_selector, sh_initial_rules, sh_top_k, sh_seed],
+                label="Preset scenarios",
+            )
+
+            def _sh_run(selected_tasks_str, initial_rules_str, top_k, seed):
+                selected_ids = set()
+                for s in selected_tasks_str:
+                    tid = s.split(":")[0].strip()
+                    selected_ids.add(tid)
+
+                active_rule_ids = [s.split(":")[0].strip() for s in initial_rules_str]
+
+                tasks = [t for t in TASK_LIBRARY if t.id in selected_ids]
+                if not tasks:
+                    return "_Select at least one task._", "", "", "", None
+
+                harness = BaseHarness(active_rule_ids=active_rule_ids)
+                optimizer = HarnessOptimizer(top_k_patterns=int(top_k))
+                loop = optimizer.run_full_loop(tasks, harness, seed=int(seed))
+
+                mining = loop["mining"]
+                proposal = loop["proposal"]
+                before_results = loop["before_results"]
+                after_results = loop["after_results"]
+
+                # Stage 1: Weakness Mining
+                if not mining.top_patterns:
+                    mining_md = f"### ✅ No significant failures detected\n\nPass rate: {1 - mining.failure_rate:.1%} · Total failures: {mining.total_failures}/{mining.total_tasks}"
+                else:
+                    fail_rows = "\n".join(
+                        f"| `{p}` | {c} | {c/max(mining.total_tasks,1):.0%} |"
+                        for p, c in sorted(mining.failure_counts.items(), key=lambda x: -x[1])
+                    )
+                    mining_md = (
+                        f"### Weakness Mining Results\n\n"
+                        f"**Total tasks:** {mining.total_tasks} · "
+                        f"**Failures:** {mining.total_failures} · "
+                        f"**Failure rate:** {mining.failure_rate:.1%}\n\n"
+                        f"| Failure Pattern | Count | Rate |\n"
+                        f"|----------------|-------|------|\n"
+                        f"{fail_rows}\n\n"
+                        f"**Top patterns to fix:** {', '.join(f'`{p}`' for p in mining.top_patterns)}\n\n"
+                        f"**Sample failure traces:**\n"
+                        + "\n".join(f"> {t}" for t in mining.trace_snippets[:3])
+                    )
+
+                # Stage 2: Harness Proposal
+                if not proposal.proposed_rule_ids:
+                    proposal_md = (
+                        "### ✅ No new rules needed\n\n"
+                        "The current harness already covers all detected failure patterns, "
+                        "or no rules in the library match the observed failures."
+                    )
+                else:
+                    improved_harness = harness.clone_with_rules(proposal.proposed_rule_ids)
+                    rule_rows = "\n".join(
+                        f"| `{rid}` | {harness.all_rules[rid].description} | {proposal.rationale.get(rid, '')} |"
+                        for rid in proposal.proposed_rule_ids
+                        if rid in harness.all_rules
+                    )
+                    prompt_before = harness.build_system_prompt()
+                    prompt_after = improved_harness.build_system_prompt()
+                    proposal_md = (
+                        f"### Proposed Rule Injections\n\n"
+                        f"**{len(proposal.proposed_rule_ids)} rule(s) proposed** for injection:\n\n"
+                        f"| Rule ID | Description | Rationale |\n"
+                        f"|---------|-------------|----------|\n"
+                        f"{rule_rows}\n\n"
+                        f"**Estimated pass-rate lift:** +{proposal.estimated_pass_rate_delta:.1%}\n\n"
+                        f"<details><summary>System prompt before injection</summary>\n\n"
+                        f"```\n{prompt_before}\n```\n</details>\n\n"
+                        f"<details><summary>System prompt after injection</summary>\n\n"
+                        f"```\n{prompt_after}\n```\n</details>"
+                    )
+
+                # Stage 3: Validation
+                delta = proposal.validation_pass_rate_after - proposal.validation_pass_rate_before
+                regression_icon = "✅" if proposal.regression_safe else "⚠️"
+                accept_icon = "✅ ACCEPTED" if (delta > 0 and proposal.regression_safe) else "❌ REJECTED"
+                val_rows = []
+                for br, ar in zip(before_results, after_results):
+                    b_icon = "✅" if br.passed else "❌"
+                    a_icon = "✅" if ar.passed else "❌"
+                    change = "⬆️" if (not br.passed and ar.passed) else ("⬇️" if (br.passed and not ar.passed) else "➡️")
+                    val_rows.append(
+                        f"| {br.task.id} | {b_icon} | {a_icon} | {change} | `{br.task.failure_pattern}` |"
+                    )
+                val_table = (
+                    "| Task | Before | After | Change | Failure Pattern |\n"
+                    "|------|--------|-------|--------|-----------------|\n"
+                    + "\n".join(val_rows)
+                )
+                val_md = (
+                    f"### Validation Results\n\n"
+                    f"| Metric | Value |\n"
+                    f"|--------|-------|\n"
+                    f"| Pass rate **before** | {proposal.validation_pass_rate_before:.1%} |\n"
+                    f"| Pass rate **after** | {proposal.validation_pass_rate_after:.1%} |\n"
+                    f"| Improvement | **{delta:+.1%}** |\n"
+                    f"| Regression check | {regression_icon} {'safe' if proposal.regression_safe else 'REGRESSIONS DETECTED'} |\n"
+                    f"| Decision | **{accept_icon}** |\n\n"
+                    f"{val_table}"
+                )
+
+                # Traces
+                before_fails = [r for r in before_results if not r.passed]
+                traces_md = "### Sample Execution Traces\n\n"
+                traces_md += "**Before optimization (failures):**\n"
+                for r in before_fails[:5]:
+                    traces_md += f"> `{r.task.id}` {r.execution_trace}\n\n"
+                after_fixed = [r for br, r in zip(before_results, after_results) if not br.passed and r.passed]
+                if after_fixed:
+                    traces_md += "\n**After optimization (fixed tasks):**\n"
+                    for r in after_fixed[:5]:
+                        traces_md += f"> `{r.task.id}` {r.execution_trace}\n\n"
+
+                # Chart
+                fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+                fig.patch.set_facecolor("#f9f9f9")
+
+                # Bar chart: before/after by category
+                from collections import defaultdict
+                cat_before = defaultdict(list)
+                cat_after  = defaultdict(list)
+                for br, ar in zip(before_results, after_results):
+                    cat_before[br.task.category].append(br.passed)
+                    cat_after[ar.task.category].append(ar.passed)
+
+                cats = sorted(cat_before.keys())
+                x = np.arange(len(cats))
+                w = 0.35
+                b_rates = [np.mean(cat_before[c]) for c in cats]
+                a_rates = [np.mean(cat_after[c])  for c in cats]
+
+                ax = axes[0]
+                bars_b = ax.bar(x - w/2, b_rates, w, label="Before", color="#EF5350", alpha=0.85)
+                bars_a = ax.bar(x + w/2, a_rates, w, label="After",  color="#4CAF50", alpha=0.85)
+                ax.set_xticks(x)
+                ax.set_xticklabels(cats, rotation=20, ha="right", fontsize=9)
+                ax.set_ylim(0, 1.05)
+                ax.set_ylabel("Pass rate")
+                ax.set_title("Pass Rate by Task Category", fontsize=11)
+                ax.axhline(proposal.validation_pass_rate_before, color="#EF5350", linewidth=1.0,
+                           linestyle="--", alpha=0.5, label=f"Overall before ({proposal.validation_pass_rate_before:.0%})")
+                ax.axhline(proposal.validation_pass_rate_after,  color="#4CAF50", linewidth=1.0,
+                           linestyle="--", alpha=0.5, label=f"Overall after ({proposal.validation_pass_rate_after:.0%})")
+                ax.legend(fontsize=8)
+                ax.grid(True, axis="y", alpha=0.3)
+                for bar, v in zip(bars_b, b_rates):
+                    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                            f"{v:.0%}", ha="center", va="bottom", fontsize=7)
+                for bar, v in zip(bars_a, a_rates):
+                    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                            f"{v:.0%}", ha="center", va="bottom", fontsize=7)
+
+                # Failure pattern coverage
+                ax2 = axes[1]
+                all_patterns = sorted(set(t.failure_pattern for t in tasks))
+                pattern_before = [
+                    np.mean([br.passed for br in before_results if br.task.failure_pattern == p] or [0])
+                    for p in all_patterns
+                ]
+                pattern_after = [
+                    np.mean([ar.passed for ar in after_results if ar.task.failure_pattern == p] or [0])
+                    for p in all_patterns
+                ]
+                xp = np.arange(len(all_patterns))
+                ax2.barh([p.replace("_", " ") for p in all_patterns], pattern_before,
+                         height=0.35, left=xp*0, color="#EF5350", alpha=0.85, label="Before")
+                ax2.barh([p.replace("_", " ") for p in all_patterns], pattern_after,
+                         height=0.35, left=[0]*len(all_patterns), color="#4CAF50", alpha=0.5, label="After")
+                ax2.set_xlim(0, 1.05)
+                ax2.set_xlabel("Pass rate")
+                ax2.set_title("Pass Rate by Failure Pattern", fontsize=11)
+                ax2.legend(fontsize=8)
+                ax2.grid(True, axis="x", alpha=0.3)
+
+                plt.tight_layout()
+
+                return mining_md, proposal_md, val_md, traces_md, fig
+
+            sh_btn.click(
+                fn=_sh_run,
+                inputs=[sh_task_selector, sh_initial_rules, sh_top_k, sh_seed],
+                outputs=[sh_mining_out, sh_proposal_out, sh_validation_out, sh_traces_out, sh_chart_out],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Self-Harness paper):** Manual harness engineering is brittle — "
+                "a system prompt built for GPT-4 breaks on Claude, and vice versa. Self-Harness "
+                "automates the fix cycle: run → mine failures → propose rule → validate → inject. "
+                "The same loop that boosted pass rates 33–60% on Terminal-Bench-2.0 can improve any "
+                "production AI agent pipeline without human intervention.\n\n"
+                "**HarnessX insight:** Treating the agent as a composable behavior pipeline (not monolithic code) "
+                "lets AEGIS swap processors like Lego blocks — the same 9B model went from 33% → 47% on GAIA "
+                "just by restructuring its memory and tool components, with no fine-tuning."
             )
 
 if __name__ == "__main__":
