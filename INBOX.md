@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-08 · 2 new paper(s) scored this run
+Last updated: 2026-07-09 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [A modular framework for integrating gender-specific requirements into product development] — Score 1/10
+> Domain-specific product design paper (van Remmen et al., University of Erlangen-Nuremberg, Design Science, 2026) presenting a 5-module procedural framework for translating gender-specific anthropometric and ergonomic user needs into product development requirements — no LLM, RAG, retrieval, or agent pipeline component; pure product design methodology with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-09 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-08)
 
 ### 🔴 [Self-Harness & HarnessX: Why self-improving harnesses are the next frontier for AI developers] — Score 9/10
 > Drop-in applicable agent harness optimization: Self-Harness (Shanghai AI Lab) enables agents to autonomously rewrite operating rules via a 3-stage loop (weakness mining from failure traces → harness proposal → regression-validated injection), boosting pass rates 33–60% on Terminal-Bench-2.0; HarnessX (Xiaomi Darwin Agent Team) treats the agent as a composable 9-component behavior pipeline (context assembly, memory, tools, control flow, observability) with an AEGIS RL optimizer that dynamically searches for better component combinations — 9B Qwen model: 33% → 47% on GAIA benchmark; both frameworks are domain-agnostic and directly applicable to any production AI agent pipeline.
