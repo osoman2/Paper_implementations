@@ -1,7 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-09 · 1 new paper(s) scored this run
+Last updated: 2026-07-10 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🟡 [The ballad of LLM agents: philosophical reasoning for chemistry] — Score 6/10
+> Philosophy-inspired system-prompt scaffolds (7 prompts modeled after Socrates, Aristotle, Plato, Descartes, Hume, Kant, Hegel) improve LLM performance on ChemBench by 4–21 percentage points without fine-tuning, RAG, or tool use — pure prompt-level reasoning enhancement; the domain-agnostic scaffolding technique is applicable with adaptation to prompt optimisation for any LLM pipeline, but the specific prompts are chemistry-tuned and the gains are uneven across models and task types.
+> **Source:** JournalClub.io newsletter · 2026-07-10 · Scored via Gmail connector
+
+**POC idea:** Multi-philosopher prompt comparison demo where the same AI engineering question (e.g. RAG query decomposition or agent task planning) is routed through all 7 philosopher scaffolds in parallel, then judged for reasoning quality and completeness.
+
+## Previously Scanned (2026-07-09)
 
 ### ⚪ [A modular framework for integrating gender-specific requirements into product development] — Score 1/10
 > Domain-specific product design paper (van Remmen et al., University of Erlangen-Nuremberg, Design Science, 2026) presenting a 5-module procedural framework for translating gender-specific anthropometric and ergonomic user needs into product development requirements — no LLM, RAG, retrieval, or agent pipeline component; pure product design methodology with no drop-in applicability to AI engineering production systems.
