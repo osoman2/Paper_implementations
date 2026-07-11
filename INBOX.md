@@ -1,7 +1,17 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-10 · 1 new paper(s) scored this run
+Last updated: 2026-07-11 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery] — Score 8/10
+> Domain-specific BERT encoder (ElementBERT) trained on >1M alloy-science abstracts learns latent element relationships beyond periodic-table descriptors — usage patterns, alloy family co-occurrence, phase associations. Element embeddings are composition-weighted to represent alloys as feature vectors, then fed to downstream ML (Ridge, Random Forest, GP, MLP) for property regression (up to 23% error reduction), phase classification, and Bayesian composition optimization. The *entity-embedding → composition aggregation → downstream model* pattern maps directly to domain-specific RAG architecture: specialized encoder + entity retrieval + weighted aggregation + LLM.
+> **Source:** JournalClub.io newsletter · 2026-07-11 · Scored via Gmail connector
+> **Morning Brief scores:** Novedad 8 · Impacto práctico 7 · Esfuerzo implementación 6 · Veredicto: LEER
+
+**POC idea:** Gradio demo showing alloy composition input → ElementBERT-style composition embeddings → property prediction (UTS, hardness, density), PCA visualization of element embedding space colored by alloy family, and cosine similarity heatmap between user-selected elements.
+**Implemented:** Yes — `hf-space/element_bert/` · Tab 15 in `hf-space/app.py` (2026-07-11)
+
+## Previously Scanned (2026-07-10)
 
 ### 🟡 [The ballad of LLM agents: philosophical reasoning for chemistry] — Score 6/10
 > Philosophy-inspired system-prompt scaffolds (7 prompts modeled after Socrates, Aristotle, Plato, Descartes, Hume, Kant, Hegel) improve LLM performance on ChemBench by 4–21 percentage points without fine-tuning, RAG, or tool use — pure prompt-level reasoning enhancement; the domain-agnostic scaffolding technique is applicable with adaptation to prompt optimisation for any LLM pipeline, but the specific prompts are chemistry-tuned and the gains are uneven across models and task types.

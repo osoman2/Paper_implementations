@@ -59,6 +59,19 @@ from deepseek_lattice_kg.query_engine import (
 from deepseek_lattice_kg.knowledge_graph import Edge as KGEdge
 
 # ---------------------------------------------------------------------------
+# Tab 15 — ElementBERT: Domain-Specific Element Embeddings for Materials Inference
+# ---------------------------------------------------------------------------
+from element_bert import (
+    ELEMENTS as EB_ELEMENTS,
+    get_element_embedding,
+    get_composition_embedding,
+    element_similarity_matrix,
+    pca_2d,
+    AlloyPredictor,
+    EXAMPLE_ALLOYS,
+)
+
+# ---------------------------------------------------------------------------
 # Tab 14 — Self-Harness: Self-Improving AI Agent Harness
 # ---------------------------------------------------------------------------
 from self_harness import (
@@ -2885,6 +2898,212 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**HarnessX insight:** Treating the agent as a composable behavior pipeline (not monolithic code) "
                 "lets AEGIS swap processors like Lego blocks — the same 9B model went from 33% → 47% on GAIA "
                 "just by restructuring its memory and tool components, with no fine-tuning."
+            )
+
+        # ── Tab 15: ElementBERT — Domain-Specific Element Embeddings ─────────
+        with gr.Tab("⚗️ ElementBERT"):
+            gr.Markdown(
+                "## ElementBERT: Domain-Specific Element Embeddings for Materials Inference\n"
+                "**Source: JournalClub.io · 2026-07-11 · Score 8/10**\n\n"
+                "**Paper:** *Semantic Embeddings of Chemical Elements for Enhanced Materials "
+                "Inference and Discovery* (Jia et al., Xi'an Jiaotong University, "
+                "Materials Genome Engineering Advances, 2026).\n\n"
+                "**Core idea:** Train a BERT-style encoder (*ElementBERT*) on >1M alloy-science "
+                "abstracts. The model learns latent relationships between elements — not just atomic "
+                "radius or electronegativity, but *usage patterns*: that Ti appears with lightweight "
+                "aerospace alloys, Ni appears with superalloys and shape-memory materials, etc. "
+                "These 384-dim embeddings are then composition-weighted to represent full alloys "
+                "and fed into downstream ML for property regression, phase classification, and "
+                "Bayesian optimization. Reported improvements: up to **23% reduction in prediction error**.\n\n"
+                "**Why this matters for AI engineering:** The pattern — *domain-specific encoder → "
+                "entity-level embeddings → composition-weighted aggregation → downstream model* — "
+                "is the same architecture as domain-specific RAG: specialized encoder + entity "
+                "retrieval + context aggregation + LLM. The technique is directly applicable to "
+                "building better embedding models for any specialized knowledge domain."
+            )
+
+            with gr.Row():
+                with gr.Column(scale=1):
+                    gr.Markdown("### Alloy Composition Input")
+                    gr.Markdown(
+                        "Enter element symbols and weight fractions. "
+                        "Fractions need not sum to 1 (they will be normalized).\n\n"
+                        f"**Supported elements:** {', '.join(EB_ELEMENTS)}"
+                    )
+                    eb_elem_boxes = {}
+                    common_elems = ["Ti", "Ni", "Al", "Fe", "Cr", "Co", "Mo", "V", "Nb", "Zr", "Cu"]
+                    for sym in common_elems:
+                        eb_elem_boxes[sym] = gr.Slider(
+                            0.0, 1.0, value=0.0, step=0.01,
+                            label=f"{sym} fraction",
+                        )
+
+                    eb_preset = gr.Dropdown(
+                        choices=[a["name"] for a in EXAMPLE_ALLOYS],
+                        label="Or load a preset alloy",
+                        value=None,
+                    )
+                    eb_btn = gr.Button("▶ Compute Embeddings & Predict Properties", variant="primary")
+
+                with gr.Column(scale=2):
+                    gr.Markdown("### Property Predictions")
+                    eb_props_out = gr.Markdown(label="Predicted properties")
+
+                    gr.Markdown("### Embedding Visualizations")
+                    with gr.Tabs():
+                        with gr.Tab("Element Space (PCA)"):
+                            eb_pca_plot = gr.Plot(label="PCA of element embeddings")
+                        with gr.Tab("Element Similarity Heatmap"):
+                            eb_sim_plot = gr.Plot(label="Cosine similarity heatmap")
+                        with gr.Tab("Composition Vector"):
+                            eb_comp_plot = gr.Plot(label="Composition embedding vs selected elements")
+
+            def _load_preset(preset_name: str) -> list:
+                alloy = next((a for a in EXAMPLE_ALLOYS if a["name"] == preset_name), None)
+                if alloy is None:
+                    return [0.0] * len(common_elems)
+                comp = alloy["composition"]
+                return [comp.get(s, 0.0) for s in common_elems]
+
+            def _eb_run(*args) -> tuple:
+                fracs = {sym: float(args[i]) for i, sym in enumerate(common_elems)}
+                active = {s: f for s, f in fracs.items() if f > 0}
+
+                if not active:
+                    msg = "⚠️ Please set at least one element fraction > 0."
+                    empty = plt.figure()
+                    plt.close(empty)
+                    return msg, empty, empty, empty
+
+                predictor = AlloyPredictor()
+                preds = predictor.predict(active)
+
+                # Property predictions markdown
+                props_md = "| Property | Predicted Value |\n|---|---|\n"
+                for key, label in predictor.property_labels.items():
+                    val = preds[key]
+                    props_md += f"| {label} | **{val:.1f}** |\n"
+                props_md += (
+                    "\n_Predictions are approximate — the model is trained on "
+                    "~12 example alloys to illustrate the ElementBERT pipeline, "
+                    "not for production materials design._"
+                )
+
+                # ── PCA plot ─────────────────────────────────────────────────
+                syms, coords = pca_2d()
+                fig_pca, ax = plt.subplots(figsize=(8, 6))
+                fig_pca.patch.set_facecolor("#f9f9f9")
+
+                # Color by domain cluster (lightweight/superalloy/steel/refractory/other)
+                _cluster_colors = {
+                    "lightweight":  "#4CAF50",
+                    "superalloy":   "#FF9800",
+                    "steel":        "#2196F3",
+                    "refractory":   "#9C27B0",
+                    "other":        "#9E9E9E",
+                }
+                _clusters = {
+                    "Ti": "lightweight", "Al": "lightweight", "Zr": "lightweight",
+                    "Ni": "superalloy",  "Co": "superalloy",  "Re": "superalloy", "Ru": "superalloy",
+                    "Fe": "steel",       "Cr": "steel",       "Mn": "steel",
+                    "W":  "refractory",  "Mo": "refractory",  "Nb": "refractory", "Ta": "refractory", "Hf": "refractory",
+                }
+                for sym, (x, y) in zip(syms, coords):
+                    cluster = _clusters.get(sym, "other")
+                    color = _cluster_colors[cluster]
+                    size = 120 if sym in active else 60
+                    ax.scatter(x, y, c=color, s=size,
+                               edgecolors="black" if sym in active else "none",
+                               linewidths=1.5, zorder=3)
+                    ax.annotate(sym, (x, y), fontsize=9, ha="center", va="bottom",
+                                xytext=(0, 4), textcoords="offset points", fontweight="bold")
+
+                from matplotlib.patches import Patch
+                legend_elements = [Patch(facecolor=c, label=k.capitalize())
+                                   for k, c in _cluster_colors.items()]
+                ax.legend(handles=legend_elements, fontsize=8, loc="best")
+                ax.set_title("ElementBERT Embedding Space (PCA projection)\n"
+                             "Black rings = elements in your composition", fontsize=11)
+                ax.set_xlabel("PC 1")
+                ax.set_ylabel("PC 2")
+                ax.grid(True, alpha=0.3)
+                plt.tight_layout()
+
+                # ── Similarity heatmap ────────────────────────────────────────
+                heat_syms = sorted(active.keys()) if len(active) > 1 else EB_ELEMENTS[:12]
+                _, sim = element_similarity_matrix(heat_syms)
+                fig_sim, ax2 = plt.subplots(figsize=(8, 6))
+                fig_sim.patch.set_facecolor("#f9f9f9")
+                im = ax2.imshow(sim, cmap="RdYlGn", vmin=0, vmax=1)
+                plt.colorbar(im, ax=ax2, label="Cosine similarity")
+                ax2.set_xticks(range(len(heat_syms)))
+                ax2.set_yticks(range(len(heat_syms)))
+                ax2.set_xticklabels(heat_syms, rotation=45, ha="right")
+                ax2.set_yticklabels(heat_syms)
+                for i in range(len(heat_syms)):
+                    for j in range(len(heat_syms)):
+                        ax2.text(j, i, f"{sim[i, j]:.2f}", ha="center", va="center",
+                                 fontsize=8, color="black" if 0.3 < sim[i, j] < 0.8 else "white")
+                ax2.set_title("ElementBERT Cosine Similarity\n"
+                              "(active composition elements, or first 12 if single-element)", fontsize=11)
+                plt.tight_layout()
+
+                # ── Composition vector bar chart ──────────────────────────────
+                comp_emb = get_composition_embedding(active)
+                fig_comp, ax3 = plt.subplots(figsize=(9, 4))
+                fig_comp.patch.set_facecolor("#f9f9f9")
+                dims = range(len(comp_emb))
+                bars = ax3.bar(dims, comp_emb, color=[
+                    "#4CAF50" if v > 0 else "#EF5350" for v in comp_emb
+                ], alpha=0.8)
+                ax3.axhline(0, color="black", linewidth=0.8)
+                ax3.set_xlabel("Embedding dimension")
+                ax3.set_ylabel("Normalised value")
+                ax3.set_title(
+                    f"Composition Embedding — {', '.join(f'{s}:{f:.0%}' for s, f in active.items())}\n"
+                    "(weighted average of element embeddings, L2-normalised)", fontsize=10
+                )
+                ax3.grid(True, axis="y", alpha=0.3)
+                plt.tight_layout()
+
+                return props_md, fig_pca, fig_sim, fig_comp
+
+            # Wire preset loader
+            eb_preset.change(
+                fn=_load_preset,
+                inputs=[eb_preset],
+                outputs=[eb_elem_boxes[s] for s in common_elems],
+            )
+
+            eb_btn.click(
+                fn=_eb_run,
+                inputs=[eb_elem_boxes[s] for s in common_elems],
+                outputs=[eb_props_out, eb_pca_plot, eb_sim_plot, eb_comp_plot],
+            )
+
+            gr.Examples(
+                examples=[
+                    [0.90, 0.0, 0.06, 0.0, 0.0, 0.0, 0.0, 0.04, 0.0, 0.0, 0.0],  # Ti-6Al-4V
+                    [0.0, 0.52, 0.0, 0.19, 0.19, 0.0, 0.03, 0.0, 0.05, 0.0, 0.0],  # Inconel 718
+                    [0.0, 0.0, 0.0, 0.68, 0.17, 0.0, 0.025, 0.0, 0.0, 0.0, 0.0],  # 316L SS (simplified)
+                    [0.0, 0.20, 0.0, 0.20, 0.20, 0.20, 0.0, 0.0, 0.0, 0.0, 0.0],  # Cantor HEA
+                    [0.0, 0.55, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],     # Nitinol (Ni-Ti)
+                ],
+                inputs=[eb_elem_boxes[s] for s in common_elems],
+                label="Preset Examples (click row then ▶)",
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (ElementBERT paper):** Periodic table descriptors tell you *what an "
+                "element is* (radius, electronegativity, melting point). Literature-trained embeddings "
+                "tell you *how researchers use it* — which alloy families it appears in, which phases "
+                "it stabilizes, which processing routes it tolerates. That second kind of knowledge "
+                "reduces property-prediction error by up to 23% vs. empirical descriptors alone.\n\n"
+                "**Transfer to AI engineering:** The same pattern — *domain-specific BERT → entity "
+                "embeddings → composition-weighted aggregation → downstream prediction* — maps directly "
+                "to domain-specific RAG: fine-tune an encoder on your domain corpus, embed your "
+                "knowledge entities, retrieve and aggregate by relevance weight, feed to LLM."
             )
 
 if __name__ == "__main__":
