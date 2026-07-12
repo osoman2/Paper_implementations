@@ -16,6 +16,8 @@ Tabs:
  12. GrepSeek DCI: Direct Corpus Interaction — Hybrid Search for AI Agents — score 9/10
  13. DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG — score 8/10
  14. Self-Harness: Self-Improving AI Agent Harness (Self-Harness + HarnessX) — score 9/10
+ 15. ElementBERT: Domain-Specific Element Embeddings for Materials Inference — score 8/10
+ 16. HuntGPT: RAG Anomaly Detection with XAI + Conversational Assistant — score 8/10
 """
 
 import os
@@ -57,6 +59,20 @@ from deepseek_lattice_kg.query_engine import (
     build_graph_data,
 )
 from deepseek_lattice_kg.knowledge_graph import Edge as KGEdge
+
+# ---------------------------------------------------------------------------
+# Tab 16 — HuntGPT: RAG Anomaly Detection with XAI + LLM Assistant
+# ---------------------------------------------------------------------------
+from hunt_gpt import (
+    RAGQueryRecord,
+    classify_query,
+    explain as huntgpt_explain,
+    generate_analysis,
+    answer_question,
+    FEATURE_NAMES as HG_FEATURE_NAMES,
+    FEATURE_DESCRIPTIONS as HG_FEATURE_DESC,
+    get_detector as huntgpt_get_detector,
+)
 
 # ---------------------------------------------------------------------------
 # Tab 15 — ElementBERT: Domain-Specific Element Embeddings for Materials Inference
@@ -3104,6 +3120,234 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "embeddings → composition-weighted aggregation → downstream prediction* — maps directly "
                 "to domain-specific RAG: fine-tune an encoder on your domain corpus, embed your "
                 "knowledge entities, retrieve and aggregate by relevance weight, feed to LLM."
+            )
+
+        # ── Tab 16: HuntGPT — RAG Anomaly Detection with XAI + LLM Assistant ──
+        with gr.Tab("🔍 HuntGPT"):
+            gr.Markdown(
+                "## HuntGPT: RAG Anomaly Detection with XAI + Conversational Assistant\n"
+                "**Source: JournalClub.io · 2026-07-12 · Score 8/10**\n\n"
+                "**Paper:** *HuntGPT: Integrating Machine Learning-Based Anomaly Detection "
+                "and Explainable AI with Large Language Models* "
+                "(Ali et al., University of Oulu, Telecom, 2026).\n\n"
+                "**Core pipeline (6 stages):**\n"
+                "1. Network traffic ingestion → feature vector\n"
+                "2. Random Forest classifier (normal vs. malicious)\n"
+                "3. SHAP/LIME explainability layer (feature attribution)\n"
+                "4. Alert + explanation storage (Elasticsearch + S3)\n"
+                "5. Gradio monitoring dashboard\n"
+                "6. LLM conversational assistant (GPT) for interactive investigation\n\n"
+                "**RAG adaptation:** Network traffic → RAG query metrics. "
+                "The same pipeline detects hallucination risk: low retrieval similarity, "
+                "sparse/dense disagreement, zero query–document overlap, "
+                "and excessively long generated answers are the 'intrusion signatures' of RAG. "
+                "SHAP/LIME attribution then explains *which* metric drove the alert."
+            )
+
+            _hg_detector = huntgpt_get_detector()  # warm up once
+
+            HG_PRESETS = {
+                "Healthy query": dict(
+                    query_length=15, query_specificity=0.25, entity_count=1,
+                    top1_similarity=0.82, score_gap=0.20, bm25_dense_ratio=1.1,
+                    retrieved_doc_length=250, query_doc_overlap=0.50,
+                    answer_span_length=90, retrieval_latency_ms=55,
+                ),
+                "Low-similarity retrieval": dict(
+                    query_length=18, query_specificity=0.40, entity_count=2,
+                    top1_similarity=0.22, score_gap=0.02, bm25_dense_ratio=1.3,
+                    retrieved_doc_length=180, query_doc_overlap=0.08,
+                    answer_span_length=140, retrieval_latency_ms=70,
+                ),
+                "Sparse/dense conflict": dict(
+                    query_length=20, query_specificity=0.75, entity_count=5,
+                    top1_similarity=0.55, score_gap=0.03, bm25_dense_ratio=4.2,
+                    retrieved_doc_length=130, query_doc_overlap=0.15,
+                    answer_span_length=200, retrieval_latency_ms=90,
+                ),
+                "Hallucination risk (all red flags)": dict(
+                    query_length=3, query_specificity=0.90, entity_count=7,
+                    top1_similarity=0.11, score_gap=0.01, bm25_dense_ratio=5.0,
+                    retrieved_doc_length=20, query_doc_overlap=0.02,
+                    answer_span_length=520, retrieval_latency_ms=450,
+                ),
+                "Ambiguous (borderline)": dict(
+                    query_length=12, query_specificity=0.50, entity_count=3,
+                    top1_similarity=0.44, score_gap=0.06, bm25_dense_ratio=1.9,
+                    retrieved_doc_length=90, query_doc_overlap=0.22,
+                    answer_span_length=175, retrieval_latency_ms=130,
+                ),
+            }
+
+            with gr.Row():
+                with gr.Column(scale=1):
+                    gr.Markdown("### Query & Retrieval Metrics")
+                    hg_preset = gr.Dropdown(
+                        choices=list(HG_PRESETS.keys()),
+                        label="Load preset scenario",
+                        value="Healthy query",
+                    )
+                    gr.Markdown("**Query features**")
+                    hg_q_len  = gr.Slider(1, 120, value=15, step=1,  label="Query length (tokens)")
+                    hg_q_spec = gr.Slider(0.0, 1.0, value=0.25, step=0.01, label="Query specificity (0=generic, 1=domain-heavy)")
+                    hg_ents   = gr.Slider(0, 10, value=1, step=1, label="Entity count in query")
+                    gr.Markdown("**Retrieval features**")
+                    hg_sim    = gr.Slider(0.0, 1.0, value=0.82, step=0.01, label="Top-1 cosine similarity")
+                    hg_gap    = gr.Slider(0.0, 0.5, value=0.20, step=0.01, label="Score gap (top1 − top2)")
+                    hg_ratio  = gr.Slider(0.1, 6.0, value=1.1, step=0.1,  label="BM25/dense rank ratio")
+                    hg_doclen = gr.Slider(5, 600, value=250, step=5,  label="Retrieved doc length (tokens)")
+                    hg_overlap= gr.Slider(0.0, 1.0, value=0.50, step=0.01, label="Query–doc lexical overlap")
+                    gr.Markdown("**Response features**")
+                    hg_anslen = gr.Slider(10, 600, value=90, step=5,  label="Answer span length (tokens)")
+                    hg_lat    = gr.Slider(5, 800, value=55, step=5,   label="Retrieval latency (ms)")
+                    hg_btn    = gr.Button("▶ Run Detection Pipeline", variant="primary")
+
+                with gr.Column(scale=2):
+                    gr.Markdown("### Detection Result")
+                    hg_verdict_out = gr.Markdown()
+
+                    with gr.Tabs():
+                        with gr.Tab("SHAP Attribution"):
+                            hg_shap_plot = gr.Plot(label="SHAP feature contributions")
+                        with gr.Tab("LIME Attribution"):
+                            hg_lime_plot = gr.Plot(label="LIME local explanation")
+                        with gr.Tab("Global Importance"):
+                            hg_global_plot = gr.Plot(label="Random Forest feature importances")
+
+                    gr.Markdown("### LLM Assistant Analysis")
+                    hg_analysis_out = gr.Markdown()
+
+                    gr.Markdown("### Ask the Assistant")
+                    hg_question = gr.Textbox(
+                        placeholder="Why was this flagged? / What should I do? / What is the anomaly score?",
+                        label="Your question",
+                    )
+                    hg_ask_btn  = gr.Button("Ask", variant="secondary")
+                    hg_answer_out = gr.Markdown()
+
+            _hg_last_result = {"result": None, "explanation": None}
+
+            def _hg_load_preset(preset_name: str):
+                p = HG_PRESETS.get(preset_name, HG_PRESETS["Healthy query"])
+                return (
+                    p["query_length"], p["query_specificity"], p["entity_count"],
+                    p["top1_similarity"], p["score_gap"], p["bm25_dense_ratio"],
+                    p["retrieved_doc_length"], p["query_doc_overlap"],
+                    p["answer_span_length"], p["retrieval_latency_ms"],
+                )
+
+            def _hg_run(q_len, q_spec, ents, sim, gap, ratio, doclen, overlap, anslen, lat):
+                import matplotlib.pyplot as plt
+                import numpy as np
+
+                rec = RAGQueryRecord(
+                    query_length=q_len, query_specificity=q_spec, entity_count=ents,
+                    top1_similarity=sim, score_gap=gap, bm25_dense_ratio=ratio,
+                    retrieved_doc_length=doclen, query_doc_overlap=overlap,
+                    answer_span_length=anslen, retrieval_latency_ms=lat,
+                )
+                result = classify_query(rec)
+                exp    = huntgpt_explain(rec.to_array())
+                analysis = generate_analysis(result, exp)
+
+                _hg_last_result["result"]      = result
+                _hg_last_result["explanation"] = exp
+
+                verdict_md = (
+                    f"## {result.verdict}  —  Anomaly probability: **{result.risk_pct}%**\n\n"
+                    f"{'🚨 Alert: retrieval anomaly detected. Investigate the driving factors below.' if result.label == 1 else '✅ Query metrics are within normal operating bounds.'}"
+                )
+
+                # ── SHAP bar chart ────────────────────────────────────────────
+                shap_feats = exp.top_shap(10)
+                names  = [fc.name.replace("_", "\n") for fc in shap_feats]
+                shap_v = [fc.contribution for fc in shap_feats]
+                colors = ["#EF5350" if v > 0 else "#4CAF50" for v in shap_v]
+
+                fig_shap, ax = plt.subplots(figsize=(10, 5))
+                fig_shap.patch.set_facecolor("#f9f9f9")
+                bars = ax.barh(names, shap_v, color=colors, alpha=0.85)
+                ax.axvline(0, color="black", linewidth=0.8)
+                ax.set_xlabel("SHAP contribution (→ anomaly  ←  normal)")
+                ax.set_title("SHAP Feature Attribution\n(red = pushes toward anomaly, green = toward normal)", fontsize=11)
+                for bar, v in zip(bars, shap_v):
+                    ax.text(v + (0.002 if v >= 0 else -0.002), bar.get_y() + bar.get_height() / 2,
+                            f"{v:+.3f}", va="center", ha="left" if v >= 0 else "right", fontsize=8)
+                ax.grid(True, axis="x", alpha=0.3)
+                plt.tight_layout()
+
+                # ── LIME bar chart ────────────────────────────────────────────
+                lime_feats = exp.top_lime(10)
+                lime_names = [fc.name.replace("_", "\n") for fc in lime_feats]
+                lime_v     = [fc.contribution for fc in lime_feats]
+                lime_colors= ["#EF5350" if v > 0 else "#4CAF50" for v in lime_v]
+
+                fig_lime, ax2 = plt.subplots(figsize=(10, 5))
+                fig_lime.patch.set_facecolor("#f9f9f9")
+                bars2 = ax2.barh(lime_names, lime_v, color=lime_colors, alpha=0.85)
+                ax2.axvline(0, color="black", linewidth=0.8)
+                ax2.set_xlabel("LIME coefficient (local linear approximation)")
+                ax2.set_title("LIME Local Explanation\n(perturbation-based linear model around this query)", fontsize=11)
+                for bar, v in zip(bars2, lime_v):
+                    ax2.text(v + (0.0005 if v >= 0 else -0.0005), bar.get_y() + bar.get_height() / 2,
+                             f"{v:+.4f}", va="center", ha="left" if v >= 0 else "right", fontsize=8)
+                ax2.grid(True, axis="x", alpha=0.3)
+                plt.tight_layout()
+
+                # ── Global importance bar chart ───────────────────────────────
+                gi = sorted(exp.global_importances.items(), key=lambda x: x[1], reverse=True)
+                gi_names = [n.replace("_", "\n") for n, _ in gi]
+                gi_vals  = [v for _, v in gi]
+
+                fig_gi, ax3 = plt.subplots(figsize=(10, 5))
+                fig_gi.patch.set_facecolor("#f9f9f9")
+                ax3.barh(gi_names, gi_vals, color="#2196F3", alpha=0.8)
+                ax3.set_xlabel("Mean decrease in impurity (Gini importance)")
+                ax3.set_title("Random Forest Global Feature Importances\n(averaged over all trees)", fontsize=11)
+                ax3.grid(True, axis="x", alpha=0.3)
+                plt.tight_layout()
+
+                return verdict_md, fig_shap, fig_lime, fig_gi, analysis
+
+            def _hg_answer(question: str):
+                result = _hg_last_result.get("result")
+                exp    = _hg_last_result.get("explanation")
+                if result is None or exp is None:
+                    return "Run the detection pipeline first, then ask your question."
+                return answer_question(question, result, exp)
+
+            hg_preset.change(
+                fn=_hg_load_preset,
+                inputs=[hg_preset],
+                outputs=[hg_q_len, hg_q_spec, hg_ents, hg_sim, hg_gap,
+                         hg_ratio, hg_doclen, hg_overlap, hg_anslen, hg_lat],
+            )
+
+            hg_btn.click(
+                fn=_hg_run,
+                inputs=[hg_q_len, hg_q_spec, hg_ents, hg_sim, hg_gap,
+                        hg_ratio, hg_doclen, hg_overlap, hg_anslen, hg_lat],
+                outputs=[hg_verdict_out, hg_shap_plot, hg_lime_plot,
+                         hg_global_plot, hg_analysis_out],
+            )
+
+            hg_ask_btn.click(
+                fn=_hg_answer,
+                inputs=[hg_question],
+                outputs=[hg_answer_out],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (HuntGPT paper):** Anomaly classifiers alone create trust problems — "
+                "analysts won't act on a black-box label. SHAP/LIME turn each alert into an "
+                "investigable incident: *this connection was flagged because service=telnet, "
+                "wrong_fragment=2, urgent_count=1*. The LLM then translates that structured "
+                "feature-attribution into a dialogue any security analyst (or, in RAG: any AI "
+                "engineer) can navigate without reading model internals.\n\n"
+                "**Transfer to AI engineering:** Replace 'network traffic' with RAG query metrics, "
+                "'intrusion' with hallucination risk, and the pipeline is identical: "
+                "RF classifier → SHAP → LLM explanation → human remediation decision."
             )
 
 if __name__ == "__main__":

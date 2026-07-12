@@ -1,0 +1,173 @@
+"""
+HuntGPT POC — Rule-based conversational assistant.
+
+In the paper, an LLM (GPT) is called with the alert context to generate
+natural-language analysis and support follow-up questions.  Here we
+replicate that layer with a rule-based system so no API key is needed.
+"""
+from __future__ import annotations
+
+from .detector import DetectionResult, FEATURE_NAMES
+from .explainer import Explanation, FeatureContribution
+
+
+_THRESHOLDS = {
+    "top1_similarity":     (None, 0.45),   # below 0.45 = warning
+    "score_gap":           (None, 0.05),   # below 0.05 = warning
+    "query_doc_overlap":   (None, 0.20),   # below 0.20 = warning
+    "bm25_dense_ratio":    (2.0,  None),   # above 2.0  = warning
+    "answer_span_length":  (250,  None),   # above 250  = warning
+    "retrieval_latency_ms":(300,  None),   # above 300  = warning
+    "retrieved_doc_length":(None, 50.0),   # below 50   = warning
+    "query_length":        (None, 5.0),    # below 5    = warning (too short)
+}
+
+_REMEDIATION = {
+    "top1_similarity":
+        "Consider query rewriting, query expansion, or switching to a denser model for this query type.",
+    "score_gap":
+        "Multiple documents are nearly equally ranked — add a cross-encoder reranker to break ties.",
+    "query_doc_overlap":
+        "Very little lexical overlap between query and retrieved document. "
+        "Try BM25-boosted hybrid retrieval or add query term expansion.",
+    "bm25_dense_ratio":
+        "Sparse and dense retrievers disagree strongly. "
+        "The query may contain exact-match identifiers — increase BM25 alpha weight.",
+    "answer_span_length":
+        "The generated answer is unusually long, which may indicate hallucination. "
+        "Add a length-constrained decoding step or response verification.",
+    "retrieval_latency_ms":
+        "High retrieval latency. Check index health, shard distribution, or enable ANN approximation.",
+    "retrieved_doc_length":
+        "Retrieved document is very short and may lack sufficient context for grounded generation. "
+        "Filter document chunks below a minimum token threshold at index time.",
+    "query_length":
+        "Query is very short. Consider asking users to provide more context, "
+        "or apply query expansion automatically.",
+}
+
+
+def generate_analysis(result: DetectionResult, explanation: Explanation) -> str:
+    """Generate a natural-language incident report from the detection result and explanation."""
+    verdict = result.verdict
+    risk    = result.risk_pct
+
+    lines = [
+        f"## HuntGPT Analysis Report",
+        f"",
+        f"**Verdict:** {verdict}  |  **Anomaly probability:** {risk}%",
+        f"",
+        "### What the detector found",
+    ]
+
+    if result.label == 0:
+        lines.append(
+            f"The RAG query metrics are within normal bounds. "
+            f"The classifier assigned a {risk}% anomaly probability — no immediate action required."
+        )
+    else:
+        lines.append(
+            f"The classifier flagged this query as **anomalous** ({risk}% confidence). "
+            f"Specific retrieval metrics deviate from the distribution of healthy queries."
+        )
+
+    # Top SHAP contributions
+    top_shap = explanation.top_shap(4)
+    lines += ["", "### Key driving factors (SHAP attribution)"]
+    for fc in top_shap:
+        direction = "↑ toward anomaly" if fc.contribution > 0 else "↓ toward normal"
+        lines.append(
+            f"- **{fc.name}** = `{fc.value:.3g}` "
+            f"({direction}, contribution {fc.contribution:+.3f}): {fc.description}"
+        )
+
+    # Flag specific thresholds breached
+    breached = []
+    for feat, (hi, lo) in _THRESHOLDS.items():
+        val = result.feature_values.get(feat, None)
+        if val is None:
+            continue
+        if hi is not None and val > hi:
+            breached.append(feat)
+        if lo is not None and val < lo:
+            breached.append(feat)
+
+    if breached:
+        lines += ["", "### Threshold violations"]
+        for feat in breached:
+            val = result.feature_values.get(feat, 0)
+            lines.append(f"- `{feat}` = **{val:.3g}** — {_REMEDIATION.get(feat, '')}")
+
+    lines += ["", "### Recommended remediation"]
+    if not breached and result.label == 0:
+        lines.append("No remediation required — query is within normal operating parameters.")
+    elif not breached:
+        lines.append(
+            "No single threshold was violated but the combination of features is unusual. "
+            "Review the top SHAP factors above and consider query routing or rewriting."
+        )
+    else:
+        seen = set()
+        for feat in breached:
+            rem = _REMEDIATION.get(feat, "")
+            if rem and rem not in seen:
+                lines.append(f"- {rem}")
+                seen.add(rem)
+
+    lines += [
+        "",
+        "---",
+        "_This analysis was generated by the rule-based HuntGPT assistant. "
+        "In the original paper, this layer calls an LLM (GPT) with the alert context "
+        "to produce the same kind of structured natural-language investigation._",
+    ]
+
+    return "\n".join(lines)
+
+
+def answer_question(question: str, result: DetectionResult, explanation: Explanation) -> str:
+    """Simple rule-based Q&A about the alert."""
+    q = question.lower().strip()
+
+    if any(w in q for w in ["what", "why", "explain", "reason", "cause"]):
+        top = explanation.top_shap(3)
+        parts = [f"`{fc.name}`={fc.value:.3g} (contribution {fc.contribution:+.3f})" for fc in top]
+        return (
+            f"The main factors driving the {result.risk_pct}% anomaly score are: "
+            + ", ".join(parts)
+            + ". These features have the highest SHAP values, meaning they had the "
+              "greatest marginal impact on the prediction."
+        )
+
+    if any(w in q for w in ["fix", "remediat", "action", "should", "do"]):
+        breached = [
+            f for f, (hi, lo) in _THRESHOLDS.items()
+            if (hi is not None and result.feature_values.get(f, 0) > hi)
+            or (lo is not None and result.feature_values.get(f, 0) < lo)
+        ]
+        if not breached:
+            return "No specific thresholds were violated. Review the SHAP attribution for subtle signals."
+        return "Recommended actions:\n" + "\n".join(
+            f"- [{f}] {_REMEDIATION.get(f, 'Investigate this feature.')}" for f in breached
+        )
+
+    if any(w in q for w in ["risk", "score", "probability", "confidence", "percent"]):
+        return (
+            f"The classifier assigned an anomaly probability of **{result.risk_pct}%**. "
+            f"Queries below 40% are considered normal; 40–70% is elevated risk; above 70% is high risk."
+        )
+
+    if any(w in q for w in ["similar", "top1", "retriev"]):
+        sim = result.feature_values.get("top1_similarity", 0)
+        gap = result.feature_values.get("score_gap", 0)
+        return (
+            f"The top retrieved document has a cosine similarity of **{sim:.3f}** "
+            f"with a score gap of **{gap:.3f}** to the second-ranked document. "
+            f"{'This is a low similarity score — the retrieved content may not ground the answer well.' if sim < 0.45 else 'Similarity is acceptable.'}"
+        )
+
+    return (
+        "I can answer questions about: why the alert was triggered, "
+        "what features drove the score, recommended remediation, or retrieval similarity details. "
+        "Try asking: *Why was this flagged?* or *What should I do?*"
+    )

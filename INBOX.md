@@ -1,7 +1,17 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-11 · 1 new paper(s) scored this run
+Last updated: 2026-07-12 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [HuntGPT: Integrating Machine Learning-Based Anomaly Detection and Explainable AI with Large Language Models] — Score 8/10
+> End-to-end intrusion-detection suite (Ali et al., University of Oulu, Telecom, 2026) combining a Random Forest anomaly classifier, SHAP/LIME post-hoc explainability, Elasticsearch + S3 alert storage, a Gradio monitoring dashboard, and a GPT conversational assistant. The 6-stage pipeline — ingest → classify → explain → store → display → converse — maps directly to RAG: low retrieval similarity, sparse/dense disagreement, and long hallucinated answers are the 'intrusion signatures' of RAG pipelines. The pattern (ML detector → XAI attribution → LLM accessibility layer) is drop-in applicable to any RAG quality-monitoring or hallucination-detection system.
+> **Source:** JournalClub.io newsletter · 2026-07-12 · Scored via Gmail connector
+> **Morning Brief scores:** Novedad 8 · Impacto práctico 8 · Esfuerzo implementación 6 · Veredicto: LEER
+
+**POC idea:** Gradio demo showing the HuntGPT pipeline applied to RAG: query + retrieval metrics → Random Forest hallucination-risk classifier → SHAP/LIME feature attribution (which metric drove the alert) → rule-based conversational assistant explaining the result with remediation suggestions.
+**Implemented:** Yes — `hf-space/hunt_gpt/` · Tab 16 in `hf-space/app.py` (2026-07-12)
+
+## Previously Scanned (2026-07-11)
 
 ### 🔴 [Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery] — Score 8/10
 > Domain-specific BERT encoder (ElementBERT) trained on >1M alloy-science abstracts learns latent element relationships beyond periodic-table descriptors — usage patterns, alloy family co-occurrence, phase associations. Element embeddings are composition-weighted to represent alloys as feature vectors, then fed to downstream ML (Ridge, Random Forest, GP, MLP) for property regression (up to 23% error reduction), phase classification, and Bayesian composition optimization. The *entity-embedding → composition aggregation → downstream model* pattern maps directly to domain-specific RAG architecture: specialized encoder + entity retrieval + weighted aggregation + LLM.
