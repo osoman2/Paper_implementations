@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-13 · 1 new paper(s) scored this run
+Last updated: 2026-07-14 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Improved meet-in-the-middle collision attack on round-reduced Xoodyak] — Score 2/10
+> Pure cryptanalysis paper (Gao et al., Information Engineering University, Cybersecurity, 2026) analyzing the Xoodyak lightweight hash function — a NIST LWC finalist — using a Meet-in-the-Middle collision attack with MILP-assisted neutral-set selection to exploit limited diffusion in 3-round reduced Xoodyak-Hash; no LLM, RAG, retrieval, or agent pipeline component; domain-specific cryptographic security analysis with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-14 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-13)
 
 ### ⚪ [Revolutionizing electricity theft detection: enhanced accuracy through NILM and multi-source data fusion] — Score 2/10
 > Domain-specific smart-grid cybersecurity paper (Deng et al., Chongqing University, Cybersecurity, 2026) proposing a two-stage theft-detection framework: NILMFormer (transformer-based, 3 layers, 8 attention heads, dilation rates 1/2/4/8) disaggregates aggregate household power time series into per-appliance traces, then a two-branch classifier (one branch on aggregate load, one on the NILM-derived appliance matrix) flags suspicious under-reporting periods — no LLM, RAG, retrieval, or agent pipeline component; domain-specific electrical engineering / smart meter security with no drop-in applicability to AI engineering production systems.
