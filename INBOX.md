@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-14 · 1 new paper(s) scored this run
+Last updated: 2026-07-15 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Human–machine teaming for leisure motorboat layout design] — Score 2/10
+> Domain-specific naval engineering paper (Savasta et al., Olesinki UK, Data-Centric Engineering, 2026) using a multiobjective Genetic Algorithm to search over hierarchically encoded yacht cabin layouts (position, dimensions, furniture, aesthetics) with tacit design constraints encoded as variable-bound rules rather than explicit objectives — no LLM, RAG, retrieval, or agent pipeline component; pure engineering CSP/GA optimization problem with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-15 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-14)
 
 ### ⚪ [Improved meet-in-the-middle collision attack on round-reduced Xoodyak] — Score 2/10
 > Pure cryptanalysis paper (Gao et al., Information Engineering University, Cybersecurity, 2026) analyzing the Xoodyak lightweight hash function — a NIST LWC finalist — using a Meet-in-the-Middle collision attack with MILP-assisted neutral-set selection to exploit limited diffusion in 3-round reduced Xoodyak-Hash; no LLM, RAG, retrieval, or agent pipeline component; domain-specific cryptographic security analysis with no drop-in applicability to AI engineering production systems.
