@@ -1,7 +1,25 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-15 · 1 new paper(s) scored this run
+Last updated: 2026-07-19 · 4 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [AI Risk Bonds: a market-based mechanism for governing liability] — Score 3/10
+> AI governance/policy paper (Papyshev et al., Lingnan University, Data & Policy, 2026) proposing an "AI Risk Bond" — an insurance-linked security modeled on catastrophe bonds — in which AI developers issue bonds collateralized in escrow, investors bear downside on defined harmful-event triggers, and auditors independently verify disclosures and safety procedures; the mechanism realigns incentives by connecting developer cost-of-capital to safety practices. No LLM, RAG, retrieval, or agent pipeline component; the incentive-alignment concept has abstract applicability to ML model governance and audit frameworks but the instrument is financial/regulatory not drop-in applicable to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-19 · Scored via Gmail connector
+
+### ⚪ [Precipitation nowcasting of satellite data using physically aligned neural networks] — Score 2/10
+> Domain-specific meteorology paper (Catao et al., Instituto Nacional de Matemática Pura e Aplicada, Environmental Data Science, 2026) introducing TUPANN — a satellite-only nowcasting pipeline combining a variational encoder-decoder (trained to predict optical-flow motion fields and intensity-correction fields for single-step transitions), a MaxViT vision transformer (local window + grid attention, lead-time embedding for multi-horizon output), and a differentiable advection warp operator (recursive frame propagation); produces 18 precipitation maps at 10-minute intervals up to 180 minutes from GOES-16 satellite data — no LLM, RAG, retrieval, or agent pipeline component; domain-specific weather forecasting with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-18 · Scored via Gmail connector
+
+### ⚪ [Continuous SUN (stable, unique, and novel) metric for generative modeling of inorganic crystals] — Score 2/10
+> Domain-specific materials science paper (Negishi et al., Imperial College London, Machine Learning: Science and Technology, 2026) proposing cSUN — a continuous replacement for the binary SUN framework used to evaluate crystal generative models: stability becomes a linear ramp from convex-hull energy above zero, uniqueness is average pairwise distance using Element Mover's Distance (composition) + average-minimum-distance vectors (structure), novelty is distance to nearest training-set crystal; the three components are combined multiplicatively with adjustable weights — no LLM, RAG, retrieval, or agent pipeline component; domain-specific materials science evaluation framework with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-17 · Scored via Gmail connector
+
+### ⚪ [Convolutional neural network-driven preconditioners for conjugate gradients] — Score 2/10
+> Domain-specific computational engineering paper (Sappl et al., University of Innsbruck, Machine Learning: Science and Technology, 2026) training a 4-layer sparse CNN (1×1 and 2×2 kernels, parametric ReLU, channel expansion 1→32→64→32→1) on lower-triangular system matrices from physical simulations (wastewater fluid-pressure, structural frame-analysis) to predict Cholesky-like factors L; L·Lᵀ becomes a sparse symmetric positive-definite preconditioner for conjugate-gradient solvers; trained unsupervised via identity-approximation loss with no need for ideal-preconditioner labels — no LLM, RAG, retrieval, or agent pipeline component; domain-specific numerical methods for PDE simulation with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-16 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-15)
 
 ### ⚪ [Human–machine teaming for leisure motorboat layout design] — Score 2/10
 > Domain-specific naval engineering paper (Savasta et al., Olesinki UK, Data-Centric Engineering, 2026) using a multiobjective Genetic Algorithm to search over hierarchically encoded yacht cabin layouts (position, dimensions, furniture, aesthetics) with tacit design constraints encoded as variable-bound rules rather than explicit objectives — no LLM, RAG, retrieval, or agent pipeline component; pure engineering CSP/GA optimization problem with no drop-in applicability to AI engineering production systems.
