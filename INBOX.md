@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-19 · 4 new paper(s) scored this run
+Last updated: 2026-07-20 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Correcting dry/wet classification bias in precipitation downscaling via generative adversarial networks] — Score 1/10
+> Domain-specific environmental data science paper (Singh et al., University of Virginia, Environmental Data Science, 2026) presenting a two-stage GAN pipeline — a CNN encoder-decoder for coarse-to-fine (6×6→60×60) precipitation intensity prediction and a WGAN for binary wet/dry mask generation — to correct drizzle bias in statistical downscaling; the WGAN uses stochastic noise to generate plausible spatial wet/dry arrangements conditioned on coarse input, then applies a physical constraint to force dry-coarse-cell children to remain dry; no LLM, RAG, retrieval, or agent pipeline component; domain-specific precipitation/agriculture downscaling with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-20 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-19)
 
 ### ⚪ [AI Risk Bonds: a market-based mechanism for governing liability] — Score 3/10
 > AI governance/policy paper (Papyshev et al., Lingnan University, Data & Policy, 2026) proposing an "AI Risk Bond" — an insurance-linked security modeled on catastrophe bonds — in which AI developers issue bonds collateralized in escrow, investors bear downside on defined harmful-event triggers, and auditors independently verify disclosures and safety procedures; the mechanism realigns incentives by connecting developer cost-of-capital to safety practices. No LLM, RAG, retrieval, or agent pipeline component; the incentive-alignment concept has abstract applicability to ML model governance and audit frameworks but the instrument is financial/regulatory not drop-in applicable to AI engineering production systems.
