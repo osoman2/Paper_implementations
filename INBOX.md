@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-20 · 1 new paper(s) scored this run
+Last updated: 2026-07-21 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Neural delay differential equations: learning non-Markovian closures for partially known dynamical systems] — Score 2/10
+> Domain-specific scientific/physical ML paper (Monsel et al., Paris-Saclay University, Data-Centric Engineering, 2026) presenting NDDE — a Neural Delay Differential Equation framework grounded in Mori-Zwanzig formalism and Takens' embedding theorem that uses a neural network to learn continuous-time governing equations for non-Markovian dynamical systems; delay values (lags into the past) are trainable parameters that capture the memory term of the generalized Langevin equation, allowing partially observed systems (weather, chemical reactors, fluid flows) to be modelled without access to all state variables; no LLM, RAG, retrieval, or agent pipeline component; domain-specific physics-informed ML for simulation of physical dynamical systems with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-21 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-20)
 
 ### ⚪ [Correcting dry/wet classification bias in precipitation downscaling via generative adversarial networks] — Score 1/10
 > Domain-specific environmental data science paper (Singh et al., University of Virginia, Environmental Data Science, 2026) presenting a two-stage GAN pipeline — a CNN encoder-decoder for coarse-to-fine (6×6→60×60) precipitation intensity prediction and a WGAN for binary wet/dry mask generation — to correct drizzle bias in statistical downscaling; the WGAN uses stochastic noise to generate plausible spatial wet/dry arrangements conditioned on coarse input, then applies a physical constraint to force dry-coarse-cell children to remain dry; no LLM, RAG, retrieval, or agent pipeline component; domain-specific precipitation/agriculture downscaling with no drop-in applicability to AI engineering production systems.
