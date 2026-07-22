@@ -18,6 +18,7 @@ Tabs:
  14. Self-Harness: Self-Improving AI Agent Harness (Self-Harness + HarnessX) — score 9/10
  15. ElementBERT: Domain-Specific Element Embeddings for Materials Inference — score 8/10
  16. HuntGPT: RAG Anomaly Detection with XAI + Conversational Assistant — score 8/10
+ 17. PromptShield: Privacy-Preserving LLM Proxy (NER + Sanitization + HITL) — score 8/10
 """
 
 import os
@@ -73,6 +74,11 @@ from hunt_gpt import (
     FEATURE_DESCRIPTIONS as HG_FEATURE_DESC,
     get_detector as huntgpt_get_detector,
 )
+
+# ---------------------------------------------------------------------------
+# Tab 17 — PromptShield: Privacy-Preserving LLM Proxy
+# ---------------------------------------------------------------------------
+from promptshield import detect as ps_detect, reformulate as ps_reformulate, privacy_report as ps_privacy_report
 
 # ---------------------------------------------------------------------------
 # Tab 15 — ElementBERT: Domain-Specific Element Embeddings for Materials Inference
@@ -3348,6 +3354,202 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Transfer to AI engineering:** Replace 'network traffic' with RAG query metrics, "
                 "'intrusion' with hallucination risk, and the pipeline is identical: "
                 "RF classifier → SHAP → LLM explanation → human remediation decision."
+            )
+
+        # ── Tab 17: PromptShield — Privacy-Preserving LLM Proxy ──────────────
+        with gr.Tab("🛡️ PromptShield"):
+            gr.Markdown(
+                "## PromptShield: Privacy-Preserving LLM Proxy\n"
+                "**Source: JournalClub.io · 2026-07-22 · Score 8/10**\n\n"
+                "**Paper:** *PromptShield: Protecting User Privacy in AI Chatbots* "
+                "(Asimine et al., Technical University of Denmark, Software, 2026).\n\n"
+                "**Core pipeline:**\n"
+                "1. User submits prompt → local normalization layer\n"
+                "2. Regex redaction layer (email, phone, SSN, address, credentials…)\n"
+                "3. Heuristic NER layer (personal names, locations) → entity spans\n"
+                "4. Post-processing → privacy category mapping + dominant topic\n"
+                "5. Template-based reformulation preserves LLM utility without PII\n"
+                "6. **HITL checkpoint** — user reviews original / sanitized / reformulated\n"
+                "7. Only the approved version is forwarded to the LLM\n\n"
+                "**RAG / AI engineering relevance:** Any LLM gateway handling "
+                "sensitive enterprise data (customer records, medical notes, "
+                "legal documents) benefits from the same proxy pattern: "
+                "NER → entity-level user controls → sanitized payload → LLM."
+            )
+
+            PS_PRESETS = {
+                "Medical query": (
+                    "Hi, my name is John Smith and I was born on 1985-04-12. "
+                    "I was recently diagnosed with type-2 diabetes and my doctor "
+                    "prescribed metformin 500mg. My email is john.smith@gmail.com "
+                    "and I live at 45 Maple Street, Boston. "
+                    "What should I know about managing this condition?"
+                ),
+                "Financial query": (
+                    "I'm Sarah Johnson (sarah.j@company.com). My salary is $95,000 "
+                    "and I want advice on investing. My bank account number is "
+                    "1234-5678-9012 and I'm trying to maximize my 401k contributions. "
+                    "Is it better to invest in index funds or individual stocks?"
+                ),
+                "Technical query (safe)": (
+                    "Can you help me write a Python function that implements "
+                    "BM25 ranking for a document retrieval system? I need it "
+                    "to handle tokenization and inverse document frequency calculation."
+                ),
+                "Legal query": (
+                    "My name is Carlos Rivera, tel 555-123-4567. "
+                    "I had a contract dispute with my employer and I want to "
+                    "know what my legal rights are in California. "
+                    "The contract was signed in January 2024."
+                ),
+                "Personal query with credentials": (
+                    "My password for the system is Secr3t!Pass and the API key is "
+                    "sk-abc123xyz789. I'm having trouble connecting to the server "
+                    "at 192.168.1.100. Can you debug my authentication issue?"
+                ),
+            }
+
+            with gr.Row():
+                with gr.Column(scale=1):
+                    gr.Markdown("### Input")
+                    ps_preset = gr.Dropdown(
+                        choices=list(PS_PRESETS.keys()),
+                        label="Load example prompt",
+                        value="Medical query",
+                    )
+                    ps_input = gr.Textbox(
+                        label="Your prompt (may contain sensitive information)",
+                        lines=6,
+                        value=PS_PRESETS["Medical query"],
+                        placeholder="Type or paste your prompt here…",
+                    )
+                    ps_scan_btn = gr.Button("🔍 Scan for PII", variant="primary")
+
+                with gr.Column(scale=2):
+                    gr.Markdown("### Privacy Scan Results")
+                    ps_report_out = gr.Markdown()
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Entity Control Panel")
+                    gr.Markdown(
+                        "_After scanning, use the checkboxes below to decide which "
+                        "detected entities to keep (send to LLM) or remove (redact)._"
+                    )
+                    ps_entity_checks = gr.CheckboxGroup(
+                        choices=[],
+                        label="Entities to KEEP (unchecked = remove / redact)",
+                        interactive=True,
+                    )
+                    ps_apply_btn = gr.Button("✅ Apply Selection & Generate Versions", variant="secondary")
+
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Version Comparison")
+                    with gr.Tabs():
+                        with gr.Tab("📄 Original"):
+                            ps_original_out = gr.Textbox(label="Original prompt", lines=5, interactive=False)
+                        with gr.Tab("🚫 Sanitized"):
+                            ps_sanitized_out = gr.Textbox(label="Sanitized (PII replaced with placeholders)", lines=5, interactive=False)
+                        with gr.Tab("✍️ Reformulated"):
+                            ps_reformulated_out = gr.Textbox(label="Template-based reformulation (preserves intent)", lines=5, interactive=False)
+                    ps_send_choice = gr.Radio(
+                        choices=["Send original", "Send sanitized", "Send reformulated"],
+                        label="Which version to send to the LLM?",
+                        value="Send reformulated",
+                    )
+                    ps_send_btn = gr.Button("🚀 Send to LLM (simulated)", variant="primary")
+
+            gr.Markdown("### LLM Response (Simulated)")
+            ps_llm_out = gr.Markdown()
+
+            # ── State ──────────────────────────────────────────────────────────
+            _ps_state = {"result": None}
+
+            # ── Callbacks ──────────────────────────────────────────────────────
+            def _ps_load_preset(name):
+                return PS_PRESETS.get(name, "")
+
+            def _ps_scan(prompt: str):
+                if not prompt.strip():
+                    return "Please enter a prompt first.", [], "", "", ""
+                result = ps_detect(prompt)
+                _ps_state["result"] = result
+                report = ps_privacy_report(result)
+                choices = [f"{e.category.value}: {e.text}" for e in result.entities]
+                return report, choices, prompt, result.sanitized(), ps_reformulate(result)
+
+            def _ps_apply(kept_labels: list):
+                result = _ps_state.get("result")
+                if result is None:
+                    return "Run a scan first.", "", ""
+                kept_texts = {lbl.split(": ", 1)[1] for lbl in kept_labels}
+                for ent in result.entities:
+                    ent.keep = ent.text in kept_texts
+                report = ps_privacy_report(result)
+                return report, result.sanitized(), ps_reformulate(result)
+
+            def _ps_send(choice: str):
+                result = _ps_state.get("result")
+                if result is None:
+                    return "Run a scan and apply your selection first."
+                if choice == "Send original":
+                    payload = result.original
+                    warning = "⚠️ **Original prompt sent** — all PII included."
+                elif choice == "Send sanitized":
+                    payload = result.sanitized()
+                    warning = "🔒 **Sanitized prompt sent** — detected PII replaced with placeholders."
+                else:
+                    payload = ps_reformulate(result)
+                    warning = "✅ **Reformulated prompt sent** — intent preserved, PII abstracted via template."
+
+                pii_count = len([e for e in result.entities if not e.keep])
+                mock_response = (
+                    f"{warning}\n\n"
+                    f"**Payload forwarded to LLM** ({len(payload)} chars):\n"
+                    f"```\n{payload[:400]}{'...' if len(payload) > 400 else ''}\n```\n\n"
+                    f"**Simulated LLM response:**\n"
+                    f"> Thank you for your question about **{result.topic}**. "
+                    f"Based on the information provided, here is a general overview…\n\n"
+                    f"*(In a real deployment, this response would come from the LLM API. "
+                    f"{pii_count} PII entity/entities were redacted before this request was sent.)*"
+                )
+                return mock_response
+
+            ps_preset.change(fn=_ps_load_preset, inputs=[ps_preset], outputs=[ps_input])
+
+            ps_scan_btn.click(
+                fn=_ps_scan,
+                inputs=[ps_input],
+                outputs=[ps_report_out, ps_entity_checks, ps_original_out,
+                         ps_sanitized_out, ps_reformulated_out],
+            )
+
+            ps_apply_btn.click(
+                fn=_ps_apply,
+                inputs=[ps_entity_checks],
+                outputs=[ps_report_out, ps_sanitized_out, ps_reformulated_out],
+            )
+
+            ps_send_btn.click(
+                fn=_ps_send,
+                inputs=[ps_send_choice],
+                outputs=[ps_llm_out],
+            )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (PromptShield paper):** The system is *not* a firewall — "
+                "it is a **collaborative editor**. Rather than blocking queries, it "
+                "restructures them so the LLM still receives enough context to answer "
+                "usefully, while PII stays on the user's machine. The HITL checkpoint is "
+                "the crucial component: automated sanitization alone cannot judge whether "
+                "removing an address makes a local-service query unanswerable.\n\n"
+                "**Transfer to AI engineering:** Any LLM gateway handling sensitive "
+                "enterprise data needs this pattern: "
+                "`NER → entity-level user controls → sanitized payload → LLM`. "
+                "The template-based reformulation step is especially valuable for "
+                "RAG systems where the query structure must survive PII removal."
             )
 
 if __name__ == "__main__":

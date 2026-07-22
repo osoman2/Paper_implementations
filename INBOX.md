@@ -1,7 +1,16 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-21 · 1 new paper(s) scored this run
+Last updated: 2026-07-22 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### 🔴 [PromptShield: Protecting User Privacy in AI Chatbots] — Score 8/10
+> Drop-in applicable privacy proxy for LLM deployments (Asimine et al., Technical University of Denmark, Software, 2026). Intermediary application layer that sits between the user and the LLM: a 4-stage local pipeline — normalization → regex redaction → XLM-RoBERTa NER (entity spans: names, addresses, emails, credentials, medical info) → post-processing (privacy category mapping + topic classification) — produces a sanitized version; a template-based reformulation engine then rebuilds a grammatically coherent query preserving the original intent without PII. A HITL checkpoint lets users review original / sanitized / reformulated versions at entity level before any text crosses the API boundary. The NER → sanitization → template reformulation → HITL proxy pattern is directly applicable to any enterprise LLM gateway handling sensitive data (GDPR, HIPAA, CCPA compliance).
+> **Source:** JournalClub.io newsletter · 2026-07-22 · Scored via Gmail connector
+
+**POC idea:** Gradio demo showing the full PromptShield pipeline: user enters a prompt with PII → regex + heuristic NER detection → entity-level checkboxes to keep/remove each detected entity → side-by-side view of original / sanitized / reformulated versions → simulated LLM call with only the approved payload.
+**Implemented:** Yes — `hf-space/promptshield/` · Tab 17 in `hf-space/app.py` (2026-07-22)
+
+## Previously Scanned (2026-07-21)
 
 ### ⚪ [Neural delay differential equations: learning non-Markovian closures for partially known dynamical systems] — Score 2/10
 > Domain-specific scientific/physical ML paper (Monsel et al., Paris-Saclay University, Data-Centric Engineering, 2026) presenting NDDE — a Neural Delay Differential Equation framework grounded in Mori-Zwanzig formalism and Takens' embedding theorem that uses a neural network to learn continuous-time governing equations for non-Markovian dynamical systems; delay values (lags into the past) are trainable parameters that capture the memory term of the generalized Langevin equation, allowing partially observed systems (weather, chemical reactors, fluid flows) to be modelled without access to all state variables; no LLM, RAG, retrieval, or agent pipeline component; domain-specific physics-informed ML for simulation of physical dynamical systems with no drop-in applicability to AI engineering production systems.
