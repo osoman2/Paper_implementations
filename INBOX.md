@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-22 · 1 new paper(s) scored this run
+Last updated: 2026-07-23 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [MatterMind: A User-Friendly Material Design Platform Assisted by Large Language Model] — Score 3/10
+> Domain-specific computational materials science platform (Xu et al., Songshan Lake Materials Laboratory, Materials Genome Engineering Advances, 2026) that chains MatterGen (a diffusion model for crystal structure generation from design requirements) into VASP (DFT calculator) with an LLM interpretation/chat layer that parses JSON outputs and provides plain-language summaries, error diagnoses, and next-step suggestions; the LLM is purely a thin conversation wrapper over deterministic physics calculations — no RAG, no retrieval, no embeddings — and the core value proposition is materials science domain tooling not drop-in applicable to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-23 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-22)
 
 ### 🔴 [PromptShield: Protecting User Privacy in AI Chatbots] — Score 8/10
 > Drop-in applicable privacy proxy for LLM deployments (Asimine et al., Technical University of Denmark, Software, 2026). Intermediary application layer that sits between the user and the LLM: a 4-stage local pipeline — normalization → regex redaction → XLM-RoBERTa NER (entity spans: names, addresses, emails, credentials, medical info) → post-processing (privacy category mapping + topic classification) — produces a sanitized version; a template-based reformulation engine then rebuilds a grammatically coherent query preserving the original intent without PII. A HITL checkpoint lets users review original / sanitized / reformulated versions at entity level before any text crosses the API boundary. The NER → sanitization → template reformulation → HITL proxy pattern is directly applicable to any enterprise LLM gateway handling sensitive data (GDPR, HIPAA, CCPA compliance).
