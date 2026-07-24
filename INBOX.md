@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-23 · 1 new paper(s) scored this run
+Last updated: 2026-07-24 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Generative AI for the reconstruction of visual stimuli from functional magnetic resonance imaging (fMRI) signals] — Score 3/10
+> Domain-specific neuroscience paper (Ahmed et al., Beni-Suef University, Journal of Big Data, 2026) using CLIP semantic embeddings and VDVAE latent-space mappings as intermediate representations for a diffusion-model pipeline that reconstructs visual images from fMRI voxel vectors; the core architecture (fMRI → dimensionality reduction → ridge regression / MLP mapping → CLIP target → diffusion guidance) applies modern embedding and generative models, but the end-to-end system is entirely medical brain-computer interface research — no RAG, retrieval pipeline, or LLM inference component — with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-24 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-23)
 
 ### ⚪ [MatterMind: A User-Friendly Material Design Platform Assisted by Large Language Model] — Score 3/10
 > Domain-specific computational materials science platform (Xu et al., Songshan Lake Materials Laboratory, Materials Genome Engineering Advances, 2026) that chains MatterGen (a diffusion model for crystal structure generation from design requirements) into VASP (DFT calculator) with an LLM interpretation/chat layer that parses JSON outputs and provides plain-language summaries, error diagnoses, and next-step suggestions; the LLM is purely a thin conversation wrapper over deterministic physics calculations — no RAG, no retrieval, no embeddings — and the core value proposition is materials science domain tooling not drop-in applicable to AI engineering production systems.
