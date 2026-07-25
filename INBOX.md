@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-24 · 1 new paper(s) scored this run
+Last updated: 2026-07-25 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Predicting crack evolution for small- and medium-span beam bridges using XGBoost–SHAP model] — Score 2/10
+> Domain-specific structural engineering paper (Liang et al., Hebei University of Technology, Data-Centric Engineering, 2026) training an XGBoost regression ensemble (outperforming SVR and Random Forest) on 400 bridge inspection records from 100+ bridges to predict maximum crack width (MCW) and crack density (CD) from structural, traffic, maintenance, and environmental features; post-hoc SHAP (Shapley Additive exPlanations) identifies the dominant drivers per prediction. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific civil engineering safety application with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-25 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-24)
 
 ### ⚪ [Generative AI for the reconstruction of visual stimuli from functional magnetic resonance imaging (fMRI) signals] — Score 3/10
 > Domain-specific neuroscience paper (Ahmed et al., Beni-Suef University, Journal of Big Data, 2026) using CLIP semantic embeddings and VDVAE latent-space mappings as intermediate representations for a diffusion-model pipeline that reconstructs visual images from fMRI voxel vectors; the core architecture (fMRI → dimensionality reduction → ridge regression / MLP mapping → CLIP target → diffusion guidance) applies modern embedding and generative models, but the end-to-end system is entirely medical brain-computer interface research — no RAG, retrieval pipeline, or LLM inference component — with no drop-in applicability to AI engineering production systems.
