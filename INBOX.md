@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-25 · 1 new paper(s) scored this run
+Last updated: 2026-07-26 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [CRR-Net: a correlation reconstruction and refinement network for deformable medical image registration] — Score 2/10
+> Domain-specific medical imaging paper (Xie et al., Nanchang Hangkong University, Visual Computing for Industry, Biomedicine, and Art, 2026) presenting CRR-Net — a coarse-to-fine deformable image registration pipeline: dual-stream shared-weight CNN encoder, local 3D-neighborhood correlation layer computing voxel-level correspondence maps, feature reconstruction block that performs correlation super-resolution in a higher-resolution feature space, channel/spatial attention reweighting, and 4-stage residual displacement-field composition that progresses from coarse global movements to fine local alignment; produces a dense deformation field to warp the moving scan into the fixed scan's coordinate system for CT/MRI anatomical alignment. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific medical image registration with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-26 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-25)
 
 ### ⚪ [Predicting crack evolution for small- and medium-span beam bridges using XGBoost–SHAP model] — Score 2/10
 > Domain-specific structural engineering paper (Liang et al., Hebei University of Technology, Data-Centric Engineering, 2026) training an XGBoost regression ensemble (outperforming SVR and Random Forest) on 400 bridge inspection records from 100+ bridges to predict maximum crack width (MCW) and crack density (CD) from structural, traffic, maintenance, and environmental features; post-hoc SHAP (Shapley Additive exPlanations) identifies the dominant drivers per prediction. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific civil engineering safety application with no drop-in applicability to AI engineering production systems.
