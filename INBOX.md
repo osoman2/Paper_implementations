@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-26 · 1 new paper(s) scored this run
+Last updated: 2026-07-27 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Distinguishing Intrinsic Descriptors of Grain Boundary Segregation Between Metallic and Non-Metallic Solutes in BCC Fe via Machine Learning] — Score 2/10
+> Domain-specific materials science paper (Zhang et al., University of Science and Technology Beijing, Materials Genome Engineering Advances, 2026) presenting a multi-round ML algorithm-selection framework applied to predicting grain-boundary segregation energies in BCC iron: round 1 trains 6 candidate regressors (SVM, KNN, DT, RF, GBDT, XGB) across full feature sets and picks winners by R² / RMSE; round 2 applies Pearson correlation filtering, SHAP attribution ranking, and exhaustive feature-subset search to identify 3-feature subsets; round 3 retrains the same 6 regressors on the reduced inputs, yielding entirely different winners (RF for metallic, KNN for nonmetallic solutes). No LLM, RAG, retrieval, or agent pipeline component; the algorithm-selection methodology has abstract relevance to ML pipeline hygiene but the problem domain (grain boundary segregation, steel metallurgy) is domain-specific materials science with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-27 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-26)
 
 ### ⚪ [CRR-Net: a correlation reconstruction and refinement network for deformable medical image registration] — Score 2/10
 > Domain-specific medical imaging paper (Xie et al., Nanchang Hangkong University, Visual Computing for Industry, Biomedicine, and Art, 2026) presenting CRR-Net — a coarse-to-fine deformable image registration pipeline: dual-stream shared-weight CNN encoder, local 3D-neighborhood correlation layer computing voxel-level correspondence maps, feature reconstruction block that performs correlation super-resolution in a higher-resolution feature space, channel/spatial attention reweighting, and 4-stage residual displacement-field composition that progresses from coarse global movements to fine local alignment; produces a dense deformation field to warp the moving scan into the fixed scan's coordinate system for CT/MRI anatomical alignment. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific medical image registration with no drop-in applicability to AI engineering production systems.
