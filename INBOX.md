@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-27 · 1 new paper(s) scored this run
+Last updated: 2026-07-28 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [A case study on the performance metrics of integrated photonic computing] — Score 2/10
+> Domain-specific photonic hardware engineering paper (Bruckerhoff-Pluckelmann et al., IBM Research-Europe, APL Machine Learning, 2026) building a full system-level simulation of three photonic accelerator architectures (microring resonator weight banks, photonic crossbar arrays, Mach-Zehnder interferometer meshes) and incorporating all supporting electronic hardware (DACs, ADCs, modulators, amplifiers, detectors, lasers) to compare energy efficiency, computational density, and throughput against digital hardware at a shared accuracy standard; finds no universal winner and concludes photonic systems cannot beat state-of-the-art digital hardware without optical matrices too large to build with current components. No LLM, RAG, retrieval, or agent pipeline component; domain-specific photonic hardware architecture study with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-28 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-27)
 
 ### ⚪ [Distinguishing Intrinsic Descriptors of Grain Boundary Segregation Between Metallic and Non-Metallic Solutes in BCC Fe via Machine Learning] — Score 2/10
 > Domain-specific materials science paper (Zhang et al., University of Science and Technology Beijing, Materials Genome Engineering Advances, 2026) presenting a multi-round ML algorithm-selection framework applied to predicting grain-boundary segregation energies in BCC iron: round 1 trains 6 candidate regressors (SVM, KNN, DT, RF, GBDT, XGB) across full feature sets and picks winners by R² / RMSE; round 2 applies Pearson correlation filtering, SHAP attribution ranking, and exhaustive feature-subset search to identify 3-feature subsets; round 3 retrains the same 6 regressors on the reduced inputs, yielding entirely different winners (RF for metallic, KNN for nonmetallic solutes). No LLM, RAG, retrieval, or agent pipeline component; the algorithm-selection methodology has abstract relevance to ML pipeline hygiene but the problem domain (grain boundary segregation, steel metallurgy) is domain-specific materials science with no drop-in applicability to AI engineering production systems.
