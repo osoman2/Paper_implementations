@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-28 · 1 new paper(s) scored this run
+Last updated: 2026-07-29 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Nonlinear system identification for model-based control of waked wind turbines] — Score 1/10
+> Domain-specific control systems and fluid dynamics paper (Randino et al., von Karman Institute For Fluid Dynamics, Belgium, Data-Centric Engineering, 2026) presenting a system identification framework that learns nonlinear models of wind turbine power coefficients from experimental data using Gaussian radial basis functions combined with polynomial terms to capture wake interactions; downstream turbine models use delayed upstream tip-speed-ratio signals as wake proxies, and learned models are embedded in model-based controllers outperforming steady-state and Blade Element Momentum baselines in wind-tunnel experiments. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific wind energy / control systems study with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-29 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-28)
 
 ### ⚪ [A case study on the performance metrics of integrated photonic computing] — Score 2/10
 > Domain-specific photonic hardware engineering paper (Bruckerhoff-Pluckelmann et al., IBM Research-Europe, APL Machine Learning, 2026) building a full system-level simulation of three photonic accelerator architectures (microring resonator weight banks, photonic crossbar arrays, Mach-Zehnder interferometer meshes) and incorporating all supporting electronic hardware (DACs, ADCs, modulators, amplifiers, detectors, lasers) to compare energy efficiency, computational density, and throughput against digital hardware at a shared accuracy standard; finds no universal winner and concludes photonic systems cannot beat state-of-the-art digital hardware without optical matrices too large to build with current components. No LLM, RAG, retrieval, or agent pipeline component; domain-specific photonic hardware architecture study with no drop-in applicability to AI engineering production systems.
