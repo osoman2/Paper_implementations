@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-29 · 1 new paper(s) scored this run
+Last updated: 2026-07-30 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [How safe are women? Constructing a cross-national index on the foundations of women's safety] — Score 1/10
+> Domain-specific social science / public policy paper (Buchhorn et al., Monash University, Cambridge Data & Policy, 2026) constructing a Women's Safety Index (WSI) composite indicator from 13 variables across three dimensions (Equity, Protection, Resources) using min-max normalization and equal-weight averaging after PCA proved statistically invalid; a shock-penalty term (conflict/disaster exposure) adjusts the baseline via geometric mean; validated against intimate-partner violence prevalence data across countries. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific gender studies / international development policy with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-07-30 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-29)
 
 ### ⚪ [Nonlinear system identification for model-based control of waked wind turbines] — Score 1/10
 > Domain-specific control systems and fluid dynamics paper (Randino et al., von Karman Institute For Fluid Dynamics, Belgium, Data-Centric Engineering, 2026) presenting a system identification framework that learns nonlinear models of wind turbine power coefficients from experimental data using Gaussian radial basis functions combined with polynomial terms to capture wake interactions; downstream turbine models use delayed upstream tip-speed-ratio signals as wake proxies, and learned models are embedded in model-based controllers outperforming steady-state and Blade Element Momentum baselines in wind-tunnel experiments. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific wind energy / control systems study with no drop-in applicability to AI engineering production systems.
