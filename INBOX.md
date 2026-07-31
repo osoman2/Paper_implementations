@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-30 · 1 new paper(s) scored this run
+Last updated: 2026-07-31 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Analyses of Deep Reinforcement Learning and Conventional MPPT Control under Fast-Changing Irradiance] — Score 2/10
+> Domain-specific power engineering paper (Big-Alabo et al., RWTH Aachen University, Journal of Advanced Engineering and Computation, 2026) proposing a DDPG (Deep Deterministic Policy Gradient) actor-critic RL controller to unify maximum power point tracking (MPPT) and DC-DC boost converter PID control for photovoltaic arrays under fast-changing irradiance; the single learned policy receives normalized panel voltage, current, and power and directly outputs the converter duty cycle, eliminating the separate perturb-and-observe MPPT and fixed-gain PID stages; trained offline in MATLAB/Simulink and evaluated against conventional P&O+PID — the DDPG controller sacrifices small peak-power accuracy under nominal conditions for tighter downstream DC voltage regulation under load/irradiance disturbances. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific solar energy control engineering with no drop-in applicability to AI engineering production systems. The DDPG actor-critic pattern is a generic RL algorithm but the contribution and framing are entirely within power electronics.
+> **Source:** JournalClub.io newsletter · 2026-07-31 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-30)
 
 ### ⚪ [How safe are women? Constructing a cross-national index on the foundations of women's safety] — Score 1/10
 > Domain-specific social science / public policy paper (Buchhorn et al., Monash University, Cambridge Data & Policy, 2026) constructing a Women's Safety Index (WSI) composite indicator from 13 variables across three dimensions (Equity, Protection, Resources) using min-max normalization and equal-weight averaging after PCA proved statistically invalid; a shock-penalty term (conflict/disaster exposure) adjusts the baseline via geometric mean; validated against intimate-partner violence prevalence data across countries. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific gender studies / international development policy with no drop-in applicability to AI engineering production systems.
