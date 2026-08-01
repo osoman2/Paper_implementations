@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-07-31 · 1 new paper(s) scored this run
+Last updated: 2026-08-01 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Experimental validation of a neural-network-based method for fault detection in heat pump evaporators] — Score 2/10
+> Domain-specific HVAC fault detection paper (Johnk et al., RWTH Aachen University, Energy and AI, 2026) training a fully connected neural network regression model to predict expected evaporator airflow in healthy heat pump operation; the network takes four fault-decoupled inputs (heating-water supply temperature, ambient-air temperature, condenser heat delivery, ambient relative humidity) and outputs predicted healthy airflow; a virtual sensor estimates actual airflow and the residual between prediction and measurement is classified by either a fixed threshold or a Bayesian classifier to flag evaporator fouling; four models were trained (one pooled across all seasons, three season-specific), validated on a hardware-in-the-loop climate chamber test bench achieving up to 98% overall accuracy but precision/recall of only 83–92%, revealing limited fault detection reliability in practice. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific heat pump maintenance engineering with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-08-01 · Scored via Gmail connector
+
+## Previously Scanned (2026-07-31)
 
 ### ⚪ [Analyses of Deep Reinforcement Learning and Conventional MPPT Control under Fast-Changing Irradiance] — Score 2/10
 > Domain-specific power engineering paper (Big-Alabo et al., RWTH Aachen University, Journal of Advanced Engineering and Computation, 2026) proposing a DDPG (Deep Deterministic Policy Gradient) actor-critic RL controller to unify maximum power point tracking (MPPT) and DC-DC boost converter PID control for photovoltaic arrays under fast-changing irradiance; the single learned policy receives normalized panel voltage, current, and power and directly outputs the converter duty cycle, eliminating the separate perturb-and-observe MPPT and fixed-gain PID stages; trained offline in MATLAB/Simulink and evaluated against conventional P&O+PID — the DDPG controller sacrifices small peak-power accuracy under nominal conditions for tighter downstream DC voltage regulation under load/irradiance disturbances. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific solar energy control engineering with no drop-in applicability to AI engineering production systems. The DDPG actor-critic pattern is a generic RL algorithm but the contribution and framing are entirely within power electronics.
