@@ -1,7 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-02 · 1 new paper(s) scored this run
+Last updated: 2026-08-03 · 1 new paper(s) scored this run
 
 ## New Papers (this run)
+
+### ⚪ [Synthesis of Nano-Biocomposite for Light-Weight Structural Applications] — Score 2/10
+> Materials engineering study (Zeleke et al., Adama Science and Technology University, EIJET, 2026) optimizing a PLA-based biocomposite by combining microcrystalline cellulose extracted from coffee husk, a nanoclay filler, and a plant-derived plasticizer across 16 experimental runs (Taguchi L16 orthogonal array) at varying process temperatures; signal-to-noise ratio analysis identified property-specific formulations for tensile strength, flexural modulus, hardness, and water absorption. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific materials science / structural composites engineering with no drop-in applicability to AI engineering production systems.
+> **Source:** JournalClub.io newsletter · 2026-08-03 · Scored via Gmail connector
+
+## Previously Scanned (2026-08-02)
 
 ### ⚪ [Revisiting training-free tabular models: A robustness and efficiency study] — Score 2/10
 > Tabular ML benchmarking study (Chanda et al., Lords Institute of Engineering and Technology, Array, 2026) stress-testing the robustness and efficiency claims of HyperFast — a hypernetwork-based "training-free" tabular classifier that generates task-specific MLP weights from labeled support sets — by evaluating it against Logistic Regression, LightGBM, XGBoost, and Random Forest across 17 datasets under Gaussian noise, missing-value, and reduced-data conditions; default HyperFast won zero of 224 dataset-condition contests, while Logistic Regression led with 86 wins; the tuned HyperFast variant found a narrow niche (30 wins) on imbalanced/high-dimensional tasks but at dramatically greater inference cost. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific tabular classification benchmarking with no drop-in applicability to AI engineering production systems.
