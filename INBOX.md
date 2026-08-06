@@ -1,7 +1,11 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-03 · 1 new paper(s) scored this run
+Last updated: 2026-08-06 · 0 new paper(s) scored this run
 
 ## New Papers (this run)
+
+_No new papers since last scan._
+
+## Previously Scanned (2026-08-03)
 
 ### ⚪ [Synthesis of Nano-Biocomposite for Light-Weight Structural Applications] — Score 2/10
 > Materials engineering study (Zeleke et al., Adama Science and Technology University, EIJET, 2026) optimizing a PLA-based biocomposite by combining microcrystalline cellulose extracted from coffee husk, a nanoclay filler, and a plant-derived plasticizer across 16 experimental runs (Taguchi L16 orthogonal array) at varying process temperatures; signal-to-noise ratio analysis identified property-specific formulations for tensile strength, flexural modulus, hardness, and water absorption. No LLM, RAG, retrieval, embedding, or agent pipeline component; domain-specific materials science / structural composites engineering with no drop-in applicability to AI engineering production systems.
