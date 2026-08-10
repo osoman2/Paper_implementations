@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-09 · 0 new paper(s) scored this run (Gmail MCP connector; no new emails from noreply@newsletter.journalclub.io since 2026-08-03)
+Last updated: 2026-08-10 · 0 new paper(s) scored this run (Gmail MCP connector; no new emails from noreply@newsletter.journalclub.io since 2026-08-03)
 
 ## New Papers (this run)
 
