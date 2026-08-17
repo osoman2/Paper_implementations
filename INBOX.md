@@ -1,9 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-16 · 0 new paper(s) scored this run (Gmail MCP connector; no new emails from noreply@newsletter.journalclub.io since 2026-08-03; all 17 high-relevance POCs implemented)
+Last updated: 2026-08-17 · 1 new paper(s) scored this run (Gmail MCP connector; AlphaSignal deep-dive 2026-08-16; POC implemented)
 
 ## New Papers (this run)
 
-_No new papers since last scan._
+### 🔴 [The 3-layer security stack for AI agents (NemoClaw + NanoClaw + CrabTrap)] — Score 9/10
+> Drop-in applicable defense-in-depth framework for production AI agent deployments (AlphaSignal/Ben Dickson, 2026-08-16). Three concrete tools cover the full attack surface: NemoClaw (OS-level sandbox: Landlock filesystem confinement + seccomp syscall filtering + credential-injection gateway — agent never holds real API keys), NanoClaw (minimalist ephemeral containers < 5K LOC vs 1M+ LOC; Echo partnership continuously rebuilds runtime to strip known CVEs), and CrabTrap by Brex (bifurcated HTTP/HTTPS proxy: static rules for low-risk GETs, LLM-as-judge for high-risk mutations, HITL escalation for blocked requests). Real incidents cited: Meta OpenClaw deleted 200 emails, Claude Code wiped a production database, Claude Opus caused a staging outage — all because agents execute what they compute is correct regardless of system prompt instructions. The NemoClaw + NanoClaw + CrabTrap pattern is directly applicable to any production AI agent gateway.
+> **Source:** AlphaSignal newsletter deep-dive · 2026-08-16 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — Layer 1 (NemoClaw): filesystem/syscall sandbox simulator with threat scenario presets and credential gateway simulation; Layer 2 (NanoClaw): attack surface comparison (OpenClaw 1M+ LoC vs NanoClaw 5K LoC), ephemeral container lifecycle, CVE exploit scenario comparisons; Layer 3 (CrabTrap): LLM-as-judge proxy with preset attack scenarios (prompt injection, SSRF, API key exfiltration), bifurcated static/LLM evaluation path, HITL notification display.
+**Implemented:** Yes — `hf-space/agent_security/` · Tab 18 in `hf-space/app.py` (2026-08-17)
 
 ## Previously Scanned (2026-08-03)
 
