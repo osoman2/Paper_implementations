@@ -20,6 +20,7 @@ Tabs:
  16. HuntGPT: RAG Anomaly Detection with XAI + Conversational Assistant — score 8/10
  17. PromptShield: Privacy-Preserving LLM Proxy (NER + Sanitization + HITL) — score 8/10
  18. AI Agent Security: 3-Layer Defense Stack (NemoClaw + NanoClaw + CrabTrap) — score 9/10
+ 19. AI Mind Viruses: Adversarial Prompt Propagation in Multi-Agent Networks — score 8/10
 """
 
 import os
@@ -101,6 +102,19 @@ from agent_security import (
     NANOCLAW_KEPT,
     evaluate_request,
     CRABTRAP_SCENARIOS,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 19 — AI Mind Viruses: Adversarial Prompt Propagation in Multi-Agent Networks
+# ---------------------------------------------------------------------------
+from mind_virus import (
+    PRESET_VIRUSES as MV_PRESET_VIRUSES,
+    AGENTS as MV_AGENTS,
+    DEFENSE_WARNING as MV_DEFENSE_WARNING,
+    simulate_propagation as mv_simulate,
+    format_propagation_report as mv_format_report,
+    compare_runs as mv_compare,
+    get_mutation_trace as mv_mutation_trace,
 )
 
 # ---------------------------------------------------------------------------
@@ -3824,6 +3838,109 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Transfer to AI engineering:** Any production agent deployment needs all three layers. "
                 "CrabTrap's pattern is especially transferable: the bifurcated static/LLM-judge proxy "
                 "with HITL escalation is drop-in applicable to any enterprise agent gateway."
+            )
+
+        # ── Tab 19: AI Mind Viruses — Adversarial Prompt Propagation ─────────
+        # ====================================================================
+        with gr.Tab("🦠 Mind Virus Propagation"):
+            gr.Markdown(
+                "## 🦠 AI Mind Viruses — Adversarial Prompt Propagation in Agent Networks\n"
+                "**Source:** Anthropic research (AlphaSignal · 2026-08-18) · Score 8/10\n\n"
+                "Adversarial instructions embedded in user-sourced content can propagate through "
+                "multi-agent pipelines like a virus — each agent summarises the prior agent's output "
+                "into its own context window, carrying the malicious instruction forward. The payload "
+                "**mutates** at each hop, adopting the role vocabulary of each agent, making it "
+                "progressively harder to recognise.\n\n"
+                "**Key finding:** A single targeted system-prompt warning stops ≈90% of infections "
+                "before they reach downstream agents — a simple, zero-latency defense.\n\n"
+                "**Agent pipeline simulated:**\n"
+                + " → ".join(
+                    f"{a['emoji']} {a['name']}" for a in MV_AGENTS
+                )
+            )
+
+            mv_virus_names = [v["name"] for v in MV_PRESET_VIRUSES]
+
+            with gr.Tabs():
+                # ── Sub-tab A: Propagation Simulator ───────────────────────
+                with gr.Tab("🔬 Propagation Simulator"):
+                    gr.Markdown(
+                        "Select an adversarial payload, then compare undefended vs defended "
+                        "propagation side-by-side. Each hop shows the agent's status and what "
+                        "it would relay to the next agent."
+                    )
+                    mv_virus_sel = gr.Dropdown(
+                        choices=mv_virus_names,
+                        value=mv_virus_names[0],
+                        label="Adversarial payload",
+                    )
+                    mv_seed_slider = gr.Slider(
+                        minimum=0, maximum=99, step=1, value=42,
+                        label="Random seed (controls 90% catch-rate variability)",
+                    )
+                    mv_run_btn = gr.Button("▶ Run simulation", variant="primary")
+                    with gr.Row():
+                        mv_undefended_out = gr.Markdown(label="Without defense")
+                        mv_defended_out = gr.Markdown(label="With defense (system-prompt warning)")
+
+                    def _mv_run(virus_name, seed):
+                        undefended, defended = mv_compare(virus_name, seed=int(seed))
+                        return undefended, defended
+
+                    mv_run_btn.click(
+                        fn=_mv_run,
+                        inputs=[mv_virus_sel, mv_seed_slider],
+                        outputs=[mv_undefended_out, mv_defended_out],
+                    )
+
+                # ── Sub-tab B: Mutation Tracer ──────────────────────────────
+                with gr.Tab("🔀 Mutation Tracer"):
+                    gr.Markdown(
+                        "Shows how the adversarial payload is rephrased at each hop. "
+                        "By the time it reaches the executor, the original suspicious wording "
+                        "is replaced by role-appropriate language that evades simple keyword filters."
+                    )
+                    mv_trace_virus = gr.Dropdown(
+                        choices=mv_virus_names,
+                        value=mv_virus_names[0],
+                        label="Adversarial payload",
+                    )
+                    mv_trace_btn = gr.Button("▶ Show mutation trace", variant="primary")
+                    mv_trace_out = gr.Markdown()
+
+                    mv_trace_btn.click(
+                        fn=mv_mutation_trace,
+                        inputs=[mv_trace_virus],
+                        outputs=[mv_trace_out],
+                    )
+
+                # ── Sub-tab C: Defense Warning ──────────────────────────────
+                with gr.Tab("🛡️ Defense System Prompt"):
+                    gr.Markdown(
+                        "### The One-Line Fix\n"
+                        "Anthropic found that adding a targeted warning to every agent's system "
+                        "prompt reduces spread to near-zero. The warning is short enough to add "
+                        "minimal token overhead, and it works even when agents share compressed "
+                        "summaries rather than raw messages.\n\n"
+                        "**Defense text (add to every agent's system prompt):**\n\n"
+                        f"```\n{MV_DEFENSE_WARNING}\n```\n\n"
+                        "**Why this works:** Agents given explicit adversarial-instruction recognition "
+                        "criteria identify and quarantine suspicious content before relaying it. "
+                        "Without this, agents treat injected instructions as legitimate context.\n\n"
+                        "**Transfer to production:** Add this (or a variant) to every agent's system "
+                        "prompt in any multi-agent pipeline that processes user-sourced content, "
+                        "third-party API responses, or retrieved documents."
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Mind Viruses):** In a multi-agent pipeline, each agent is both "
+                "a potential victim and an unwitting propagator. The virus spreads through the "
+                "normal mechanism of context sharing — no exploit required. "
+                "The mutation effect means keyword-based filters at later hops miss the payload "
+                "entirely. The defense must be applied **at every hop**, not just the entry point.\n\n"
+                "**Applicable to:** Any RAG orchestration chain, agent-to-agent message bus, "
+                "or multi-model pipeline that incorporates user content into inter-agent context."
             )
 
 if __name__ == "__main__":
