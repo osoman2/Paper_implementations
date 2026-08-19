@@ -21,6 +21,7 @@ Tabs:
  17. PromptShield: Privacy-Preserving LLM Proxy (NER + Sanitization + HITL) — score 8/10
  18. AI Agent Security: 3-Layer Defense Stack (NemoClaw + NanoClaw + CrabTrap) — score 9/10
  19. AI Mind Viruses: Adversarial Prompt Propagation in Multi-Agent Networks — score 8/10
+ 20. Self-Verify: LLM Self-Verification for 11x Cheaper Inference — score 8/10
 """
 
 import os
@@ -115,6 +116,20 @@ from mind_virus import (
     format_propagation_report as mv_format_report,
     compare_runs as mv_compare,
     get_mutation_trace as mv_mutation_trace,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 20 — Self-Verify: LLM Self-Verification for 11x Cheaper Inference
+# ---------------------------------------------------------------------------
+from self_verify import (
+    CHALLENGES as SV_CHALLENGES,
+    CHALLENGE_TITLES as SV_CHALLENGE_TITLES,
+    SMALL_MODEL as SV_SMALL_MODEL,
+    LARGE_MODEL as SV_LARGE_MODEL,
+    simulate_self_verify as sv_simulate,
+    format_run_report as sv_format_report,
+    get_benchmark_table as sv_benchmark_table,
+    get_applicability_guide as sv_applicability_guide,
 )
 
 # ---------------------------------------------------------------------------
@@ -3941,6 +3956,89 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "entirely. The defense must be applied **at every hop**, not just the entry point.\n\n"
                 "**Applicable to:** Any RAG orchestration chain, agent-to-agent message bus, "
                 "or multi-model pipeline that incorporates user content into inter-agent context."
+            )
+
+        # ── Tab 20: Self-Verify — LLM Self-Verification for 11x Cheaper Inference ─
+        # ===========================================================================
+        with gr.Tab("✅ Self-Verify (11x Cheaper)"):
+            gr.Markdown(
+                "## ✅ LLM Self-Verification — 11× Cheaper Inference on Coding Tasks\n"
+                "**Source:** Stanford research (AlphaSignal deep-dive · 2026-08-19) · Score 8/10\n\n"
+                "**Core insight:** Verification is easier than generation. Instead of calling an "
+                "expensive large model once, a smaller model generates a candidate solution and "
+                "then *self-verifies* it by checking against formal criteria (test cases, schema "
+                "constraints, type annotations). If verification fails, the model regenerates with "
+                "failure feedback injected into the prompt. The loop terminates in ≤3 rounds for "
+                "96% of queries — delivering large-model quality at **11× lower cost**.\n\n"
+                f"**Models:** {SV_SMALL_MODEL['emoji']} {SV_SMALL_MODEL['name']} "
+                f"(${SV_SMALL_MODEL['cost_per_1k']}/1k tokens) vs "
+                f"{SV_LARGE_MODEL['emoji']} {SV_LARGE_MODEL['name']} "
+                f"(${SV_LARGE_MODEL['cost_per_1k']}/1k tokens)"
+            )
+
+            sv_challenge_ids = [c["id"] for c in SV_CHALLENGES]
+            sv_challenge_labels = [
+                f"{c['title']} ({c['difficulty']})" for c in SV_CHALLENGES
+            ]
+
+            with gr.Tabs():
+                # ── Sub-tab A: Verification Loop Simulator ──────────────────
+                with gr.Tab("🔄 Verification Loop"):
+                    gr.Markdown(
+                        "Select a coding challenge to see the self-verification loop in action. "
+                        "The small model generates a candidate solution and immediately checks it "
+                        "against the test suite. Failed attempts feed their error back into the "
+                        "next generation prompt — a tight feedback loop that converges quickly."
+                    )
+                    with gr.Row():
+                        sv_challenge_dd = gr.Dropdown(
+                            choices=sv_challenge_labels,
+                            value=sv_challenge_labels[0],
+                            label="Challenge",
+                        )
+                        sv_seed_sl = gr.Slider(
+                            minimum=0, maximum=99, step=1, value=42,
+                            label="Random seed",
+                        )
+                    sv_run_btn = gr.Button("▶ Run self-verify loop", variant="primary")
+                    sv_loop_out = gr.Markdown()
+
+                    def _sv_run(challenge_label, seed):
+                        idx = sv_challenge_labels.index(challenge_label)
+                        cid = sv_challenge_ids[idx]
+                        result = sv_simulate(cid, seed=int(seed))
+                        return sv_format_report(result)
+
+                    sv_run_btn.click(
+                        fn=_sv_run,
+                        inputs=[sv_challenge_dd, sv_seed_sl],
+                        outputs=[sv_loop_out],
+                    )
+
+                # ── Sub-tab B: Benchmark Results ────────────────────────────
+                with gr.Tab("📊 Benchmark Results"):
+                    gr.Markdown(
+                        "Aggregate accuracy and cost results across four major coding benchmarks. "
+                        "Self-Verify matches or exceeds the large model's pass@1 rate in all cases "
+                        "while consuming ~11× fewer tokens."
+                    )
+                    gr.Markdown(sv_benchmark_table())
+
+                # ── Sub-tab C: Applicability Guide ──────────────────────────
+                with gr.Tab("🏭 Production Guide"):
+                    gr.Markdown(sv_applicability_guide())
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Self-Verify):** The cost asymmetry between generation and "
+                "verification is fundamental — not a trick. Checking whether a function handles "
+                "an edge case is far simpler than writing one that does. The same asymmetry "
+                "applies to SQL correctness checks, JSON schema validation, RAG answer citation "
+                "matching, and structured data constraints. Any output with a formal verifier "
+                "is a candidate for the self-verify loop.\n\n"
+                "**Applicable to:** Code generation, SQL generation, JSON extraction, RAG "
+                "fact-checking, structured output validation — any LLM task with a computable "
+                "correctness signal."
             )
 
 if __name__ == "__main__":
