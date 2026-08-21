@@ -22,6 +22,7 @@ Tabs:
  18. AI Agent Security: 3-Layer Defense Stack (NemoClaw + NanoClaw + CrabTrap) — score 9/10
  19. AI Mind Viruses: Adversarial Prompt Propagation in Multi-Agent Networks — score 8/10
  20. Self-Verify: LLM Self-Verification for 11x Cheaper Inference — score 8/10
+ 21. LLMs vs Embeddings: The 1,431x Cost Study — score 8/10
 """
 
 import os
@@ -116,6 +117,17 @@ from mind_virus import (
     format_propagation_report as mv_format_report,
     compare_runs as mv_compare,
     get_mutation_trace as mv_mutation_trace,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 21 — LLMs vs Embeddings: The 1,431x Cost Study
+# ---------------------------------------------------------------------------
+from llm_vs_embeddings import (
+    MODELS as LVE_MODELS,
+    QUERY_TYPES as LVE_QUERY_TYPES,
+    cost_comparison_table as lve_cost_table,
+    get_study_summary as lve_study_summary,
+    get_query_analysis_table as lve_query_table,
 )
 
 # ---------------------------------------------------------------------------
@@ -4039,6 +4051,76 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Applicable to:** Code generation, SQL generation, JSON extraction, RAG "
                 "fact-checking, structured output validation — any LLM task with a computable "
                 "correctness signal."
+            )
+
+        # ===========================================================================
+        # ── Tab 21: LLMs vs Embeddings — The 1,431x Cost Study ──────────────────
+        # ===========================================================================
+        with gr.Tab("💰 LLMs vs Embeddings (1,431×)"):
+            gr.Markdown(
+                "## 💰 LLMs vs Embedding Models: The 1,431× Cost Study\n"
+                "**Source:** AlphaSignal signal · 2026-08-21 · Score 8/10\n\n"
+                "**Core finding:** LLMs used as retrieval scorers outperform embedding models "
+                "on complex queries (NDCG@10 +8–15 points on BEIR) but cost up to **1,431× more** "
+                "per token. GPT-4-turbo at $28.62/1M tokens vs text-embedding-3-small at $0.020/1M. "
+                "The practical answer: **hybrid retrieval** (embedding ANN + LLM reranking top-k) "
+                "collapses the gap — near-LLM accuracy at ~3% of full-LLM cost."
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab A: Study Summary ────────────────────────────────
+                with gr.Tab("📖 Study Summary"):
+                    gr.Markdown(lve_study_summary())
+
+                # ── Sub-tab B: Cost Calculator ──────────────────────────────
+                with gr.Tab("💰 Cost Calculator"):
+                    gr.Markdown(
+                        "Set your workload parameters and see the projected monthly cost "
+                        "for every retrieval model. Costs update when you click **Calculate**."
+                    )
+                    with gr.Row():
+                        lve_qpd = gr.Slider(
+                            minimum=100, maximum=100_000, step=100, value=5_000,
+                            label="Queries per day",
+                        )
+                        lve_doctok = gr.Slider(
+                            minimum=100, maximum=2000, step=50, value=500,
+                            label="Avg document tokens",
+                        )
+                    with gr.Row():
+                        lve_pool = gr.Slider(
+                            minimum=10, maximum=200, step=10, value=50,
+                            label="Candidate pool size (LLM scores this many docs)",
+                        )
+                        lve_topk = gr.Slider(
+                            minimum=5, maximum=50, step=5, value=20,
+                            label="Hybrid reranker top-k (LLM scores only these)",
+                        )
+                    lve_calc_btn = gr.Button("📊 Calculate monthly costs", variant="primary")
+                    lve_cost_out = gr.Markdown()
+
+                    def _lve_cost(qpd, doctok, pool, topk):
+                        return lve_cost_table(int(qpd), int(doctok), int(pool), int(topk))
+
+                    lve_calc_btn.click(
+                        fn=_lve_cost,
+                        inputs=[lve_qpd, lve_doctok, lve_pool, lve_topk],
+                        outputs=[lve_cost_out],
+                    )
+
+                # ── Sub-tab C: Query Type Analysis ──────────────────────────
+                with gr.Tab("🎯 Query Type Analysis"):
+                    gr.Markdown(lve_query_table())
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (LLMs vs Embeddings):** The 1,431× cost gap is structural. "
+                "Embedding retrieval encodes the query once and uses ANN search (CPU-fast). "
+                "LLM retrieval must process every candidate document with the full model. "
+                "The hybrid pattern — embed→ANN→rerank top-20 — captures 99% of LLM accuracy "
+                "at 3% of LLM cost, and should be the default for production RAG systems.\n\n"
+                "**Applicable to:** Any RAG system choosing a retrieval strategy — "
+                "especially high-volume, latency-sensitive, or cost-constrained deployments."
             )
 
 if __name__ == "__main__":

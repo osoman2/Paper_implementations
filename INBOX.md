@@ -1,7 +1,16 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-19 · 1 new paper(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-19; POC implemented)
+Last updated: 2026-08-21 · 1 new paper(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-21; POC implemented)
 
 ## New Papers (this run)
+
+### 🔴 [LLMs beat embedding models but cost up to 1,431x more, study finds] — Score 8/10
+> Drop-in applicable study for RAG system design decisions (AlphaSignal signal · 2026-08-21). Benchmarks 12 retrieval approaches on BEIR (18 datasets): LLMs used as retrieval scorers achieve NDCG@10 = 0.861 (Claude Sonnet 5) vs 0.762 (voyage-3 embeddings) on complex queries — a +13% accuracy gain — but at up to **1,431× higher cost per token** (GPT-4-turbo $28.62/1M vs text-embedding-3-small $0.020/1M) and **127× higher latency**. On simple factual/keyword queries, embeddings match LLMs within 2 NDCG points at negligible cost. The practical winner: **hybrid retrieval** (embedding ANN search on full corpus + LLM reranking top-20 only) achieves 99% of full-LLM accuracy at 3% of the cost — directly applicable to any production RAG system choosing a retrieval strategy.
+> **Source:** AlphaSignal signal · 2026-08-21 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — (1) Study Summary: headline findings, accuracy vs cost comparison table across 13 models; (2) Cost Calculator: set query volume, doc token count, candidate pool size → see monthly cost projection for all 13 retrieval approaches; (3) Query Type Analysis: per-query-category breakdown of embedding vs LLM vs hybrid NDCG@10 and the winner.
+**Implemented:** Yes — `hf-space/llm_vs_embeddings/` · Tab 21 in `hf-space/app.py` (2026-08-21)
+
+## Previously Scanned (2026-08-19)
 
 ### 🔴 [Stanford's Self-Verification Trick: DeepSeek 11x Cheaper on Coding Benchmarks] — Score 8/10
 > Drop-in applicable LLM inference cost-reduction technique (Stanford research, AlphaSignal 2026-08-19). Instead of a single expensive large-model call, a small model (DeepSeek-V3-0324 7B) generates a candidate solution and immediately self-verifies it against formal criteria (test cases, schema constraints). Failed attempts inject failure feedback into the next generation prompt. The loop converges in ≤3 rounds for 96% of queries — matching or beating large-model quality (88.3% vs 87.9% pass@1 on HumanEval+) at **11× lower cost**. The core insight is asymmetric difficulty: verification is always easier than generation. Applicable to any output with a computable correctness signal: code, SQL, JSON, RAG fact-checking, structured data extraction.
