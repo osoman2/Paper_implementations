@@ -23,6 +23,7 @@ Tabs:
  19. AI Mind Viruses: Adversarial Prompt Propagation in Multi-Agent Networks — score 8/10
  20. Self-Verify: LLM Self-Verification for 11x Cheaper Inference — score 8/10
  21. LLMs vs Embeddings: The 1,431x Cost Study — score 8/10
+ 22. Matryoshka LM: Nested Model Family Training (36% Compute Savings) — score 8/10
 """
 
 import os
@@ -117,6 +118,20 @@ from mind_virus import (
     format_propagation_report as mv_format_report,
     compare_runs as mv_compare,
     get_mutation_trace as mv_mutation_trace,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 22 — Matryoshka LM: Nested Model Family Training
+# ---------------------------------------------------------------------------
+from matryoshka_lm import (
+    SIZES as MLM_SIZES,
+    SAMPLE_QUERIES as MLM_SAMPLE_QUERIES,
+    COMPLEXITY_TO_SIZE as MLM_COMPLEXITY_TO_SIZE,
+    score_complexity as mlm_score_complexity,
+    compute_savings as mlm_compute_savings,
+    architecture_summary as mlm_architecture_summary,
+    routing_result as mlm_routing_result,
+    savings_report as mlm_savings_report,
 )
 
 # ---------------------------------------------------------------------------
@@ -4121,6 +4136,133 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "at 3% of LLM cost, and should be the default for production RAG systems.\n\n"
                 "**Applicable to:** Any RAG system choosing a retrieval strategy — "
                 "especially high-volume, latency-sensitive, or cost-constrained deployments."
+            )
+
+        # ── Tab 22: Matryoshka LM ──────────────────────────────────────────
+        with gr.Tab("🪆 Matryoshka LM (36% Compute)"):
+            gr.Markdown(
+                "## 🪆 Matryoshka Language Model — 36% Compute Savings\n"
+                "**Source:** AlphaSignal signal · 2026-08-21 · Score 8/10\n\n"
+                "**Core idea:** One training run produces a *nested family* of LLMs "
+                "(small, medium, large). At inference, queries are routed to the smallest "
+                "model that can handle them — achieving 36% compute savings with no "
+                "measurable quality loss on representative workloads.\n\n"
+                "**Applicable to:** Any production LLM serving system — inference APIs, "
+                "RAG rerankers, chat orchestration, code completion endpoints."
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab A: Architecture ──────────────────────────────────
+                with gr.Tab("📐 Architecture"):
+                    gr.Markdown(mlm_architecture_summary())
+
+                # ── Sub-tab B: Adaptive Routing Demo ────────────────────────
+                with gr.Tab("🔀 Adaptive Routing Demo"):
+                    gr.Markdown(
+                        "Enter a query (or pick a preset) to see how the Matryoshka "
+                        "routing heuristic determines complexity and selects the right "
+                        "model size."
+                    )
+                    with gr.Row():
+                        mlm_preset = gr.Dropdown(
+                            choices=["(type your own query)"]
+                                    + [q["text"] for q in MLM_SAMPLE_QUERIES],
+                            label="Preset query",
+                            value="(type your own query)",
+                        )
+                    mlm_query_in = gr.Textbox(
+                        label="Your query",
+                        placeholder="e.g. What is BM25?",
+                        lines=2,
+                    )
+                    mlm_route_btn = gr.Button("🪆 Route this query", variant="primary")
+                    mlm_route_out = gr.Markdown()
+
+                    def _mlm_preset_fill(preset: str) -> str:
+                        if preset == "(type your own query)":
+                            return ""
+                        return preset
+
+                    mlm_preset.change(
+                        fn=_mlm_preset_fill,
+                        inputs=[mlm_preset],
+                        outputs=[mlm_query_in],
+                    )
+
+                    def _mlm_route(query: str) -> str:
+                        if not query.strip():
+                            return "_Please enter a query first._"
+                        tier, conf, reason = mlm_score_complexity(query)
+                        return mlm_routing_result(query, tier, conf, reason)
+
+                    mlm_route_btn.click(
+                        fn=_mlm_route,
+                        inputs=[mlm_query_in],
+                        outputs=[mlm_route_out],
+                    )
+
+                # ── Sub-tab C: Cost Savings Calculator ───────────────────────
+                with gr.Tab("💰 Cost Savings Calculator"):
+                    gr.Markdown(
+                        "Set the proportion of your workload at each complexity tier "
+                        "and see projected monthly cost savings vs always-using-large."
+                    )
+                    with gr.Row():
+                        mlm_pct_low = gr.Slider(
+                            minimum=0, maximum=100, step=5, value=45,
+                            label="% Simple queries (→ Small model)",
+                        )
+                        mlm_pct_med = gr.Slider(
+                            minimum=0, maximum=100, step=5, value=35,
+                            label="% Moderate queries (→ Medium model)",
+                        )
+                        mlm_pct_high = gr.Slider(
+                            minimum=0, maximum=100, step=5, value=20,
+                            label="% Complex queries (→ Large model)",
+                        )
+                    with gr.Row():
+                        mlm_qpd = gr.Slider(
+                            minimum=100, maximum=500_000, step=1000, value=50_000,
+                            label="Queries per day",
+                        )
+                        mlm_tok = gr.Slider(
+                            minimum=50, maximum=2000, step=50, value=300,
+                            label="Avg output tokens per query",
+                        )
+                    mlm_calc_btn = gr.Button("📊 Calculate savings", variant="primary")
+                    mlm_savings_out = gr.Markdown()
+
+                    def _mlm_savings(pct_low, pct_med, pct_high, qpd, tok):
+                        total = pct_low + pct_med + pct_high
+                        if abs(total - 100) > 1:
+                            return (
+                                f"⚠️ Percentages sum to {total:.0f}% — "
+                                "please adjust so they add up to 100%."
+                            )
+                        res = mlm_compute_savings(
+                            float(pct_low), float(pct_med), float(pct_high),
+                            int(qpd), int(tok),
+                        )
+                        return mlm_savings_report(res)
+
+                    mlm_calc_btn.click(
+                        fn=_mlm_savings,
+                        inputs=[mlm_pct_low, mlm_pct_med, mlm_pct_high, mlm_qpd, mlm_tok],
+                        outputs=[mlm_savings_out],
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Matryoshka LM):** Training shared early layers to "
+                "satisfy multiple exit points forces universally useful representations "
+                "and eliminates separate pre-training runs. At inference, the routing "
+                "signal can be as simple as query token-length or as rich as a fast "
+                "triage classifier — both recover most of the compute savings. "
+                "The technique composes naturally with hybrid search: expensive "
+                "LLM reranking is routed to the large model only for the queries "
+                "where embedding retrieval confidence is low.\n\n"
+                "**Applicable to:** Production LLM serving — inference APIs, RAG "
+                "rerankers, chat orchestration, adaptive-compute endpoints."
             )
 
 if __name__ == "__main__":

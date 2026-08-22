@@ -1,7 +1,32 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-21 · 1 new paper(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-21; POC implemented)
+Last updated: 2026-08-22 · 5 new paper(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-20 and 2026-08-21; POC implemented)
 
 ## New Papers (this run)
+
+### 🔴 [Matryoshka LM: Train a whole model family for 36% less compute] — Score 8/10
+> Drop-in applicable LLM training and serving technique (AlphaSignal signal · 2026-08-21). A single training run produces nested sub-models (small 1B → medium 7B → large 70B) sharing early layers; joint training forces shared layers to learn universally useful representations. At inference, a lightweight triage step routes simple queries to the inner model (cheap/fast) and complex queries to the full model — achieving ~36% aggregate compute savings on representative workloads without measurable quality loss. Drop-in applicable to any production LLM serving stack as an adaptive-depth routing layer.
+> **Source:** AlphaSignal signal · 2026-08-21 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — (1) Architecture: nested layer diagram, size comparison table; (2) Adaptive Routing Demo: enter query → see complexity tier and model size selected with latency/cost estimate; (3) Cost Calculator: set workload distribution across complexity tiers → monthly savings vs always-large baseline.
+**Implemented:** Yes — `hf-space/matryoshka_lm/` · Tab 22 in `hf-space/app.py` (2026-08-22)
+
+### 🟡 [Claude computer use: 20–40% fewer round trips per task] — Score 6/10
+> Anthropic product optimization shipping action batching in computer use agents: the agent now groups related UI interactions (e.g. fill-form + submit) into a single observation-action step instead of a round-trip per interaction, cutting latency by 20–40% on realistic automation benchmarks (AlphaSignal signal · 2026-08-21). Drop-in applicable when building computer-use agents on Anthropic's API — the batching pattern can be replicated in custom agent harnesses that process tool results asynchronously. Not a research paper; a product engineering win.
+> **Source:** AlphaSignal signal · 2026-08-21 · Scored via Gmail MCP connector
+
+### 🟡 [New training-free trick cuts Gemma3 perplexity 23% and boosts math accuracy 21%] — Score 7/10
+> Training-free inference-time technique for generative LLMs (AlphaSignal signal · 2026-08-20). No fine-tuning required — applied at decode time to standard Gemma3 checkpoints. The specific mechanism (likely attention-pattern modification, token-sampling calibration, or layer-skip scheduling) achieves −23% perplexity and +21% math benchmark accuracy without any gradient updates. Score 7 rather than 8: technique appears Gemma3-specific in the AlphaSignal signal summary; generalization to other model families needs verification.
+> **Source:** AlphaSignal signal · 2026-08-20 · Scored via Gmail MCP connector
+
+### 🟡 [Stanford study: LLM agent communities of 10,000 agents reach consensus or polarize] — Score 6/10
+> Academic multi-agent dynamics study (AlphaSignal signal · 2026-08-20, citing Stanford research). Simulates 10,000 simultaneous LLM agent interactions under different coordination protocols; identifies tipping-point conditions where agent communities converge on consensus vs. split into polarized factions. Applicable with adaptation to multi-agent RAG orchestration design (e.g. choosing between broadcast vs. debate-style aggregation for retrieval consensus). Interesting but requires significant framing shift to become drop-in applicable.
+> **Source:** AlphaSignal signal · 2026-08-20 · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic ships domain controls and cost tracking to Claude managed agents] — Score 5/10
+> Anthropic product feature update (AlphaSignal signal · 2026-08-20): managed agents now enforce domain restrictions (only call approved tool subsets) and emit per-run cost telemetry. Useful operational news for teams running Claude managed agents in production, but not a generalizable research technique applicable outside the Anthropic managed agent platform.
+> **Source:** AlphaSignal signal · 2026-08-20 · Scored via Gmail MCP connector
+
+## Previously Scanned (2026-08-21)
 
 ### 🔴 [LLMs beat embedding models but cost up to 1,431x more, study finds] — Score 8/10
 > Drop-in applicable study for RAG system design decisions (AlphaSignal signal · 2026-08-21). Benchmarks 12 retrieval approaches on BEIR (18 datasets): LLMs used as retrieval scorers achieve NDCG@10 = 0.861 (Claude Sonnet 5) vs 0.762 (voyage-3 embeddings) on complex queries — a +13% accuracy gain — but at up to **1,431× higher cost per token** (GPT-4-turbo $28.62/1M vs text-embedding-3-small $0.020/1M) and **127× higher latency**. On simple factual/keyword queries, embeddings match LLMs within 2 NDCG points at negligible cost. The practical winner: **hybrid retrieval** (embedding ANN search on full corpus + LLM reranking top-20 only) achieves 99% of full-LLM accuracy at 3% of the cost — directly applicable to any production RAG system choosing a retrieval strategy.
