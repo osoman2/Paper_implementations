@@ -24,6 +24,7 @@ Tabs:
  20. Self-Verify: LLM Self-Verification for 11x Cheaper Inference — score 8/10
  21. LLMs vs Embeddings: The 1,431x Cost Study — score 8/10
  22. Matryoshka LM: Nested Model Family Training (36% Compute Savings) — score 8/10
+ 23. Agent Skills: What 8,100 Trials Reveal About Runbooks vs Facts — score 8/10
 """
 
 import os
@@ -118,6 +119,22 @@ from mind_virus import (
     format_propagation_report as mv_format_report,
     compare_runs as mv_compare,
     get_mutation_trace as mv_mutation_trace,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 23 — Agent Skills: What 8,100 Trial Records Reveal
+# ---------------------------------------------------------------------------
+from agent_skills import (
+    EXECUTION_MODES as AS_EXECUTION_MODES,
+    ANNOTATION_DATA as AS_ANNOTATION_DATA,
+    SUCCESS_BREAKDOWN as AS_SUCCESS_BREAKDOWN,
+    CATALOG_SCALE as AS_CATALOG_SCALE,
+    CATALOG_SUCCESS as AS_CATALOG_SUCCESS,
+    ENV_FAILURES as AS_ENV_FAILURES,
+    RAW_MEMORY_EXAMPLE as AS_RAW_MEMORY,
+    DISTILLED_RUNBOOK_EXAMPLE as AS_RUNBOOK,
+    SKILL_CATALOG as AS_SKILL_CATALOG,
+    two_level_retrieval as as_two_level_retrieval,
 )
 
 # ---------------------------------------------------------------------------
@@ -4263,6 +4280,324 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "where embedding retrieval confidence is low.\n\n"
                 "**Applicable to:** Production LLM serving — inference APIs, RAG "
                 "rerankers, chat orchestration, adaptive-compute endpoints."
+            )
+
+        # ── Tab 23: Agent Skills ──────────────────────────────────────────
+        with gr.Tab("🧠 Agent Skills (Runbooks > Facts)"):
+            gr.Markdown(
+                "## 🧠 Agent Skills: What 8,100 Trial Records Reveal\n"
+                "**Source:** AlphaSignal deep-dive · 2026-08-23 · 8,135 trials across "
+                "Terminal-Bench 2.0 and SkillsBench · **Score: 8/10**\n\n"
+                "Skills don't teach agents facts — they **stabilize execution**. "
+                "The study shows procedural anchoring (runbooks) accounts for **65.7%** "
+                "of successes vs only **4.5%** from explicit knowledge injection. "
+                "How you format the skill and whether you annotate trajectories "
+                "makes or breaks agent reliability."
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Skill Format Comparison ───────────────────
+                with gr.Tab("📋 Skill Format Demo"):
+                    gr.Markdown(
+                        "### Runbook vs Raw Memory vs No Skill\n"
+                        "Distilling experience into a standardized runbook improves "
+                        "task success over raw workflow memory by **+6.06 percentage points**."
+                    )
+
+                    with gr.Row():
+                        with gr.Column(scale=1):
+                            gr.Markdown("**Raw Workflow Memory (noisy logs)**")
+                            as_raw_display = gr.Textbox(
+                                value=AS_RAW_MEMORY,
+                                label="What the agent sees — raw trajectory logs",
+                                lines=18,
+                                interactive=False,
+                            )
+
+                        with gr.Column(scale=1):
+                            gr.Markdown("**Distilled Runbook Skill (standardized)**")
+                            as_runbook_display = gr.Textbox(
+                                value=AS_RUNBOOK,
+                                label="What the agent sees — clean procedural runbook",
+                                lines=18,
+                                interactive=False,
+                            )
+
+                    with gr.Row():
+                        as_format_btn = gr.Button("📊 Show Success Rate Comparison", variant="primary")
+                        as_breakdown_btn = gr.Button("🔬 Show Success Breakdown by Factor")
+
+                    as_format_out = gr.Plot(label="Execution Mode Comparison")
+                    as_breakdown_out = gr.Plot(label="Why Skills Succeed (Success Factor Breakdown)")
+
+                    def as_plot_modes() -> Any:
+                        fig, ax = plt.subplots(figsize=(7, 4))
+                        labels = list(AS_EXECUTION_MODES.keys())
+                        vals = list(AS_EXECUTION_MODES.values())
+                        colors = ["#d9534f", "#f0ad4e", "#5cb85c"]
+                        bars = ax.bar(labels, vals, color=colors, width=0.5, zorder=3)
+                        for bar, val in zip(bars, vals):
+                            ax.text(
+                                bar.get_x() + bar.get_width() / 2,
+                                bar.get_height() + 0.5,
+                                f"{val:.1f}%",
+                                ha="center", va="bottom", fontsize=11, fontweight="bold",
+                            )
+                        ax.set_ylim(50, 75)
+                        ax.set_ylabel("Task Success Rate (%)")
+                        ax.set_title("Execution Mode vs Task Success (8,135 trials)")
+                        ax.yaxis.grid(True, linestyle="--", alpha=0.6)
+                        ax.set_axisbelow(True)
+                        diff = vals[2] - vals[1]
+                        ax.annotate(
+                            f"+{diff:.2f}pp\n(runbook vs raw logs)",
+                            xy=(1.5, (vals[1] + vals[2]) / 2),
+                            fontsize=9, ha="center", color="#333",
+                            bbox=dict(boxstyle="round,pad=0.3", fc="#fffbdd", ec="#ccc"),
+                        )
+                        fig.tight_layout()
+                        return fig
+
+                    def as_plot_breakdown() -> Any:
+                        fig, ax = plt.subplots(figsize=(6, 5))
+                        labels = list(AS_SUCCESS_BREAKDOWN.keys())
+                        vals = list(AS_SUCCESS_BREAKDOWN.values())
+                        colors = ["#5cb85c", "#d9534f", "#aaa"]
+                        wedges, texts, autotexts = ax.pie(
+                            vals, labels=labels, colors=colors,
+                            autopct="%1.1f%%", startangle=90,
+                            textprops={"fontsize": 10},
+                        )
+                        for at in autotexts:
+                            at.set_fontsize(11)
+                            at.set_fontweight("bold")
+                        ax.set_title("Why Skills Succeed\n(8,135 trials)", fontsize=12, pad=10)
+                        fig.tight_layout()
+                        return fig
+
+                    as_format_btn.click(fn=as_plot_modes, outputs=[as_format_out])
+                    as_breakdown_btn.click(fn=as_plot_breakdown, outputs=[as_breakdown_out])
+
+                    _raw_fail_pct = list(AS_ENV_FAILURES.values())[0]
+                    _skill_fail_pct = list(AS_ENV_FAILURES.values())[1]
+                    gr.Markdown(
+                        "> **Key takeaway:** Stop writing skills to teach your agents facts or generic "
+                        "algorithms. Format skills as **step-by-step runbooks** that force the agent "
+                        "to follow a strict operational checklist. Environment infrastructure failures "
+                        f"drop from **{_raw_fail_pct:.1f}%** "
+                        f"(raw execution) to **{_skill_fail_pct:.1f}%** "
+                        "(distilled skill) — a 26× reduction."
+                    )
+
+                # ── Sub-tab 2: Annotation Impact ─────────────────────────
+                with gr.Tab("🏷️ Annotation Impact"):
+                    gr.Markdown(
+                        "### Annotating Trajectories with Success/Failure is Critical\n"
+                        "Distilling skills from mixed trajectories **without** telling the agent "
+                        "which runs succeeded and which failed drops success from **74.6% → 40.0%** "
+                        "(a −34.6 pp collapse). The agent bakes hallucinations from failed runs "
+                        "directly into the skill library."
+                    )
+
+                    with gr.Row():
+                        as_annot_btn = gr.Button("📊 Show Annotation Impact", variant="primary")
+
+                    as_annot_out = gr.Plot(label="With vs Without Annotations")
+
+                    def as_plot_annotation() -> Any:
+                        fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+
+                        # Bar chart
+                        ax = axes[0]
+                        labels = list(AS_ANNOTATION_DATA.keys())
+                        vals = list(AS_ANNOTATION_DATA.values())
+                        colors = ["#5cb85c", "#d9534f"]
+                        bars = ax.bar(labels, vals, color=colors, width=0.45, zorder=3)
+                        for bar, val in zip(bars, vals):
+                            ax.text(
+                                bar.get_x() + bar.get_width() / 2,
+                                bar.get_height() + 0.5,
+                                f"{val:.1f}%",
+                                ha="center", va="bottom", fontsize=13, fontweight="bold",
+                            )
+                        ax.set_ylim(0, 90)
+                        ax.set_ylabel("Task Success Rate (%)")
+                        ax.set_title("Annotation Impact on Skill Quality")
+                        ax.yaxis.grid(True, linestyle="--", alpha=0.6)
+                        ax.set_axisbelow(True)
+                        ax.annotate(
+                            "−34.6 pp",
+                            xy=(0.5, 57), fontsize=12, ha="center",
+                            color="red", fontweight="bold",
+                        )
+
+                        # Pipeline diagram
+                        ax2 = axes[1]
+                        ax2.axis("off")
+                        steps = [
+                            ("Step 1", "Run agent on task", "#eef"),
+                            ("Step 2", "Label each trajectory\n✅ SUCCESS / ❌ FAILURE", "#ffe"),
+                            ("Step 3", "Distill ONLY from\nsuccessful runs", "#efe"),
+                            ("Result", "Clean runbook skill\n(74.6% success rate)", "#dfd"),
+                        ]
+                        y = 0.85
+                        for label, text, color in steps:
+                            ax2.add_patch(plt.Rectangle((0.05, y - 0.12), 0.9, 0.12,
+                                                        transform=ax2.transAxes,
+                                                        fc=color, ec="#999", lw=1, clip_on=False))
+                            ax2.text(0.5, y - 0.04, f"**{label}**: {text}",
+                                     ha="center", va="center", fontsize=8.5,
+                                     transform=ax2.transAxes)
+                            if y > 0.3:
+                                ax2.annotate("", xy=(0.5, y - 0.14), xytext=(0.5, y - 0.12),
+                                             xycoords="axes fraction", textcoords="axes fraction",
+                                             arrowprops=dict(arrowstyle="->", color="#555"))
+                            y -= 0.23
+                        ax2.set_title("Correct Skill Distillation Pipeline", fontsize=10, pad=4)
+
+                        fig.tight_layout()
+                        return fig
+
+                    as_annot_btn.click(fn=as_plot_annotation, outputs=[as_annot_out])
+
+                    gr.Markdown(
+                        "> **Key takeaway:** While raw trajectories are valuable, they must contain "
+                        "the right signals. Use an **LLM-as-a-judge** to score trajectory quality "
+                        "before distillation. Never feed a mixed batch of successes and failures "
+                        "without explicit outcome annotations — it permanently corrupts the skill."
+                    )
+
+                # ── Sub-tab 3: Catalog Scale & 2-Level Retrieval ─────────
+                with gr.Tab("🗂️ Catalog Scale & 2-Level Retrieval"):
+                    gr.Markdown(
+                        "### Skill Catalog Scaling Creates Retrieval Bottlenecks\n"
+                        "Retrieval precision collapses from **29.6% → 3.3%** as catalog grows "
+                        "5 → 100 skills. Yet task success remains stable (~36-39%) because "
+                        "related distractors still provide partial procedural support.\n\n"
+                        "The fix: **two-level retrieval** — domain bucket first, strict trigger second."
+                    )
+
+                    with gr.Row():
+                        as_scale_btn = gr.Button("📊 Show Catalog Scale Effect", variant="primary")
+
+                    as_scale_out = gr.Plot(label="Precision vs Task Success as Catalog Grows")
+
+                    def as_plot_scale() -> Any:
+                        sizes = list(AS_CATALOG_SCALE.keys())
+                        prec = list(AS_CATALOG_SCALE.values())
+                        succ = [AS_CATALOG_SUCCESS[s] for s in sizes]
+
+                        fig, ax1 = plt.subplots(figsize=(8, 4.5))
+                        color_prec = "#d9534f"
+                        color_succ = "#5cb85c"
+
+                        l1 = ax1.plot(sizes, prec, "o-", color=color_prec, lw=2.5,
+                                      label="Retrieval Precision (%)", markersize=7)
+                        ax1.set_xlabel("Skill Catalog Size")
+                        ax1.set_ylabel("Retrieval Precision (%)", color=color_prec)
+                        ax1.tick_params(axis="y", labelcolor=color_prec)
+                        ax1.set_ylim(0, 35)
+
+                        ax2 = ax1.twinx()
+                        l2 = ax2.plot(sizes, succ, "s--", color=color_succ, lw=2.5,
+                                      label="Task Success (%)", markersize=7)
+                        ax2.set_ylabel("Task Success Rate (%)", color=color_succ)
+                        ax2.tick_params(axis="y", labelcolor=color_succ)
+                        ax2.set_ylim(30, 45)
+
+                        lines = l1 + l2
+                        labels = [l.get_label() for l in lines]
+                        ax1.legend(lines, labels, loc="center right", fontsize=9)
+                        ax1.set_title(
+                            "Catalog Scale: Precision Collapses, Success Stays Stable\n"
+                            "(Related distractors provide partial procedural support)",
+                            fontsize=10,
+                        )
+                        ax1.grid(True, linestyle="--", alpha=0.4)
+                        fig.tight_layout()
+                        return fig
+
+                    as_scale_btn.click(fn=as_plot_scale, outputs=[as_scale_out])
+
+                    gr.Markdown("### 🔍 Two-Level Retrieval Demo")
+                    gr.Markdown(
+                        "Enter a task description and any error signal. "
+                        "The system will classify the domain (Level 1) then match "
+                        "a strict trigger rule (Level 2)."
+                    )
+
+                    with gr.Row():
+                        as_task_in = gr.Textbox(
+                            label="Task Description",
+                            placeholder="e.g. Fix API endpoint latency issue in the node.js server",
+                            value="Fix API endpoint latency issue in the node.js server",
+                        )
+                        as_error_in = gr.Textbox(
+                            label="Error / Signal",
+                            placeholder="e.g. Response time 912ms, async handlers",
+                            value="Response time 912ms, async handlers",
+                        )
+
+                    as_retrieve_btn = gr.Button("🔍 Run Two-Level Retrieval", variant="primary")
+                    as_retrieve_out = gr.Markdown(label="Retrieval Result")
+
+                    def as_run_retrieval(task: str, error: str) -> str:
+                        if not task.strip():
+                            return "⚠️ Enter a task description."
+                        result = as_two_level_retrieval(task, error)
+                        lines: list[str] = []
+                        lines.append("### Level 1: Domain Classification")
+                        for domain, score in sorted(
+                            result["domain_scores"].items(), key=lambda x: -x[1]
+                        ):
+                            marker = "✅" if domain == result["selected_domain"] else "  "
+                            lines.append(f"{marker} **{domain}**: {score} keyword hits")
+                        lines.append(f"\n→ Selected domain: **{result['selected_domain']}** "
+                                     f"({len(result['domain_skills'])} skills in bucket)")
+
+                        lines.append("\n### Level 2: Strict Trigger Matching")
+                        if result["matched_skill"]:
+                            s = result["matched_skill"]
+                            lines.append(f"\n✅ **Exact match found:** `{s['id']}` — {s['title']}")
+                            lines.append(f"- Trigger: `{s['trigger']}`")
+                            lines.append(f"- Runbook: {s['description']}")
+                        else:
+                            lines.append("\n⚠️ No exact trigger match — checking partial matches:")
+                            if result["partial_matches"]:
+                                for s in result["partial_matches"][:2]:
+                                    lines.append(f"  - `{s['id']}` {s['title']} (partial: {s['trigger']})")
+                                lines.append(
+                                    "\n💡 Related distractor skills still provide partial guidance. "
+                                    "Task success likely stable (~37%) even without exact match."
+                                )
+                            else:
+                                lines.append("  No partial matches. Consider expanding the domain bucket.")
+
+                        lines.append(
+                            "\n---\n"
+                            "> **Architecture takeaway:** Gate by domain bucket first (LLM router), "
+                            "then apply strict trigger rules inside the bucket. "
+                            "Avoids semantic confusability across 100+ skills."
+                        )
+                        return "\n".join(lines)
+
+                    as_retrieve_btn.click(
+                        fn=as_run_retrieval,
+                        inputs=[as_task_in, as_error_in],
+                        outputs=[as_retrieve_out],
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Agent Skills):** Skills work best when prior experience is "
+                "distilled into reusable procedural anchors — not raw memory traces. "
+                "Three production rules: (1) Format skills as **step-by-step runbooks**, not "
+                "fact repositories. (2) Always **annotate trajectories** with success/failure "
+                "before distillation — a mixed unannotated batch collapses success by 34.6 pp. "
+                "(3) For large catalogs, use **two-level retrieval**: domain bucket → strict "
+                "trigger rule, to bypass semantic confusability.\n\n"
+                "**Applicable to:** Production agent systems, RAG pipeline orchestration, "
+                "multi-step LLM workflows, tool-using agents, coding agents, agent frameworks."
             )
 
 if __name__ == "__main__":

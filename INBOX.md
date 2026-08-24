@@ -1,7 +1,18 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-23 · 7 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-20 and 2026-08-21 follow-up; no new score ≥ 8)
+Last updated: 2026-08-24 · 2 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-23 and 2026-08-24; 1 new score ≥ 8 → implemented as Tab 23)
 
 ## New Papers (this run)
+
+### 🔴 [AI agent skills: Why they succeed — and what causes them to crash] — Score 8/10
+> Drop-in applicable empirical study on AI agent skill library design (AlphaSignal deep-dive · 2026-08-23). 8,135 trial records across Terminal-Bench 2.0 and SkillsBench. Core finding: skills work as **procedural anchors** (stabilizing execution), not knowledge repositories. Procedural anchoring accounts for 65.7% of successes vs only 4.5% from explicit knowledge injection. Distilled runbook skills beat raw workflow memory by +6.06 pp. Annotation impact: 74.6% success with success/failure hints vs 40.0% without — a 34.6 pp gap. Catalog scaling: precision drops from 29.6% (5 skills) to 3.3% (100 skills), but task success remains stable (~37-39%) because related distractors provide partial procedural support. Fix: two-level retrieval (domain bucket → strict trigger rule). Directly applicable to any production agent system, RAG pipeline, multi-step LLM workflow, or coding agent.
+> **Source:** AlphaSignal deep-dive · 2026-08-23 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — (1) Skill Format Demo: raw workflow memory vs distilled runbook side-by-side with success rate bar chart (+6.06pp); (2) Annotation Impact: 74.6% vs 40% visualization + correct distillation pipeline diagram; (3) Catalog Scale & 2-Level Retrieval: precision/success dual-axis chart + interactive two-level retrieval demo (domain bucket → strict trigger).
+**Implemented:** Yes — `hf-space/agent_skills/` · Tab 23 in `hf-space/app.py` (2026-08-24)
+
+### 🟡 [Study finds CLI agents 5–28x cheaper than MCP across 7 agent scaffolds] — Score 7/10
+> Cost comparison study for AI agent infrastructure (AlphaSignal signal · 2026-08-24). CLI agents benchmarked against MCP across 7 different agent scaffold architectures — CLI is 5-28x cheaper per task. Directly applicable to infrastructure decisions for LLM-based systems. Specific cost multipliers documented across scaffolds. Score 7: important practical finding but primarily a benchmarking/cost study, not a novel algorithm or architecture that can be implemented as a standalone POC.
+> **Source:** AlphaSignal signal · 2026-08-24 · Scored via Gmail MCP connector
 
 ### 🟡 [New self-play method lets a 30B model write its own training environments, beating fixed baselines by 5.3 points] — Score 6/10
 > LLM self-play training technique (AlphaSignal signal · 2026-08-21). A 30B model generates its own curriculum of training environments and evaluates solutions via self-play; joint optimization yields +5.3 benchmark points over fixed human-curated baselines. Applicable with adaptation to fine-tuning LLMs for domain-specific RAG tasks (e.g. automatically generating hard retrieval scenarios for contrastive training), but requires training infrastructure and does not drop in without fine-tuning pipeline.
