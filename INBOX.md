@@ -1,7 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-24 · 2 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-23 and 2026-08-24; 1 new score ≥ 8 → implemented as Tab 23)
+Last updated: 2026-08-25 · 1 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-25; 1 new score ≥ 8 → implemented as Tab 24)
 
 ## New Papers (this run)
+
+### 🔴 [Pi's coding agent cuts context costs 88% by spilling tool output to disk] — Score 8/10
+> Drop-in applicable agent context management technique (AlphaSignal signal · 2026-08-25). Most coding agents handle large tool outputs by truncation — permanently deleting the middle. Pi's prune+spill fix: full output saves to disk, context holds only a compact file path reference (18 tokens), model greps back on demand. Results from 19 real sessions: 26–35% context reduction, up to 88% cost savings with zero information loss. Secondary finding: model+harness is one unit — Claude behaves differently outside Claude Code because it was trained on Claude Code's specific tool shapes; evaluate in production harness, not raw API. Directly applicable to any production coding agent, RAG orchestration chain, or multi-step tool-using system.
+> **Source:** AlphaSignal signal · 2026-08-25 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — (1) Strategy Comparison: truncation vs prune+spill side-by-side on a 3,847-token pytest output with 2 FAILED tests buried in the middle, showing the permanent information loss; (2) Cost Calculator: adjustable session length, tool output size, model price → per-session cost chart comparing truncation vs prune+spill; (3) Production Guide: drop-in implementation pattern, when-to-apply table, intent log pattern for crash recovery.
+**Implemented:** Yes — `hf-space/pi_prune_spill/` · Tab 24 in `hf-space/app.py` (2026-08-25)
+
 
 ### 🔴 [AI agent skills: Why they succeed — and what causes them to crash] — Score 8/10
 > Drop-in applicable empirical study on AI agent skill library design (AlphaSignal deep-dive · 2026-08-23). 8,135 trial records across Terminal-Bench 2.0 and SkillsBench. Core finding: skills work as **procedural anchors** (stabilizing execution), not knowledge repositories. Procedural anchoring accounts for 65.7% of successes vs only 4.5% from explicit knowledge injection. Distilled runbook skills beat raw workflow memory by +6.06 pp. Annotation impact: 74.6% success with success/failure hints vs 40.0% without — a 34.6 pp gap. Catalog scaling: precision drops from 29.6% (5 skills) to 3.3% (100 skills), but task success remains stable (~37-39%) because related distractors provide partial procedural support. Fix: two-level retrieval (domain bucket → strict trigger rule). Directly applicable to any production agent system, RAG pipeline, multi-step LLM workflow, or coding agent.

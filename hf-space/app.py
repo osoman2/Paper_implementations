@@ -25,6 +25,7 @@ Tabs:
  21. LLMs vs Embeddings: The 1,431x Cost Study — score 8/10
  22. Matryoshka LM: Nested Model Family Training (36% Compute Savings) — score 8/10
  23. Agent Skills: What 8,100 Trials Reveal About Runbooks vs Facts — score 8/10
+ 24. Pi Prune+Spill: Context-Efficient Agent Memory (88% Cost Cut) — score 8/10
 """
 
 import os
@@ -119,6 +120,23 @@ from mind_virus import (
     format_propagation_report as mv_format_report,
     compare_runs as mv_compare,
     get_mutation_trace as mv_mutation_trace,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 24 — Pi Prune+Spill: Context-Efficient Agent Memory
+# ---------------------------------------------------------------------------
+from pi_prune_spill import (
+    CONTEXT_REDUCTION as PPS_CONTEXT_REDUCTION,
+    COST_SAVINGS_BY_SESSION_LENGTH as PPS_COST_SAVINGS,
+    TRUNCATION_FAILURE_MODES as PPS_FAILURE_MODES,
+    EXAMPLE_TOOL_OUTPUT as PPS_EXAMPLE_OUTPUT,
+    TRUNCATION_KEPT_HEAD as PPS_TRUNC_HEAD,
+    TRUNCATION_KEPT_TAIL as PPS_TRUNC_TAIL,
+    SPILL_CONTEXT_ENTRY as PPS_SPILL_ENTRY,
+    SPILL_GREP_RESULT as PPS_GREP_RESULT,
+    PRODUCTION_GUIDE as PPS_PRODUCTION_GUIDE,
+    compute_cost_comparison as pps_cost_compare,
+    format_cost_report as pps_format_cost,
 )
 
 # ---------------------------------------------------------------------------
@@ -4598,6 +4616,188 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "trigger rule, to bypass semantic confusability.\n\n"
                 "**Applicable to:** Production agent systems, RAG pipeline orchestration, "
                 "multi-step LLM workflows, tool-using agents, coding agents, agent frameworks."
+            )
+
+        # ── Tab 24 — Pi Prune+Spill ──────────────────────────────────────────
+        with gr.Tab("💾 Prune+Spill (88% Cost Cut)"):
+            gr.Markdown(
+                "## Pi Prune+Spill: Context-Efficient Agent Memory\n"
+                "**Source:** AlphaSignal signal · 2026-08-25 · Score: 8/10\n\n"
+                "Most coding agents handle large tool outputs by **truncation** — keep first N + last M tokens, "
+                "permanently delete the middle. If the actual error lived in that middle chunk, "
+                "the model **can never recover it**.\n\n"
+                "**Pi's fix:** Full output spills to disk. Context holds only a compact file path reference. "
+                "Model greps back on demand. Results from 19 real sessions: **26–35% context reduction, "
+                "up to 88% cost savings.**"
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Truncation vs Prune+Spill ─────────────────
+                with gr.Tab("✂️ vs 💾 Strategy Comparison"):
+                    gr.Markdown(
+                        "### Truncation vs Prune+Spill — Side by Side\n"
+                        "Click **Show Example** to see how each strategy handles a 3,847-token pytest output "
+                        "with 2 critical failures buried in the middle."
+                    )
+                    pps_show_btn = gr.Button("▶ Show Tool Output Strategies", variant="primary")
+
+                    with gr.Row():
+                        with gr.Column():
+                            gr.Markdown("#### ✂️ Truncation (Current Agents)")
+                            pps_trunc_head_out = gr.Textbox(
+                                label="Context: HEAD kept",
+                                lines=8, interactive=False,
+                            )
+                            pps_lost_out = gr.Markdown()
+                            pps_trunc_tail_out = gr.Textbox(
+                                label="Context: TAIL kept",
+                                lines=6, interactive=False,
+                            )
+
+                        with gr.Column():
+                            gr.Markdown("#### 💾 Prune+Spill (Pi's Approach)")
+                            pps_spill_entry_out = gr.Textbox(
+                                label="Context: file path reference (18 tokens)",
+                                lines=5, interactive=False,
+                            )
+                            gr.Markdown("*Model calls Read(path) when it needs detail:*")
+                            pps_grep_out = gr.Textbox(
+                                label="Grep result: failures recovered",
+                                lines=10, interactive=False,
+                            )
+
+                    def pps_show_strategies():
+                        lost_md = (
+                            "🔴 **2,847 tokens PERMANENTLY DELETED** — including both FAILED test blocks. "
+                            "The model will never find the root cause."
+                        )
+                        return (
+                            PPS_TRUNC_HEAD,
+                            lost_md,
+                            PPS_TRUNC_TAIL,
+                            PPS_SPILL_ENTRY,
+                            PPS_GREP_RESULT,
+                        )
+
+                    pps_show_btn.click(
+                        fn=pps_show_strategies,
+                        outputs=[
+                            pps_trunc_head_out,
+                            pps_lost_out,
+                            pps_trunc_tail_out,
+                            pps_spill_entry_out,
+                            pps_grep_out,
+                        ],
+                    )
+
+                    gr.Markdown("### 🔴 Common Truncation Failure Scenarios")
+                    for fm in PPS_FAILURE_MODES:
+                        status = "✅ Recoverable with Prune+Spill" if fm["recoverable_with_spill"] else "❌"
+                        gr.Markdown(
+                            f"**{fm['scenario']}**\n\n"
+                            f"{fm['description']}\n\n"
+                            f"*{status}*"
+                        )
+
+                # ── Sub-tab 2: Cost & Context Savings ─────────────────────
+                with gr.Tab("💰 Cost & Context Savings"):
+                    gr.Markdown(
+                        "### Cost Savings Calculator\n"
+                        "Adjust session parameters to see how Prune+Spill reduces token spend."
+                    )
+                    with gr.Row():
+                        pps_turns_slider = gr.Slider(
+                            minimum=5, maximum=100, value=20, step=5,
+                            label="Session turns (tool calls)",
+                        )
+                        pps_tokens_slider = gr.Slider(
+                            minimum=500, maximum=10000, value=2000, step=500,
+                            label="Avg tool output size (tokens)",
+                        )
+                        pps_price_slider = gr.Slider(
+                            minimum=0.5, maximum=15.0, value=3.0, step=0.5,
+                            label="Model price ($/1M input tokens)",
+                        )
+
+                    pps_calc_btn = gr.Button("Calculate Savings", variant="primary")
+                    pps_cost_report_out = gr.Markdown()
+                    pps_cost_chart_out = gr.Plot(label="Context Token Comparison")
+
+                    def pps_calculate(n_turns: int, avg_tokens: int, price: float):
+                        import matplotlib.pyplot as plt
+                        import numpy as np
+
+                        result = pps_cost_compare(int(n_turns), int(avg_tokens), float(price))
+                        report = pps_format_cost(result)
+
+                        # Chart: savings across session lengths
+                        lengths = [5, 10, 20, 50, 100]
+                        trunc_costs = []
+                        spill_costs = []
+                        for n in lengths:
+                            r = pps_cost_compare(n, int(avg_tokens), float(price))
+                            trunc_costs.append(r["truncation_cost_usd"])
+                            spill_costs.append(r["spill_cost_usd"])
+
+                        fig, ax = plt.subplots(figsize=(8, 4))
+                        x = np.arange(len(lengths))
+                        w = 0.35
+                        bars1 = ax.bar(x - w/2, trunc_costs, w, label="✂️ Truncation", color="#d9534f", alpha=0.85)
+                        bars2 = ax.bar(x + w/2, spill_costs, w, label="💾 Prune+Spill", color="#5cb85c", alpha=0.85)
+
+                        for bar in bars1:
+                            h = bar.get_height()
+                            if h > 0:
+                                ax.text(bar.get_x() + bar.get_width()/2, h + max(trunc_costs)*0.01,
+                                        f"${h:.3f}", ha="center", va="bottom", fontsize=8)
+                        for bar in bars2:
+                            h = bar.get_height()
+                            if h > 0:
+                                ax.text(bar.get_x() + bar.get_width()/2, h + max(trunc_costs)*0.01,
+                                        f"${h:.3f}", ha="center", va="bottom", fontsize=8, color="#2d7a2d")
+
+                        ax.set_xticks(x)
+                        ax.set_xticklabels([f"{n}-turn" for n in lengths])
+                        ax.set_ylabel("Cost per session (USD)")
+                        ax.set_title(
+                            f"Per-Session Cost: Truncation vs Prune+Spill\n"
+                            f"(avg tool output {int(avg_tokens):,} tokens @ ${float(price)}/1M)"
+                        )
+                        ax.legend()
+                        ax.yaxis.grid(True, linestyle="--", alpha=0.5)
+                        ax.set_axisbelow(True)
+                        fig.tight_layout()
+                        return report, fig
+
+                    pps_calc_btn.click(
+                        fn=pps_calculate,
+                        inputs=[pps_turns_slider, pps_tokens_slider, pps_price_slider],
+                        outputs=[pps_cost_report_out, pps_cost_chart_out],
+                    )
+
+                    gr.Markdown("### 📊 Measured Savings (Pi Dev Notes, 19 real sessions)")
+                    savings_rows = "\n".join(
+                        f"| {length} | {pct}% |"
+                        for length, pct in PPS_COST_SAVINGS.items()
+                    )
+                    gr.Markdown(
+                        "| Session Length | Cost Reduction |\n|---|---|\n" + savings_rows
+                    )
+
+                # ── Sub-tab 3: Production Guide ─────────────────────────
+                with gr.Tab("🏭 Production Guide"):
+                    gr.Markdown(PPS_PRODUCTION_GUIDE)
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Pi Prune+Spill):** Truncation is a one-way door — deleted context "
+                "is gone forever, even if the model needs it to debug a failure. Prune+Spill "
+                "costs ~18 tokens per tool call (the file path reference) vs hundreds or thousands "
+                "for inline output, with zero information loss. The pattern is a 3-line drop-in "
+                "for any agent harness. Secondary finding: model + harness is increasingly one unit — "
+                "evaluate agents in their production harness, not raw API wrappers.\n\n"
+                "**Applicable to:** Production coding agents, RAG orchestration, long-horizon "
+                "autonomous agents, multi-step tool-using systems, document processing pipelines."
             )
 
 if __name__ == "__main__":
