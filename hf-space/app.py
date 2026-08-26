@@ -26,6 +26,7 @@ Tabs:
  22. Matryoshka LM: Nested Model Family Training (36% Compute Savings) — score 8/10
  23. Agent Skills: What 8,100 Trials Reveal About Runbooks vs Facts — score 8/10
  24. Pi Prune+Spill: Context-Efficient Agent Memory (88% Cost Cut) — score 8/10
+ 25. Prime Intellect Harness: Context Reuse Across Runs (ARC-AGI-3 30%→95.5%) — score 8/10
 """
 
 import os
@@ -137,6 +138,16 @@ from pi_prune_spill import (
     PRODUCTION_GUIDE as PPS_PRODUCTION_GUIDE,
     compute_cost_comparison as pps_cost_compare,
     format_cost_report as pps_format_cost,
+)
+
+# ---------------------------------------------------------------------------
+# Tab 25 — Prime Intellect Agent Harness: Context Reuse (ARC-AGI-3 30%→95.5%)
+# ---------------------------------------------------------------------------
+from prime_intellect_harness import (
+    SCORE_PROGRESSION as PIH_SCORE_PROGRESSION,
+    COMPARISON_TASKS as PIH_COMPARISON_TASKS,
+    ARCHITECTURE_GUIDE as PIH_ARCHITECTURE_GUIDE,
+    render_score_chart_data as pih_chart_data,
 )
 
 # ---------------------------------------------------------------------------
@@ -4798,6 +4809,145 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "evaluate agents in their production harness, not raw API wrappers.\n\n"
                 "**Applicable to:** Production coding agents, RAG orchestration, long-horizon "
                 "autonomous agents, multi-step tool-using systems, document processing pipelines."
+            )
+
+        # ── Tab 25: Prime Intellect Agent Harness ──────────────────────────
+        with gr.Tab("🔁 Prime Intellect Harness (ARC-AGI-3: 30%→95.5%)"):
+            gr.Markdown(
+                "## Prime Intellect Agent Harness: Context Reuse Across Runs\n"
+                "**Source:** AlphaSignal signal · 2026-08-26 · Score 8/10\n\n"
+                "Prime Intellect open-sourced an agent harness that lets models **reuse context "
+                "across runs** — instead of resetting the context window between sessions, the "
+                "full reasoning trace (attempts, failures, partial solutions, rule hypotheses) "
+                "persists. On ARC-AGI-3, this single change lifts scores from **30% to 95.5%**."
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Context Reuse Demo ──────────────────────────
+                with gr.Tab("🔄 Context Reuse Demo"):
+                    gr.Markdown(
+                        "### Stateless vs. Persistent-Context Agent\n"
+                        "See how context reuse changes agent behavior on abstract reasoning tasks. "
+                        "The stateless agent starts fresh each attempt — no memory of what failed. "
+                        "The persistent-context agent reads its full trace and avoids repeated mistakes."
+                    )
+
+                    pih_task_selector = gr.Dropdown(
+                        choices=[t["task"] for t in PIH_COMPARISON_TASKS],
+                        value=PIH_COMPARISON_TASKS[0]["task"],
+                        label="Select reasoning task",
+                    )
+
+                    with gr.Row():
+                        with gr.Column():
+                            gr.Markdown("### ❌ Stateless Agent")
+                            pih_stateless_out = gr.Markdown()
+                        with gr.Column():
+                            gr.Markdown("### ✅ Persistent-Context Agent")
+                            pih_persistent_out = gr.Markdown()
+
+                    pih_task_info = gr.Markdown()
+
+                    def pih_show_comparison(task_name: str) -> tuple[str, str, str]:
+                        task = next(t for t in PIH_COMPARISON_TASKS if t["task"] == task_name)
+
+                        stateless_md = ""
+                        for a in task["stateless_attempts"]:
+                            icon = "✓" if a["correct"] else "✗"
+                            stateless_md += (
+                                f"**Attempt {a['attempt']}:** `{a['answer']}` {icon}\n\n"
+                                f"> {a['reason']}\n\n"
+                            )
+                        stateless_md += f"\n**Final outcome:** ✗ Never solved (correct: `{task['correct_answer']}`)"
+
+                        persistent_md = ""
+                        for a in task["persistent_attempts"]:
+                            icon = "✓" if a["correct"] else "✗"
+                            persistent_md += (
+                                f"**Attempt {a['attempt']}:** `{a['answer']}` {icon}\n\n"
+                                f"> {a['reason']}\n\n"
+                            )
+                        solved = next((a for a in task["persistent_attempts"] if a["correct"]), None)
+                        if solved:
+                            persistent_md += f"\n**Final outcome:** ✓ Solved on attempt {solved['attempt']}"
+
+                        info_md = (
+                            f"**Task:** {task['task']}\n\n"
+                            f"**Setup:** {task['grid']}\n\n"
+                            f"**Rule to discover:** {task['rule']}\n\n"
+                            f"**Correct answer:** `{task['correct_answer']}`"
+                        )
+                        return stateless_md, persistent_md, info_md
+
+                    pih_task_selector.change(
+                        fn=pih_show_comparison,
+                        inputs=[pih_task_selector],
+                        outputs=[pih_stateless_out, pih_persistent_out, pih_task_info],
+                    )
+
+                    # Load initial state
+                    _pih_init = pih_show_comparison(PIH_COMPARISON_TASKS[0]["task"])
+                    pih_stateless_out.value = _pih_init[0]
+                    pih_persistent_out.value = _pih_init[1]
+                    pih_task_info.value = _pih_init[2]
+
+                # ── Sub-tab 2: Score Progression ───────────────────────────
+                with gr.Tab("📈 Score Progression (30%→95.5%)"):
+                    gr.Markdown(
+                        "### ARC-AGI-3 Score as Harness Features Are Added\n"
+                        "Each row shows the cumulative score after adding one harness feature. "
+                        "The biggest single gain (+42pp) comes from simply preserving context "
+                        "across runs — the orchestrator/executor split and structured disagreement "
+                        "compound on top of that foundation."
+                    )
+
+                    import matplotlib
+                    matplotlib.use("Agg")
+                    import matplotlib.pyplot as plt
+
+                    def pih_render_chart() -> "plt.Figure":
+                        labels, scores, deltas = pih_chart_data()
+                        fig, ax = plt.subplots(figsize=(9, 4))
+                        colors = ["#d9534f", "#5bc0de", "#5cb85c", "#0275d8"]
+                        bars = ax.barh(labels, scores, color=colors, alpha=0.85, edgecolor="white")
+                        ax.set_xlabel("ARC-AGI-3 Score (%)", fontsize=11)
+                        ax.set_title("Prime Intellect Harness: ARC-AGI-3 Score Progression", fontsize=12)
+                        ax.set_xlim(0, 100)
+                        ax.axvline(30, color="#d9534f", linestyle="--", alpha=0.4, label="Baseline (30%)")
+                        ax.axvline(95.5, color="#0275d8", linestyle="--", alpha=0.4, label="Final (95.5%)")
+                        for bar, score, delta in zip(bars, scores, deltas):
+                            ax.text(
+                                score + 1, bar.get_y() + bar.get_height() / 2,
+                                f"{score}%  ({delta})",
+                                va="center", fontsize=9, color="#333"
+                            )
+                        ax.legend(fontsize=9)
+                        fig.tight_layout()
+                        return fig
+
+                    pih_chart = gr.Plot(label="Score Progression", value=pih_render_chart)
+
+                    gr.Markdown("### Feature Breakdown")
+                    for step in PIH_SCORE_PROGRESSION:
+                        gr.Markdown(
+                            f"**{step['feature']}** → **{step['score']}%**"
+                            + (f" (+{step['delta']}pp)" if step["delta"] > 0 else "")
+                            + f"\n\n{step['description']}"
+                        )
+
+                # ── Sub-tab 3: Architecture Guide ──────────────────────────
+                with gr.Tab("🏗️ Architecture Guide"):
+                    gr.Markdown(PIH_ARCHITECTURE_GUIDE)
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Prime Intellect Harness):** The model's context window is not a "
+                "limitation to work around — it is a resource to manage deliberately. Resetting "
+                "it between runs throws away every insight the model gained. Persistent context "
+                "is a 3-line change that turns a stateless agent into a learning loop.\n\n"
+                "**Applicable to:** Production agent systems, long-horizon autonomous agents, "
+                "iterative RAG pipelines, agent evaluation suites, multi-step tool-using systems."
             )
 
 if __name__ == "__main__":

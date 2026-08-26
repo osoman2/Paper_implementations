@@ -1,7 +1,32 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-25 · 1 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-25; 1 new score ≥ 8 → implemented as Tab 24)
+Last updated: 2026-08-26 · 1 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-26; 1 new score ≥ 8 → implemented as Tab 25)
 
 ## New Papers (this run)
+
+### 🔴 [Prime Intellect open-source agent harness boosts ARC-AGI-3 from 30% to 95.5%] — Score 8/10
+> Drop-in applicable open-source agent harness for context reuse across runs (Prime Intellect, AlphaSignal signal · 2026-08-26). Prime Intellect open-sourced a harness that lets models reuse context across agent runs — context accumulated in one run persists into the next rather than being reset. The result on ARC-AGI-3: score jumps from 30% (stateless baseline) to 95.5% (persistent-context harness) — a 65+ point improvement. The harness separates orchestration (what to try next) from execution (how to try it), preserving the full reasoning trace across session boundaries. The persistent-context pattern is directly applicable to any production agent system, long-horizon autonomous agent, or iterative RAG pipeline where reasoning context should compound across calls rather than reset.
+> **Source:** AlphaSignal signal · 2026-08-26 · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with three sub-tabs — (1) Context Reuse Demo: stateless agent vs. persistent-context agent side-by-side on an abstract reasoning task (ARC-like grid), showing how accumulated context leads to correct solution vs. repeated wrong attempts; (2) Score Progression: interactive chart of ARC-AGI-3 improvement from 30% to 95.5% as harness features are added (context reuse, orchestrator/executor split, structured disagreement); (3) Architecture Guide: drop-in implementation pattern, when context reuse matters most, production deployment checklist.
+**Implemented:** Yes — `hf-space/prime_intellect_harness/` · Tab 25 in `hf-space/app.py` (2026-08-26)
+
+### 🟡 [Three-agent code review beats five agents by forcing structured disagreement] — Score 7/10
+> Multi-agent review pattern study (AlphaSignal signal · 2026-08-26). 3-agent panels with explicit structured-disagreement prompting outperform 5-agent panels without it on code review tasks. The key insight: forcing agents to explicitly surface their disagreements (not just vote) surfaces more failure modes and reduces groupthink. Applicable with adaptation to any multi-LLM evaluation pipeline, adversarial verification harness, or agent debate system. Score 7: important finding but primarily a prompting/workflow pattern study, not a novel architecture or algorithm.
+> **Source:** AlphaSignal signal · 2026-08-26 · Scored via Gmail MCP connector
+
+### 🟡 [Perplexity ships fully local AI agent on NVIDIA DGX Spark] — Score 6/10
+> Local-first agent architecture (AlphaSignal signal · 2026-08-26). Perplexity Portable Computer runs orchestrator + subagent + full tool harness entirely locally on NVIDIA DGX Spark hardware. Zero token costs for local tasks, PII flagging, opt-in cloud escalation per step. Score 6: interesting local-first architecture pattern, but primarily a product launch — the architecture separation (orchestrator/executor) is a known pattern and the implementation is hardware-specific (DGX Spark).
+> **Source:** AlphaSignal signal · 2026-08-26 · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic gives Claude persistent memory across all chats by default] — Score 5/10
+> Product feature release (AlphaSignal signal · 2026-08-26). Claude now shares unified memory across chat and Claude Cowork (agents). Context built in chat persists into agent runs and vice versa. Applicable as a product integration point but not a novel technique — this is Claude's own product feature, not an open, drop-in pattern for production systems.
+> **Source:** AlphaSignal signal · 2026-08-26 · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI's Jalapeño custom inference chip promises ~50% lower cost per response] — Score 3/10
+> Custom inference chip (AlphaSignal signal · 2026-08-26). OpenAI's Jalapeño chip (co-designed with Broadcom) targets ~50% lower inference cost vs NVIDIA. Not available for external use — OpenAI infrastructure only. No novel algorithm or open technique; standard chip design news.
+> **Source:** AlphaSignal signal · 2026-08-26 · Scored via Gmail MCP connector
+
+## Previously Scanned (2026-08-25)
 
 ### 🔴 [Pi's coding agent cuts context costs 88% by spilling tool output to disk] — Score 8/10
 > Drop-in applicable agent context management technique (AlphaSignal signal · 2026-08-25). Most coding agents handle large tool outputs by truncation — permanently deleting the middle. Pi's prune+spill fix: full output saves to disk, context holds only a compact file path reference (18 tokens), model greps back on demand. Results from 19 real sessions: 26–35% context reduction, up to 88% cost savings with zero information loss. Secondary finding: model+harness is one unit — Claude behaves differently outside Claude Code because it was trained on Claude Code's specific tool shapes; evaluate in production harness, not raw API. Directly applicable to any production coding agent, RAG orchestration chain, or multi-step tool-using system.
