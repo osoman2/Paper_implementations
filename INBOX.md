@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-08-28 · 8 new signal(s) scored this run (Gmail MCP connector; AlphaSignal 2026-08-28; 0 new scores ≥ 8 — highest: Anthropic MHS 5/10)
+Last updated: 2026-08-29 · 0 new signal(s) scored this run (Gmail MCP connector; no new emails from noreply@newsletter.journalclub.io or AlphaSignal since 2026-08-28; all 🔴 papers implemented through Tab 25)
 
 ## New Papers (this run)
 
