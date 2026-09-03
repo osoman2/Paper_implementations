@@ -28,6 +28,7 @@ Tabs:
  24. Pi Prune+Spill: Context-Efficient Agent Memory (88% Cost Cut) — score 8/10
  25. Prime Intellect Harness: Context Reuse Across Runs (ARC-AGI-3 30%→95.5%) — score 8/10
  26. Agent Escape: VM & Sandbox Breach Patterns (Trail of Bits zero-days + OpenAI-HF) — score 8/10
+ 27. Skill Team: 68-Agent × 286-Skill Engineering Team (Claude-native) — score 9/10
 """
 
 import os
@@ -5154,6 +5155,235 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "environment you give it. Make sure the compromise stops there.*\n\n"
                 "**Applicable to:** Sandboxed LLM deployments, CI/CD AI workers, multi-agent "
                 "evaluation harnesses, cloud-hosted inference, production agent systems."
+            )
+
+        # ── Tab 27 — Skill Team ──────────────────────────────────────────────
+        with gr.Tab("🤝 Skill Team: 68-Agent × 286-Skill Engineering Team"):
+            gr.Markdown(
+                "## 🤝 Skill Team: 68-Agent × 286-Skill Engineering Team\n\n"
+                "**Source:** AlphaSignal signal · 2026-09-03 · 2,541 likes — "
+                "highest-engagement signal of the day\n\n"
+                "**Paper / signal:** *\"Anthropic hackathon winner open-sources a "
+                "68-agent, 286-skill engineering team built on Claude\"*\n\n"
+                "**Score: 9/10** — open-source, Claude-native, directly implementable "
+                "multi-agent architecture for production engineering systems.\n\n"
+                "**Key finding:** Specialized agent networks with explicit skill "
+                "composition dramatically outperform monolithic large models at complex, "
+                "multi-step engineering tasks by decomposing work into composable, "
+                "verifiable, parallel units."
+            )
+
+            from skill_team import (
+                AGENT_ROLES,
+                SKILL_CATEGORIES,
+                TASK_EXAMPLES,
+                BENCHMARK_METRICS,
+                DESIGN_PRINCIPLES,
+                TOTAL_AGENTS,
+                TOTAL_SKILLS,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Architecture ────────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    gr.Markdown(
+                        f"### Team at a glance: **{TOTAL_AGENTS} agents · {TOTAL_SKILLS} skills**\n\n"
+                        "Select a **role family** to explore the agents in that family "
+                        "and the number of skills each owns."
+                    )
+
+                    st_families = sorted(set(a["family"] for a in AGENT_ROLES))
+                    st_family_radio = gr.Radio(
+                        choices=st_families,
+                        value=st_families[0],
+                        label="Role family",
+                    )
+                    st_family_detail = gr.Markdown()
+
+                    def st_render_family(family: str) -> str:
+                        agents = [a for a in AGENT_ROLES if a["family"] == family]
+                        total_skills = sum(a["skills"] for a in agents)
+                        lines = [
+                            f"### {family} — {len(agents)} agents · {total_skills} skills\n"
+                        ]
+                        for a in agents:
+                            lines.append(
+                                f"**{a['name']}** ({a['skills']} skills)\n\n"
+                                f"> {a['desc']}\n"
+                            )
+                        return "\n".join(lines)
+
+                    st_family_radio.change(
+                        fn=st_render_family,
+                        inputs=[st_family_radio],
+                        outputs=[st_family_detail],
+                    )
+                    st_family_detail.value = st_render_family(st_families[0])
+
+                # ── Sub-tab 2: Skill Catalogue ─────────────────────────────
+                with gr.Tab("🗂️ Skill Catalogue"):
+                    gr.Markdown(
+                        f"### 286 skills across 6 categories\n\n"
+                        "Select a **skill category** to browse all skills in it."
+                    )
+
+                    st_cat_choices = list(SKILL_CATEGORIES.keys())
+                    st_cat_selector = gr.Dropdown(
+                        choices=st_cat_choices,
+                        value=st_cat_choices[0],
+                        label="Skill category",
+                    )
+                    st_skill_list = gr.Markdown()
+
+                    def st_render_skills(cat: str) -> str:
+                        skills = SKILL_CATEGORIES[cat]
+                        lines = [f"### {cat}\n"]
+                        for i, s in enumerate(skills, 1):
+                            lines.append(f"{i}. {s}")
+                        return "\n".join(lines)
+
+                    st_cat_selector.change(
+                        fn=st_render_skills,
+                        inputs=[st_cat_selector],
+                        outputs=[st_skill_list],
+                    )
+                    st_skill_list.value = st_render_skills(st_cat_choices[0])
+
+                # ── Sub-tab 3: Task Decomposition ──────────────────────────
+                with gr.Tab("🔀 Task Decomposition"):
+                    gr.Markdown(
+                        "### How the team decomposes real engineering tasks\n\n"
+                        "Select an **example task** to see which agents activate, "
+                        "which skills they use, and how work flows in parallel phases. "
+                        "Also see how the 68-agent team's quality score compares to a "
+                        "single large-model approach."
+                    )
+
+                    st_task_choices = [t["task"] for t in TASK_EXAMPLES]
+                    st_task_selector = gr.Dropdown(
+                        choices=st_task_choices,
+                        value=st_task_choices[0],
+                        label="Example task",
+                    )
+                    st_task_detail = gr.Markdown()
+
+                    def st_render_task(task_name: str) -> str:
+                        t = next(ex for ex in TASK_EXAMPLES if ex["task"] == task_name)
+                        lines = [f"### {t['task']}\n"]
+                        lines.append(f"**{len(t['agents'])} agents activated · "
+                                     f"{t['skills_activated']} distinct skills · "
+                                     f"{len(t['parallel_phases'])} parallel phases**\n")
+
+                        lines.append("\n**Parallel execution phases:**")
+                        for ph in t["parallel_phases"]:
+                            lines.append(f"- {ph}")
+
+                        lines.append("\n**Agent assignments:**")
+                        for agent, responsibility in t["agents"]:
+                            lines.append(f"- **{agent}:** {responsibility}")
+
+                        delta = t["team_score"] - t["single_model_score"]
+                        lines.append(
+                            f"\n**Quality score:** Single model: {t['single_model_score']}/100 → "
+                            f"68-agent team: {t['team_score']}/100 "
+                            f"(**+{delta} points, {delta/t['single_model_score']*100:.0f}% lift**)"
+                        )
+                        return "\n".join(lines)
+
+                    st_task_selector.change(
+                        fn=st_render_task,
+                        inputs=[st_task_selector],
+                        outputs=[st_task_detail],
+                    )
+                    st_task_detail.value = st_render_task(st_task_choices[0])
+
+                # ── Sub-tab 4: Benchmark ───────────────────────────────────
+                with gr.Tab("📊 Benchmark"):
+                    gr.Markdown(
+                        "### 68-Agent Team vs. Single Large Model\n\n"
+                        "Select a **metric** to see the comparison and explanation. "
+                        "Metrics marked ↓ lower-is-better."
+                    )
+
+                    st_bench_choices = [m["metric"] for m in BENCHMARK_METRICS]
+                    st_bench_selector = gr.Dropdown(
+                        choices=st_bench_choices,
+                        value=st_bench_choices[0],
+                        label="Metric",
+                    )
+                    st_bench_detail = gr.Markdown()
+
+                    def st_render_bench(metric_name: str) -> str:
+                        m = next(bm for bm in BENCHMARK_METRICS if bm["metric"] == metric_name)
+                        lower_is_better = m.get("lower_is_better", False)
+                        if lower_is_better:
+                            winner = "team" if m["team"] < m["single_model"] else "single model"
+                            direction = "↓ lower is better"
+                            team_label = "✅ Team" if m["team"] < m["single_model"] else "❌ Team"
+                            model_label = "✅ Single model" if m["single_model"] <= m["team"] else "❌ Single model"
+                        else:
+                            winner = "team" if m["team"] > m["single_model"] else "single model"
+                            direction = "↑ higher is better"
+                            team_label = "✅ Team" if m["team"] > m["single_model"] else "❌ Team"
+                            model_label = "✅ Single model" if m["single_model"] >= m["team"] else "❌ Single model"
+
+                        return (
+                            f"### {m['metric']} ({direction})\n\n"
+                            f"| | Score |\n|---|---|\n"
+                            f"| {team_label} | **{m['team']}{m['unit']}** |\n"
+                            f"| {model_label} | {m['single_model']}{m['unit']} |\n\n"
+                            f"**Why:** {m['note']}"
+                        )
+
+                    st_bench_selector.change(
+                        fn=st_render_bench,
+                        inputs=[st_bench_selector],
+                        outputs=[st_bench_detail],
+                    )
+                    st_bench_detail.value = st_render_bench(st_bench_choices[0])
+
+                # ── Sub-tab 5: Design Principles ───────────────────────────
+                with gr.Tab("💡 Design Principles"):
+                    gr.Markdown(
+                        "### 5 Design Principles from the 68-Agent Team\n\n"
+                        "Select a principle to see the detail and the engineering takeaway."
+                    )
+
+                    st_principle_choices = [p["title"] for p in DESIGN_PRINCIPLES]
+                    st_principle_selector = gr.Dropdown(
+                        choices=st_principle_choices,
+                        value=st_principle_choices[0],
+                        label="Principle",
+                    )
+                    st_principle_detail = gr.Markdown()
+
+                    def st_render_principle(title: str) -> str:
+                        p = next(pr for pr in DESIGN_PRINCIPLES if pr["title"] == title)
+                        return (
+                            f"### {p['title']}\n\n"
+                            f"{p['detail']}\n\n"
+                            f"**Engineering takeaway:** *{p['takeaway']}*"
+                        )
+
+                    st_principle_selector.change(
+                        fn=st_render_principle,
+                        inputs=[st_principle_selector],
+                        outputs=[st_principle_detail],
+                    )
+                    st_principle_detail.value = st_render_principle(st_principle_choices[0])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Skill Team):** A 68-agent team with 286 explicit skills "
+                "outperforms a single large model on complex engineering tasks because: "
+                "(1) each agent applies deep specialisation to its narrow job; "
+                "(2) review, security, and QA agents run in parallel rather than sequentially; "
+                "(3) the Memory Manager keeps per-agent context tight (47% vs 100% budget). "
+                "**Pattern:** define role boundaries → write skill contracts → compose in parallel "
+                "→ merge via Conflict Resolver → human gates for architecture + merge decisions.\n\n"
+                "**Applicable to:** production multi-agent engineering systems, RAG pipeline "
+                "construction, LLM-driven code review, automated QA orchestration."
             )
 
 if __name__ == "__main__":
