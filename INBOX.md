@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-03 · 15 new signals scored this run (Gmail MCP connector; AlphaSignal 2026-09-03 AM + PM emails); 1 🔴 paper implemented — Tab 27 added (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10); 3 additional 🔴 papers scored ≥ 8 below
+Last updated: 2026-09-04 · 2 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10); 2 additional 🔴 papers scored ≥ 8 pending below
 
 ## New Papers (this run)
 
@@ -15,6 +15,7 @@ Last updated: 2026-09-03 · 15 new signals scored this run (Gmail MCP connector;
 > **Source:** AlphaSignal signal · 2026-09-03 PM · Scored via Gmail MCP connector
 
 **POC idea:** Gradio demo showing a small agent (e.g., 7B model) solving a multi-step engineering task via persistent wiki reads/writes, side-by-side with a 3× larger model without a wiki — illustrating that architecture beats raw scale.
+**Implemented:** Yes — `hf-space/agent_wiki/` · Tab 28 in `hf-space/app.py` (2026-09-04)
 
 ### 🔴 [Google's new training trick makes LLMs know what they don't know] — Score 8/10
 > Training technique for uncertainty calibration in LLMs: Google's new approach teaches models to explicitly distinguish confident knowledge from uncertain or absent knowledge (AlphaSignal signal · 2026-09-03 AM). 1,081 likes. Directly applicable to RAG pipelines where calibrated confidence determines whether to retrieve vs. answer from training data — reducing hallucination on out-of-distribution queries. Applicable to any production LLM system using retrieval.

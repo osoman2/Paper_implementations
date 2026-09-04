@@ -29,6 +29,7 @@ Tabs:
  25. Prime Intellect Harness: Context Reuse Across Runs (ARC-AGI-3 30%→95.5%) — score 8/10
  26. Agent Escape: VM & Sandbox Breach Patterns (Trail of Bits zero-days + OpenAI-HF) — score 8/10
  27. Skill Team: 68-Agent × 286-Skill Engineering Team (Claude-native) — score 9/10
+ 28. Agent Wiki: Persistent Knowledge Wiki Lets Small Agents Beat 3× Larger Models — score 9/10
 """
 
 import os
@@ -5384,6 +5385,176 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "→ merge via Conflict Resolver → human gates for architecture + merge decisions.\n\n"
                 "**Applicable to:** production multi-agent engineering systems, RAG pipeline "
                 "construction, LLM-driven code review, automated QA orchestration."
+            )
+
+        # ── Tab 28 — Agent Wiki ──────────────────────────────────────────────
+        with gr.Tab("📖 Agent Wiki: Small Agent > 3× Larger Model"):
+            gr.Markdown(
+                "## 📖 Agent Wiki: Persistent Knowledge Wiki for Small Agents\n\n"
+                "**Source:** AlphaSignal signal · 2026-09-03 PM · 406 likes\n\n"
+                "**Paper / signal:** *\"Google's framework lets small AI agents outperform "
+                "models 3× their size using a persistent knowledge wiki\"*\n\n"
+                "**Score: 9/10** — novel, directly implementable, high architectural impact "
+                "for any agentic RAG system where long-horizon memory is the bottleneck.\n\n"
+                "**Key finding:** Architecture beats scale — a **7B agent + persistent wiki** "
+                "outperforms a **21B model** on multi-step reasoning by externalising memory "
+                "into a structured, write-capable store, freeing the context window for reasoning."
+            )
+
+            from agent_wiki import (
+                TASKS as AW_TASKS,
+                BENCHMARK_ROWS as AW_BENCHMARK_ROWS,
+                WIKI_CONCEPTS as AW_WIKI_CONCEPTS,
+                simulate_task as aw_simulate,
+                format_comparison as aw_format_comparison,
+                get_benchmark_chart_data as aw_chart_data,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Live Demo ──────────────────────────────────
+                with gr.Tab("🔬 Live Demo"):
+                    gr.Markdown(
+                        "### Step through a multi-turn task — watch the wiki grow\n\n"
+                        "Select a task and advance turn-by-turn. The left panel shows the "
+                        "**persistent wiki state** (what the 7B agent remembers externally). "
+                        "The right panels compare answers from the **7B+wiki agent** vs a "
+                        "**21B model** with no wiki."
+                    )
+
+                    aw_task_choices = [t["label"] for t in AW_TASKS]
+                    aw_task_ids = {t["label"]: t["id"] for t in AW_TASKS}
+
+                    with gr.Row():
+                        aw_task_dd = gr.Dropdown(
+                            choices=aw_task_choices,
+                            value=aw_task_choices[0],
+                            label="Task",
+                        )
+                        aw_turn_sl = gr.Slider(
+                            minimum=1,
+                            maximum=5,
+                            step=1,
+                            value=1,
+                            label="Advance to turn",
+                        )
+
+                    aw_task_desc = gr.Markdown()
+
+                    with gr.Row():
+                        aw_wiki_md = gr.Markdown(label="📖 Wiki state (7B agent's external memory)")
+
+                    with gr.Row():
+                        with gr.Column():
+                            gr.Markdown("#### 🤖 7B Agent + Wiki")
+                            aw_agent7b_md = gr.Markdown()
+                        with gr.Column():
+                            gr.Markdown("#### 🦣 21B Model (no wiki)")
+                            aw_agent21b_md = gr.Markdown()
+
+                    def aw_update(task_label: str, turn: int):
+                        task_id = aw_task_ids[task_label]
+                        task = next(t for t in AW_TASKS if t["id"] == task_id)
+                        state = aw_simulate(task_id, int(turn) - 1)
+                        wiki_md, a7b, a21b = aw_format_comparison(state)
+                        desc = f"**Task:** {task['description']}\n\n**Turns completed:** {int(turn)} / {len(task['turns'])}"
+                        return desc, wiki_md, a7b, a21b
+
+                    for inp in [aw_task_dd, aw_turn_sl]:
+                        inp.change(
+                            fn=aw_update,
+                            inputs=[aw_task_dd, aw_turn_sl],
+                            outputs=[aw_task_desc, aw_wiki_md, aw_agent7b_md, aw_agent21b_md],
+                        )
+
+                    init_desc, init_wiki, init_7b, init_21b = aw_update(aw_task_choices[0], 1)
+                    aw_task_desc.value = init_desc
+                    aw_wiki_md.value = init_wiki
+                    aw_agent7b_md.value = init_7b
+                    aw_agent21b_md.value = init_21b
+
+                # ── Sub-tab 2: Benchmark ──────────────────────────────────
+                with gr.Tab("📊 Benchmark"):
+                    gr.Markdown(
+                        "### 7B + Wiki vs 21B (No Wiki) — Performance Comparison\n\n"
+                        "Select a benchmark dimension to see the head-to-head results."
+                    )
+
+                    aw_bench_choices = [r["task_type"] for r in AW_BENCHMARK_ROWS]
+                    aw_bench_dd = gr.Dropdown(
+                        choices=aw_bench_choices,
+                        value=aw_bench_choices[0],
+                        label="Benchmark dimension",
+                    )
+                    aw_bench_detail = gr.Markdown()
+
+                    def aw_render_bench(task_type: str) -> str:
+                        row = next(r for r in AW_BENCHMARK_ROWS if r["task_type"] == task_type)
+                        lower_is_better = row.get("lower_is_better", False)
+                        direction = "↓ lower is better" if lower_is_better else "↑ higher is better"
+                        s, l = row["small_wiki_score"], row["large_no_wiki_score"]
+                        winner = "7B + Wiki ✅" if (s < l if lower_is_better else s > l) else "21B No Wiki"
+                        return (
+                            f"### {task_type}\n\n"
+                            f"**Metric:** {row['metric']} ({direction})\n\n"
+                            f"| Model | Score |\n|---|---|\n"
+                            f"| 🤖 7B + Wiki | **{s}** |\n"
+                            f"| 🦣 21B (no wiki) | {l} |\n\n"
+                            f"**Winner:** {winner}\n\n"
+                            f"**Why:** {row['note']}"
+                        )
+
+                    aw_bench_dd.change(
+                        fn=aw_render_bench,
+                        inputs=[aw_bench_dd],
+                        outputs=[aw_bench_detail],
+                    )
+                    aw_bench_detail.value = aw_render_bench(aw_bench_choices[0])
+
+                # ── Sub-tab 3: Wiki Mechanics ─────────────────────────────
+                with gr.Tab("⚙️ Wiki Mechanics"):
+                    gr.Markdown(
+                        "### How the Persistent Wiki Works\n\n"
+                        "Select a concept to see the detail, analogy, and code sketch."
+                    )
+
+                    aw_concept_choices = [f"{c['icon']} {c['title']}" for c in AW_WIKI_CONCEPTS]
+                    aw_concept_dd = gr.Dropdown(
+                        choices=aw_concept_choices,
+                        value=aw_concept_choices[0],
+                        label="Concept",
+                    )
+                    aw_concept_detail = gr.Markdown()
+
+                    def aw_render_concept(choice: str) -> str:
+                        title = choice.split(" ", 1)[1]
+                        c = next(x for x in AW_WIKI_CONCEPTS if x["title"] == title)
+                        return (
+                            f"### {c['icon']} {c['title']}\n\n"
+                            f"{c['detail']}\n\n"
+                            f"**Analogy:** *{c['analogy']}*\n\n"
+                            f"```python\n{c['code']}\n```"
+                        )
+
+                    aw_concept_dd.change(
+                        fn=aw_render_concept,
+                        inputs=[aw_concept_dd],
+                        outputs=[aw_concept_detail],
+                    )
+                    aw_concept_detail.value = aw_render_concept(aw_concept_choices[0])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Agent Wiki):** Externalising agent memory into a persistent, "
+                "write-capable wiki breaks the trade-off between model size and long-horizon "
+                "performance. A 7B model with a wiki beats a 21B model without one because "
+                "the wiki provides: (1) O(1) fact retrieval vs O(n) attention; "
+                "(2) contradiction-free state across turns; "
+                "(3) lean context budgets — 85% window free for reasoning vs 20% for the large model. "
+                "**Pattern:** read wiki before each turn → reason → write facts/plans/observations → "
+                "read at turn N what was written at turn 1.\n\n"
+                "**Applicable to:** multi-turn agentic RAG, debugging agents, long-horizon planning, "
+                "multi-agent coordination, any system where context length is the bottleneck."
             )
 
 if __name__ == "__main__":
