@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-04 · 2 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10); 2 additional 🔴 papers scored ≥ 8 pending below
+Last updated: 2026-09-05 · 3 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10) + Tab 29 (Uncertainty Calibration: LLMs That Know What They Don't Know, score 8/10); 1 additional 🔴 paper scored ≥ 8 pending below
 
 ## New Papers (this run)
 
@@ -22,6 +22,7 @@ Last updated: 2026-09-04 · 2 🔴 papers implemented — Tab 27 (Skill Team: 68
 > **Source:** AlphaSignal signal · 2026-09-03 AM · Scored via Gmail MCP connector
 
 **POC idea:** Gradio demo comparing standard LLM responses vs. uncertainty-calibrated responses on factual queries — showing ECE (Expected Calibration Error) improvement and retrieval trigger accuracy.
+**Implemented:** Yes — `hf-space/uncertainty_calibration/` · Tab 29 in `hf-space/app.py` (2026-09-05)
 
 ### 🔴 [8-year study finds LLMs secretly build symbolic structure inside their vectors] — Score 8/10
 > Eight-year longitudinal research finding: LLMs spontaneously develop symbolic internal representations (parse trees, semantic roles, logical operators) inside their embedding vectors, without explicit supervision (AlphaSignal signal · 2026-09-03 PM). 900 likes. Implications: LLMs are more interpretable than assumed — these structures can be probed, visualised, and used to steer model behavior. Applicable to LLM debugging, alignment, and interpretability tooling for production systems.

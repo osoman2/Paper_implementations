@@ -30,6 +30,7 @@ Tabs:
  26. Agent Escape: VM & Sandbox Breach Patterns (Trail of Bits zero-days + OpenAI-HF) — score 8/10
  27. Skill Team: 68-Agent × 286-Skill Engineering Team (Claude-native) — score 9/10
  28. Agent Wiki: Persistent Knowledge Wiki Lets Small Agents Beat 3× Larger Models — score 9/10
+ 29. Uncertainty Calibration: LLMs That Know What They Don't Know — score 8/10
 """
 
 import os
@@ -5555,6 +5556,127 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "read at turn N what was written at turn 1.\n\n"
                 "**Applicable to:** multi-turn agentic RAG, debugging agents, long-horizon planning, "
                 "multi-agent coordination, any system where context length is the bottleneck."
+            )
+
+        # ── Tab 29 — Uncertainty Calibration ────────────────────────────────
+        with gr.Tab("🎯 Uncertainty Calibration: LLMs That Know What They Don't Know"):
+            gr.Markdown(
+                "## 🎯 Uncertainty Calibration: LLMs That Know What They Don't Know\n\n"
+                "**Source:** AlphaSignal signal · 2026-09-03 AM · 1,081 likes\n\n"
+                "**Paper / signal:** *\"Google's new training trick makes LLMs know what they don't know\"*\n\n"
+                "**Score: 8/10** — directly implementable calibration technique that reduces "
+                "hallucination and optimises retrieval triggers in production RAG systems.\n\n"
+                "**Key finding:** Calibrated LLMs reduce unnecessary retrievals by **40%** (confident "
+                "queries answered from training data) while cutting hallucinations by **63%** "
+                "(uncertain queries correctly routed to retrieval). "
+                "ECE drops from **0.34 → 0.02** on out-of-distribution queries."
+            )
+
+            from uncertainty_calibration import (
+                QUERIES as UC_QUERIES,
+                CALIBRATION_CONCEPTS as UC_CONCEPTS,
+                format_query_comparison as uc_format_comparison,
+                get_ece_improvement as uc_get_ece_improvement,
+                CATEGORY_LABELS as UC_CATEGORY_LABELS,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Query Comparison ───────────────────────────
+                with gr.Tab("🔬 Query Comparison"):
+                    gr.Markdown(
+                        "### Standard LLM vs Calibrated LLM — Side-by-Side\n\n"
+                        "Select a query to see how the standard LLM (overconfident, no retrieval) "
+                        "compares to the calibrated LLM (honest confidence, smart retrieval trigger)."
+                    )
+
+                    uc_query_labels = [f"[{UC_CATEGORY_LABELS.get(q.category, q.category)}] {q.query}" for q in UC_QUERIES]
+
+                    uc_query_dd = gr.Dropdown(
+                        choices=uc_query_labels,
+                        value=uc_query_labels[0],
+                        label="Select query",
+                    )
+
+                    with gr.Row():
+                        with gr.Column():
+                            gr.Markdown("#### ❌ Standard LLM (uncalibrated)")
+                            uc_std_md = gr.Markdown()
+                        with gr.Column():
+                            gr.Markdown("#### ✅ Calibrated LLM (Google's technique)")
+                            uc_cal_md = gr.Markdown()
+
+                    def uc_update(label: str):
+                        idx = uc_query_labels.index(label)
+                        q = UC_QUERIES[idx]
+                        return uc_format_comparison(q)
+
+                    uc_query_dd.change(fn=uc_update, inputs=[uc_query_dd], outputs=[uc_std_md, uc_cal_md])
+
+                    init_std, init_cal = uc_update(uc_query_labels[1])  # default to OOD example
+                    uc_std_md.value = init_std
+                    uc_cal_md.value = init_cal
+
+                # ── Sub-tab 2: ECE Dashboard ──────────────────────────────
+                with gr.Tab("📊 ECE Dashboard"):
+                    gr.Markdown(uc_get_ece_improvement())
+
+                    gr.Markdown(
+                        "### Per-Query ECE Contributions\n\n"
+                        "| Query | Category | Std Confidence | Std Correct? | Cal Confidence | Retrieval Triggered | Std ECE | Cal ECE |\n"
+                        "|-------|----------|---------------|-------------|---------------|--------------------|---------|---------|\n" +
+                        "\n".join(
+                            f"| {q.query[:40]}{'…' if len(q.query) > 40 else ''} "
+                            f"| {UC_CATEGORY_LABELS.get(q.category, q.category)} "
+                            f"| {q.standard_confidence:.0%} "
+                            f"| {'✅' if q.standard_is_correct else '❌'} "
+                            f"| {q.calibrated_confidence:.0%} "
+                            f"| {'🔍 Yes' if q.calibrated_retrieval_triggered else '💬 No'} "
+                            f"| {q.ece_standard:.2f} "
+                            f"| {q.ece_calibrated:.2f} |"
+                            for q in UC_QUERIES
+                        )
+                    )
+
+                # ── Sub-tab 3: Calibration Concepts ──────────────────────
+                with gr.Tab("⚙️ Calibration Concepts"):
+                    gr.Markdown(
+                        "### Key Concepts in LLM Uncertainty Calibration\n\n"
+                        "Select a concept to see the detail, formula, and production target."
+                    )
+
+                    uc_concept_choices = [f"{c['icon']} {c['title']}" for c in UC_CONCEPTS]
+                    uc_concept_dd = gr.Dropdown(
+                        choices=uc_concept_choices,
+                        value=uc_concept_choices[0],
+                        label="Concept",
+                    )
+                    uc_concept_detail = gr.Markdown()
+
+                    def uc_render_concept(choice: str) -> str:
+                        title = choice.split(" ", 1)[1]
+                        c = next(x for x in UC_CONCEPTS if x["title"] == title)
+                        return (
+                            f"### {c['icon']} {c['title']}\n\n"
+                            f"{c['detail']}\n\n"
+                            f"**Formula:** `{c['formula']}`\n\n"
+                            f"**Production target:** {c['target']}"
+                        )
+
+                    uc_concept_dd.change(fn=uc_render_concept, inputs=[uc_concept_dd], outputs=[uc_concept_detail])
+                    uc_concept_detail.value = uc_render_concept(uc_concept_choices[0])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Uncertainty Calibration):** Standard LLMs hallucinate with high "
+                "stated confidence because they are trained only to predict the next token — not to "
+                "model their own knowledge boundaries. Google's calibration training adds an auxiliary "
+                "loss that penalises overconfident wrong answers on held-out probes, teaching the model "
+                "to output low confidence on out-of-distribution facts. "
+                "**RAG integration:** use confidence < 0.30 as a retrieval trigger — 40% fewer retrievals "
+                "on known queries (lower latency) + 63% fewer hallucinations on unknown facts (higher accuracy).\n\n"
+                "**Applicable to:** any production RAG system, retrieval-augmented QA, tool-calling agents "
+                "that must decide when to look up vs. answer from memory, LLM evaluation pipelines."
             )
 
 if __name__ == "__main__":
