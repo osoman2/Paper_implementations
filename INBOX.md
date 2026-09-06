@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-05 · 3 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10) + Tab 29 (Uncertainty Calibration: LLMs That Know What They Don't Know, score 8/10); 1 additional 🔴 paper scored ≥ 8 pending below
+Last updated: 2026-09-06 · 4 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10) + Tab 29 (Uncertainty Calibration: LLMs That Know What They Don't Know, score 8/10) + Tab 30 (Symbolic Structure in LLM Vectors: 8-Year Study, score 8/10); 0 additional 🔴 papers pending
 
 ## New Papers (this run)
 
@@ -29,6 +29,7 @@ Last updated: 2026-09-05 · 3 🔴 papers implemented — Tab 27 (Skill Team: 68
 > **Source:** AlphaSignal signal · 2026-09-03 PM · Scored via Gmail MCP connector
 
 **POC idea:** Gradio probing demo: input a sentence, extract hidden-state vectors from a Claude/BERT model, and visualise detected symbolic structures (POS tags, dependency arcs, semantic roles) — showing that the structure is already there inside the vectors.
+**Implemented:** Yes — `hf-space/symbolic_structure/` · Tab 30 in `hf-space/app.py` (2026-09-06)
 
 ### 🟡 [Anthropic open-sources Claude Commerce Agents: 35% larger carts, 60% more conversions] — Score 7/10
 > Anthropic open-sources Claude Commerce Agents — a blueprint for AI shopping assistants with two agents (Shopping Agent for customers, Merchant Agent for store staff) and four vertical demos (retail, travel, telecom, entertainment). Real results: 35% larger carts, 60% more purchase completions (AlphaSignal signal · 2026-09-03 PM). Score 7: compelling open-source product release with real-world results, but primarily a product blueprint rather than a novel algorithm — applicable with adaptation to agent pipeline design for e-commerce. 6,219 likes.

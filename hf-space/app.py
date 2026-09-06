@@ -31,6 +31,7 @@ Tabs:
  27. Skill Team: 68-Agent × 286-Skill Engineering Team (Claude-native) — score 9/10
  28. Agent Wiki: Persistent Knowledge Wiki Lets Small Agents Beat 3× Larger Models — score 9/10
  29. Uncertainty Calibration: LLMs That Know What They Don't Know — score 8/10
+ 30. Symbolic Structure in LLM Vectors: 8-Year Study — score 8/10
 """
 
 import os
@@ -5677,6 +5678,166 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "on known queries (lower latency) + 63% fewer hallucinations on unknown facts (higher accuracy).\n\n"
                 "**Applicable to:** any production RAG system, retrieval-augmented QA, tool-calling agents "
                 "that must decide when to look up vs. answer from memory, LLM evaluation pipelines."
+            )
+
+        # ── Tab 30 — Symbolic Structure in LLM Vectors ──────────────────────
+        with gr.Tab("🧠 Symbolic Structure in LLM Vectors"):
+            gr.Markdown(
+                "## 🧠 Symbolic Structure in LLM Vectors: 8-Year Study\n\n"
+                "**Source:** AlphaSignal signal · 2026-09-03 PM · 900 likes\n\n"
+                "**Paper / signal:** *\"8-year study finds LLMs secretly build symbolic structure inside their vectors\"*\n\n"
+                "**Score: 8/10** — applicable to LLM debugging, alignment, and interpretability tooling for production systems.\n\n"
+                "**Key finding:** LLMs spontaneously develop **parse trees**, **semantic roles**, and **logical operators** "
+                "inside their embedding vectors — without explicit supervision. Linear probes recover these structures at "
+                "**76–97% accuracy**, far above chance. The structures causally mediate outputs: editing the "
+                "dependency subspace changes syntactic agreement in 92% of continuations.\n\n"
+                "> **Note:** This demo uses rule-based simulation of probing results. "
+                "In production, replace with linear-probe classifiers trained on actual model hidden states."
+            )
+
+            from symbolic_structure import (
+                EXAMPLE_SENTENCES as SS_SENTENCES,
+                SENTENCE_LABELS as SS_SENTENCE_LABELS,
+                PROBE_BENCHMARK as SS_BENCHMARK,
+                RESEARCH_TIMELINE as SS_TIMELINE,
+                PRODUCTION_IMPLICATIONS as SS_IMPLICATIONS,
+                get_analysis as ss_get_analysis,
+                format_token_table as ss_token_table,
+                format_dependency_tree as ss_dep_tree,
+                format_semantic_roles_summary as ss_roles,
+                format_logical_summary as ss_logical,
+                get_probe_benchmark_table as ss_benchmark_table,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Structural Probing Demo ────────────────────
+                with gr.Tab("🔬 Structural Probing Demo"):
+                    gr.Markdown(
+                        "### Probe a Sentence for Symbolic Structure\n\n"
+                        "Select a sentence to see the symbolic structures detected by simulated linear probes "
+                        "of LLM hidden-state vectors: POS tags, dependency arcs, and semantic roles."
+                    )
+
+                    ss_sent_dd = gr.Dropdown(
+                        choices=SS_SENTENCE_LABELS,
+                        value=SS_SENTENCE_LABELS[0],
+                        label="Select example sentence",
+                    )
+
+                    with gr.Row():
+                        ss_probe_acc = gr.Markdown()
+
+                    gr.Markdown("#### Token-Level Probing Results")
+                    ss_token_md = gr.Markdown()
+
+                    gr.Markdown("#### Dependency Tree (Probe-Recovered Parse)")
+                    ss_dep_md = gr.Markdown()
+
+                    with gr.Row():
+                        with gr.Column():
+                            gr.Markdown("#### Semantic Roles")
+                            ss_roles_md = gr.Markdown()
+                        with gr.Column():
+                            gr.Markdown("#### Logical Operators")
+                            ss_logical_md = gr.Markdown()
+
+                    def ss_update(sentence: str):
+                        a = ss_get_analysis(sentence)
+                        if a is None:
+                            na = "_No analysis available._"
+                            return na, na, na, na, na
+                        acc_bar = "█" * int(a.overall_probe_accuracy * 10) + "░" * (10 - int(a.overall_probe_accuracy * 10))
+                        acc_md = (
+                            f"**Structure type:** {a.structure_label} &nbsp;|&nbsp; "
+                            f"**Overall probe accuracy:** {acc_bar} **{a.overall_probe_accuracy:.0%}**"
+                        )
+                        return (
+                            acc_md,
+                            ss_token_table(a),
+                            ss_dep_tree(a),
+                            ss_roles(a),
+                            ss_logical(a),
+                        )
+
+                    ss_sent_dd.change(
+                        fn=ss_update,
+                        inputs=[ss_sent_dd],
+                        outputs=[ss_probe_acc, ss_token_md, ss_dep_md, ss_roles_md, ss_logical_md],
+                    )
+
+                    init_acc, init_tok, init_dep, init_rol, init_log = ss_update(SS_SENTENCE_LABELS[0])
+                    ss_probe_acc.value  = init_acc
+                    ss_token_md.value   = init_tok
+                    ss_dep_md.value     = init_dep
+                    ss_roles_md.value   = init_rol
+                    ss_logical_md.value = init_log
+
+                # ── Sub-tab 2: Probe Accuracy Benchmark ───────────────────
+                with gr.Tab("📊 Probe Accuracy Benchmark"):
+                    gr.Markdown(
+                        "### What Structures Are Recoverable from LLM Hidden States?\n\n"
+                        "Linear probes (a single-layer linear classifier trained on frozen hidden states) "
+                        "recover these symbolic structures at the accuracies shown. "
+                        "Probe accuracy far above chance confirms the structure is linearly encoded — "
+                        "i.e., it is genuinely present in the representation, not just correlated with surface patterns."
+                    )
+
+                    gr.Markdown(ss_benchmark_table())
+
+                    gr.Markdown("#### Key Findings per Structure\n")
+                    for b in SS_BENCHMARK:
+                        gr.Markdown(
+                            f"**{b['icon']} {b['structure']}** ({b['layer']})  \n"
+                            f"{b['finding']}"
+                        )
+
+                # ── Sub-tab 3: 8-Year Research Timeline ───────────────────
+                with gr.Tab("📅 8-Year Research Timeline"):
+                    gr.Markdown(
+                        "### 8 Years of Structural Probing Research (2018–2026)\n\n"
+                        "The longitudinal arc: from first evidence of syntactic encoding (2019) "
+                        "to causal intervention (2022–23) to the 2026 synthesis showing universal "
+                        "symbolic structure across all transformer-based LLMs."
+                    )
+
+                    for item in SS_TIMELINE:
+                        gr.Markdown(
+                            f"#### 📌 {item['year']} — {item['finding']}\n\n"
+                            f"{item['detail']}\n\n"
+                            f"**Impact:** _{item['impact']}_"
+                        )
+                        gr.Markdown("---")
+
+                # ── Sub-tab 4: Production Implications ────────────────────
+                with gr.Tab("🏭 Production Implications"):
+                    gr.Markdown(
+                        "### Applying Structural Probing to Production LLM Systems\n\n"
+                        "The 8-year synthesis makes structural probing practically useful — not just "
+                        "academically interesting. These are the four highest-value production applications."
+                    )
+
+                    for imp in SS_IMPLICATIONS:
+                        gr.Markdown(
+                            f"### {imp['icon']} {imp['title']}\n\n"
+                            f"{imp['detail']}\n\n"
+                            f"**Pattern:** `{imp['code_pattern']}`"
+                        )
+                        gr.Markdown("---")
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Symbolic Structure):** LLMs are trained only to predict the next token, "
+                "yet they spontaneously develop an internal *Universal Structural Grammar* — parse trees, "
+                "semantic roles, and logical operators encoded linearly in their hidden-state vectors. "
+                "This is not a side effect: causal intervention experiments confirm these structures "
+                "actively mediate model outputs. "
+                "**Production value:** structural probes can catch hallucination, misalignment, and "
+                "reasoning failures *before* decoding — 1–3 layers earlier than the logit head — "
+                "and steering vectors in the structural subspaces enable targeted behavior correction "
+                "without full fine-tuning.\n\n"
+                "**Applicable to:** LLM debugging pipelines, RLHF alignment, cross-lingual transfer, "
+                "interpretability dashboards, hallucination detection in production RAG systems."
             )
 
 if __name__ == "__main__":
