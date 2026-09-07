@@ -32,6 +32,7 @@ Tabs:
  28. Agent Wiki: Persistent Knowledge Wiki Lets Small Agents Beat 3× Larger Models — score 9/10
  29. Uncertainty Calibration: LLMs That Know What They Don't Know — score 8/10
  30. Symbolic Structure in LLM Vectors: 8-Year Study — score 8/10
+ 31. Shopify Flywheel: Self-Improving AI Pipeline (0.8B beats GPT-5.6, $27M→$1M) — score 8/10
 """
 
 import os
@@ -5838,6 +5839,214 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "without full fine-tuning.\n\n"
                 "**Applicable to:** LLM debugging pipelines, RLHF alignment, cross-lingual transfer, "
                 "interpretability dashboards, hallucination detection in production RAG systems."
+            )
+
+        # ── Tab 31 — Shopify Self-Improving AI Pipeline ─────────────────────
+        with gr.Tab("⚙️ Shopify Flywheel: Self-Improving AI Pipeline"):
+            gr.Markdown(
+                "## ⚙️ Shopify Self-Improving AI Pipeline\n\n"
+                "**Source:** AlphaSignal deep-dive · 2026-09-06 · news@alphasignal.ai\n\n"
+                "**Signal:** *\"What Developers Can Learn From Shopify's Self-Improving AI Pipeline\"*\n\n"
+                "**Score: 8/10** — concrete production case with implementable flywheel pattern, "
+                "LLM-judge calibration methodology, and quantified cost/latency metrics.\n\n"
+                "**Key result:** Fine-tuned Qwen3.5 **0.8B** model outperforms **GPT-5.6 Sol** on narrow buyer-profile "
+                "task. Cost: **$27M/yr → $1M/yr**. Latency: **-38%**. Throughput: **+16%**. GPUs: **-14%**.\n\n"
+                "> **Note:** This demo uses deterministic simulation of the flywheel stages and LLM judge outputs. "
+                "In production, replace with actual LLM inference, real rubrics, and live training pipelines."
+            )
+
+            from shopify_flywheel import (
+                EXAMPLE_CONVERSATIONS as SF_CONVS,
+                FLYWHEEL_STAGES as SF_STAGES,
+                JUDGE_CALIBRATIONS as SF_JUDGES,
+                COST_COMPARISON as SF_COST,
+                GRAPHQL_COMPARISON as SF_GQL,
+                SPECIALIZATION_CONDITIONS as SF_CONDITIONS,
+                get_conversation_labels as sf_conv_labels,
+                get_conversation as sf_get_conv,
+                get_repair as sf_get_repair,
+                format_judge_table as sf_judge_table,
+                format_cost_table as sf_cost_table,
+                format_specialization_table as sf_spec_table,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Flywheel Stages ────────────────────────────
+                with gr.Tab("🔄 Flywheel Stages"):
+                    gr.Markdown(
+                        "### The 5-Stage Self-Improving Production Loop\n\n"
+                        "Shopify's production flywheel turns real-world failures into training data "
+                        "for smaller, cheaper specialized models — while the frontier model shifts "
+                        "from *worker* to *teacher*."
+                    )
+                    for stage in SF_STAGES:
+                        gr.Markdown(
+                            f"### Step {stage['step']}: {stage['icon']} {stage['title']}\n\n"
+                            f"{stage['detail']}\n\n"
+                            f"**Pattern:** `{stage['code_pattern']}`"
+                        )
+                        gr.Markdown("---")
+
+                # ── Sub-tab 2: Production Conversation Simulator ──────────
+                with gr.Tab("🔬 Failure → Repair Demo"):
+                    gr.Markdown(
+                        "### From Production Failure to Training Data\n\n"
+                        "Select a simulated production conversation. For failures, see how the frontier "
+                        "reasoning model critiques and repairs it to create a training example."
+                    )
+
+                    conv_labels = sf_conv_labels()
+                    sf_conv_dd = gr.Dropdown(
+                        choices=conv_labels,
+                        value=conv_labels[0],
+                        label="Select production conversation",
+                    )
+
+                    with gr.Row():
+                        sf_score_md = gr.Markdown()
+
+                    gr.Markdown("#### Agent Output")
+                    sf_output_md = gr.Markdown()
+
+                    gr.Markdown("#### Evaluator Rubric Scores")
+                    sf_rubric_md = gr.Markdown()
+
+                    sf_repair_hdr = gr.Markdown("#### Frontier Critique & Repair")
+                    sf_repair_md = gr.Markdown()
+
+                    def sf_update(label: str):
+                        conv = sf_get_conv(label)
+                        if conv is None:
+                            return "—", "—", "—", "—"
+                        status = "✅ PASS" if not conv.is_failure else "❌ FAILURE"
+                        score_bar = "█" * int(conv.evaluator_score * 10) + "░" * (10 - int(conv.evaluator_score * 10))
+                        score_md = (
+                            f"**Status:** {status} &nbsp;|&nbsp; "
+                            f"**Evaluator score:** {score_bar} **{conv.evaluator_score:.0%}**"
+                            + (f"\n\n> **Failure reason:** {conv.failure_reason}" if conv.failure_reason else "")
+                        )
+                        rubric_rows = [
+                            "| Dimension | Score | Bar |",
+                            "|-----------|-------|-----|",
+                        ]
+                        for dim, s in conv.criteria.items():
+                            bar = "█" * int(s * 10) + "░" * (10 - int(s * 10))
+                            rubric_rows.append(f"| {dim.replace('_',' ').title()} | **{s:.0%}** | {bar} |")
+                        rubric_md = "\n".join(rubric_rows)
+
+                        repair = sf_get_repair(conv.id)
+                        if repair:
+                            repair_md = (
+                                f"**Frontier critique:**\n> {repair.frontier_critique}\n\n"
+                                f"**Repair instruction:**\n> {repair.repair_instruction}\n\n"
+                                f"**Repaired output:**\n> {repair.repaired_output}\n\n"
+                                f"**Repaired score:** {'█' * int(repair.repaired_score * 10)}░{'░' * (10 - int(repair.repaired_score * 10))} "
+                                f"**{repair.repaired_score:.0%}** &nbsp;|&nbsp; "
+                                f"**Became training data:** {'✅ Yes' if repair.became_training_data else '❌ No'}"
+                            )
+                        elif conv.is_failure:
+                            repair_md = "_No repair simulation for this example. Sent to human annotator._"
+                        else:
+                            repair_md = "_✅ Conversation passed — added to training set as positive example._"
+
+                        return score_md, conv.agent_output, rubric_md, repair_md
+
+                    sf_conv_dd.change(
+                        fn=sf_update,
+                        inputs=[sf_conv_dd],
+                        outputs=[sf_score_md, sf_output_md, sf_rubric_md, sf_repair_md],
+                    )
+                    init_sc, init_out, init_rub, init_rep = sf_update(conv_labels[0])
+                    sf_score_md.value = init_sc
+                    sf_output_md.value = init_out
+                    sf_rubric_md.value = init_rub
+                    sf_repair_md.value = init_rep
+
+                # ── Sub-tab 3: LLM Judge Calibration ─────────────────────
+                with gr.Tab("⚖️ LLM Judge Calibration"):
+                    gr.Markdown(
+                        "### Calibrating LLM Judges with Cohen's Kappa\n\n"
+                        "Shopify uses **4 LLM judges** scoring each conversation dimension against a human-labeled "
+                        "baseline. An automated label is accepted **only when all 4 judges agree** (consensus). "
+                        "Cohen's kappa measures inter-rater reliability — kappa ≥ 0.80 = strong agreement.\n\n"
+                        "> **Why 4 judges?** A single LLM judge can systematically teach the model wrong behavior. "
+                        "Requiring 4-judge consensus before accepting a label prevents bad evals from corrupting "
+                        "the training set — especially critical for edge cases like impossible-request refusals."
+                    )
+
+                    gr.Markdown(sf_judge_table())
+
+                    gr.Markdown(
+                        "#### Kappa Interpretation\n"
+                        "| Range | Agreement | Action |\n"
+                        "|-------|-----------|--------|\n"
+                        "| ≥ 0.80 | **Strong** ✅ | Accept automated label |\n"
+                        "| 0.60–0.79 | **Moderate** 🟡 | Flag for review |\n"
+                        "| < 0.60 | **Poor** ❌ | Reject → send to human annotator |\n\n"
+                        "Shopify measures kappa continuously — if a rubric dimension's kappa degrades below "
+                        "threshold after a model update, that dimension's labels are paused until recalibrated."
+                    )
+
+                # ── Sub-tab 4: Cost Analysis ──────────────────────────────
+                with gr.Tab("💰 Cost Analysis"):
+                    gr.Markdown(
+                        "### Frontier vs Specialized Model: What the Numbers Look Like\n\n"
+                        "Specialization's ROI depends on request volume. At Shopify's scale (millions of requests/day), "
+                        "even a small per-request cost difference compounds to tens of millions of dollars annually."
+                    )
+
+                    gr.Markdown("#### Buyer-Profile Generation Task")
+                    gr.Markdown(sf_cost_table(SF_COST))
+
+                    gr.Markdown("\n#### GraphQL Agent (Shopify Admin, 2,000 req/min)")
+                    gr.Markdown(sf_cost_table(SF_GQL))
+
+                    gr.Markdown(
+                        "\n#### Why the Specialized Model Wins\n\n"
+                        "| Factor | Frontier Model | Specialized 0.8B |\n"
+                        "|--------|---------------|------------------|\n"
+                        "| System prompt | ~6,000 tokens | ~1,500 tokens (−75%) |\n"
+                        "| Time-to-first-token | baseline | −19% |\n"
+                        "| End-to-end latency | baseline | −38% |\n"
+                        "| Context window used | 100% | ~25% |\n"
+                        "| Model size | 100–300B params | 0.8B params |\n\n"
+                        "> The system prompt shrinks because the specialist has internalized the task "
+                        "— what used to be 6K tokens of instruction is now weights."
+                    )
+
+                # ── Sub-tab 5: When to Specialize ─────────────────────────
+                with gr.Tab("🏭 When to Specialize"):
+                    gr.Markdown(
+                        "### Four Conditions for Profitable Specialization\n\n"
+                        "Shopify's flywheel only makes sense once all four readiness conditions are met. "
+                        "Before that, **stay on the frontier model** — it's cheaper in engineering time "
+                        "even if each inference costs more."
+                    )
+
+                    gr.Markdown(sf_spec_table())
+
+                    gr.Markdown("\n---\n")
+                    for c in SF_CONDITIONS:
+                        icon = "✅" if c["ready"] else "⛔"
+                        gr.Markdown(
+                            f"### {icon} {c['icon']} {c['condition']}\n\n"
+                            f"{c['detail']}\n\n"
+                            f"**Shopify example:** _{c['shopify_example']}_"
+                        )
+                        gr.Markdown("---")
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Shopify Flywheel):** The durable asset is not the model — it's the loop. "
+                "Production data, evaluation rubrics, judge calibration, and training recipes compound over time: "
+                "each round of production failures becomes the next model's training data. "
+                "Frontier models shift from workers to teachers, and the long-term cost structure inverts. "
+                "**Production value:** any high-volume, bounded LLM task with measurable outputs is a "
+                "candidate for this flywheel — the conditions are volume × bounded behavior × measurable quality × proprietary failures.\n\n"
+                "**Applicable to:** any production LLM system running millions of requests/day on a stable, "
+                "well-defined task — buyer profiling, SQL/GraphQL generation, document classification, "
+                "customer segmentation, content moderation, retrieval re-ranking."
             )
 
 if __name__ == "__main__":

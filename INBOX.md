@@ -1,7 +1,16 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-06 · 4 🔴 papers implemented — Tab 27 (Skill Team: 68-Agent × 286-Skill Engineering Team, score 9/10) + Tab 28 (Agent Wiki: Persistent Knowledge Wiki, score 9/10) + Tab 29 (Uncertainty Calibration: LLMs That Know What They Don't Know, score 8/10) + Tab 30 (Symbolic Structure in LLM Vectors: 8-Year Study, score 8/10); 0 additional 🔴 papers pending
+Last updated: 2026-09-07 · 1 🔴 paper implemented — Tab 31 (Shopify Flywheel: Self-Improving AI Pipeline, score 8/10); 0 additional 🔴 papers pending
 
 ## New Papers (this run)
+
+### 🔴 [Shopify's self-improving AI pipeline: 0.8B model beats GPT-5.6, $27M→$1M cost] — Score 8/10
+> Production flywheel case study: Shopify fine-tuned a Qwen3.5 0.8B model to outperform GPT-5.6 Sol xhigh on a narrow buyer-profile generation task (AlphaSignal deep-dive · 2026-09-06 · news@alphasignal.ai). Key mechanism: 5-stage self-improving loop — (1) frontier model serves production, (2) LLM judges score every conversation (rubric: completeness, execution, response quality, safety), (3) frontier reasoning model critiques failures, (4) repairs are replayed and accepted if they pass the evaluator, (5) accumulated trajectories train the specialist via SFT + GRPO daily. Calibration: Cohen's kappa measures inter-rater reliability between 4 LLM judges and human annotators — labels accepted only when all 4 judges agree. Hard-negative mining from low-scoring production conversations. Key results: $27M/yr → $1M/yr (buyer profiles), 38% latency reduction, 16% throughput increase, 14% fewer GPUs, prompt tokens 6K → 1.5K. Shopify Sidekick GraphQL agent: 2,000 req/min, runs this loop daily. Score 8: real production case with concrete, reproducible flywheel pattern, quantified cost/latency metrics, and directly implementable LLM-judge calibration methodology.
+> **Source:** AlphaSignal deep-dive · 2026-09-06 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with 5 sub-tabs — (1) Flywheel Stages: interactive walkthrough of all 5 pipeline stages; (2) Failure → Repair: select a production conversation, see evaluator scores, frontier critique, and repaired output; (3) LLM Judge Calibration: Cohen's kappa table showing 4-judge consensus requirement; (4) Cost Analysis: frontier vs specialized model cost calculator; (5) When to Specialize: the 4 readiness conditions with Shopify examples.
+**Implemented:** Yes — `hf-space/shopify_flywheel/` · Tab 31 in `hf-space/app.py` (2026-09-07)
+
+## Previous Papers (prior runs)
 
 ### 🔴 [Anthropic hackathon winner open-sources a 68-agent, 286-skill engineering team built on Claude] — Score 9/10
 > Open-source multi-agent engineering team with 68 specialized agents and 286 composable skills, all built on Claude (AlphaSignal signal · 2026-09-03 AM · news@alphasignal.ai). Architecture: Planning (8 agents, 56 skills), Development (20 agents, 80 skills), Quality (15 agents, 60 skills), Review (10 agents, 50 skills), Coordination (8 agents, 30 skills), Specialized (7 agents, 10 skills). Key results: +31pp correctness on complex tasks vs. single large model, 89% security issue catch rate, 47% context utilisation efficiency vs. 100% for monolithic approach. Design principles: specialisation over generalism, skill contracts as atomic units, parallel review via map-reduce, explicit memory management, human gates at architecture + merge decisions. 2,541 AlphaSignal signal likes — highest engagement of the day.
