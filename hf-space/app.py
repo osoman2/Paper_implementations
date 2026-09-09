@@ -6265,5 +6265,224 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "reinforcement learning from human feedback (RLHF) at scale."
             )
 
+        # ── Tab 33: Meta AIRA3 ────────────────────────────────────────────
+        with gr.Tab("🏆 Meta AIRA3: Autonomous Research Agent (8th/4,002 Teams)"):
+            gr.Markdown(
+                "## 🏆 Meta AIRA3: Autonomous Multi-Agent Research System\n\n"
+                "**Source:** AlphaSignal signal · 2026-09-08 · news@alphasignal.ai\n\n"
+                "**Signal:** *\"Meta's autonomous research system places top 10 among 4,000 Kaggle teams\"*\n\n"
+                "**Score: 9/10** — Direct blueprint for production multi-agent research systems. "
+                "The coordination pattern (async forum + shared filesystem, no central controller) "
+                "is immediately applicable to any self-improving LLM pipeline.\n\n"
+                "**Key result:** 8 agents, 4 compounding rounds, **8th place / 4,002 teams** on NVIDIA Kaggle "
+                "reasoning challenge · **27% GPU kernel latency reduction** · Gold-level Akkadian translation"
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: System Overview ────────────────────────────
+                with gr.Tab("🏗️ System Overview"):
+                    from meta_aira3 import domain_table, latency_waterfall
+
+                    gr.Markdown(
+                        "### AIRA3 Architecture\n\n"
+                        "AIRA3 runs many **long-running specialized agents** that coordinate "
+                        "**asynchronously via a shared forum and filesystem**. There is no central controller. "
+                        "Agents post findings, read each other's posts, and build on them across rounds. "
+                        "Knowledge compounds — each round leverages all prior rounds.\n\n"
+                        "```\n"
+                        "┌─────────────────────────────────────────┐\n"
+                        "│  AIRA3 Coordination Layer               │\n"
+                        "│                                         │\n"
+                        "│  Agent A1 ──┐                           │\n"
+                        "│  Agent A2 ──┤                           │\n"
+                        "│  Agent A3 ──┼──► Shared Forum ◄──► FS  │\n"
+                        "│  Agent A4 ──┤                           │\n"
+                        "│  Agent A5 ──┘                           │\n"
+                        "│             (no central orchestrator)   │\n"
+                        "└─────────────────────────────────────────┘\n"
+                        "```\n\n"
+                        "**Why this works:**\n"
+                        "- Each agent specializes in one area (kernel optimization, data curation, quantization...)\n"
+                        "- Agents post findings as forum messages + file artifacts\n"
+                        "- Any agent can read any prior finding and build on it\n"
+                        "- No synchronization barrier — fast agents compound multiple rounds while slow ones finish 1\n"
+                        "- The only config that changes per domain: the task spec in each agent's prompt"
+                    )
+
+                    gr.Markdown("### Domains Where AIRA3 Was Applied (Same Code, Different Task Spec)")
+                    gr.Markdown(domain_table())
+
+                    gr.Markdown("### Latency Waterfall — How 27% Was Achieved")
+                    gr.Markdown(latency_waterfall())
+
+                # ── Sub-tab 2: Agent Explorer ─────────────────────────────
+                with gr.Tab("🔬 Agent Explorer"):
+                    from meta_aira3 import agent_labels, agent_card, get_agent, AGENTS
+
+                    gr.Markdown(
+                        "### Explore Individual AIRA3 Agents\n\n"
+                        "Select an agent to see its specialization, current task, findings, "
+                        "and contribution to the 27% latency improvement."
+                    )
+
+                    aira3_agent_dd = gr.Dropdown(
+                        choices=agent_labels(),
+                        value=agent_labels()[0],
+                        label="Select agent",
+                    )
+                    aira3_agent_md = gr.Markdown()
+
+                    def aira3_update_agent(label: str) -> str:
+                        agent_id = label.split(":")[0].split()[-1]
+                        agent = get_agent(agent_id)
+                        if agent is None:
+                            return "_Agent not found._"
+                        return agent_card(agent)
+
+                    aira3_agent_dd.change(
+                        fn=aira3_update_agent,
+                        inputs=[aira3_agent_dd],
+                        outputs=[aira3_agent_md],
+                    )
+                    aira3_agent_md.value = aira3_update_agent(agent_labels()[0])
+
+                    gr.Markdown(
+                        "---\n"
+                        "#### Agent Dependency Graph\n\n"
+                        "```\n"
+                        "A1 (Kernel) ──► A2 (CoT) ──► A5 (Eval) ──► A8 (Final Stack)\n"
+                        "     │                                          ▲\n"
+                        "     └──────────────► A4 (INT4) ───────────────┘\n"
+                        "A3 (Data) ──► A7 (Reward) ─────────────────────┘\n"
+                        "A6 (Arch) ──► ⚠ Dead-end (flagged, prevented waste)\n"
+                        "```"
+                    )
+
+                # ── Sub-tab 3: Forum Simulation ───────────────────────────
+                with gr.Tab("💬 Forum: Knowledge Compounding"):
+                    from meta_aira3 import forum_round_summary
+
+                    gr.Markdown(
+                        "### Shared Forum — How Knowledge Compounds Over Rounds\n\n"
+                        "Select a round to see the findings posted by agents in that round. "
+                        "Notice how round 3 and 4 posts explicitly reference earlier findings — "
+                        "this is the compounding effect that produced the Gold submission."
+                    )
+
+                    aira3_round_dd = gr.Dropdown(
+                        choices=["Round 1", "Round 2", "Round 3", "Round 4"],
+                        value="Round 1",
+                        label="Select round",
+                    )
+                    aira3_forum_md = gr.Markdown()
+
+                    def aira3_update_forum(round_label: str) -> str:
+                        round_num = int(round_label.split()[-1])
+                        return forum_round_summary(round_num)
+
+                    aira3_round_dd.change(
+                        fn=aira3_update_forum,
+                        inputs=[aira3_round_dd],
+                        outputs=[aira3_forum_md],
+                    )
+                    aira3_forum_md.value = aira3_update_forum("Round 1")
+
+                    gr.Markdown(
+                        "\n---\n"
+                        "**Key insight:** Round 4 (Gold submission) explicitly built on Posts P1, P3, P6 "
+                        "from rounds 1–3. The 27% total latency reduction required all three compounding steps — "
+                        "no single agent could have achieved it alone. This is the core value of multi-agent "
+                        "coordination over a single large model."
+                    )
+
+                # ── Sub-tab 4: Coordination Patterns ─────────────────────
+                with gr.Tab("🔗 Coordination Patterns"):
+                    from meta_aira3 import coordination_labels, coordination_card, get_coordination_pattern
+
+                    gr.Markdown(
+                        "### AIRA3 Coordination Patterns\n\n"
+                        "These 5 patterns define how AIRA3 achieves multi-agent coordination "
+                        "without a central controller. Each is directly implementable in any "
+                        "production multi-agent system."
+                    )
+
+                    aira3_coord_dd = gr.Dropdown(
+                        choices=coordination_labels(),
+                        value=coordination_labels()[0],
+                        label="Select coordination pattern",
+                    )
+                    aira3_coord_md = gr.Markdown()
+
+                    def aira3_update_coord(label: str) -> str:
+                        name = label.split(" ", 1)[1]
+                        pattern = get_coordination_pattern(name)
+                        if pattern is None:
+                            return "_Pattern not found._"
+                        return coordination_card(pattern)
+
+                    aira3_coord_dd.change(
+                        fn=aira3_update_coord,
+                        inputs=[aira3_coord_dd],
+                        outputs=[aira3_coord_md],
+                    )
+                    aira3_coord_md.value = aira3_update_coord(coordination_labels()[0])
+
+                # ── Sub-tab 5: Production Principles ─────────────────────
+                with gr.Tab("🚀 Production Principles"):
+                    from meta_aira3 import production_labels, production_card, get_production_principle
+
+                    gr.Markdown(
+                        "### Implementing AIRA3 Patterns in Production\n\n"
+                        "5 concrete principles for building a production multi-agent research system "
+                        "based on AIRA3's architecture. Each includes the AIRA3 example, "
+                        "the implementation guidance, and the tradeoff to watch for."
+                    )
+
+                    aira3_prod_dd = gr.Dropdown(
+                        choices=production_labels(),
+                        value=production_labels()[0],
+                        label="Select principle",
+                    )
+                    aira3_prod_md = gr.Markdown()
+
+                    def aira3_update_prod(label: str) -> str:
+                        name = label.split(" ", 1)[1]
+                        principle = get_production_principle(name)
+                        if principle is None:
+                            return "_Principle not found._"
+                        return production_card(principle)
+
+                    aira3_prod_dd.change(
+                        fn=aira3_update_prod,
+                        inputs=[aira3_prod_dd],
+                        outputs=[aira3_prod_md],
+                    )
+                    aira3_prod_md.value = aira3_update_prod(production_labels()[0])
+
+                    gr.Markdown(
+                        "\n---\n"
+                        "#### Quick Reference: AIRA3 vs. Naive Multi-Agent\n\n"
+                        "| Dimension | Naive Multi-Agent | AIRA3 Pattern |\n"
+                        "|-----------|-------------------|---------------|\n"
+                        "| Coordination | Central orchestrator | Shared async forum |\n"
+                        "| Bottleneck | O(n) orchestrator | None — each agent is independent |\n"
+                        "| Knowledge reuse | Manual aggregation | Organic compounding via forum |\n"
+                        "| New domain | Rewrite code | Change task spec only |\n"
+                        "| Failure mode | Orchestrator crash | Individual agent stall (others continue) |\n"
+                        "| Validation | End-of-pipeline | Continuous: validator agent in each round |"
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Meta AIRA3):** Multi-agent research systems beat large single models "
+                "not because of more compute, but because of **knowledge compounding across specializations**. "
+                "The winning pattern — async forum, no central controller, explicit 'builds_on' citations — "
+                "is the production-ready alternative to monolithic agent chains.\n\n"
+                "**Applicable to:** any self-improving LLM pipeline, automated ML research, "
+                "production agent coordination, evaluation harness design, and large-scale "
+                "knowledge synthesis tasks across diverse domains."
+            )
+
 if __name__ == "__main__":
     demo.launch()
