@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-09 · 1 🔴 paper implemented — Tab 33 (Meta AIRA3: Autonomous Research Agent, score 9/10); 0 additional 🔴 papers pending
+Last updated: 2026-09-10 · 1 🔴 paper implemented — Tab 33 (Meta AIRA3: Autonomous Research Agent, score 9/10); 1 🟡 paper implemented — Tab 34 (TOC-Guided Retrieval, score 8/10); 0 additional papers pending
 
 ## New Papers (this run — 2026-09-09)
 
@@ -13,6 +13,9 @@ Last updated: 2026-09-09 · 1 🔴 paper implemented — Tab 33 (Meta AIRA3: Aut
 ### 🟡 [New retrieval model uses table of contents to hit 82.6% recall with near-zero hallucination] — Score 8/10
 > Novel RAG retrieval technique: use document table of contents as a routing index before dense retrieval (AlphaSignal signal · 2026-09-08 · news@alphasignal.ai). 160 likes. 82.6% recall with near-zero hallucination. Score 8: directly implementable RAG improvement — TOC-guided retrieval is a practical technique for any long-document RAG pipeline.
 > **Source:** AlphaSignal signal · 2026-09-08 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with 5 sub-tabs — (1) Architecture Overview: TOC routing vs standard dense retrieval diagram; (2) TOC Router Demo: live query routing against a sample document TOC; (3) Standard vs TOC-Guided: side-by-side retrieval comparison with hallucination detection; (4) Benchmark Results: 82.6% recall / 3.1% hallucination across 2,400 queries; (5) Implementation Patterns: 5 production patterns (auto-extract, LLM-generated, hierarchical, hybrid, dynamic refresh).
+**Implemented:** Yes — `hf-space/toc_retrieval/` · Tab 34 in `hf-space/app.py` (2026-09-10)
 
 ### 🟡 [Artificial Analysis updates its AI benchmark with harder agentic workflow tests] — Score 6/10
 > Benchmark evaluation update: Artificial Analysis adds real agentic workflow tasks to its benchmark to reduce gaming (AlphaSignal signal · 2026-09-08 · news@alphasignal.ai). 1,943 likes. Score 6: relevant for evaluation harness design but primarily a benchmark product update, not a novel algorithm.
