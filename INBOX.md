@@ -1,7 +1,51 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-10 · 1 🔴 paper implemented — Tab 33 (Meta AIRA3: Autonomous Research Agent, score 9/10); 1 🟡 paper implemented — Tab 34 (TOC-Guided Retrieval, score 8/10); 0 additional papers pending
+Last updated: 2026-09-11 · 0 new 🔴 papers — all high-relevance papers (Tabs 1–34) already implemented; 2 new AlphaSignal emails scanned (2026-09-10 and 2026-09-11), highest new score 7/10 (no new tab needed)
 
-## New Papers (this run — 2026-09-09)
+## New Papers (this run — 2026-09-11)
+
+### ⚪ [DeepSeek 552B beats its own Pro model, then kills it] — Score 4/10
+> DeepSeek V4.1-Flash: 552B total params, 8B active on input/16B on output, 4× less RAM cache, 8× less storage, 50% cheaper off-peak pricing — V4-Pro retired. No novel RAG or agent pipeline algorithm; model/API release with practical cost implications.
+> **Source:** AlphaSignal signal · 2026-09-11 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic publishes its most detailed report on Claude misuse and how it stopped them] — Score 5/10
+> Seven harm categories (cyber ops, influence ops, surveillance, scams, bio misuse, weapons, model theft); state-sponsored attackers used Claude to infiltrate ~30 global targets; every operation disrupted. Applicable to agent safety design but a case-study report, not a drop-in algorithm.
+> **Source:** AlphaSignal signal · 2026-09-11 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships ChatGPT for financial services with GPT-6 and live market data] — Score 3/10
+> GPT-6 Astra tuned for financial retrieval and artifact generation, bundled with Daloopa/PitchBook/LSEG data, editable templates and granular citations. Domain-specific product launch; no novel technique for general RAG or agent pipelines.
+> **Source:** AlphaSignal signal · 2026-09-11 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships GPT-Live-1 API so voice agents can listen and speak at the same time] — Score 4/10
+> Full-duplex voice streaming API: listen and speak concurrently, 13,456 likes. Useful for voice-agent architectures but an API/product release with no novel retrieval or agent-pipeline algorithm.
+> **Source:** AlphaSignal signal · 2026-09-11 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [RadixArk open-sources Miles, a production-ready reinforcement learning training system for frontier models] — Score 6/10
+> Open-source RL training infrastructure for frontier LLMs, 529 likes. Applicable with adaptation to RLHF/GRPO fine-tuning pipelines but a tooling/infrastructure release rather than a novel algorithm directly applicable to RAG.
+> **Source:** AlphaSignal signal · 2026-09-11 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+## New Papers (this run — 2026-09-10)
+
+### 🟡 [Reasoning models produce fractals when solving hard problems, and it explains "overthinking"] — Score 7/10
+> Empirical finding: AI reasoning models generate fractal patterns when solving hard problems — sensitivity of starting conditions causes 10× token-cost variation from near-identical prompts, confirmed across Sudoku, mazes, math, and ARC-AGI (GilpinLab/loopscape). Directly relevant to LLM inference cost management: explains unpredictable reasoning-trace lengths. Score 7: insightful observational finding applicable to cost budgeting in reasoning pipelines, but no drop-in technique — primarily a characterization of existing behavior.
+> **Source:** AlphaSignal signal · 2026-09-10 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic models three scenarios for how AI reshapes US jobs and wages by 2030] — Score 2/10
+> Economic/policy modelling: 3 scenarios (modest/substantial/extreme) for AI's impact on US jobs/wages by 2030. Interactive tool, not an AI engineering algorithm.
+> **Source:** AlphaSignal signal · 2026-09-10 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships GPT-Image-2.5 with 50% lower latency and sharper editing control] — Score 2/10
+> GPT-Image-2.5 Flare (50% faster) and Sunburst (higher precision editing); surgical inpainting control. Image-model product release, not applicable to RAG or LLM agent pipelines.
+> **Source:** AlphaSignal signal · 2026-09-10 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Amazon tool predicts A/B test winners with 75–90% accuracy before real users see them] — Score 3/10
+> Amazon LLM-based A/B test pre-prediction tool (1,542 likes). Domain-specific product testing, not a novel RAG or LLM inference technique.
+> **Source:** AlphaSignal signal · 2026-09-10 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Sony AI open-sources a tool that predicts undiscovered scientific facts] — Score 3/10
+> Sony AI scientific fact prediction tool (4,129 likes). Domain-specific science tool with no novel RAG/retrieval pattern.
+> **Source:** AlphaSignal signal · 2026-09-10 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+## Previous Papers (prior runs — 2026-09-09)
 
 ### 🔴 [Meta's autonomous research system places top 10 among 4,000 Kaggle teams] — Score 9/10
 > Multi-agent autonomous research agent (AIRA3) placed 8th out of ~4,000 teams on NVIDIA Kaggle reasoning challenge (AlphaSignal signal · 2026-09-08 · news@alphasignal.ai). Key results: 2,225 AlphaSignal signal likes. Architecture: many long-running specialized agents coordinating asynchronously via a shared forum + filesystem — no central controller. Agents post findings, others build on them; knowledge compounds across rounds. 27% latency reduction on production GPU kernels; Gold-level performance translating 4,000-year-old Akkadian clay tablets. Generalizes across domains by changing only the task specification. Score 9: direct, immediately-implementable blueprint for production multi-agent research and self-improving LLM pipelines. The coordination pattern (async forum + shared fs, no orchestrator) is the production-grade alternative to monolithic agent chains.
