@@ -1,5 +1,38 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-13 · 0 new 🔴 papers — all high-relevance papers (Tabs 1–34) already implemented; no new emails since 2026-09-11, highest new score 7/10 (no new tab needed); state file synced (131 seen IDs)
+Last updated: 2026-09-14 · 1 new 🔴 paper — DeepSeek V4.1-Flash architecture deep-dive (9/10) implemented as Tab 35; 2026-09-13 and 2026-09-14 AlphaSignal emails scanned
+
+## New Papers (this run — 2026-09-14)
+
+### 🔴 [DeepSeek V4.1-Flash Architecture Deep-Dive: CED + CSA2 + Bounded Replay + Hierarchical Indexer] — Score 9/10
+> AlphaSignal Sunday Deep-Dive (2026-09-13): Full technical analysis of DeepSeek V4.1-Flash architecture. 552B MoE model (8B active params/input, 16B/output) with 4× lighter KV cache than V4-Flash (890 B/token vs 3,514 B/token). Four interlocking innovations: (1) CED — Causal Encoder-Decoder splits prefill/generate layers; (2) SWA + Bounded Replay — sliding window attention with cheap KV reconstruction, no SSD persistence needed; (3) CSA2 — Full/Reindex/Reuse layer modes share KV across layers; (4) Hierarchical Sparse Indexer — bounds search cost to O(context + pool) rather than O(context × Reindex_layers). Score 9: four novel production-grade architectural techniques with quantified metrics directly applicable to long-context agent and RAG pipeline design. Scores 40 on AI Index (vs Gemini 3.8 Flash High at 41) at ¼ cost. Note: different paper from the 2026-09-11 "model release" signal scored 4/10 — that was a news item; this is a full architecture deep-dive.
+> **Source:** AlphaSignal deep-dive · 2026-09-13 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo: (1) KV Evolution — chart + memory slider for 3 DeepSeek generations; (2) CED Architecture — prefill/generate split, SWA Bounded Replay; (3) CSA2 Layer Modes — Full/Reindex/Reuse table with cost breakdown; (4) Hierarchical Indexer — two-stage candidate pool, cost comparison table; (5) Cost & Performance — token cost calculator, storage savings table.
+**Implemented:** Yes — `hf-space/deepseek_kv_flash/` · Tab 35 in `hf-space/app.py` (2026-09-14)
+
+### ⚪ [New denoising trick trains looped models to hit 58.8% on ARC-AGI-1] — Score 8/10 (signal only, no full article)
+> AlphaSignal signal (2026-09-14): Denoising trick enables looped model architecture to reach 58.8% on ARC-AGI-1. Potentially high score but only a one-line signal in digest — insufficient technical detail to implement. Will re-score when full article is available.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Self-replicating agents evolve cooperation when energy is shared] — Score 7/10
+> AlphaSignal signal (2026-09-14): New model shows self-replicating agents naturally evolve cooperation when resources/energy are shared. Interesting emergent alignment result but an observational/simulation study without a drop-in production technique.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [LLM steering vectors can mirror human value theory with 0.51 correlation] — Score 7/10
+> AlphaSignal signal (2026-09-14): Steering vectors in LLMs can encode and reproduce human value theory structures with 0.51 Pearson correlation. Interesting alignment/interpretability finding; no direct RAG or agent pipeline technique.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Google DeepMind open-sources physics-simulated fruit fly] — Score 4/10
+> Biology simulation, not applicable to LLM/RAG pipelines.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [VoiceStudio: free ElevenLabs rival, 646 languages, 25K stars] — Score 4/10
+> Open-source TTS/dubbing tool release. Not a research paper; no novel technique for LLM/RAG.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI GPT-4o prompt optimization tips] — Score 5/10
+> Practical prompt hygiene guidance for GPT-4o agents (trim bloated prompts, narrow skill triggers, clean AGENTS.md). Useful but not novel research — no implementable algorithm.
+> **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-11)
 

@@ -6688,5 +6688,178 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "and any production RAG system where hallucination from irrelevant context is a problem."
             )
 
+        # ── Tab 35: DeepSeek V4.1-Flash KV Cache Efficiency ──────────────
+        with gr.Tab("🚀 DeepSeek V4.1-Flash: KV Efficiency"):
+            gr.Markdown(
+                "## 🚀 DeepSeek V4.1-Flash: 2× Bigger, 4× Lighter on KV Cache\n\n"
+                "**Source:** AlphaSignal deep-dive · 2026-09-13 · news@alphasignal.ai\n\n"
+                "**Score: 9/10** — Novel architecture (CED, CSA2, Bounded Replay, Hierarchical Indexer) with "
+                "quantified production impact. Directly applicable to long-context agent systems.\n\n"
+                "**Key result:** 890 bytes/token global KV (vs 48 KB in V3.2, 3,514 B in V4-Flash). "
+                "Scores 40 on AI Index vs Gemini 3.8 Flash High at 41, at **one-quarter the cost per task**.\n\n"
+                "> *Note: This demo shows deterministic simulations of the architectural techniques. "
+                "Replace with live inference calls and real model endpoints in production.*"
+            )
+
+            from deepseek_kv_flash import (
+                kv_evolution_html,
+                kv_memory_html,
+                csa2_table_html,
+                cost_table_html,
+                KV_EVOLUTION,
+                CSA2_MODES,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: KV Cache Evolution ────────────────────────
+                with gr.Tab("📉 KV Evolution"):
+                    gr.Markdown("### Global KV footprint per token — across DeepSeek generations")
+                    gr.HTML(kv_evolution_html())
+                    gr.Markdown(
+                        "**54× reduction** from V3.2 to V4.1-Flash across three generations.\n\n"
+                        "Each generation added architectural changes:\n"
+                        "- **V3.2 → V4-Flash:** Initial KV compression + basic sparse attention\n"
+                        "- **V4-Flash → V4.1-Flash:** CSA2 inter-layer KV sharing + FP4 compression + "
+                        "SWA Bounded Replay\n\n"
+                        "### At full 1M-token context"
+                    )
+                    ctx_slider = gr.Slider(
+                        minimum=10_000, maximum=1_000_000, step=10_000,
+                        value=100_000, label="Context length (tokens)",
+                    )
+                    kv_mem_html_out = gr.HTML(kv_memory_html(100_000))
+                    ctx_slider.change(
+                        fn=lambda n: kv_memory_html(int(n)),
+                        inputs=ctx_slider,
+                        outputs=kv_mem_html_out,
+                    )
+                    gr.Markdown(
+                        "At 1M tokens:\n"
+                        "- V3.2: **48 GB** global KV per sequence\n"
+                        "- V4-Flash: **3.5 GB**\n"
+                        "- V4.1-Flash: **0.89 GB** — fits on a single A100 80GB alongside the model weights"
+                    )
+
+                # ── Sub-tab 2: CED Architecture ──────────────────────────
+                with gr.Tab("🏗️ CED Architecture"):
+                    gr.Markdown(
+                        "### Causal Encoder-Decoder (CED)\n\n"
+                        "V4.1-Flash splits its 40-layer Transformer into two halves:\n\n"
+                        "| | Encoder (layers 1–20) | Decoder (layers 21–40) |\n"
+                        "|---|---|---|\n"
+                        "| Fires during | **Prefill only** | **Generate only** |\n"
+                        "| Purpose | Build contextual representation of input | Autoregressively generate tokens |\n"
+                        "| Active params / token | **8B** | **16B** |\n"
+                        "| KV persisted to SSD? | No (SWA — cheap to reconstruct) | Yes (global, compressed) |\n\n"
+                        "**Why this matters for long-context agents:**\n"
+                        "A coding agent with 500K tokens of context (source files + docs + history) "
+                        "only runs the encoder once at prefill, then runs the cheaper decoder "
+                        "for each generated token. Input-heavy workloads pay 8B active params "
+                        "instead of the ~14B active params of V4-Flash's undivided architecture.\n\n"
+                        "### SWA + Bounded Replay\n\n"
+                        "Each encoder layer uses **Sliding Window Attention** (local view only) "
+                        "instead of global attention. When a cached session resumes and the local "
+                        "SWA state is missing, **Bounded Replay** reconstructs only the most recent "
+                        "tokens in the window — not the full history. "
+                        "This means encoder KV state never needs to be persisted to SSD: "
+                        "it can always be cheaply reconstructed. "
+                        "Combined with global KV compression, **SSD cache storage falls to ~1/8 of V4-Flash**."
+                    )
+
+                # ── Sub-tab 3: CSA2 Modes ────────────────────────────────
+                with gr.Tab("🔀 CSA2 Layer Modes"):
+                    gr.Markdown(
+                        "### Compressed Sparse Attention 2 (CSA2)\n\n"
+                        "In a conventional Transformer, every layer creates its own KV pairs "
+                        "for the full context — KV storage scales as O(depth × context_length). "
+                        "CSA2 breaks this by letting layers share KV state:"
+                    )
+                    gr.HTML(csa2_table_html())
+                    gr.Markdown(
+                        "\n#### What this eliminates\n\n"
+                        "With 40 layers and 1M tokens, a naive model keeps 40 separate KV caches. "
+                        "In V4.1-Flash:\n"
+                        "- Only **Full** layers write KV (roughly 1 in 4 decoder layers)\n"
+                        "- **Reindex** layers do a cheap search but write zero KV\n"
+                        "- **Reuse** layers spend near-zero compute\n\n"
+                        "**Result:** Effective KV depth factor drops from 40→~10, "
+                        "a direct 4× reduction in KV memory for the decoder.\n\n"
+                        "#### FP4 compression\n\n"
+                        "The remaining global KV state is stored in **FP4** (4-bit float) "
+                        "vs FP8 in V4-Flash — a further 2× reduction in raw bytes per stored value."
+                    )
+
+                # ── Sub-tab 4: Hierarchical Indexer ──────────────────────
+                with gr.Tab("🔎 Hierarchical Indexer"):
+                    gr.Markdown(
+                        "### Hierarchical Sparse Indexer\n\n"
+                        "Before sparse attention can select 512 relevant positions from 1M tokens, "
+                        "it needs to *find* them. Naively, each Reindex layer would scan all "
+                        "1M tokens independently — making indexing cost scale as "
+                        "O(context × Reindex_layers).\n\n"
+                        "V4.1-Flash solves this with a **two-stage hierarchy**:\n\n"
+                        "```\n"
+                        "Full decoder layer (21):\n"
+                        "  → Scans full 1M-token history\n"
+                        "  → Creates candidate pool: ≤ 2,048 blocks\n\n"
+                        "Reindex decoder layers (23, 27, 31, …):\n"
+                        "  → Search only within the 2,048-block pool\n"
+                        "  → Each selects ≤ 512 compressed positions\n"
+                        "  → Search cost bounded regardless of context length\n\n"
+                        "Reuse decoder layers (22, 24, 26, …):\n"
+                        "  → Zero search cost — reuse prior layer's selections\n"
+                        "```\n\n"
+                        "**Cost comparison (1M tokens, 10 Reindex layers):**\n\n"
+                        "| Approach | Comparisons |\n"
+                        "|---|---|\n"
+                        "| Naive (each Reindex scans full context) | 10 × 1,000,000 = **10M** |\n"
+                        "| Hierarchical Indexer | 1×1,000,000 + 10×2,048 = **~1.02M** |\n"
+                        "| **Reduction** | **~9.8×** |\n\n"
+                        "As context grows, the gap widens further — the hierarchical indexer's "
+                        "cost is O(context + pool × Reindex_layers), not O(context × Reindex_layers)."
+                    )
+
+                # ── Sub-tab 5: Cost & Performance ────────────────────────
+                with gr.Tab("💰 Cost & Performance"):
+                    gr.Markdown("### Token cost vs AI Intelligence Index score")
+                    tokens_slider = gr.Slider(
+                        minimum=1, maximum=1000, step=1,
+                        value=100, label="Monthly input volume (millions of tokens)",
+                    )
+                    cost_html_out = gr.HTML(cost_table_html(100))
+                    tokens_slider.change(
+                        fn=lambda n: cost_table_html(float(n)),
+                        inputs=tokens_slider,
+                        outputs=cost_html_out,
+                    )
+                    gr.Markdown(
+                        "\n**Headline:** V4.1-Flash hits **AI Index 40** vs Gemini 3.8 Flash High at **41**, "
+                        "at **$0.30/M input tokens vs $1.00/M** — one-quarter the price for near-identical capability.\n\n"
+                        "### Storage savings vs V4-Flash\n\n"
+                        "| Resource | V4-Flash | V4.1-Flash | Reduction |\n"
+                        "|---|---|---|---|\n"
+                        "| KV bytes/token (global) | 3,514 B | 890 B | **−74.6%** |\n"
+                        "| HBM requirement | baseline | ~¼ | **−75%** |\n"
+                        "| SSD cache storage | baseline | ~⅛ | **−87.5%** |\n\n"
+                        "These differences compound when a server handles hundreds of concurrent "
+                        "long-running agent sessions — the primary workload where V4.1-Flash "
+                        "architecture wins most decisively over standard decoder-only designs."
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (DeepSeek V4.1-Flash):** Total parameter count is a poor proxy for "
+                "serving cost. The architectural variables that actually matter — active params per "
+                "token type, bytes of KV state per token, SSD persistence requirements, and whether "
+                "attention/retrieval cost grows linearly with context — can each be attacked "
+                "independently. V4.1-Flash attacks all four simultaneously in one model, "
+                "resulting in 4× KV cache reduction and competitive frontier-model performance "
+                "at one-quarter the per-task cost.\n\n"
+                "**Applicable to:** Any system building long-context or agentic LLM pipelines where "
+                "KV cache memory is a serving bottleneck — autonomous research agents, coding agents "
+                "with large codebases, RAG over book-length documents, multi-turn conversation systems."
+            )
+
 if __name__ == "__main__":
     demo.launch()
