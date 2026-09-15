@@ -1,5 +1,31 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-14 · 1 new 🔴 paper — DeepSeek V4.1-Flash architecture deep-dive (9/10) implemented as Tab 35; 2026-09-13 and 2026-09-14 AlphaSignal emails scanned
+Last updated: 2026-09-15 · 0 new 🔴 papers — all tabs current (Tabs 1–35 implemented); 2026-09-15 AlphaSignal email scanned via Gmail MCP connector
+
+## New Papers (this run — 2026-09-15)
+
+### 🟡 [ByteDance and Tsinghua map a 5-stage path to self-improving AI that rewrites itself] — Score 7/10
+> Self-improvement roadmap paper from ByteDance + Tsinghua describing five progressive stages for AI systems that iteratively rewrite their own training pipelines. Applicable with adaptation to production self-improving agent loops, but this scan had only a brief signal (784 likes, no deep-dive article). Score 7: relevant conceptually to agent self-improvement (similar to Shopify flywheel, Tab 31), but insufficient technical detail to implement without the full paper.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [New looped transformer design gives language models unlimited reasoning depth (RLT)] — Score 6/10
+> Recurrent Looped Transformer (RLT) design spec: loops layers across each token instead of a fixed stack, scaling reasoning depth with sequence length without generating extra tokens. Hardware-friendly with parallel encoding and memory reuse. Important caveat: design spec only — early experiments show mixed results, efficiency and scaling gains need future validation. Score 6: interesting LLM architecture direction but not yet drop-in applicable.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · 7,254 likes · Scored via Gmail MCP connector
+
+### ⚪ [shadcn releases a linter that stops AI agents from breaking your design system] — Score 4/10
+> Linting tool that enforces design system constraints on AI agent output (tokens, spacing, colors). Useful for front-end agent guardrails but not a novel RAG/retrieval/embedding algorithm.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · 2,520 likes · Scored via Gmail MCP connector
+
+### ⚪ [Developer builds open-source Codex clone that runs on your existing ChatGPT plan] — Score 3/10
+> Chat on Steroids: developer tool using ChatGPT conversation quota instead of Codex quota for file editing + multi-agent parallelism. Productivity tool, not a novel technique.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · 3,317 likes · Scored via Gmail MCP connector
+
+### ⚪ [Uncensored Qwen3 8B vision model hits 665K downloads running fully local] — Score 3/10
+> Open-weight model release; no novel RAG, retrieval, or agent pipeline technique.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Frank wires a 166,700-neuron fruit fly brain model into a walking robot] — Score 2/10
+> Connectome robotics project; biology/robotics domain, no LLM or RAG component.
+> **Source:** AlphaSignal signal · 2026-09-15 · news@alphasignal.ai · 12,785 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-14)
 
