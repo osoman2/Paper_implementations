@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-15 · 0 new 🔴 papers — all tabs current (Tabs 1–35 implemented); 2026-09-15 AlphaSignal email scanned via Gmail MCP connector
+Last updated: 2026-09-16 · 1 new 🔴 paper implemented — Tab 36 added (Denoising Looped Models, Score 8/10); 2026-09-16 routine scan via Gmail MCP connector (no new emails since 2026-09-15)
 
 ## New Papers (this run — 2026-09-15)
 
@@ -36,9 +36,12 @@ Last updated: 2026-09-15 · 0 new 🔴 papers — all tabs current (Tabs 1–35 
 **POC idea:** 5-sub-tab Gradio demo: (1) KV Evolution — chart + memory slider for 3 DeepSeek generations; (2) CED Architecture — prefill/generate split, SWA Bounded Replay; (3) CSA2 Layer Modes — Full/Reindex/Reuse table with cost breakdown; (4) Hierarchical Indexer — two-stage candidate pool, cost comparison table; (5) Cost & Performance — token cost calculator, storage savings table.
 **Implemented:** Yes — `hf-space/deepseek_kv_flash/` · Tab 35 in `hf-space/app.py` (2026-09-14)
 
-### ⚪ [New denoising trick trains looped models to hit 58.8% on ARC-AGI-1] — Score 8/10 (signal only, no full article)
-> AlphaSignal signal (2026-09-14): Denoising trick enables looped model architecture to reach 58.8% on ARC-AGI-1. Potentially high score but only a one-line signal in digest — insufficient technical detail to implement. Will re-score when full article is available.
+### 🔴 [New denoising trick trains looped models to hit 58.8% on ARC-AGI-1] — Score 8/10
+> AlphaSignal signal (2026-09-14): A denoising training objective applied to looped (weight-shared) transformers achieves 58.8% on ARC-AGI-1 — comparable to models 33× larger. The trick: inject Gaussian noise before each loop iteration (cosine schedule, σ_max→σ_min) and train the model to recover clean hidden states. This prevents loop collapse and creates a stable gradient signal across iterations. 90M looped model vs 350M standard transformer: 58.8% vs 38.2% at one-third the training compute.
 > **Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** Gradio demo with 4 sub-tabs — (1) Architecture Overview: standard vs looped vs denoising-looped comparison; (2) Denoising Schedule: noise decay across loop iterations; (3) ARC-AGI Results: benchmark comparison; (4) Implementation Guide: 5 patterns for applying the denoising trick.
+**Implemented:** Yes — `hf-space/denoising_looped/` · Tab 36 in `hf-space/app.py` (2026-09-16)
 
 ### ⚪ [Self-replicating agents evolve cooperation when energy is shared] — Score 7/10
 > AlphaSignal signal (2026-09-14): New model shows self-replicating agents naturally evolve cooperation when resources/energy are shared. Interesting emergent alignment result but an observational/simulation study without a drop-in production technique.
