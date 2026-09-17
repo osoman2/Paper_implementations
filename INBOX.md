@@ -1,5 +1,48 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-16 · 1 new 🔴 paper implemented — Tab 36 added (Denoising Looped Models, Score 8/10); 2026-09-16 routine scan via Gmail MCP connector (no new emails since 2026-09-15)
+Last updated: 2026-09-17 · 1 new 🔴 paper implemented — Tab 37 added (Dream-RSI, Score 8/10); 2 new emails scanned via Gmail MCP connector (2026-09-16, 2026-09-17)
+
+## New Papers (this run — 2026-09-17)
+
+### 🔴 [Google DeepMind's self-improving agent cuts AI search costs by up to 162x] — Score 8/10
+> Dream-RSI replays past search trajectories to simulate thousands of alternative strategies at near-zero cost, selecting the best strategy without running new experiments. Drop-in on top of any existing agent without retraining; works across algorithm design, math optimization, and GPU engineering. Score 8: immediately applicable self-improvement technique with quantified 162× AI call reduction.
+> **Source:** AlphaSignal Top Paper · 2026-09-17 · news@alphasignal.ai · 5,433 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture Overview: standard search vs Dream-RSI trajectory replay comparison; (2) Trajectory Replay Mechanism: 4-step loop walkthrough; (3) Cost Analysis: 162× reduction table across domains; (4) Implementation Guide: 5 drop-in patterns from passive logging to black-box wrapper.
+**Implemented:** Yes — `hf-space/dream_rsi/` · Tab 37 in `hf-space/app.py` (2026-09-17)
+
+### ⚪ [Open-source trick makes Qwen-2.5 JSON inference 5x faster with no retraining] — Score 6/10
+> Structured output speedup trick for Qwen-2.5: 5× faster JSON inference via constrained decoding or token-mask precomputation without retraining. Potentially applicable to RAG pipelines requiring structured LLM output, but signal-only coverage with no algorithmic detail — cannot implement without the full technique.
+> **Source:** AlphaSignal signal · 2026-09-17 · news@alphasignal.ai · 3,592 likes · Scored via Gmail MCP connector
+
+### ⚪ [Google's WikiSkill turns agent experience into reusable skills that transfer across models] — Score 7/10
+> WikiSkill extracts reusable skill procedures from past agent trajectories and stores them in a structured wiki that transfers across model families. Conceptually similar to agent_skills (Tab 23) and agent_wiki (Tab 28) already implemented; no new drop-in technique beyond existing POCs. Score 7: relevant but redundant given existing implementations.
+> **Source:** AlphaSignal signal · 2026-09-17 · news@alphasignal.ai · 396 likes · Scored via Gmail MCP connector
+
+### ⚪ [Train smarter by distilling first, then using RL to sharpen reasoning models] — Score 6/10
+> Two-stage training recipe: distillation to establish a strong base, then RL (GRPO/PPO) to sharpen reasoning. Applicable to LLM fine-tuning pipelines with adaptation, but signal-only — no algorithmic detail to implement without the full paper.
+> **Source:** AlphaSignal signal · 2026-09-17 · news@alphasignal.ai · 289 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI releases a public framework for disclosing when its models misbehave] — Score 4/10
+> Model behavior disclosure specification — policy/governance document, not an implementable AI engineering technique.
+> **Source:** AlphaSignal signal · 2026-09-17 · news@alphasignal.ai · 3,551 likes · Scored via Gmail MCP connector
+
+## New Papers (this run — 2026-09-16)
+
+### ⚪ [Study finds LLMs silently absorb personality traits from fictional human characters] — Score 5/10
+> Empirical finding: LLMs internalize personality traits from fictional characters in training data without explicit supervision. Interesting alignment/interpretability finding but no drop-in technique for RAG or agent pipelines.
+> **Source:** AlphaSignal signal · 2026-09-16 · news@alphasignal.ai · 552 likes · Scored via Gmail MCP connector
+
+### ⚪ [RL only makes LLMs better at easy problems, this method fixes that] — Score 6/10
+> Training technique to extend RL-based fine-tuning benefits to hard reasoning problems — signal-only, no algorithmic detail available for implementation.
+> **Source:** AlphaSignal signal · 2026-09-16 · news@alphasignal.ai · 248 likes · Scored via Gmail MCP connector
+
+### ⚪ [Sakana AI trains 1000-layer neural nets without backpropagation using local-only dynamics] — Score 4/10
+> Novel training paradigm using local learning rules only (no backprop) for very deep nets. Interesting research direction but not applicable to LLM/RAG production pipelines.
+> **Source:** AlphaSignal signal · 2026-09-16 · news@alphasignal.ai · 2,720 likes · Scored via Gmail MCP connector
+
+### ⚪ [Odyssey releases world model that controls robots, cars, drones, and trains other AIs] — Score 3/10
+> Universal robot/vehicle world model — robotics/physical AI domain, not applicable to LLM or RAG pipelines.
+> **Source:** AlphaSignal signal · 2026-09-16 · news@alphasignal.ai · 3,229 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-15)
 

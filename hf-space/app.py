@@ -7008,5 +7008,133 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "multi-step reasoning chains where a single forward pass is insufficient."
             )
 
+        # ── Tab 37: Dream-RSI — Self-Improving Agent Search ───────────────────
+        with gr.Tab("🔄 Dream-RSI: Self-Improving Search"):
+            gr.Markdown(
+                "## 🔄 Dream-RSI: Self-Improving Agent Cuts AI Search Costs by 162×\n\n"
+                "**Source:** Google DeepMind · AlphaSignal Top Paper · 2026-09-17 · 5,433 likes\n\n"
+                "**Score: 8/10** — A trajectory-replay technique that lets any AI search agent "
+                "improve its own strategy from past experience — no retraining, no new experiments. "
+                "Like a coach reviewing game footage instead of running a new practice: "
+                "Dream-RSI simulates thousands of alternative strategies using only recorded history, "
+                "selects the best, then deploys it. Cuts AI calls by up to **162×** in some settings.\n\n"
+                "**Drop-in:** Works on top of any existing agent without modifying its internals. "
+                "Applicable across algorithm design, math optimization, and GPU engineering."
+            )
+
+            from dream_rsi import (
+                arch_html,
+                replay_steps_html,
+                cost_chart_html,
+                IMPL_PATTERNS,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Architecture Overview ─────────────────────
+                with gr.Tab("🏗️ Architecture Overview"):
+                    gr.Markdown(
+                        "### Standard Search vs Dream-RSI\n\n"
+                        "Most AI search agents use a **fixed strategy** that never improves. "
+                        "Updating it requires running new expensive experiments — "
+                        "which defeats the purpose when you're trying to cut AI call costs.\n\n"
+                        "**Dream-RSI's insight:** You don't need new experiments to test a better strategy. "
+                        "You can *simulate* it against your existing recorded trajectories. "
+                        "This is the core innovation: **counterfactual replay over history** as a "
+                        "near-zero-cost substitute for real-world strategy evaluation.\n\n"
+                        "The name stands for **Dream**-based **R**eplay for **S**earch **I**mprovement — "
+                        "the agent 'dreams' about what would have happened under different strategies."
+                    )
+                    gr.HTML(arch_html())
+                    gr.Markdown(
+                        "\n**Key properties:**\n\n"
+                        "- **No retraining:** The underlying model is never changed — only the search strategy.\n"
+                        "- **No new experiments:** Improvement comes from replaying existing history.\n"
+                        "- **Composable:** Wraps any existing search agent as a drop-in decorator.\n"
+                        "- **Domain-agnostic:** Works wherever a search strategy can be parameterized "
+                        "(algorithm design, math proof search, code optimization, hyperparameter tuning)."
+                    )
+
+                # ── Sub-tab 2: Trajectory Replay Mechanism ────────────────
+                with gr.Tab("🎬 Trajectory Replay"):
+                    gr.Markdown(
+                        "### How Dream-RSI Replays Trajectories\n\n"
+                        "The four-step loop runs asynchronously after every K real search episodes. "
+                        "Steps 1–3 use no real AI calls — only the lightweight world model. "
+                        "Step 4 deploys the improved strategy to the next real episode.\n\n"
+                        "> *The key insight from the paper: **simulation is always cheaper than experimentation.** "
+                        "A world model that is 95% accurate at predicting outcomes is more than sufficient "
+                        "to distinguish good strategies from bad ones — you don't need 100% fidelity "
+                        "to select the 162× cheaper path.*"
+                    )
+                    gr.HTML(replay_steps_html())
+                    gr.Markdown(
+                        "\n**Why this works at scale:**\n\n"
+                        "Each real episode produces one trajectory. "
+                        "From a batch of 100 trajectories, Dream-RSI can evaluate 1,000+ alternative "
+                        "strategies via simulation — because simulation is O(1) compute per step "
+                        "vs O(100+) AI calls for a real experiment.\n\n"
+                        "Over time, the strategy space explored by simulation far exceeds what "
+                        "direct experimentation could cover within the same AI call budget."
+                    )
+
+                # ── Sub-tab 3: Cost Analysis ──────────────────────────────
+                with gr.Tab("💰 Cost Analysis"):
+                    gr.Markdown(
+                        "### AI Call Reduction Across Domains\n\n"
+                        "The 162× headline figure comes from algorithm design tasks. "
+                        "Across other search-heavy domains, the reduction is consistently large "
+                        "because the same core bottleneck is eliminated: "
+                        "*running experiments to test a new strategy*.\n\n"
+                        "**Red bars** = Standard search agent AI calls  \n"
+                        "**Green bars** = Dream-RSI AI calls  \n"
+                        "**Rightmost column** = Reduction factor"
+                    )
+                    gr.HTML(cost_chart_html())
+                    gr.Markdown(
+                        "\n**What drives the reduction:**\n\n"
+                        "| Cost Driver | Standard Agent | Dream-RSI |\n"
+                        "|---|---|---|\n"
+                        "| Strategy evaluation | Real experiments (1 AI call per test) | Simulation (near-zero) |\n"
+                        "| Strategy candidates tested | 10–50 (expensive) | 1,000+ (free from replay) |\n"
+                        "| Update frequency | Every N episodes | After every K episodes (async) |\n"
+                        "| Model modifications | Retraining required | None |\n\n"
+                        "> The 162× reduction is the ratio of AI calls needed to find a "
+                        "strategy of equivalent quality via direct experimentation vs Dream-RSI replay. "
+                        "The underlying search task uses the same number of AI calls — "
+                        "Dream-RSI reduces the *strategy-improvement overhead*, not the base task cost."
+                    )
+
+                # ── Sub-tab 4: Implementation Guide ──────────────────────
+                with gr.Tab("🛠️ Implementation Guide"):
+                    gr.Markdown(
+                        "### Five Drop-In Patterns for Dream-RSI\n\n"
+                        "These patterns cover the full range from a greenfield agent (Pattern 1) "
+                        "to wrapping a black-box third-party agent (Pattern 4). "
+                        "Start with Pattern 1 (passive logging) — it has zero cost and "
+                        "enables all subsequent improvements."
+                    )
+                    for p in IMPL_PATTERNS:
+                        gr.Markdown(
+                            f"#### {p['pattern']}\n\n"
+                            f"{p['description']}\n\n"
+                            f"**When to use:** {p['when']}\n\n"
+                            f"```python\n{p['code']}\n```"
+                        )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Dream-RSI):** The core bottleneck in AI agent self-improvement is "
+                "the cost of evaluating new strategies — running real experiments is expensive. "
+                "Dream-RSI eliminates this bottleneck by replacing real-experiment evaluation with "
+                "counterfactual simulation over existing trajectories. "
+                "Since simulation is orders of magnitude cheaper than experimentation, "
+                "the agent can evaluate 1,000× more strategy candidates within the same AI call budget — "
+                "and compound improvements across episodes without any model retraining.\n\n"
+                "**Applicable to:** Any production AI agent that runs repeated search episodes where "
+                "strategy quality is a bottleneck — automated algorithm design, LLM-guided code optimization, "
+                "multi-step RAG retrieval orchestration, hyperparameter search, GPU kernel engineering."
+            )
+
 if __name__ == "__main__":
     demo.launch()
