@@ -1,5 +1,34 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-17 · 1 new 🔴 paper implemented — Tab 37 added (Dream-RSI, Score 8/10); 2 new emails scanned via Gmail MCP connector (2026-09-16, 2026-09-17)
+Last updated: 2026-09-18 · 1 new 🔴 paper implemented — Tab 38 added (Jev Memory Compaction, Score 8/10); 1 new email scanned via Gmail MCP connector (2026-09-18)
+
+## New Papers (this run — 2026-09-18)
+
+### 🔴 [TypesafeAI's Jev speeds up memory compaction by scoring and dropping irrelevant tool calls] — Score 8/10
+> Jev (TypesafeAI) introduces a scoring-based memory compaction layer for agent context windows: each tool call in the agent's history is assigned a relevance score (recency × importance × task_alignment), and low-scoring calls are dropped to compact context before the next LLM call. The open-source Browser Use + Jev demo finds flights in 7s at $0.0039 per query by reading pages as a numbered structured element table instead of screenshots — one AI call selects action AND target simultaneously, reducing browser calls from 1,092 to 101 (90% reduction, 25% speed improvement). Directly applicable to any agent pipeline where tool-call history bloats the context window.
+> **Source:** AlphaSignal Top Repo + Signal · 2026-09-18 · news@alphasignal.ai · 4,044 likes (Signal) + 7,129 likes (Top Repo) · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Problem Overview: context window bloat from tool calls in long agent sessions; (2) Scoring Mechanism: relevance score = recency × importance × task_alignment with interactive sliders; (3) Live Compaction Demo: input a list of tool calls, see scored and compacted output; (4) Implementation Guide: 4 drop-in patterns from passive logging to active compaction.
+**Implemented:** Yes — `hf-space/jev_memory/` · Tab 38 in `hf-space/app.py` (2026-09-18)
+
+### ⚪ [Anthropic ships Claude Code Projects, running parallel cloud threads while you're offline] — Score 7/10
+> Claude Code Projects spin up parallel cloud threads for a single goal — coordinator uses a smarter model, workers use cheaper ones; threads keep running after you close your laptop with shared memory for context flow. Relevant to multi-agent pipeline design (coordinator+worker pattern with model tiering), but primarily a product feature announcement without a novel algorithmic technique to implement. Similar pattern to Skill Team (Tab 27) and Prime Intellect Harness (Tab 25).
+> **Source:** AlphaSignal Top News · 2026-09-18 · news@alphasignal.ai · 8,657 likes · Scored via Gmail MCP connector
+
+### ⚪ [Open-source browser agent finds flights in 7 seconds for less than half a cent] — Score 7/10
+> Browser Use + Jev: reads pages as numbered structured element table instead of screenshots; one AI call selects both action and target simultaneously. 90% fewer browser calls (1,092→101), 25% speed improvement, $0.0039 per flight search. The structured-data page parsing technique is the implementable core — covered in the Jev Memory Compaction POC (Tab 38) above.
+> **Source:** AlphaSignal Top Repo · 2026-09-18 · news@alphasignal.ai · 7,129 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI launches GPT-6 Astra for law firms with 230M-URL legal search index] — Score 3/10
+> Domain-specific legal AI product: GPT-6 Astra tuned for legal work with 230M URL search index, 73 plugins, real firm workflows. Not a novel RAG or agent pipeline algorithm.
+> **Source:** AlphaSignal Top News · 2026-09-18 · news@alphasignal.ai · 13,307 likes · Scored via Gmail MCP connector
+
+### ⚪ [PrismML ships 27B open-source model that's 9x smaller but keeps 98.2% accuracy] — Score 5/10
+> Open-source model compression/distillation — 27B params, 9× smaller than baseline, 98.2% accuracy retention. Model release, not a novel RAG or retrieval algorithm.
+> **Source:** AlphaSignal Signal · 2026-09-18 · news@alphasignal.ai · 4,359 likes · Scored via Gmail MCP connector
+
+### ⚪ [Jina AI releases open-source document parser that hits 2.57 pages per second on budget GPUs] — Score 6/10
+> Open-source document parser optimized for budget GPU inference at 2.57 pages/sec. Useful for RAG ingestion pipelines, but a tooling release rather than a novel algorithm.
+> **Source:** AlphaSignal Signal · 2026-09-18 · news@alphasignal.ai · 1,109 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-17)
 

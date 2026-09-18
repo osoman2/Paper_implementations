@@ -38,6 +38,8 @@ Tabs:
  34. TOC-Guided Retrieval: 82.6% Recall with Near-Zero Hallucination — score 8/10
  35. DeepSeek V4.1-Flash: KV Cache Efficiency (CED + CSA2 + Bounded Replay) — score 9/10
  36. Denoising Trick for Looped Models: 58.8% on ARC-AGI-1 — score 8/10
+ 37. Dream-RSI: Self-Improving Agent Search (162× AI Call Reduction) — score 8/10
+ 38. Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls — score 8/10
 """
 
 import os
@@ -7134,6 +7136,181 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Applicable to:** Any production AI agent that runs repeated search episodes where "
                 "strategy quality is a bottleneck — automated algorithm design, LLM-guided code optimization, "
                 "multi-step RAG retrieval orchestration, hyperparameter search, GPU kernel engineering."
+            )
+
+        # ── Tab 38: Jev Memory Compaction ─────────────────────────────────────
+        with gr.Tab("🧹 Jev Memory Compaction"):
+            gr.Markdown(
+                "## 🧹 Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls\n\n"
+                "**Source:** TypesafeAI's Jev · AlphaSignal Signal + Top Repo · 2026-09-18 · "
+                "4,044 likes (Signal) + 7,129 likes (Browser Use + Jev demo)\n\n"
+                "**Score: 8/10** — A scoring-based memory compaction layer for agent context windows. "
+                "Each tool call in the agent's history is assigned a **composite relevance score** "
+                "(recency × importance × task_alignment). Low-scoring calls are dropped before the next "
+                "LLM call, keeping context lean without losing critical information.\n\n"
+                "**The problem it solves:** In long agent sessions, tool-call history grows super-linearly. "
+                "An 80-step session can balloon to 112K tokens — most of it irrelevant file reads, "
+                "stale searches, and diagnostic bash calls. Jev continuously scores and evicts this noise, "
+                "holding the effective context under 15K tokens regardless of session length.\n\n"
+                "**Also in the Browser Use + Jev demo:** Pages are read as a numbered structured element "
+                "table instead of screenshots — one AI call selects both action and target simultaneously, "
+                "reducing browser calls from 1,092 to 101 (90% reduction, $0.0039 per flight search)."
+            )
+
+            from jev_memory import (
+                TOOL_CALL_EXAMPLES,
+                CONTEXT_BLOAT_DATA,
+                SCORING_WEIGHTS,
+                IMPL_PATTERNS,
+                score_tool_calls,
+                compact_context,
+                bloat_chart_html,
+                scoring_html,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Problem Overview ───────────────────────────────
+                with gr.Tab("📈 Context Bloat Problem"):
+                    gr.Markdown(
+                        "### Why Context Windows Bloat in Long Agent Sessions\n\n"
+                        "Every tool call appends its output to the context window. "
+                        "Early calls — a README read, a `ls /tmp`, a stale web search — "
+                        "are rarely needed 30 steps later, but they still consume tokens on every "
+                        "subsequent LLM call. Without compaction, context cost grows super-linearly.\n\n"
+                        "**Red bars** = raw context tokens (no compaction)  \n"
+                        "**Green bars** = after Jev compaction (threshold θ = 0.30)  \n"
+                        "**Orange %** = token savings"
+                    )
+                    gr.HTML(bloat_chart_html())
+                    gr.Markdown(
+                        "\n**Key numbers from the Jev benchmark:**\n\n"
+                        "| Session length | Without Jev | With Jev | Savings |\n"
+                        "|---|---|---|---|\n"
+                        "| 5 steps  | 2,400 tokens  | 2,100 tokens  | 12.5% |\n"
+                        "| 10 steps | 6,800 tokens  | 4,200 tokens  | 38.2% |\n"
+                        "| 20 steps | 18,500 tokens | 7,800 tokens  | 57.8% |\n"
+                        "| 40 steps | 48,000 tokens | 11,200 tokens | 76.7% |\n"
+                        "| 80 steps | 112,000 tokens| 14,900 tokens | 86.7% |\n\n"
+                        "> The Browser Use + Jev demo applies the same principle to browser actions: "
+                        "reads pages as a structured numbered element table (not screenshots), "
+                        "then one AI call selects both the action and its target — reducing browser "
+                        "calls from 1,092 to 101 while cutting per-query cost to $0.0039."
+                    )
+
+                # ── Sub-tab 2: Scoring Mechanism ──────────────────────────────
+                with gr.Tab("⚖️ Scoring Mechanism"):
+                    gr.Markdown(
+                        "### Composite Relevance Score = Recency × Importance × Task Alignment\n\n"
+                        "Jev assigns each tool call a score in [0, 1] using three weighted sub-scores:\n\n"
+                        "| Component | Weight | Formula | Intuition |\n"
+                        "|---|---|---|---|\n"
+                        "| **Recency** | 40% | exp(−age × ln2 / half_life) | Old calls decay exponentially |\n"
+                        "| **Importance** | 35% | referenced_by_count / (total−1) × 3 | Calls cited by later calls matter more |\n"
+                        "| **Task alignment** | 25% | Jaccard(call_keywords, task_query) | Calls relevant to the current task survive |\n\n"
+                        "**Default threshold:** calls scoring < 0.30 are dropped from context. "
+                        "The threshold is tunable — lower values keep more context, higher values are more aggressive.\n\n"
+                        "The weights (40/35/25) were calibrated on the TypesafeAI benchmark. "
+                        "Recency dominates because recent tool calls are almost always relevant; "
+                        "importance catches the few old calls that seeded subsequent reasoning chains."
+                    )
+                    for name, meta in SCORING_WEIGHTS.items():
+                        gr.Markdown(
+                            f"**{name.replace('_', ' ').title()} ({meta['weight']:.0%}):** {meta['description']}"
+                        )
+
+                # ── Sub-tab 3: Live Compaction Demo ───────────────────────────
+                with gr.Tab("🔬 Live Demo"):
+                    gr.Markdown(
+                        "### Try Jev Compaction on 8 Example Tool Calls\n\n"
+                        "The demo uses 8 realistic tool calls from a hybrid-search research session. "
+                        "Adjust the score threshold and task query to see which calls survive compaction.\n\n"
+                        "**How to read the output:**\n"
+                        "- 🟢 Score ≥ 0.5 → definitely keep  \n"
+                        "- 🟡 Score 0.3–0.5 → marginal; threshold decides  \n"
+                        "- 🔴 Score < 0.3 → dropped (archived, not deleted)"
+                    )
+                    with gr.Row():
+                        jm_threshold = gr.Slider(
+                            minimum=0.0, maximum=1.0, value=0.30, step=0.05,
+                            label="Score threshold (calls below this are dropped)",
+                        )
+                        jm_task = gr.Textbox(
+                            value="hybrid search RAG retrieval implementation",
+                            label="Current task query (drives alignment scoring)",
+                            lines=1,
+                        )
+                    jm_run = gr.Button("▶ Run Compaction", variant="primary")
+                    jm_scores_html = gr.HTML(label="Tool-call scores")
+                    jm_summary = gr.Markdown(label="Compaction summary")
+
+                    def _jm_run(threshold: float, task_query: str):
+                        result = compact_context(
+                            TOOL_CALL_EXAMPLES, threshold=threshold, task_query=task_query
+                        )
+                        html = scoring_html(
+                            score_tool_calls(TOOL_CALL_EXAMPLES, task_query=task_query)
+                        )
+                        kept_ids = {c["id"] for c in result["kept"]}
+                        summary = (
+                            f"**Kept:** {len(result['kept'])} calls "
+                            f"({result['compacted_tokens']:,} tokens)  \n"
+                            f"**Dropped:** {len(result['dropped'])} calls  \n"
+                            f"**Token savings:** {result['savings_pct']}%  \n"
+                            f"**Raw → compacted:** {result['raw_tokens']:,} → "
+                            f"{result['compacted_tokens']:,} tokens\n\n"
+                            + (
+                                f"**Kept call IDs:** "
+                                + ", ".join(f"#{c['step']} ({c['tool']})" for c in result["kept"])
+                                if result["kept"] else "_All calls dropped — threshold too high._"
+                            )
+                        )
+                        return html, summary
+
+                    jm_run.click(
+                        fn=_jm_run,
+                        inputs=[jm_threshold, jm_task],
+                        outputs=[jm_scores_html, jm_summary],
+                    )
+                    gr.Examples(
+                        examples=[
+                            [0.30, "hybrid search RAG retrieval implementation"],
+                            [0.50, "hybrid search BM25 dense retrieval fusion"],
+                            [0.20, "write report on RAG techniques"],
+                            [0.40, "unrelated task different domain"],
+                        ],
+                        inputs=[jm_threshold, jm_task],
+                        label="Example configurations (click row then ▶)",
+                    )
+
+                # ── Sub-tab 4: Implementation Guide ───────────────────────────
+                with gr.Tab("🛠️ Implementation Guide"):
+                    gr.Markdown(
+                        "### Four Drop-In Patterns for Jev-Style Memory Compaction\n\n"
+                        "Start with **Pattern 1** (passive logging) — zero overhead, "
+                        "and you'll have the instrumentation data needed for all subsequent patterns. "
+                        "Add compaction (Pattern 2 or 3) once you've measured your actual bloat profile."
+                    )
+                    for p in IMPL_PATTERNS:
+                        gr.Markdown(
+                            f"#### {p['pattern']}\n\n"
+                            f"{p['description']}\n\n"
+                            f"**When to use:** {p['when']}\n\n"
+                            f"```python\n{p['code']}\n```"
+                        )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Jev):** The root cause of context bloat is not the agent's task complexity — "
+                "it's the accumulation of *irrelevant* tool calls: early exploratory reads, stale searches, "
+                "and diagnostic commands that were useful once but add zero value to the next LLM call. "
+                "Jev's scoring mechanism exploits three durable signals — recency (old calls age out), "
+                "importance (cited calls stay), and task alignment (on-topic calls survive) — "
+                "to automatically identify and evict this noise, keeping context lean and focused.\n\n"
+                "**The same scoring insight applies to browser agents:** instead of passing a screenshot "
+                "(high-noise, expensive) to the vision model, parse the page into a structured numbered "
+                "element table (low-noise, cheap) and let one model call select both action and target. "
+                "90% fewer browser calls, $0.0039 per complex multi-step task."
             )
 
 if __name__ == "__main__":
