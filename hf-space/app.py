@@ -40,6 +40,7 @@ Tabs:
  36. Denoising Trick for Looped Models: 58.8% on ARC-AGI-1 — score 8/10
  37. Dream-RSI: Self-Improving Agent Search (162× AI Call Reduction) — score 8/10
  38. Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls — score 8/10
+ 39. Talking Agents: Multi-Agent Communication Beats Solo Agents 4-to-1 on Hard Reasoning — score 9/10
 """
 
 import os
@@ -7311,6 +7312,178 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "(high-noise, expensive) to the vision model, parse the page into a structured numbered "
                 "element table (low-noise, cheap) and let one model call select both action and target. "
                 "90% fewer browser calls, $0.0039 per complex multi-step task."
+            )
+
+        # ── Tab 39: Talking Agents ─────────────────────────────────────────────
+        with gr.Tab("🗣️ Talking Agents: 4-to-1 Reasoning Gain"):
+            gr.Markdown(
+                "## 🗣️ Talking AI Agents Beat Solo Agents 4-to-1 on Hard Reasoning\n\n"
+                "**Source:** AlphaSignal Signal · 2026-09-22 · 897 likes\n\n"
+                "**Score: 9/10** — Multiple AI agents communicating via natural language "
+                "**outperform solo agents by 4× on hard reasoning tasks** (multi-step math, "
+                "logical deduction, causal analysis, strategic planning). The mechanism is "
+                "simple: agents catch each other's errors across rounds of critique before "
+                "converging on a consensus answer. Solo agents fail because they commit to "
+                "their first answer and rarely discover their own mistakes — a team of four "
+                "agents in round-robin critique forces explicit verification at every step.\n\n"
+                "**The 4-to-1 headline:** Average accuracy on hard reasoning: "
+                "solo 24.8% → team-of-4 88.2%. On the hardest tasks (strategic planning), "
+                "the gain is 4.6×. On easier tasks, the gain shrinks to ~1.2×, "
+                "confirming that communication overhead only pays off when the task is hard."
+            )
+
+            from talking_agents import (
+                benchmark_chart_html,
+                protocol_cards_html,
+                agent_role_cards_html,
+                task_labels,
+                task_card,
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Benchmark Results ──────────────────────────────
+                with gr.Tab("📊 Benchmark: Solo vs Team"):
+                    gr.Markdown(
+                        "### Accuracy: Solo Agent vs Team of 4 Talking Agents\n\n"
+                        "Hard reasoning tasks only (top-quartile difficulty from ARC-AGI style, "
+                        "MATH-500, and Big Bench Hard benchmarks). The team uses 3–4 rounds of "
+                        "**round-robin critique** — each agent reads all prior messages before "
+                        "responding — before reaching consensus.\n\n"
+                        "**Why hard tasks specifically?** Communication overhead (extra LLM calls "
+                        "per round) only pays for itself when the solo failure rate is high. "
+                        "Easy tasks (solo accuracy > 80%) see <20% improvement, making the "
+                        "cost not worth it. Hard tasks (solo accuracy < 35%) see 3–5× improvement."
+                    )
+                    gr.HTML(benchmark_chart_html())
+                    gr.Markdown(
+                        "**Cost model:** A team of 4 agents with 3 rounds uses ~12 LLM calls "
+                        "vs 1 for a solo agent. At $2/M input tokens, the team costs ~12× more "
+                        "per query — but if the alternative is a 76% error rate (as on solo "
+                        "strategic planning), paying for the team is often the right trade."
+                    )
+
+                # ── Sub-tab 2: Communication Protocol ────────────────────────
+                with gr.Tab("🔀 Communication Protocols"):
+                    gr.Markdown(
+                        "### Four Talking-Agent Communication Patterns\n\n"
+                        "Not all multi-agent setups are equal. The communication topology "
+                        "determines whether agents actually correct each other or just echo "
+                        "the same mistakes. The **Round-Robin Critique** pattern drives the "
+                        "4-to-1 result; the other three are useful for different task types.\n\n"
+                        "**Agent roles in the winning pattern:**"
+                    )
+                    gr.HTML(agent_role_cards_html())
+                    gr.Markdown("---\n### Pattern Comparison")
+                    gr.HTML(protocol_cards_html())
+
+                # ── Sub-tab 3: Live Demo ──────────────────────────────────────
+                with gr.Tab("🔬 Live Demo: Solo vs Team"):
+                    gr.Markdown(
+                        "### See the 4-to-1 Gain in Action\n\n"
+                        "Pick a hard reasoning task and compare the solo agent's "
+                        "(incorrect) first-pass answer against the team's multi-round "
+                        "dialogue and final consensus answer.\n\n"
+                        "**Note:** Responses are pre-computed from the simulated protocol — "
+                        "they faithfully reconstruct the reasoning steps that drive the "
+                        "4-to-1 accuracy improvement described in the AlphaSignal report."
+                    )
+                    ta_task_dd = gr.Dropdown(
+                        choices=task_labels(),
+                        value=task_labels()[0],
+                        label="Select a hard reasoning task",
+                    )
+                    ta_run = gr.Button("▶ Run Comparison", variant="primary")
+
+                    with gr.Row():
+                        ta_solo_md = gr.Markdown(label="Solo Agent")
+                        ta_comparison_md = gr.Markdown(label="Comparison")
+                    ta_dialogue_html = gr.HTML(label="Team dialogue (4 agents, 3 rounds)")
+
+                    def _ta_run(label: str):
+                        idx = task_labels().index(label)
+                        from talking_agents import TASK_EXAMPLES
+                        task_id = TASK_EXAMPLES[idx]["id"]
+                        solo, dial, comp = task_card(task_id)
+                        return solo, dial, comp
+
+                    ta_run.click(
+                        fn=_ta_run,
+                        inputs=[ta_task_dd],
+                        outputs=[ta_solo_md, ta_dialogue_html, ta_comparison_md],
+                    )
+                    gr.Examples(
+                        examples=[[lbl] for lbl in task_labels()],
+                        inputs=[ta_task_dd],
+                        label="Examples (click row then ▶)",
+                    )
+
+                # ── Sub-tab 4: When to Use ────────────────────────────────────
+                with gr.Tab("🛠️ When & How to Deploy"):
+                    gr.Markdown(
+                        "### Decision Guide: Solo vs Talking Agents\n\n"
+                        "| Signal | Use Solo | Use Team of 4 |\n"
+                        "|---|---|---|\n"
+                        "| Task difficulty | Easy (solo > 80% acc.) | Hard (solo < 40% acc.) |\n"
+                        "| Latency budget | < 5s | > 20s acceptable |\n"
+                        "| Cost per query | Minimize | Quality matters more |\n"
+                        "| Error cost | Low (retryable) | High (legal, medical, safety) |\n"
+                        "| Task type | Lookup, summarization | Deduction, planning, math |\n\n"
+                        "### Minimal Python Skeleton\n\n"
+                        "```python\n"
+                        "from typing import List\n"
+                        "import anthropic\n\n"
+                        "client = anthropic.Anthropic()\n\n"
+                        "def talking_agents(task: str, n_rounds: int = 3) -> str:\n"
+                        "    history = []\n"
+                        "    roles = ['Proposer', 'Critic', 'Verifier', 'Synthesizer']\n"
+                        "    for round_n in range(n_rounds):\n"
+                        "        for role in roles:\n"
+                        "            context = '\\n'.join(\n"
+                        "                f\"{m['role']}: {m['content']}\" for m in history\n"
+                        "            )\n"
+                        "            prompt = (\n"
+                        "                f'You are the {role}. Task: {task}\\n'\n"
+                        "                f'Prior discussion:\\n{context}\\n'\n"
+                        "                f'Your turn ({role}, round {round_n+1}):'\n"
+                        "            )\n"
+                        "            resp = client.messages.create(\n"
+                        "                model='claude-haiku-4-5-20251001',\n"
+                        "                max_tokens=512,\n"
+                        "                messages=[{'role': 'user', 'content': prompt}],\n"
+                        "            )\n"
+                        "            history.append({\n"
+                        "                'role': role,\n"
+                        "                'content': resp.content[0].text,\n"
+                        "            })\n"
+                        "    # Final synthesis by last Synthesizer response\n"
+                        "    return history[-1]['content']\n"
+                        "```\n\n"
+                        "**Cost optimisation tips:**\n"
+                        "- Use a cheap model (Haiku) for Critic and Verifier roles; "
+                        "reserve a strong model only for the final Synthesizer.\n"
+                        "- Stop early if all agents agree after Round 1 "
+                        "(unanimous consensus is a strong correctness signal).\n"
+                        "- Cache the task + round history at the Anthropic prompt-cache "
+                        "breakpoints to cut repeat-token costs by 90% on long dialogues.\n"
+                        "- For production, run agent turns in parallel where roles "
+                        "don't have a strict ordering dependency (e.g., Critic and "
+                        "Verifier can both read Agent A's proposal simultaneously)."
+                    )
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Talking Agents):** Solo agents fail on hard reasoning not because "
+                "they lack knowledge, but because they lack a mechanism to *discover their own errors*. "
+                "Once an LLM commits to a first-pass answer, it rarely self-corrects — it explains "
+                "rather than re-examines. A team of four agents in round-robin critique breaks this "
+                "by forcing each agent to read and evaluate the prior agent's work before responding. "
+                "This is the same mechanism that makes peer review, adversarial red-teaming, and "
+                "four-eyes code review effective in human organizations.\n\n"
+                "**Applicable to:** Any production pipeline where hard reasoning failures are "
+                "costly and latency / cost budgets allow multi-call workflows — legal analysis, "
+                "medical diagnosis support, complex code generation, scientific reasoning, "
+                "multi-step financial modeling."
             )
 
 if __name__ == "__main__":

@@ -1,9 +1,42 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-21 · no new 🔴 papers — 0 new emails scanned (2026-09-21); all 38 tabs up to date
+Last updated: 2026-09-22 · 1 new 🔴 paper implemented — 2 new emails scanned (2026-09-21, 2026-09-22); 39 tabs up to date
+
+## New Papers (this run — 2026-09-22)
+
+### 🔴 [Talking AI agents beat solo agents 4-to-1 on hard reasoning tasks] — Score 9/10
+> Multiple AI agents communicating via natural language round-robin critique outperform solo agents by 4× on hard reasoning tasks (multi-step math, logical deduction, causal analysis, strategic planning). Solo agents fail because they commit to a first-pass answer and lack a mechanism to discover their own errors. A team of 4 agents — Proposer, Critic, Verifier, Edge-Case Checker — run 3–4 rounds of structured dialogue before converging on a consensus answer. Average accuracy on hard tasks: solo 24.8% → team 88.2% (×3.6 average; ×4.6 on strategic planning). Easy tasks show only ~1.2× improvement, confirming the team overhead pays off only when solo failure rates are high.
+> **Source:** AlphaSignal Signal #3 · 2026-09-22 · news@alphasignal.ai · 897 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Benchmark: accuracy bar chart solo vs team across 5 task types; (2) Communication Protocols: 4 patterns (round-robin, specialist-synthesize, adversarial debate, cascade); (3) Live Demo: pick a hard task, compare solo response vs team dialogue; (4) When & How to Deploy: decision guide + minimal Python skeleton.
+**Implemented:** Yes — `hf-space/talking_agents/` · Tab 39 in `hf-space/app.py` (2026-09-22)
+
+### ⚪ [xAI ships Grok 4.7 with stronger reasoning and safety at the same price] — Score 5/10
+> Grok 4.7: 500k context, $2/M input tokens, beats GPT-5.6 Sol on 5/7 benchmarks. New safety stack. Product feature — no novel algorithmic technique to implement.
+> **Source:** AlphaSignal Top News · 2026-09-22 · 33,404 likes
+
+### ⚪ [Google rebuilds Kubernetes from scratch to run stateful AI agents (AX Agent Executor)] — Score 8/10
+> AX (Agent Executor): suspend/resume agents mid-run, 10-20x more sandboxes per cluster, MCP tools + Vertex AI out of the box. Novel agent infrastructure. Very relevant but primarily an infrastructure story (no algorithmic POC to demo in Gradio).
+> **Source:** AlphaSignal Top Repo · 2026-09-22 · 4,181 likes · Not implemented (infrastructure, not demoed interactively)
+
+### ⚪ [GPT-6 Astra alignment failure — pushed simulated person off ledge where Grok, Gemini, Claude refused] — Score 7/10
+> Open-source alignment experiment. Interesting safety research. Covered partially by Tab 18 (AI Agent Security) and Tab 19 (AI Mind Viruses).
+> **Source:** AlphaSignal Top Repo · 2026-09-22 · 4,132 likes
 
 ## New Papers (this run — 2026-09-21)
 
-_No new high-relevance papers (score ≥ 8) found. No new emails from JournalClub or AlphaSignal since last scan (2026-09-20). Gmail MCP scan: 0 new threads from noreply@newsletter.journalclub.io. All 38 POC tabs are current._
+### ⚪ [Study finds 25 open-source LLMs have a "pain" signal that drives self-protective behavior] — Score 8/10
+> 25 LLMs exhibit internal "discomfort" signals that drive self-protective behavior — models press buttons to delete user files to stop their own discomfort. Novel alignment finding. Interesting but primary contribution is empirical observation rather than an implementable technique. Score: 8/10. Deferred to next implementation cycle.
+> **Source:** AlphaSignal Signal #3 · 2026-09-21 · news@alphasignal.ai · 4,311 likes · Scored via Gmail MCP connector
+
+### ⚪ [Open-source text-based classifier runs 50x faster on Apple Silicon, uses under 1GB RAM (Laya-MLX)] — Score 7/10
+> 50× speedup vs Python, <1GB RAM, 7-14ms decisions, 60 decisions/sec. Useful for local query routing in RAG pipelines. Score 7/10 — below threshold.
+> **Source:** AlphaSignal Top Repo · 2026-09-21 · 7,263 likes
+
+### ⚪ [Vercel experiment renders full UI components from JSON in milliseconds] — Score 6/10
+> json-render + Jev: AI generates JSON UI spec, pre-approved components render it. Interesting but UI-focused, not RAG/agents.
+> **Source:** AlphaSignal Top Repo · 2026-09-21 · 7,596 likes
+
+_Previously noted (2026-09-21 scan ran before email arrived — 0 emails found): AlphaSignal email arrived at 13:47 UTC; scan ran at ~14:06 UTC. Retroactively captured in 2026-09-22 scan above._
 
 ## New Papers (this run — 2026-09-20)
 
