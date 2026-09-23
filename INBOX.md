@@ -1,5 +1,31 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-22 · 1 new 🔴 paper implemented — 2 new emails scanned (2026-09-21, 2026-09-22); 39 tabs up to date
+Last updated: 2026-09-23 · 0 new 🔴 papers — 1 new email scanned (2026-09-23); 39 tabs up to date
+
+## New Papers (this run — 2026-09-23)
+
+### ⚪ [Anthropic ships Claude Opus 5.5 at 40% lower cost and 30% faster output] — Score 4/10
+> Pricing drop + faster output for an existing model — $4/$20 per million tokens, 60% cheaper cache reads, improved agentic coding. Product release with no novel algorithmic technique to implement; useful pricing signal for cost-conscious agent pipelines.
+> **Source:** AlphaSignal Top News · 2026-09-23 · news@alphasignal.ai · 125,529 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships GPT-6 Sol and Luna at 50% lower API prices] — Score 3/10
+> Two cost-optimised model variants (Sol for complex tasks, Luna for high-volume); pricing halved, 90% cache discount. Model/pricing release with no implementable technique.
+> **Source:** AlphaSignal Top News · 2026-09-23 · news@alphasignal.ai · 54,457 likes · Scored via Gmail MCP connector
+
+### ⚪ [Study finds em-dash use in medical preprints nearly tripled after ChatGPT launched] — Score 5/10
+> Analysis of 69,632 preprints showing em-dash frequency rose from ~4% to ~20% post-ChatGPT — a stylometric signal for AI-assisted writing detection. Interesting as a feature for AI content classifiers, but an observational study rather than a drop-in RAG or agent pipeline technique.
+> **Source:** AlphaSignal Top Paper · 2026-09-23 · news@alphasignal.ai · 8,179 likes · Scored via Gmail MCP connector
+
+### ⚪ [Stanford team trains agent groups to self-organize and hit 66.7% where solo agents scored 48.8%] — Score 7/10
+> Self-organizing multi-agent groups improve accuracy from 48.8% to 66.7% on unspecified benchmark via learned coordination protocols. Relevant to agent-pipeline design; signal-only coverage with limited technical detail. Partially covered by Tab 39 (Talking Agents: solo 24.8% → team 88.2% on harder tasks). Score 7: below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-09-23 · news@alphasignal.ai · 359 likes · Scored via Gmail MCP connector
+
+### ⚪ [New paper reveals transformers build faithful internal maps of the world] — Score 6/10
+> Interpretability finding: transformers develop internally consistent world-model representations. Novel alignment/mechanistic-interpretability result, but no drop-in technique for RAG or agent pipelines.
+> **Source:** AlphaSignal Signal · 2026-09-23 · news@alphasignal.ai · 319 likes · Scored via Gmail MCP connector
+
+### ⚪ [CrisperWhisper 2.0: open speech-to-text model with precise timestamps for disfluencies] — Score 3/10
+> Open-source ASR model; domain-specific tool release, no LLM or retrieval algorithm.
+> **Source:** AlphaSignal Signal · 2026-09-23 · news@alphasignal.ai · 1,400 stars · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-22)
 
