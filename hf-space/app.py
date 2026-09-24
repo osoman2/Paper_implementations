@@ -41,6 +41,7 @@ Tabs:
  37. Dream-RSI: Self-Improving Agent Search (162× AI Call Reduction) — score 8/10
  38. Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls — score 8/10
  39. Talking Agents: Multi-Agent Communication Beats Solo Agents 4-to-1 on Hard Reasoning — score 9/10
+ 40. Claude 950 Agents: Autonomous Science Pipeline — Discovers Novel CRISPR-Like Enzyme — score 9/10
 """
 
 import os
@@ -7484,6 +7485,111 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "costly and latency / cost budgets allow multi-call workflows — legal analysis, "
                 "medical diagnosis support, complex code generation, scientific reasoning, "
                 "multi-step financial modeling."
+            )
+
+        # ── Tab 40: Claude 950 Agents — Autonomous Science Pipeline ──────────────
+        with gr.Tab("🧬 Claude 950 Agents: Autonomous Science"):
+            gr.Markdown(
+                "## 🧬 Claude 950 Agents: Autonomous Science Pipeline\n\n"
+                "**Source:** AlphaSignal Top News · 2026-09-24 · 36,668 likes · Score **9/10**\n\n"
+                "950 Claude agents ran autonomously for 21 hours, consumed 210 million tokens, "
+                "and discovered **ART** — a novel CRISPR-like enzyme system in virus DNA that nobody "
+                "had previously described. This is the first major scientific discovery made entirely "
+                "by an autonomous AI pipeline without human iteration.\n\n"
+                "> **Key insight:** AI is moving from assistant to *actor*. "
+                "The same 5-stage pipeline pattern (search → hypothesize → shortlist → deep-analyze → synthesize) "
+                "applies to any domain: drug discovery, materials science, AI research mining, and beyond."
+            )
+
+            from claude_bio_agents import (
+                IMPLEMENTATION_PATTERNS,
+                pipeline_overview_html,
+                crispr_comparison_html,
+                scale_cost_html,
+                mini_demo_run,
+                mini_task_labels,
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Architecture Overview ─────────────────────────
+                with gr.Tab("🏗️ Architecture Overview"):
+                    gr.HTML(pipeline_overview_html())
+
+                # ── Sub-tab 2: Discovery Context ──────────────────────────────
+                with gr.Tab("🔬 Discovery: ART Enzyme"):
+                    gr.Markdown(
+                        "### What Did Claude Find?\n\n"
+                        "After processing 200,000 reverse transcriptase candidates, the 950-agent "
+                        "pipeline identified **ART (array-associated reverse transcriptase)** as the "
+                        "top novel system.\n\n"
+                        "**Why it's significant:**\n"
+                        "- Combines a reverse transcriptase with a **partner gene** + a **long array of evenly-spaced DNA repeats**\n"
+                        "- Only a handful of known systems share all three features — and all of them can **cut, copy, and paste DNA**\n"
+                        "- CRISPR-like potential: if ART can be harnessed, it could become a new class of gene-editing tool\n"
+                        "- The same analysis took human experts weeks to months per candidate system\n\n"
+                        "### Comparison to Known CRISPR-like Systems"
+                    )
+                    gr.HTML(crispr_comparison_html())
+
+                # ── Sub-tab 3: Mini Live Demo ─────────────────────────────────
+                with gr.Tab("⚡ Mini-Pipeline Demo"):
+                    gr.Markdown(
+                        "### 5-Agent Mini-Pipeline\n\n"
+                        "The full system uses 950 agents. This demo runs the same **5-stage architecture** "
+                        "at interactive scale (5 agents) so you can see how each stage transforms the data.\n\n"
+                        "Pick a research domain and click **▶ Run Pipeline** to simulate the workflow."
+                    )
+                    bio_task_dd = gr.Dropdown(
+                        choices=mini_task_labels(),
+                        value=mini_task_labels()[0],
+                        label="Select research domain",
+                    )
+                    bio_run_btn = gr.Button("▶ Run 5-Agent Pipeline", variant="primary")
+                    bio_result = gr.HTML()
+
+                    def _bio_run(label: str):
+                        from claude_bio_agents import MINI_RESEARCH_TASKS, mini_demo_run
+                        task_id = next(
+                            t["id"] for t in MINI_RESEARCH_TASKS if t["label"] == label
+                        )
+                        return mini_demo_run(task_id)
+
+                    bio_run_btn.click(fn=_bio_run, inputs=[bio_task_dd], outputs=[bio_result])
+                    gr.Examples(
+                        examples=[[lbl] for lbl in mini_task_labels()],
+                        inputs=[bio_task_dd],
+                        label="Examples (click row then ▶)",
+                    )
+
+                # ── Sub-tab 4: Scale & Cost Analysis ─────────────────────────
+                with gr.Tab("📊 Scale & Cost Analysis"):
+                    gr.Markdown("### Scaling the Pipeline: 10 → 2,000 Agents")
+                    gr.HTML(scale_cost_html())
+
+                # ── Sub-tab 5: Implementation Patterns ───────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    gr.Markdown(
+                        "### 4 Drop-in Patterns for Autonomous Research Pipelines\n\n"
+                        "These patterns compose into the full 950-agent architecture. "
+                        "Start with Pattern 1 (parallel search) and add the others incrementally."
+                    )
+                    for i, p in enumerate(IMPLEMENTATION_PATTERNS):
+                        gr.Markdown(f"#### Pattern {i+1}: {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Claude 950 Agents):** The scientific method doesn't change — "
+                "hypothesis generation, candidate evaluation, and evidence synthesis are still "
+                "the core loop. What changes is *who* runs each iteration: 950 Claude agents "
+                "can execute in parallel what a human team would serialize over months. "
+                "The 5-stage funnel (200K → 3,500 → 20 → 1 discovery) is the production "
+                "pattern for any large-scale autonomous research task.\n\n"
+                "**Applicable to:** Drug target discovery, materials science screening, "
+                "competitive intelligence, AI/ML research mining, legal case pattern analysis, "
+                "or any domain where hypothesis space is too large for serial human exploration.\n\n"
+                "**Cost:** ~$630–$2,100 in API costs (Haiku/Sonnet mix) replaced 8–18 months "
+                "of expert human work — a 200–700× cost advantage."
             )
 
 if __name__ == "__main__":

@@ -1,5 +1,30 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-23 · 0 new 🔴 papers — 1 new email scanned (2026-09-23); 39 tabs up to date
+Last updated: 2026-09-24 · 1 new 🔴 paper — 1 new email scanned (2026-09-24); 40 tabs up to date
+
+## New Papers (this run — 2026-09-24)
+
+### 🔴 [950 Claude Agents Ran Overnight and Rewrote Biology's Rulebook] — Score 9/10
+> 950 Claude agents ran for 21 hours, consuming 210M tokens, and discovered ART (array-associated reverse transcriptase) — a novel CRISPR-like enzyme system in virus DNA. 5-stage autonomous pipeline: parallel DB search (200K candidates) → hypothesis generation → shortlisting (3,500) → deep analysis (20) → synthesis (1 novel discovery). Same analysis takes human experts weeks to months. Directly implementable as a production multi-agent research pipeline across any domain.
+> **Source:** AlphaSignal Top News · 2026-09-24 · news@alphasignal.ai · 36,668 likes · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo — (1) Architecture Overview: 5-stage pipeline with agent counts and timing per stage; (2) Discovery Context: ART enzyme vs known CRISPR-like systems comparison table; (3) Mini-Pipeline Demo: 5-agent interactive simulation across 4 research domains; (4) Scale & Cost Analysis: agent scaling curves, cost tables, ROI calculation; (5) Implementation Patterns: 4 drop-in code patterns for autonomous research pipelines.
+**Implemented:** Yes — `hf-space/claude_bio_agents/` · Tab 40 in `hf-space/app.py` (2026-09-24)
+
+### ⚪ [New attribution method tops interpretability benchmark by 2.9x, pinpoints Llama refusals to 1% of weights] — Score 8/10
+> MAttr: attribution method identifying refusal behavior to just 1% of model weights — 2.9x better than prior methods on interpretability benchmarks. Control without retraining. Highly relevant to production LLM deployments for behavior steering and alignment. Score 8: implementable interpretability technique, but primary contribution is empirical (identifying weight subset) rather than a drop-in production pattern.
+> **Source:** AlphaSignal Signal · 2026-09-24 · news@alphasignal.ai · 931 likes · Scored via Gmail MCP connector
+
+### ⚪ [Recursive depth trick makes a 7.4B model match GPT-3 13B with 20x less compute] — Score 7/10
+> Recursive depth processing: feeding intermediate hidden states back for additional passes, effectively deepening the network at inference time without additional parameters. 20x compute reduction for equivalent quality. Score 7: interesting inference efficiency pattern, below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-09-24 · news@alphasignal.ai · 657 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic launches Claude Code cloud sessions so your code runs without your laptop] — Score 5/10
+> Cloud sessions for Claude Code: long-running coding tasks that persist after laptop close. Product feature release, no novel algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-09-24 · news@alphasignal.ai · 10,171 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI upgrades ChatGPT Voice with plugins, GPT-6 models, and full work suite] — Score 3/10
+> Voice agent upgrade with plugin support. Product release, not applicable to RAG or LLM engineering.
+> **Source:** AlphaSignal Top News · 2026-09-24 · news@alphasignal.ai · 10,115 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-23)
 
