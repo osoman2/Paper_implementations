@@ -1,5 +1,33 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-25 · 0 new papers — no new emails from alphasignal.ai or journalclub.io since last scan (2026-09-24); 40 tabs up to date
+Last updated: 2026-09-26 · 1 new email from alphasignal.ai (2026-09-25) scanned; no papers score ≥ 8 from today's email. MAttr (score 8/10, 2026-09-24) implemented as Tab 41. 41 tabs up to date.
+
+## New Papers (this run — 2026-09-26)
+
+_Gmail MCP scan of news@alphasignal.ai · 2026-09-25 email found 6 items; none scored ≥ 8._
+
+### ⚪ [New open-source 8B model hits 81.6% on coding benchmarks at 9x faster inference] — Score 7/10
+> Fast 8B model with strong coding performance — no novel inference technique described in the signal; score below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-09-25 · news@alphasignal.ai · 4,512 likes · Scored via Gmail MCP connector
+
+### ⚪ [Unreal Labs ships open-source agent harness that's 39% cheaper than rivals] — Score 7/10
+> Cost-optimised agent harness — pattern similar to Prime Intellect Harness (Tab 25); no novel orchestration technique identified from signal alone.
+> **Source:** AlphaSignal Signal · 2026-09-25 · news@alphasignal.ai · 4,411 likes · Scored via Gmail MCP connector
+
+### ⚪ [Psychological tests can identify which LLM answered with over 80% accuracy] — Score 5/10
+> LLM personality fingerprinting — interesting for model provenance but not a drop-in RAG or agent technique.
+> **Source:** AlphaSignal Signal · 2026-09-25 · news@alphasignal.ai · 390 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic launches Claude Marketplace with 2,000+ plugins and unified billing] — Score 3/10
+> Product release (MCP-based plugin marketplace) — no novel algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-09-25 · news@alphasignal.ai · 5,685 likes · Scored via Gmail MCP connector
+
+### ⚪ [NVIDIA releases 100M-parameter speaker tracking model with 24% lower error than rivals] — Score 2/10
+> Audio diarization model — domain-specific (speech), not relevant to LLM or RAG engineering.
+> **Source:** AlphaSignal Top News · 2026-09-25 · news@alphasignal.ai · 9,743 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI releases open mental health benchmark built with 80 clinicians] — Score 4/10
+> Mental health evaluation benchmark — useful for wellbeing-focused chatbots but not a drop-in LLM engineering technique.
+> **Source:** AlphaSignal Top News · 2026-09-25 · news@alphasignal.ai · 4,926 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-25)
 
@@ -14,9 +42,12 @@ _No new papers found. Gmail scan confirmed 0 new emails from news@alphasignal.ai
 **POC idea:** 5-sub-tab Gradio demo — (1) Architecture Overview: 5-stage pipeline with agent counts and timing per stage; (2) Discovery Context: ART enzyme vs known CRISPR-like systems comparison table; (3) Mini-Pipeline Demo: 5-agent interactive simulation across 4 research domains; (4) Scale & Cost Analysis: agent scaling curves, cost tables, ROI calculation; (5) Implementation Patterns: 4 drop-in code patterns for autonomous research pipelines.
 **Implemented:** Yes — `hf-space/claude_bio_agents/` · Tab 40 in `hf-space/app.py` (2026-09-24)
 
-### ⚪ [New attribution method tops interpretability benchmark by 2.9x, pinpoints Llama refusals to 1% of weights] — Score 8/10
+### 🔴 [New attribution method tops interpretability benchmark by 2.9x, pinpoints Llama refusals to 1% of weights] — Score 8/10
 > MAttr: attribution method identifying refusal behavior to just 1% of model weights — 2.9x better than prior methods on interpretability benchmarks. Control without retraining. Highly relevant to production LLM deployments for behavior steering and alignment. Score 8: implementable interpretability technique, but primary contribution is empirical (identifying weight subset) rather than a drop-in production pattern.
 > **Source:** AlphaSignal Signal · 2026-09-24 · news@alphasignal.ai · 931 likes · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo — (1) Method Overview: gradient × activation attribution algorithm; (2) Weight Map: 32×32 attention head heatmap showing the ~1% refusal heads; (3) Attribution Demo: interactive prompt analysis with head activation scores; (4) Benchmark Comparison: MAttr vs LIME/SHAP/Int. Gradients bar chart; (5) Implementation Patterns: 3 code patterns for production behaviour steering.
+**Implemented:** Yes — `hf-space/mattr_attribution/` · Tab 41 in `hf-space/app.py` (2026-09-26)
 
 ### ⚪ [Recursive depth trick makes a 7.4B model match GPT-3 13B with 20x less compute] — Score 7/10
 > Recursive depth processing: feeding intermediate hidden states back for additional passes, effectively deepening the network at inference time without additional parameters. 20x compute reduction for equivalent quality. Score 7: interesting inference efficiency pattern, below implementation threshold.

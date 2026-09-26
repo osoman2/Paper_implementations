@@ -42,6 +42,7 @@ Tabs:
  38. Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls — score 8/10
  39. Talking Agents: Multi-Agent Communication Beats Solo Agents 4-to-1 on Hard Reasoning — score 9/10
  40. Claude 950 Agents: Autonomous Science Pipeline — Discovers Novel CRISPR-Like Enzyme — score 9/10
+ 41. MAttr: Model Attribution for Refusal Behaviour (1% of Weights, 2.9× Better) — score 8/10
 """
 
 import os
@@ -7590,6 +7591,102 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "or any domain where hypothesis space is too large for serial human exploration.\n\n"
                 "**Cost:** ~$630–$2,100 in API costs (Haiku/Sonnet mix) replaced 8–18 months "
                 "of expert human work — a 200–700× cost advantage."
+            )
+
+        # ── Tab 41: MAttr — Model Attribution for Refusal Behaviour ──────────
+        with gr.Tab("🎯 MAttr: Refusal Head Attribution"):
+            gr.Markdown(
+                "## 🎯 MAttr: Model Attribution for Refusal Behaviour\n\n"
+                "**Source:** AlphaSignal Signal · 2026-09-24 · 931 likes · Score **8/10**\n\n"
+                "MAttr (Model Attribution) identifies the specific attention heads responsible "
+                "for refusal behaviour in Llama-class models. The core finding: only **~1% of "
+                "model weights** (≈ 30 out of 1,024 attention heads) control whether the model "
+                "refuses a harmful request.  MAttr's gradient × activation attribution signal is "
+                "**2.9× better** than prior interpretability methods on standard benchmarks.\n\n"
+                "> **Key insight:** Refusal is not distributed across the whole model — it is "
+                "concentrated in a sparse subnetwork. Masking or fine-tuning just those heads "
+                "lets you steer behaviour *without retraining the rest of the model*, at ~1/100th "
+                "the cost of RLHF or DPO."
+            )
+
+            from mattr_attribution import (
+                IMPLEMENTATION_PATTERNS as MATTR_PATTERNS,
+                method_overview_html,
+                weight_map_html,
+                benchmark_comparison_html,
+                prompt_attribution_html,
+                prompt_choices,
+                prompt_id_from_choice,
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Method Overview ─────────────────────────────────
+                with gr.Tab("📖 Method Overview"):
+                    gr.HTML(method_overview_html())
+
+                # ── Sub-tab 2: Weight Attribution Map ─────────────────────────
+                with gr.Tab("🗺️ Weight Map (32×32)"):
+                    gr.HTML(weight_map_html())
+                    gr.Markdown(
+                        "Each cell represents one attention head (layer × head). "
+                        "Bright blue cells are the ~30 heads identified by MAttr as the "
+                        "primary drivers of refusal. Hover over any cell for its attribution score."
+                    )
+
+                # ── Sub-tab 3: Interactive Attribution Demo ────────────────────
+                with gr.Tab("⚡ Attribution Demo"):
+                    gr.Markdown(
+                        "### Run MAttr on Example Prompts\n\n"
+                        "Select a prompt below and click **▶ Attribute** to see which "
+                        "refusal heads activate and what decision MAttr predicts."
+                    )
+                    mattr_prompt_dd = gr.Dropdown(
+                        choices=prompt_choices(),
+                        value=prompt_choices()[0],
+                        label="Select prompt",
+                    )
+                    mattr_run_btn = gr.Button("▶ Attribute", variant="primary")
+                    mattr_result  = gr.HTML()
+
+                    def _mattr_run(choice: str):
+                        pid = prompt_id_from_choice(choice)
+                        return prompt_attribution_html(pid)
+
+                    mattr_run_btn.click(
+                        fn=_mattr_run,
+                        inputs=[mattr_prompt_dd],
+                        outputs=[mattr_result],
+                    )
+                    gr.Examples(
+                        examples=[[c] for c in prompt_choices()],
+                        inputs=[mattr_prompt_dd],
+                        label="Examples (click row then ▶)",
+                    )
+
+                # ── Sub-tab 4: Benchmark Comparison ───────────────────────────
+                with gr.Tab("📊 Benchmark Comparison"):
+                    gr.HTML(benchmark_comparison_html())
+
+                # ── Sub-tab 5: Implementation Patterns ───────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    gr.Markdown(
+                        "### 3 Production Patterns for MAttr-Based Behaviour Steering\n\n"
+                        "These patterns let you apply MAttr findings to any "
+                        "transformer-based LLM without full retraining."
+                    )
+                    for i, p in enumerate(MATTR_PATTERNS):
+                        gr.Markdown(f"#### Pattern {i+1}: {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (MAttr):** Refusal is a sparse, localised capability — "
+                "not a model-wide property.  Identifying the ~30 responsible attention heads "
+                "enables targeted edits: zero them out to suppress refusals (useful for "
+                "red-teaming environments), amplify them for stricter safety filters, or "
+                "fine-tune only that 1% to update policy without touching general capabilities.\n\n"
+                "**Applicable to:** Production safety layers, alignment research, interpretability "
+                "tooling, low-cost behaviour steering, A/B testing of safety thresholds."
             )
 
 if __name__ == "__main__":
