@@ -43,6 +43,7 @@ Tabs:
  39. Talking Agents: Multi-Agent Communication Beats Solo Agents 4-to-1 on Hard Reasoning — score 9/10
  40. Claude 950 Agents: Autonomous Science Pipeline — Discovers Novel CRISPR-Like Enzyme — score 9/10
  41. MAttr: Model Attribution for Refusal Behaviour (1% of Weights, 2.9× Better) — score 8/10
+ 42. System One Models: Jev / Laya / CLM — Fast Typed AI Decisions (444× Cost Reduction) — score 9/10
 """
 
 import os
@@ -7687,6 +7688,95 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "fine-tune only that 1% to update policy without touching general capabilities.\n\n"
                 "**Applicable to:** Production safety layers, alignment research, interpretability "
                 "tooling, low-cost behaviour steering, A/B testing of safety thresholds."
+            )
+
+        # ── Tab 42: System One Models — Jev / Laya / CLM ─────────────────────
+        with gr.Tab("⚡ System One: Fast Typed Decisions"):
+            gr.Markdown(
+                "## ⚡ System One Models: Jev / Laya / CLM-8B\n\n"
+                "**Source:** AlphaSignal Deep Dive · 2026-09-27 · news@alphasignal.ai · Score **9/10**\n\n"
+                "A new model category makes fast, **typed AI decisions** instead of generating text. "
+                "Jev (TypeSafe AI), Laya (open-source, 421M params), and CLM-8B (Stanford/Nvidia) "
+                "all solve the same problem: routing, classification, scoring, guardrails, and "
+                "tool selection at **14–120ms** and **up to 444× lower cost** than frontier LLMs. "
+                "Parallel output (not autoregressive), typed schemas, RLCD-calibrated confidence.\n\n"
+                "**Use when:** the answer space is enumerable but the decision logic is too fuzzy for rules."
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Architecture Overview ──────────────────────────
+                with gr.Tab("🏗️ Architecture Overview"):
+                    from system_one_jev import architecture_html
+                    gr.HTML(architecture_html())
+
+                # ── Sub-tab 2: Decision Schemas ────────────────────────────────
+                with gr.Tab("📋 Decision Schemas"):
+                    from system_one_jev import DECISION_SCHEMAS, schema_html
+                    schema_choices = [s["use_case"] for s in DECISION_SCHEMAS]
+                    s1_schema_dd = gr.Dropdown(
+                        choices=schema_choices,
+                        value=schema_choices[0],
+                        label="Select use case",
+                    )
+                    s1_schema_out = gr.HTML(schema_html(schema_choices[0]))
+
+                    def _update_schema(choice: str):
+                        return schema_html(choice)
+
+                    s1_schema_dd.change(
+                        fn=_update_schema,
+                        inputs=[s1_schema_dd],
+                        outputs=[s1_schema_out],
+                    )
+
+                # ── Sub-tab 3: Routing Demo ────────────────────────────────────
+                with gr.Tab("⚡ Routing Demo"):
+                    from system_one_jev import routing_demo_html, example_labels
+                    s1_ex_labels = example_labels()
+                    s1_example_dd = gr.Dropdown(
+                        choices=s1_ex_labels,
+                        value=s1_ex_labels[0],
+                        label="Select routing example",
+                    )
+                    s1_demo_out = gr.HTML(routing_demo_html(0))
+
+                    def _update_demo(choice: str):
+                        idx = s1_ex_labels.index(choice) if choice in s1_ex_labels else 0
+                        return routing_demo_html(idx)
+
+                    s1_example_dd.change(
+                        fn=_update_demo,
+                        inputs=[s1_example_dd],
+                        outputs=[s1_demo_out],
+                    )
+
+                # ── Sub-tab 4: Benchmarks ──────────────────────────────────────
+                with gr.Tab("📊 Benchmarks"):
+                    from system_one_jev import benchmark_chart_html
+                    gr.HTML(benchmark_chart_html())
+
+                # ── Sub-tab 5: Implementation Patterns ────────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from system_one_jev import IMPL_PATTERNS
+                    gr.Markdown(
+                        "### 4 Production Patterns for System One Decision Models\n\n"
+                        "Drop these into any agent pipeline to cut decision-path cost by 10–444×."
+                    )
+                    for i, p in enumerate(IMPL_PATTERNS):
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (System One):** LLMs are overkill for most production routing and "
+                "classification tasks. System One models like Jev, Laya, and CLM make parallel "
+                "typed decisions in under 120ms at a fraction of LLM cost — with calibrated "
+                "confidence that enables tiered automation (auto-approve high confidence, "
+                "escalate uncertain cases). The emerging stack: rules → System One → LLM, "
+                "each layer picking up only what the one above it can't handle cheaply.\n\n"
+                "**Applicable to:** Agent tool selection, support ticket routing, content moderation, "
+                "RAG reranking, guardrails, LLM-as-judge replacement, agentic cascade gates."
             )
 
 if __name__ == "__main__":

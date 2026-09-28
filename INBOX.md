@@ -1,9 +1,37 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-27 · Gmail MCP confirmed 0 new emails from alphasignal.ai or journalclub.io since 2026-09-26. No new papers to process. All 41 tabs up to date.
+Last updated: 2026-09-28 · Gmail MCP scan found 2 new emails (2026-09-27, 2026-09-28). 1 paper scored ≥ 9 implemented as Tab 42. All 42 tabs up to date.
+
+## New Papers (this run — 2026-09-28)
+
+### 🔴 [System One Models: Jev / Laya / CLM-8B — Fast Typed AI Decisions for Production Stacks] — Score 9/10
+> A new model category for fast, typed AI decisions instead of text generation. Jev (TypeSafe AI) delivers parallel typed output at 70–500ms, $0.042/M input tokens, no output token cost — 40–200× lower latency and 444× cost reduction vs frontier LLMs for routing/classification tasks. RLCD (Reinforcement Learning for Calibrated Decisions) gives well-calibrated confidence scores. Open alternatives: Laya (421M params, 33ms on T4, Jev-compatible API) and CLM-8B (contrastive embedding, 9× faster than Jev on large action sets, 81.6% on DeepSWE). New stack layer: rules → System One → LLM. Directly implementable for agent tool selection, ticket routing, content moderation, RAG reranking, guardrail gates, Jev-as-judge.
+> **Source:** AlphaSignal Deep Dive · 2026-09-27 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo — (1) Architecture Overview: three-tier stack and System One vs LLM comparison table; (2) Decision Schemas: interactive typed schema builder for 4 use cases; (3) Routing Demo: 5 simulated examples with latency/cost comparison; (4) Benchmarks: latency, cost, accuracy bar charts for Jev/Laya/CLM/LLMs; (5) Implementation Patterns: 4 drop-in code patterns (judge, router, RLCD threshold, open-source).
+**Implemented:** Yes — `hf-space/system_one_jev/` · Tab 42 in `hf-space/app.py` (2026-09-28)
+
+### 🔴 [Claude breaks physics world record by solving nine-loop particle calculation unsupervised] — Score 8/10
+> Claude Science harness: SymPy + Python, 96 CPUs, 1 week, $1,000–$2,000. Solved the nine-loop scattering amplitude — previous record was eight loops, set by SLAC. One prompt, mostly unsupervised. Verified by Lance Dixon (the prior record holder). Demonstrates that frontier math/physics problems stuck for years can now be tackled at research-team budgets. Pattern is similar to Tab 40 (950 agents for biology) but focuses on exact mathematical symbolic computation rather than biological database search.
+> **Source:** AlphaSignal Top News · 2026-09-28 · news@alphasignal.ai · 6,823 likes · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo — (1) Architecture: Claude Science harness stages (formulate → SymPy generate → verify → iterate); (2) Scattering Amplitude Context: loop expansion explanation and complexity growth table; (3) Mini Harness Demo: interactive 3-agent symbolic computation simulation; (4) Cost & Scale: loop-count vs compute/cost curve; (5) Implementation Patterns: 3 patterns for long-running symbolic computation agents.
+**Implemented:** No — candidate for Tab 43.
+
+### ⚪ [New model spots AI-written blog posts with 98% accuracy using structure alone] — Score 7/10
+> Structure-based AI content detector: uses document layout, sentence length distribution, and paragraph transitions (not word choice) to identify AI-written text with 98% accuracy. Paraphrasing-resistant. Below implementation threshold (7/10).
+> **Source:** AlphaSignal Signal · 2026-09-28 · news@alphasignal.ai · 5,453 likes · Scored via Gmail MCP connector
+
+### ⚪ [Laya: open-source 421M-param System One model (Jev-compatible)] — Score 7/10
+> Open-source alternative to Jev: ModernBERT base, dedicated decision head, 33ms on T4, Jev-compatible server API. Part of the System One story (Tab 42 covers this).
+> **Source:** AlphaSignal Deep Dive · 2026-09-27 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [CLM-8B: Contrastive Language Model 8B (Stanford/Nvidia, 9× faster than Jev)] — Score 7/10
+> Contrastive embedding model for fast action selection; maps state and candidate actions to shared embedding space, selects best match. 9× faster than Jev on large action sets, 81.6% on DeepSWE. Part of the System One story (Tab 42 covers this).
+> **Source:** AlphaSignal Deep Dive · 2026-09-27 · news@alphasignal.ai · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-27)
 
-_No new emails from news@alphasignal.ai or noreply@newsletter.journalclub.io since 2026-09-26. All 41 POC tabs are current._
+_Gmail MCP scan of news@alphasignal.ai · 2026-09-27 16:12 UTC email found System One Deep Dive; scored below during first pass (scan ran before email arrived). Processed in 2026-09-28 run. All 42 POC tabs are current._
 
 ## New Papers (this run — 2026-09-26)
 
