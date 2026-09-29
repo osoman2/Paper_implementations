@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-28 · Gmail MCP scan found 2 new emails (2026-09-27, 2026-09-28). 1 paper scored ≥ 9 implemented as Tab 42. All 42 tabs up to date.
+Last updated: 2026-09-29 · Implemented Tab 43: Claude Science Harness (9-loop physics, score 8/10). All 43 tabs up to date.
 
 ## New Papers (this run — 2026-09-28)
 
@@ -15,7 +15,7 @@ Last updated: 2026-09-28 · Gmail MCP scan found 2 new emails (2026-09-27, 2026-
 > **Source:** AlphaSignal Top News · 2026-09-28 · news@alphasignal.ai · 6,823 likes · Scored via Gmail MCP connector
 
 **POC idea:** 5-sub-tab Gradio demo — (1) Architecture: Claude Science harness stages (formulate → SymPy generate → verify → iterate); (2) Scattering Amplitude Context: loop expansion explanation and complexity growth table; (3) Mini Harness Demo: interactive 3-agent symbolic computation simulation; (4) Cost & Scale: loop-count vs compute/cost curve; (5) Implementation Patterns: 3 patterns for long-running symbolic computation agents.
-**Implemented:** No — candidate for Tab 43.
+**Implemented:** Yes — `hf-space/claude_science_harness/` · Tab 43 in `hf-space/app.py` (2026-09-29)
 
 ### ⚪ [New model spots AI-written blog posts with 98% accuracy using structure alone] — Score 7/10
 > Structure-based AI content detector: uses document layout, sentence length distribution, and paragraph transitions (not word choice) to identify AI-written text with 98% accuracy. Paraphrasing-resistant. Below implementation threshold (7/10).

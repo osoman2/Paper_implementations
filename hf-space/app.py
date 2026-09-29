@@ -44,6 +44,7 @@ Tabs:
  40. Claude 950 Agents: Autonomous Science Pipeline — Discovers Novel CRISPR-Like Enzyme — score 9/10
  41. MAttr: Model Attribution for Refusal Behaviour (1% of Weights, 2.9× Better) — score 8/10
  42. System One Models: Jev / Laya / CLM — Fast Typed AI Decisions (444× Cost Reduction) — score 9/10
+ 43. Claude Science Harness: Nine-Loop Scattering Amplitude (1 week, $1,000–$2,000) — score 8/10
 """
 
 import os
@@ -7777,6 +7778,82 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "each layer picking up only what the one above it can't handle cheaply.\n\n"
                 "**Applicable to:** Agent tool selection, support ticket routing, content moderation, "
                 "RAG reranking, guardrails, LLM-as-judge replacement, agentic cascade gates."
+            )
+
+        # ── Tab 43: Claude Science Harness ────────────────────────────────────
+        with gr.Tab("🔬 Claude Science: 9-Loop Physics"):
+            gr.Markdown(
+                "## 🔬 Claude Science Harness: Nine-Loop Particle Calculation\n\n"
+                "**Source:** AlphaSignal Top News · 2026-09-28 · news@alphasignal.ai · Score **8/10**\n\n"
+                "Claude solved the **nine-loop scattering amplitude** — the previous world record "
+                "was eight loops, set by SLAC's Lance Dixon. The harness: SymPy + Python, 96 CPUs, "
+                "1 week, $1,000–$2,000, one prompt, mostly unsupervised. Verified by Dixon himself. "
+                "Pattern: **Formulate → SymPy Generate → Verify → Iterate → Synthesise** — "
+                "applicable to any long-horizon symbolic computation task.\n\n"
+                "**Use when:** you have a well-defined symbolic computation problem that can be "
+                "decomposed into parallel subproblems and verified against known constraints."
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Architecture ────────────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    from claude_science_harness import architecture_html as csh_arch_html
+                    gr.HTML(csh_arch_html())
+
+                # ── Sub-tab 2: Scattering Amplitude Context ────────────────────
+                with gr.Tab("⚛️ Loop Complexity"):
+                    from claude_science_harness import loop_complexity_html as csh_loop_html
+                    gr.HTML(csh_loop_html())
+
+                # ── Sub-tab 3: Mini Harness Demo ───────────────────────────────
+                with gr.Tab("⚙️ Mini Harness Demo"):
+                    from claude_science_harness import demo_task_html, demo_task_labels
+                    csh_task_labels = demo_task_labels()
+                    csh_task_dd = gr.Dropdown(
+                        choices=csh_task_labels,
+                        value=csh_task_labels[0],
+                        label="Select computation task",
+                    )
+                    csh_demo_out = gr.HTML(demo_task_html(0))
+
+                    def _csh_update_demo(choice: str):
+                        idx = csh_task_labels.index(choice) if choice in csh_task_labels else 0
+                        return demo_task_html(idx)
+
+                    csh_task_dd.change(
+                        fn=_csh_update_demo,
+                        inputs=[csh_task_dd],
+                        outputs=[csh_demo_out],
+                    )
+
+                # ── Sub-tab 4: Cost & Scale ────────────────────────────────────
+                with gr.Tab("💰 Cost & Scale"):
+                    from claude_science_harness import cost_scale_html as csh_cost_html
+                    gr.HTML(csh_cost_html())
+
+                # ── Sub-tab 5: Implementation Patterns ────────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from claude_science_harness import IMPL_PATTERNS as CSH_IMPL_PATTERNS
+                    gr.Markdown(
+                        "### 3 Production Patterns for Long-Running Symbolic Computation Agents\n\n"
+                        "These patterns generalise the Claude Science Harness to any domain "
+                        "requiring sustained autonomous symbolic reasoning."
+                    )
+                    for p in CSH_IMPL_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (Claude Science):** Long-horizon symbolic computation is now accessible "
+                "at research-team budgets. The nine-loop calculation cost under $2,000 — less than "
+                "a single day of human expert time — and took one week on 96 CPUs. "
+                "The same five-stage harness (Formulate → Generate → Verify → Iterate → Synthesise) "
+                "applies to theorem proving, formal verification, and any computation with a "
+                "well-defined correctness criterion.\n\n"
+                "**Applicable to:** Autonomous research agents, symbolic math pipelines, "
+                "formal verification harnesses, long-running code generation with self-healing loops."
             )
 
 if __name__ == "__main__":
