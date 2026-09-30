@@ -7856,5 +7856,77 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "formal verification harnesses, long-running code generation with self-healing loops."
             )
 
+        # ── Tab 44: ScientistTwo — Autonomous Research Agent ──────────────────
+        with gr.Tab("🤖 ScientistTwo: Autonomous Research"):
+            gr.Markdown(
+                "## 🤖 ScientistTwo: Google's Autonomous Research Agent\n\n"
+                "**Source:** AlphaSignal Signal · 2026-09-29 · news@alphasignal.ai · Score **9/10**\n\n"
+                "Google's **ScientistTwo** autonomously generates hypotheses, runs experiments, "
+                "analyses results, and writes papers — **outperforming human submissions by 25%** "
+                "across 86 NeurIPS-style tasks. Total cost: ~$800/paper. Total runtime: ~32 hours. "
+                "The five-stage pipeline (Hypothesis → Design → Code → Analyse → Write) is directly "
+                "applicable to any ML R&D workflow where exhaustive ablations and multi-round "
+                "self-critique are the bottleneck.\n\n"
+                "**Use when:** you need to explore a research direction, run a full ablation grid, "
+                "or produce a reproducible paper-quality write-up without weeks of human effort."
+            )
+
+            with gr.Tabs():
+
+                # ── Sub-tab 1: Architecture ────────────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    from scientist_two import architecture_html as st2_arch_html
+                    gr.HTML(st2_arch_html())
+
+                # ── Sub-tab 2: Benchmarks ──────────────────────────────────────
+                with gr.Tab("📊 Benchmarks"):
+                    from scientist_two import benchmark_html as st2_bench_html
+                    gr.HTML(st2_bench_html())
+
+                # ── Sub-tab 3: Mini Research Demo ──────────────────────────────
+                with gr.Tab("⚙️ Research Demo"):
+                    from scientist_two import demo_task_html as st2_demo_html, demo_task_labels as st2_task_labels
+                    st2_labels = st2_task_labels()
+                    st2_task_dd = gr.Dropdown(
+                        choices=st2_labels,
+                        value=st2_labels[0],
+                        label="Select research task",
+                    )
+                    st2_demo_out = gr.HTML(st2_demo_html(0))
+
+                    def _st2_update_demo(choice: str):
+                        idx = st2_labels.index(choice) if choice in st2_labels else 0
+                        return st2_demo_html(idx)
+
+                    st2_task_dd.change(
+                        fn=_st2_update_demo,
+                        inputs=[st2_task_dd],
+                        outputs=[st2_demo_out],
+                    )
+
+                # ── Sub-tab 4: Implementation Patterns ────────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from scientist_two import IMPL_PATTERNS as ST2_IMPL_PATTERNS
+                    gr.Markdown(
+                        "### 3 Production Patterns for Autonomous Research Agents\n\n"
+                        "These patterns mirror the ScientistTwo pipeline. Drop them into any "
+                        "ML R&D workflow to automate hypothesis testing, ablation grids, "
+                        "and paper writing."
+                    )
+                    for p in ST2_IMPL_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (ScientistTwo):** The 25% improvement over human papers comes from two "
+                "places: (1) exhaustive ablations that humans skip under time pressure — ScientistTwo "
+                "runs every config; (2) multi-round self-critique against a reviewer rubric — the "
+                "agent rewrites each section 3× before submission. Cost per paper (~$800) is less "
+                "than one hour of a senior researcher's time.\n\n"
+                "**Applicable to:** Autonomous ML research pipelines, A/B experiment harnesses, "
+                "reproducibility bots, automated literature surveys, self-improving RAG systems."
+            )
+
 if __name__ == "__main__":
     demo.launch()

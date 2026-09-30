@@ -1,5 +1,30 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-29 · Implemented Tab 43: Claude Science Harness (9-loop physics, score 8/10). All 43 tabs up to date.
+Last updated: 2026-09-30 · Implemented Tab 44: ScientistTwo Autonomous Research Agent (score 9/10). All 44 tabs up to date.
+
+## New Papers (this run — 2026-09-30)
+
+### 🔴 [Google's autonomous research agent outperforms human papers on 86 tasks by 25%] — Score 9/10
+> ScientistTwo: a 5-stage autonomous research pipeline (Hypothesis Generation → Experimental Design → Code & Execution → Results Analysis → Paper Writing) that generates papers beating human NeurIPS submissions by 25% across 86 ML tasks. Key advantage: exhaustive ablations and 3-round reviewer-rubric self-critique — steps humans routinely skip. Cost: ~$800/paper. Runtime: ~32 hours. 53 parallel agents across stages. Directly implementable for autonomous ML R&D, A/B harnesses, and reproducibility pipelines.
+> **Source:** AlphaSignal Signal · 2026-09-29 · news@alphasignal.ai · 1,820 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: 5-stage pipeline with agent counts, inputs/outputs, KPI tiles; (2) Benchmarks: 86-task results by category + quality dimension breakdown vs human baseline; (3) Research Demo: interactive trace of 4 simulated research tasks through the full pipeline; (4) Implementation Patterns: 3 drop-in patterns (hypothesis loop, parallel ablation agent, self-critiquing paper writer).
+**Implemented:** Yes — `hf-space/scientist_two/` · Tab 44 in `hf-space/app.py` (2026-09-30)
+
+### ⚪ [Anthropic releases Claude Sonnet 5.5, 30% faster and 30% cheaper than its predecessor] — Score 5/10
+> Product release: Sonnet 5.5 scores 70.6% on Terminal-Bench 4.0 (vs 10.3% for Sonnet 5), with 1M token context, 128K output. 30% cost reduction per task. No novel algorithmic technique; relevant as a model upgrade signal.
+> **Source:** AlphaSignal Top News · 2026-09-29 · news@alphasignal.ai · 66,454 likes · Scored via Gmail MCP connector
+
+### ⚪ [CodeAF: nearly 4x Claude Code's solves, same model] — Score 7/10
+> Open-source coding harness for open models (DeepSeek, Qwen, GLM, Kimi). Solves ~4× more SWE-bench issues than Claude Code at ~50% lower cost per solve. Pattern similar to Prime Intellect Harness (Tab 25) and Shopify Flywheel (Tab 31). Score below implementation threshold.
+> **Source:** AlphaSignal Deep Dive · 2026-09-29 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Typesafe AI's new CLI cuts coding agent costs by 40% on SWE-bench] — Score 7/10
+> New CLI tool for the Jev/Laya/CLM System One model stack that reduces coding agent costs by 40%. Extends the System One story (Tab 42). Below implementation threshold; no novel orchestration technique beyond Tab 42.
+> **Source:** AlphaSignal Signal · 2026-09-29 · news@alphasignal.ai · 4,747 likes · Scored via Gmail MCP connector
+
+### ⚪ [IST-DASLab shrinks a 354 GB coding model to 58 GB by pruning half its experts] — Score 6/10
+> MoE expert pruning: drops 50% of experts from a 354 GB coding model, reducing to 58 GB with minimal quality loss. Technique is domain-specific (MoE compression); not a drop-in RAG or agent pattern.
+> **Source:** AlphaSignal Signal · 2026-09-29 · news@alphasignal.ai · 5,522 downloads · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-28)
 
