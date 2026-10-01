@@ -1,5 +1,26 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-09-30 · Implemented Tab 44: ScientistTwo Autonomous Research Agent (score 9/10). All 44 tabs up to date.
+Last updated: 2026-10-01 · Implemented Tab 45: PageIndex Tree-Based RAG (score 9/10). All 45 tabs up to date.
+
+## New Papers (this run — 2026-10-01)
+
+### 🔴 [Tree search framework hits 98.7% on documents where vector search fails] — Score 9/10
+> **PageIndex**: open-source framework that replaces chunking + embedding + cosine search with tree-structured document indexing. Reads the full document once, builds a hierarchical tree (like a smart table of contents), then lets the LLM reason through that tree at query time. 98.7% on FinanceBench vs 61% for the best GPT-4 + vector-RAG baseline. No vector DB, no embeddings, no chunking decisions. Pip-installable, MCP-compatible. Directly applicable to any structured-document RAG pipeline: financial reports, legal contracts, technical manuals.
+> **Source:** AlphaSignal Top Repo · 2026-09-30 · news@alphasignal.ai · 4,598 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Live Demo: select doc + enter query → see document tree + retrieved sections; (2) Benchmarks: PageIndex vs GPT-4+VecRAG vs BM25 vs DPR across 3 benchmarks; (3) How It Works: tree traversal algorithm, chunking comparison, when to use each; (4) Implementation Patterns: 3 drop-in patterns (drop-in replacement, hybrid routing, MCP tool).
+**Implemented:** Yes — `hf-space/page_index/` · Tab 45 in `hf-space/app.py` (2026-10-01)
+
+### ⚪ [OpenAI ships GPT-6.1 Sol at 80% less cost with near-flagship performance] — Score 5/10
+> Product release: GPT-6.1 Sol matches Astra on coding at $0.65/task vs $3.92 for Astra. Cached input: $0.10/M tokens. No novel algorithmic technique; relevant as a cost-efficiency signal.
+> **Source:** AlphaSignal Top News · 2026-09-30 · news@alphasignal.ai · 23,168 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships Decisions API — route/classify with GPT-6 Luna at 150ms] — Score 7/10
+> New classification API (150ms vs 1.6s for Luna). System One-style typed decisions (Tab 42 covers the broader pattern). Limited API access. Score below implementation threshold; extends Tab 42 story.
+> **Source:** AlphaSignal Top News · 2026-09-30 · news@alphasignal.ai · 4,494 likes · Scored via Gmail MCP connector
+
+### ⚪ [Meta's training trick doubles Qwen3-8B math accuracy while cutting output length] — Score 7/10
+> GRPO-based training trick that doubles math benchmark accuracy while reducing output tokens. Interesting but requires training access; not a plug-in inference pattern.
+> **Source:** AlphaSignal Signals · 2026-09-30 · news@alphasignal.ai · 625 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-09-30)
 

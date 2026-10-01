@@ -7928,5 +7928,87 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "reproducibility bots, automated literature surveys, self-improving RAG systems."
             )
 
+        # ── Tab 45: PageIndex ─────────────────────────────────────────────────
+        with gr.Tab("🌳 PageIndex: Tree-Based RAG"):
+            gr.Markdown(
+                "## 🌳 PageIndex: Tree-Based Document Retrieval\n"
+                "*Source: AlphaSignal · 2026-09-30 · 4,598 likes · Score 9/10 · Implemented 2026-10-01*\n\n"
+                "**Key insight:** Instead of chunking + embedding + cosine search, PageIndex builds a "
+                "hierarchical tree from the document and reasons through it. "
+                "**98.7% on FinanceBench** vs 61% for the best vector-RAG baseline."
+            )
+            from page_index import build_tab as _pi_build
+            _pi_build_inner = _pi_build  # imported; tab content built inline below
+
+            with gr.Tabs():
+
+                with gr.Tab("🔍 Live Demo"):
+                    from page_index import SAMPLE_DOCS as PI_DOCS, PageIndex as _PI
+                    gr.Markdown("Select a document and enter a query.")
+                    with gr.Row():
+                        pi_doc_dd = gr.Dropdown(choices=list(PI_DOCS.keys()),
+                                                value=list(PI_DOCS.keys())[0],
+                                                label="Document", scale=2)
+                        pi_query  = gr.Textbox(label="Query",
+                                               placeholder="e.g. 'What was gross margin in FY2025?'",
+                                               scale=3)
+                    pi_btn = gr.Button("🔍 Search", variant="primary")
+                    with gr.Row():
+                        with gr.Column(scale=1):
+                            gr.Markdown("### Document Tree")
+                            pi_tree = gr.Markdown()
+                        with gr.Column(scale=2):
+                            gr.Markdown("### Retrieved Sections")
+                            pi_results = gr.Markdown()
+
+                    def _pi_search(doc_name, query):
+                        from page_index import _do_search
+                        return _do_search(doc_name, query)
+
+                    pi_btn.click(fn=_pi_search, inputs=[pi_doc_dd, pi_query],
+                                 outputs=[pi_tree, pi_results])
+
+                    gr.Examples(examples=[
+                        ["Acme Corp Annual Report 2025", "What was the gross margin in FY2025?"],
+                        ["Acme Corp Annual Report 2025", "What are the GPU supply chain risks?"],
+                        ["Acme Corp Annual Report 2025", "What is the FY2026 revenue guidance?"],
+                        ["PageIndex Paper Summary", "How does tree traversal work at query time?"],
+                        ["PageIndex Paper Summary", "What is the FinanceBench accuracy?"],
+                        ["AI Safety Research 2025", "What is scalable oversight?"],
+                    ], inputs=[pi_doc_dd, pi_query])
+
+                with gr.Tab("📊 Benchmarks"):
+                    from page_index import BENCHMARK_DATA as PI_BENCH
+                    gr.Markdown("### PageIndex vs Vector RAG Accuracy (%)")
+                    pi_bench_btn = gr.Button("Load Benchmark Data", variant="primary")
+                    pi_bench_out = gr.Dataframe(interactive=False, wrap=True)
+
+                    def _pi_bench():
+                        from page_index import _benchmark_table
+                        return _benchmark_table()
+
+                    pi_bench_btn.click(fn=_pi_bench, inputs=[], outputs=[pi_bench_out])
+
+                with gr.Tab("🧠 How It Works"):
+                    from page_index import CONCEPTS_MD as PI_CONCEPTS
+                    gr.Markdown(PI_CONCEPTS)
+
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from page_index import IMPL_PATTERNS as PI_PATTERNS
+                    gr.Markdown("### 3 Production Patterns for PageIndex")
+                    for p in PI_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (PageIndex):** 98.7% on FinanceBench because financial questions "
+                "require navigating to a specific table cell — vector chunking splits these, but "
+                "PageIndex preserves section hierarchy. No embeddings, no vector DB, no chunking. "
+                "Open source: `pip install pageindex`.\n\n"
+                "**Applicable to:** Annual reports, 10-K filings, legal contracts, technical manuals, "
+                "any structured document where sections have hierarchical relationships."
+            )
+
 if __name__ == "__main__":
     demo.launch()
