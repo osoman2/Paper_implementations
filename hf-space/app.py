@@ -8010,5 +8010,78 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "any structured document where sections have hierarchical relationships."
             )
 
+        # ── Tab 46: CLM Self-Managed Context ─────────────────────────────────────
+        with gr.Tab("🧠 CLM: LLM Self-Managed Context"):
+            gr.Markdown(
+                "## 🧠 CLM: LLMs Managing Their Own Context\n"
+                "*Source: AlphaSignal Signal · 2026-10-01 · 1,055 likes · Score 8/10 · Implemented 2026-10-02*\n\n"
+                "**Key insight:** Instead of human-designed scoring rules, the LLM itself classifies each "
+                "conversation segment as ANCHOR / KEEP / COMPRESS / DROP before each call. "
+                "**+47.6% task accuracy** vs. the best human-designed context strategy."
+            )
+
+            with gr.Tabs():
+
+                with gr.Tab("🏗️ Architecture"):
+                    from clm_context import ARCH_MD as CLM_ARCH
+                    gr.Markdown(CLM_ARCH)
+
+                with gr.Tab("📊 Benchmarks"):
+                    from clm_context import benchmark_chart_html as _clm_chart
+                    clm_chart_html = gr.HTML(value=_clm_chart())
+                    from clm_context import BENCHMARK_ROWS as CLM_BENCH
+                    gr.Dataframe(
+                        value=CLM_BENCH,
+                        label="Strategy comparison",
+                        interactive=False,
+                        wrap=True,
+                    )
+
+                with gr.Tab("⚙️ Live Demo"):
+                    gr.Markdown(
+                        "Enter a query and see how CLM classifies the 10-turn RAG planning conversation. "
+                        "The LLM would anchor goal turns, keep relevant ones verbatim, compress background, "
+                        "and drop off-task exchanges — saving 40–75% of context tokens."
+                    )
+                    clm_query_input = gr.Textbox(
+                        label="Current query",
+                        placeholder="e.g. 'How do I tune the alpha parameter for hybrid search?'",
+                    )
+                    clm_run_btn = gr.Button("🧠 Run CLM Classification", variant="primary")
+                    clm_output  = gr.Markdown()
+
+                    def _clm_run(q):
+                        from clm_context import run_clm_demo
+                        return run_clm_demo(q)
+
+                    clm_run_btn.click(fn=_clm_run, inputs=[clm_query_input], outputs=[clm_output])
+
+                    gr.Examples(
+                        examples=[
+                            ["How do I tune the alpha parameter for hybrid search?"],
+                            ["What embedding model should I use?"],
+                            ["How do I keep the pipeline fresh as new tickets arrive?"],
+                            ["What's the minimum viable test harness?"],
+                        ],
+                        inputs=[clm_query_input],
+                    )
+
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from clm_context import IMPL_PATTERNS as CLM_PATTERNS
+                    gr.Markdown("### 3 Drop-In Patterns for CLM Self-Managed Context")
+                    for p in CLM_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (CLM):** Human-designed rules (recency × importance × alignment) are task-agnostic. "
+                "The LLM knows *which* segments matter for *this specific query* — that semantic awareness is "
+                "impossible to encode as a static formula. The reflection call costs ~200 tokens but saves "
+                "thousands per long session.\n\n"
+                "**Applicable to:** Any agent with multi-turn history, RAG chat interfaces, "
+                "coding assistants, research agents, customer support bots — anywhere context bloat degrades accuracy."
+            )
+
 if __name__ == "__main__":
     demo.launch()

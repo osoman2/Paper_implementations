@@ -1,5 +1,68 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-01 · Implemented Tab 45: PageIndex Tree-Based RAG (score 9/10). All 45 tabs up to date.
+Last updated: 2026-10-02 · Implemented Tab 46: CLM Self-Managed Context (score 8/10). All 46 tabs up to date.
+
+## New Papers (this run — 2026-10-02)
+
+### ⚪ [Anthropic opens Claude Code to custom mods written in TypeScript] — Score 4/10
+> Product feature release: TypeScript plugin system for Claude Code (Blast Radius, Token Weather, Replay Theater). Mods hook into the agent loop and draw custom UI. No novel RAG or retrieval algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-02 · news@alphasignal.ai · 16,862 likes · Scored via Gmail MCP connector
+
+### ⚪ [New open-source prompt skill rewrites stiff AI-generated Japanese into natural text] — Score 2/10
+> yomiyasu: domain-specific (Japanese language) text rewriting agent skill. Not applicable to RAG or LLM engineering pipelines.
+> **Source:** AlphaSignal Top Repo · 2026-10-02 · news@alphasignal.ai · 7,335 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI upgrades Codex Security Cloud to scan entire GitHub repos automatically] — Score 3/10
+> Security scanning product update: always-on repo scanning, Daybreak Blue tier, 1M-token context for full-codebase analysis. Product release, not a novel algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-02 · news@alphasignal.ai · 4,388 likes · Scored via Gmail MCP connector
+
+### ⚪ [Cursor adds inline chart and diagram generation directly in chat] — Score 3/10
+> Product feature: Cursor IDE adds chart/diagram rendering in chat. No novel algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-02 · news@alphasignal.ai · 3,753 likes · Scored via Gmail MCP connector
+
+### ⚪ [Mercor post-trains Qwen3.5-397B-A17B to raise Pass@1 by 11.2 on APEX-Agents] — Score 6/10
+> Expert-data post-training boosts agent benchmark performance. Interesting training technique but sponsored content with limited technical detail; score below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-10-02 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Google DeepMind builds a scoring system to measure AI consciousness without solving it first] — Score 4/10
+> Consciousness measurement framework: scoring system for AI consciousness signals. Interesting alignment research but not a drop-in RAG or agent pipeline technique.
+> **Source:** AlphaSignal Signal · 2026-10-02 · news@alphasignal.ai · 590 likes · Scored via Gmail MCP connector
+
+### ⚪ [New diffusion model beats a 6.5x larger model using 4.9x less compute] — Score 5/10
+> Diffusion model efficiency improvement. Interesting compute-efficiency result but for image diffusion, not LLM/RAG pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-02 · news@alphasignal.ai · 444 likes · Scored via Gmail MCP connector
+
+### ⚪ [New 1.58-bit 27B model writes ComfyUI image prompts and fits on a 16 GB GPU] — Score 5/10
+> Extreme quantization (1.58-bit) for a 27B model targeting image prompt generation. Quantization technique is relevant to LLM inference efficiency but use case is image generation.
+> **Source:** AlphaSignal Signal · 2026-10-02 · news@alphasignal.ai · 3,388 downloads · Scored via Gmail MCP connector
+
+## New Papers (this run — 2026-10-01)
+
+### 🔴 [New method lets LLMs manage their own context, beating human-designed strategies by 47.6%] — Score 8/10
+> CLM (Context-managing Language Models): instead of externally-programmed recency/importance/alignment scoring, the LLM itself classifies each conversation segment as ANCHOR/KEEP/COMPRESS/DROP before each call. Beats all human-designed context strategies by 47.6% on multi-turn task accuracy. Drop-in via a lightweight reflection prompt (~200 tokens overhead). Directly applicable to any agent pipeline with long conversation history.
+> **Source:** AlphaSignal Signal · 2026-10-01 · news@alphasignal.ai · 1,055 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: human-designed vs CLM classification comparison; (2) Benchmarks: task accuracy + token efficiency chart across 5 strategies; (3) Live Demo: classify a 10-turn RAG planning conversation for any query; (4) Implementation Patterns: 3 patterns (inline wrapper, session with anchors, async with caching).
+**Implemented:** Yes — `hf-space/clm_context/` · Tab 46 in `hf-space/app.py` (2026-10-02)
+
+### ⚪ [Google DeepMind unveils Gemini 4 Argon with 1M token output for complex workflows] — Score 4/10
+> Model release: 1M output tokens, Fairwind-only restricted launch, $2/$10 per M input/output tokens. No novel algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-01 · news@alphasignal.ai · 38,544 likes · Scored via Gmail MCP connector
+
+### ⚪ [CodeAF: #1 of ten coding harnesses on DeepSWE, 1.9x–26.6x cheaper than rivals] — Score 6/10
+> Open-source coding harness built for open models; beats Claude Code and Codex on DeepSWE cost-per-solve. Similar to existing Tab 25 (Prime Intellect Harness) and Tab 31 (Shopify Flywheel); score below implementation threshold.
+> **Source:** AlphaSignal (AgentField AI) · 2026-10-01 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI launches Ultrafast tier with 8x faster GPT-6 and new GPT-6.1 Sol model] — Score 4/10
+> GPT-6.1 Sol (near-Astra at 1/5 price) + Ultrafast speed tier (300 tokens/sec). Product/pricing release.
+> **Source:** AlphaSignal Top News · 2026-10-01 · news@alphasignal.ai · 8,427 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships major Codex CLI update with voice, parallel agents, and new UI] — Score 3/10
+> Codex CLI feature update: /agents, /fork, /voice, full-screen UI. Product feature, not a novel algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-01 · news@alphasignal.ai · 4,628 likes · Scored via Gmail MCP connector
+
+### ⚪ [Researchers crack encrypted AI reasoning blocks, exposing Anthropic, OpenAI, and Google secrets] — Score 5/10
+> Interpretability finding: researchers can recover information from encrypted chain-of-thought reasoning blocks. Interesting but primarily a security/interpretability finding without a drop-in production technique.
+> **Source:** AlphaSignal Signal · 2026-10-01 · news@alphasignal.ai · 577 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-01)
 
