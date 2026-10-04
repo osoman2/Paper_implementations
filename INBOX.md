@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-03 · Scanned via Gmail MCP (no new emails from sources since 2026-10-02). No new papers scored >= 8. All 46 tabs up to date.
+Last updated: 2026-10-04 · Scanned via Gmail MCP (no new emails from sources since 2026-10-02). No new papers scored >= 8. All 46 tabs up to date.
 
 ## New Papers (this run — 2026-10-02)
 
