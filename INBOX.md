@@ -1,5 +1,28 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-04 · Scanned via Gmail MCP (no new emails from sources since 2026-10-02). No new papers scored >= 8. All 46 tabs up to date.
+Last updated: 2026-10-05 · Scanned via Gmail MCP (2 new emails: 2026-10-04, 2026-10-05). 1 new paper scored >= 8. All 47 tabs up to date.
+
+## New Papers (this run — 2026-10-05)
+
+### ⚪ [🌍 image-blaster turns one photo into a 3D world in 5 min] — Score 4/10
+> Claude Code skill orchestrating Hunyuan 3D rendering + ElevenLabs audio to generate explorable 3D worlds from a single photo. Creative/visual tool — not applicable to RAG, retrieval, or LLM engineering pipelines.
+> **Source:** AlphaSignal Top Repo · 2026-10-05 · news@alphasignal.ai · 18,827 likes · Scored via Gmail MCP connector
+
+### ⚪ [Redis Agent Memory hits 86.5% accuracy on LongMemEval at $0.07/session] — Score 6/10
+> Redis Agent Memory: combines raw conversation evidence with extracted facts, 86.5% on LongMemEval at $0.07/session. Relevant to agent memory design but pattern already covered by Tab 38 (Jev Memory Compaction). Score 6 — below threshold.
+> **Source:** AlphaSignal (Redis sponsored) · 2026-10-05 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [Aleph Alpha open-sources 78B MoE model with 3.5B active params and 1M context (Kolibri-1)] — Score 5/10
+> Apache 2.0, 78B total / 3.46B active, 1M context, vLLM-compatible, OpenAI-compatible API. Model release — no novel algorithmic technique; relevant as a deployment option signal.
+> **Source:** AlphaSignal Top Model · 2026-10-05 · news@alphasignal.ai · 5,119 likes · Scored via Gmail MCP connector
+
+## New Papers (this run — 2026-10-04)
+
+### 🔴 [How AI Agents Are Learning to Rewrite Their Own Stack] — Score 9/10
+> Self-evolving agent stack: SkillOpt (skill document optimization), WikiSkill (agent experience wiki), Self-Harness (132% gain on Terminal-Bench-2.0), Darwin Gödel Machine (archive-based non-linear harness exploration), Hyperagents (Meta, task+meta-agent co-evolution), HarnessX (Xiaomi, model-harness co-evolution), EnvHarness (9-point improvement via adaptive task environments), Raven (EverMind AI, orchestration-layer evolution). Five overlapping paradigms each targeting a different bottleneck in the agent stack — all directly implementable for production agent pipelines.
+> **Source:** AlphaSignal Deep Dive · 2026-10-04 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: 5-layer self-evolving stack with decision guide; (2) DGM Explorer: archive-based variant exploration with non-linear parent sampling; (3) Evolution Simulator: SkillOpt or EnvHarness round-by-round simulation; (4) Implementation Patterns: 4 drop-in patterns (SkillOpt, DGM, EnvHarness, Raven orchestration).
+**Implemented:** Yes — `hf-space/darwin_godel/` · Tab 47 in `hf-space/app.py` (2026-10-05)
 
 ## New Papers (this run — 2026-10-02)
 

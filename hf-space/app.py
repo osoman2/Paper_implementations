@@ -45,6 +45,10 @@ Tabs:
  41. MAttr: Model Attribution for Refusal Behaviour (1% of Weights, 2.9× Better) — score 8/10
  42. System One Models: Jev / Laya / CLM — Fast Typed AI Decisions (444× Cost Reduction) — score 9/10
  43. Claude Science Harness: Nine-Loop Scattering Amplitude (1 week, $1,000–$2,000) — score 8/10
+ 44. ScientistTwo: Google's Autonomous Research Agent (25% above human NeurIPS papers) — score 9/10
+ 45. PageIndex: Tree-Based RAG (98.7% on FinanceBench vs 61% for vector-RAG) — score 9/10
+ 46. CLM: LLM Self-Managed Context (beats human-designed strategies by 47.6%) — score 8/10
+ 47. Darwin Gödel Machine: Self-Evolving Agent Stack (DGM + Hyperagents + EnvHarness + Raven) — score 9/10
 """
 
 import os
@@ -8081,6 +8085,157 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "thousands per long session.\n\n"
                 "**Applicable to:** Any agent with multi-turn history, RAG chat interfaces, "
                 "coding assistants, research agents, customer support bots — anywhere context bloat degrades accuracy."
+            )
+
+        # ── Tab 47: Darwin Gödel Machine — Self-Evolving Agent Stack ─────────
+        with gr.Tab("🧬 Darwin Gödel Machine"):
+            gr.Markdown(
+                "## Darwin Gödel Machine: Self-Evolving Agent Stack\n"
+                "**Source:** AlphaSignal Deep Dive · 2026-10-04 · Score 9/10\n\n"
+                "The frontier of agent engineering is shifting from *manual tuning* to "
+                "*automated self-improvement*. This deep dive covers five overlapping "
+                "approaches — each targeting a different layer of the stack — and shows "
+                "which optimisation surface to tackle first.\n\n"
+                "**Systems covered:** SkillOpt (Microsoft) · WikiSkill (Google) · "
+                "Self-Harness (Shanghai AI Lab) · Darwin Gödel Machine · "
+                "Hyperagents (Meta) · HarnessX (Xiaomi) · EnvHarness · Raven (EverMind AI)"
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Architecture ──────────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    from darwin_godel import STACK_LAYERS, BENCHMARK_DATA
+                    import json as _json
+
+                    gr.Markdown("### The 5-Layer Self-Evolving Agent Stack")
+                    gr.Markdown(
+                        "Each layer targets a different bottleneck. Start with the narrowest "
+                        "optimisation surface that contains your failure mode."
+                    )
+
+                    for layer in STACK_LAYERS:
+                        gr.Markdown(
+                            f"#### {layer['icon']} Layer {STACK_LAYERS.index(layer)+1}: {layer['name']}\n"
+                            f"**System:** {layer['system']}\n\n"
+                            f"{layer['description']}\n\n"
+                            f"- **When to use:** {layer['when_to_use']}\n"
+                            f"- **Gain:** {layer['gain']}\n"
+                            f"- **Cost:** {layer['cost']}"
+                        )
+
+                    gr.Markdown("---\n### Decision Guide: Which Layer First?")
+                    gr.Markdown(
+                        "| Symptom | Start Here |\n"
+                        "|---------|------------|\n"
+                        "| Agent makes procedural mistakes despite having the right tools | Skills (SkillOpt) |\n"
+                        "| Failures in tool use, context management, or verification | Harness (Self-Harness / DGM) |\n"
+                        "| Harness finds strategies the model can't reliably execute | Model-Harness Co-Evolution (HarnessX) |\n"
+                        "| Agent stopped learning from static task set | Environment (EnvHarness) |\n"
+                        "| Individual agents work but coordination is the bottleneck | Orchestration (Raven) |"
+                    )
+
+                # ── Sub-tab 2: DGM Explorer ──────────────────────────────────
+                with gr.Tab("🧬 DGM Explorer"):
+                    from darwin_godel import run_dgm_exploration
+
+                    gr.Markdown(
+                        "### Darwin Gödel Machine: Archive-Based Harness Evolution\n\n"
+                        "DGM treats the harness as an evolvable program. A meta-agent proposes "
+                        "modifications, tests each variant, and stores ALL variants in an archive. "
+                        "Unlike gradient descent, DGM can return to older variants and explore "
+                        "different paths — escaping local optima automatically.\n\n"
+                        "**Key insight:** Non-linear exploration + archive = the meta-agent never "
+                        "discards a variant; it picks the best parent for each new generation "
+                        "based on weighted sampling."
+                    )
+
+                    with gr.Row():
+                        dgm_task = gr.Dropdown(
+                            choices=["SWE-bench (coding)", "Terminal-Bench (shell)", "AppWorld (UI automation)", "RAG pipeline", "Multi-agent coordination"],
+                            value="SWE-bench (coding)",
+                            label="Target Task",
+                        )
+                        dgm_generations = gr.Slider(1, 5, value=3, step=1, label="Generations")
+
+                    dgm_btn = gr.Button("▶ Run DGM Exploration", variant="primary")
+                    dgm_out = gr.Markdown(label="Archive")
+
+                    def _run_dgm(task, gens):
+                        from darwin_godel import run_dgm_exploration
+                        _, log = run_dgm_exploration(task, int(gens))
+                        return log
+
+                    dgm_btn.click(_run_dgm, inputs=[dgm_task, dgm_generations], outputs=dgm_out)
+
+                    gr.Examples(
+                        examples=[["SWE-bench (coding)", 3], ["RAG pipeline", 4], ["Terminal-Bench (shell)", 2]],
+                        inputs=[dgm_task, dgm_generations],
+                    )
+
+                # ── Sub-tab 3: Evolution Simulator ──────────────────────────
+                with gr.Tab("⚙️ Evolution Simulator"):
+                    from darwin_godel import run_skill_opt, run_env_harness
+
+                    gr.Markdown(
+                        "### Simulate SkillOpt or EnvHarness Evolution\n\n"
+                        "Pick a target layer and task type, then simulate multiple rounds "
+                        "of automated optimisation."
+                    )
+
+                    sim_layer = gr.Radio(
+                        choices=["SkillOpt (Skill Layer)", "EnvHarness (Environment Layer)"],
+                        value="SkillOpt (Skill Layer)",
+                        label="Optimisation Layer",
+                    )
+                    with gr.Row():
+                        sim_task = gr.Dropdown(
+                            choices=["RAG Q&A", "Code Generation", "Data Extraction", "Agent Planning"],
+                            value="RAG Q&A",
+                            label="Task Type",
+                        )
+                        sim_rounds = gr.Slider(1, 5, value=3, step=1, label="Rounds")
+
+                    sim_btn = gr.Button("▶ Run Simulation", variant="primary")
+                    sim_out = gr.Markdown(label="Simulation Log")
+
+                    def _run_sim(layer, task, rounds):
+                        from darwin_godel import run_skill_opt, run_env_harness
+                        if "SkillOpt" in layer:
+                            return run_skill_opt(task, int(rounds))
+                        else:
+                            return run_env_harness(task, int(rounds))
+
+                    sim_btn.click(_run_sim, inputs=[sim_layer, sim_task, sim_rounds], outputs=sim_out)
+
+                    gr.Examples(
+                        examples=[
+                            ["SkillOpt (Skill Layer)", "RAG Q&A", 3],
+                            ["EnvHarness (Environment Layer)", "Agent Planning", 3],
+                            ["SkillOpt (Skill Layer)", "Code Generation", 4],
+                        ],
+                        inputs=[sim_layer, sim_task, sim_rounds],
+                    )
+
+                # ── Sub-tab 4: Implementation Patterns ──────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from darwin_godel import IMPL_PATTERNS as DGM_PATTERNS
+
+                    gr.Markdown("### 4 Drop-In Patterns for the Self-Evolving Agent Stack")
+                    for p in DGM_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight (DGM):** Standard harness tuning follows one best-so-far path and "
+                "discards rejected edits. DGM's archive means *every tested variant is a potential "
+                "parent* — the search explores a tree, not a line. Combined with SkillOpt for "
+                "procedural fixes and EnvHarness for task distribution evolution, the full "
+                "self-improving stack removes the most common manual bottlenecks in production "
+                "agent engineering.\n\n"
+                "**Applicable to:** Any agent pipeline, coding harnesses, RAG pipelines, "
+                "multi-agent research systems, browser automation — anywhere manual tuning is "
+                "the bottleneck and execution traces are available."
             )
 
 if __name__ == "__main__":
