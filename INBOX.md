@@ -1,5 +1,39 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-05 · Scanned via Gmail MCP (2 new emails: 2026-10-04, 2026-10-05). 1 new paper scored >= 8. All 47 tabs up to date.
+Last updated: 2026-10-06 · Scanned via Gmail MCP (1 new email: 2026-10-06). 0 new papers scored >= 8. All 47 tabs up to date.
+
+## New Papers (this run — 2026-10-06)
+
+### ⚪ [OpenAI adds invisible text watermarks to ChatGPT to meet EU AI Act rules (textGrain)] — Score 4/10
+> OpenAI textGrain: statistical watermark nudging word choices against a hidden key. EU AI Act compliance — opt-in via API, auto for EU ChatGPT/Codex users. Detection limited to approved researchers. Not implementable for RAG/agent pipelines; regulation-driven content verification signal.
+> **Source:** AlphaSignal Top News · 2026-10-06 · news@alphasignal.ai · 7,160 likes · Scored via Gmail MCP connector
+
+### ⚪ [Reflection releases Beam — 501B open-source model, 4x more inference-efficient than rivals] — Score 5/10
+> MoE architecture: 501B total params, 23B active, 3–4x cheaper than GLM-5.2, Apache 2.0, FP8/NVFP4, 1M token context, built for coding/tool-use/agents. Pure model release — no novel algorithmic technique; relevant as deployment option for cost-sensitive production inference.
+> **Source:** AlphaSignal Top News · 2026-10-06 · news@alphasignal.ai · 6,849 likes · Scored via Gmail MCP connector
+
+### ⚪ [Vals AI uses 90 Claude agents to find two room-temperature magnetic semiconductor candidates in 3 days] — Score 7/10
+> 90+ Claude agents running parallel simulations discovered two room-temperature magnetic semiconductor candidates (KV[Cr(CN)₆] — hidden in literature since 1999 — and YBaMnFeO₅, novel). All inputs/outputs/scripts public with one-command verifier. Interesting multi-agent science pattern but domain-specific (materials science); covered by Tab 40 (claude_bio_agents) and Tab 44 (scientist_two). Score 7 — below threshold.
+> **Source:** AlphaSignal Top News · 2026-10-06 · news@alphasignal.ai · 5,678 likes · Scored via Gmail MCP connector
+
+### ⚪ [DeepSeek open-sources GPU math library cutting token costs by 98%] — Score 5/10
+> Open-source GPU kernel math library from DeepSeek. Infrastructure optimization — not an algorithmic technique for RAG or agent pipelines; relevant to deployment cost monitoring.
+> **Source:** AlphaSignal Signal · 2026-10-06 · news@alphasignal.ai · 3,399 likes · Scored via Gmail MCP connector
+
+### ⚪ [Open-source trick turns iPhone into a Mac GPU, boosting Qwen 27B speed by 40%] — Score 4/10
+> Mobile inference optimization via iPhone-as-GPU offload. Not applicable to production RAG/agent pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-06 · news@alphasignal.ai · 2,718 likes · Scored via Gmail MCP connector
+
+### ⚪ [Princeton's 4B model plays chess at grandmaster level and explains every move] — Score 3/10
+> Domain-specific chess model with explanation capability. Not applicable to AI engineering production systems.
+> **Source:** AlphaSignal Signal · 2026-10-06 · news@alphasignal.ai · 833 likes · Scored via Gmail MCP connector
+
+### ⚪ [New open-source world model predicts molecules, weather, and patients with one framework] — Score 4/10
+> Multi-domain predictive model. Not specifically applicable to RAG or agent engineering pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-06 · news@alphasignal.ai · 816 likes · Scored via Gmail MCP connector
+
+### ⚪ [FlashAttention-3 has a hidden BF16 bug that silently wrecks training after 25B tokens] — Score 2/10
+> Bug report — not a paper or implementable technique.
+> **Source:** AlphaSignal Signal · 2026-10-06 · news@alphasignal.ai · 546 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-05)
 
