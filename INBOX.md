@@ -1,5 +1,31 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-06 · Scanned via Gmail MCP (1 new email: 2026-10-06). 0 new papers scored >= 8. All 47 tabs up to date.
+Last updated: 2026-10-07 · Scanned via Gmail MCP (1 new email: 2026-10-07). 0 new papers scored >= 8. All 47 tabs up to date.
+
+## New Papers (this run — 2026-10-07)
+
+### ⚪ [Mistral drops 1T-parameter open-weight multimodal model beating closed frontier models] — Score 5/10
+> Mistral Large 4 (Le Chonk): MoE architecture, 1T total / 49B active params, 1M context, multimodal (text + image), 160+ languages, Apache 2.0 open weights end of October. Strongest open-weight model outside China on aggregated benchmarks. Pure model release — no novel algorithmic retrieval or agent technique.
+> **Source:** AlphaSignal Top News · 2026-10-07 · news@alphasignal.ai · 38,036 likes · Scored via Gmail MCP connector
+
+### ⚪ [Claude integrates directly into Google Docs, Sheets, and Slides for live editing] — Score 3/10
+> Claude in Google Workspace: sidebar add-on for Docs/Sheets/Slides; accepts suggestions, writes formulas, runs Python on ranges, builds slides. Product feature release — not an algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-10-07 · news@alphasignal.ai · 31,364 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI drops 722 math manuscripts from frontier model advised by top mathematicians] — Score 4/10
+> 722 math papers from an unreleased OpenAI model: 4,000 problems, ~3h compute each, Lean-verified proofs, results on Riemann zeta, Hodge Conjecture, irrationality of pi. Apache 2.0 GitHub repo. Research output — no drop-in RAG or agent pattern.
+> **Source:** AlphaSignal Top News · 2026-10-07 · news@alphasignal.ai · 18,378 likes · Scored via Gmail MCP connector
+
+### ⚪ [New open-source tool lets you monitor Claude Code and Codex agents in real time] — Score 5/10
+> Open-source observability tool for Claude Code and Codex agents: real-time monitoring of agent runs. Relevant to agent debugging but a dev-tooling release, not a novel algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-07 · news@alphasignal.ai · 10,736 likes · Scored via Gmail MCP connector
+
+### ⚪ [New 8B continuous diffusion model matches autoregressive LLMs on math and code] — Score 6/10
+> 8B continuous diffusion LLM that matches autoregressive models on math and code benchmarks. Interesting architecture alternative but no plug-in inference or retrieval pattern; requires training from scratch.
+> **Source:** AlphaSignal Signal · 2026-10-07 · news@alphasignal.ai · 544 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic opens Claude Startups program with $45,000 in credits and tools] — Score 1/10
+> Business/program announcement — not a paper or implementable technique.
+> **Source:** AlphaSignal Signal · 2026-10-07 · news@alphasignal.ai · 13,898 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-06)
 
