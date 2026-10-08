@@ -8238,5 +8238,183 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "the bottleneck and execution traces are available."
             )
 
+        # ── Tab 48: EmbeddingGemma 2 Multimodal Embeddings ──────────────────
+        with gr.Tab("🌐 EmbeddingGemma 2: Multimodal RAG"):
+            gr.Markdown(
+                "## EmbeddingGemma 2: Quantized Multimodal Embeddings\n"
+                "**Source:** AlphaSignal Signal · 2026-10-08 · Score 9/10\n\n"
+                "Unsloth's quantized **EmbeddingGemma 2** puts text, audio, and video into "
+                "the *same 2048-dimensional embedding space* — enabling cross-modal retrieval "
+                "with a single model. Q4_K_M quantization cuts memory 4× vs FP16 while "
+                "losing less than 1.5 MTEB points. Drop-in replacement for text embeddings "
+                "that extends to audio podcasts, meeting recordings, and video clips "
+                "without a separate CLAP or CLIP model.\n\n"
+                "**Key numbers:** MTEB avg 68.1 (Q4) vs 62.3 (text-embedding-3-small) · "
+                "AudioCaps R@10 72.4 · MSR-VTT R@10 64.7 · 12–85ms per embed · 11,470 downloads"
+            )
+
+            with gr.Tabs():
+                # ── Sub-tab 1: Modality Overview ─────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    from embedding_gemma2 import MODALITY_OVERVIEW
+
+                    gr.Markdown("### Three Modalities, One Shared Embedding Space")
+                    gr.Markdown(
+                        "EmbeddingGemma 2 trains all modalities to share a common semantic "
+                        "space — a text description and an audio clip about the same topic "
+                        "land near each other in the index. This means a single vector store "
+                        "can hold documents, podcast episodes, and tutorial videos, all "
+                        "searchable from a plain-text query."
+                    )
+
+                    for m in MODALITY_OVERVIEW:
+                        gr.Markdown(
+                            f"#### {m['icon']} {m['modality']}\n"
+                            f"{m['description']}\n\n"
+                            f"- **Embedding dim:** {m['dim']}\n"
+                            f"- **Max input:** {m.get('max_tokens', str(m.get('max_seconds', '?')) + 's')}\n"
+                            f"- **Embed latency:** ~{m['latency_ms']}ms\n"
+                            f"- **Model size (Q4):** ~{m['model_size_mb']}MB\n"
+                            f"- **Use cases:** {', '.join(m['use_cases'])}"
+                        )
+
+                    gr.Markdown(
+                        "---\n### When to Use EmbeddingGemma 2\n\n"
+                        "| Scenario | Recommendation |\n"
+                        "|----------|----------------|\n"
+                        "| Text-only RAG, cost-sensitive | Q4_K_M on CPU — 4× cheaper than FP16 |\n"
+                        "| Audio/video alongside text | Only model with a shared 3-way space |\n"
+                        "| Multilingual retrieval | Gemma 2 backbone handles 100+ languages |\n"
+                        "| Latency < 20ms for text | Q4_K_M on GPU; batch size ≥ 16 |\n"
+                        "| Already using voyage-2 | Stay — voyage-2 wins on BEIR by 2 pts |"
+                    )
+
+                # ── Sub-tab 2: Benchmarks ────────────────────────────────────
+                with gr.Tab("📊 Benchmarks"):
+                    from embedding_gemma2 import BENCHMARK_DATA
+
+                    gr.Markdown("### Performance Across Modalities and Benchmarks")
+                    gr.Markdown(
+                        "Q4_K_M quantization costs <1.5 points on MTEB while cutting "
+                        "VRAM from ~8GB to ~2GB. On cross-modal retrieval, EmbeddingGemma 2 "
+                        "outperforms CLAP-LAION (audio) and CLIP (video) in its shared space."
+                    )
+
+                    bench_table = (
+                        "| Benchmark | Modality | EmbGemma2 Q4 | EmbGemma2 FP16 | Baseline | Baseline Score |\n"
+                        "|-----------|----------|:------------:|:--------------:|----------|:--------------:|\n"
+                    )
+                    baseline_map = {
+                        "MTEB (Avg)": ("text-embedding-3-small", "text_embedding_3_small"),
+                        "BEIR (Avg NDCG@10)": ("text-embedding-3-small", "text_embedding_3_small"),
+                        "AudioCaps Recall@10": ("CLAP-LAION", "clap_laion"),
+                        "MSR-VTT Recall@10": ("CLIP ViT-L/14", "clip_vit_l14"),
+                        "X-Modal Recall@10 (any→any)": ("ImageBind", "imagebind"),
+                    }
+                    for row in BENCHMARK_DATA:
+                        bl_name, bl_key = baseline_map.get(row["benchmark"], ("—", None))
+                        bl_score = row.get(bl_key, "—") if bl_key else "—"
+                        bench_table += (
+                            f"| {row['benchmark']} | {row['modality']} | "
+                            f"**{row['embedding_gemma2_q4']}** | {row['embedding_gemma2_fp16']} | "
+                            f"{bl_name} | {bl_score} |\n"
+                        )
+
+                    gr.Markdown(bench_table)
+                    gr.Markdown(
+                        "> **Key takeaway:** Q4 quantization loses <1.5 pts vs FP16 across all benchmarks. "
+                        "The shared embedding space enables direct text→audio and text→video retrieval "
+                        "without separate modality-specific models."
+                    )
+
+                # ── Sub-tab 3: Live Demo ─────────────────────────────────────
+                with gr.Tab("🔍 Live Demo"):
+                    gr.Markdown(
+                        "### Cross-Modal Similarity Search\n\n"
+                        "Enter a text query and select which modalities to search. "
+                        "Results are ranked by cosine similarity in the shared 2048-dim space."
+                    )
+
+                    with gr.Row():
+                        eg_query = gr.Textbox(
+                            label="Query",
+                            placeholder="e.g. hybrid search tuning for RAG",
+                            scale=3,
+                        )
+                        eg_mods = gr.CheckboxGroup(
+                            choices=["text", "audio", "video"],
+                            value=["text", "audio", "video"],
+                            label="Modalities",
+                            scale=1,
+                        )
+
+                    with gr.Row():
+                        eg_topk = gr.Slider(1, 6, value=3, step=1, label="Top-K")
+                        eg_btn = gr.Button("🔍 Search", variant="primary")
+
+                    eg_out = gr.Markdown(label="Results")
+
+                    def _eg_search(query, mods, k):
+                        from embedding_gemma2 import run_similarity_demo
+                        return run_similarity_demo(query, mods, int(k))
+
+                    eg_btn.click(_eg_search, inputs=[eg_query, eg_mods, eg_topk], outputs=eg_out)
+
+                    gr.Examples(
+                        examples=[
+                            ["hybrid search BM25 and dense retrieval", ["text", "audio"], 3],
+                            ["agent memory management RAG", ["text", "audio", "video"], 4],
+                            ["LLM evaluation metrics", ["text", "video"], 3],
+                        ],
+                        inputs=[eg_query, eg_mods, eg_topk],
+                    )
+
+                    gr.Markdown("---\n### Multimodal RAG Grounded Answer")
+                    with gr.Row():
+                        rag_q = gr.Textbox(label="Question", placeholder="e.g. how to tune chunking?", scale=3)
+                        rag_mods = gr.CheckboxGroup(
+                            choices=["text", "audio", "video"],
+                            value=["text", "audio"],
+                            label="Context modalities",
+                            scale=1,
+                        )
+                    rag_btn = gr.Button("💬 Ask", variant="secondary")
+                    rag_out = gr.Markdown(label="Answer")
+
+                    def _rag_ask(q, mods):
+                        from embedding_gemma2 import run_rag_retrieval_demo
+                        return run_rag_retrieval_demo(q, mods)
+
+                    rag_btn.click(_rag_ask, inputs=[rag_q, rag_mods], outputs=rag_out)
+
+                    gr.Examples(
+                        examples=[
+                            ["how to implement hybrid search?", ["text", "audio"]],
+                            ["what embedding model for low latency?", ["text", "video"]],
+                        ],
+                        inputs=[rag_q, rag_mods],
+                    )
+
+                # ── Sub-tab 4: Implementation Patterns ──────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from embedding_gemma2 import IMPL_PATTERNS as EG2_PATTERNS
+
+                    gr.Markdown("### 3 Drop-In Patterns for Multimodal RAG with EmbeddingGemma 2")
+                    for p in EG2_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight:** The Q4_K_M quantization from Unsloth makes a "
+                "3-modality embedding model runnable on consumer hardware (CPU or a single "
+                "4GB GPU) with minimal accuracy loss. The shared embedding space removes "
+                "the need for separate CLAP + CLIP + text embedding pipelines — a single "
+                "index handles all content types, and any query modality retrieves any "
+                "content modality.\n\n"
+                "**Applicable to:** Multimodal knowledge bases, podcast search, video "
+                "clip retrieval, cross-modal Q&A, enterprise wikis with mixed content."
+            )
+
 if __name__ == "__main__":
     demo.launch()

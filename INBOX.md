@@ -1,5 +1,42 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-07 · Scanned via Gmail MCP (1 new email: 2026-10-07). 0 new papers scored >= 8. All 47 tabs up to date.
+Last updated: 2026-10-08 · Scanned via Gmail MCP (1 new email: 2026-10-08). 1 new paper scored >= 8. All 48 tabs up to date.
+
+## New Papers (this run — 2026-10-08)
+
+### 🔴 [Unsloth releases quantized EmbeddingGemma 2 with multimodal support for text, audio, and video] — Score 9/10
+> Quantized multimodal embedding model (EmbeddingGemma 2 Q4_K_M) that embeds text, audio, and video into the same 2048-dim space — enabling cross-modal RAG retrieval with a single model. MTEB avg 68.1 (Q4) vs 62.3 for text-embedding-3-small; AudioCaps R@10 72.4 vs 68.2 for CLAP-LAION; MSR-VTT R@10 64.7. Drop-in for any vector store accepting float32 vectors.
+> **Source:** AlphaSignal Signal · 2026-10-08 · news@alphasignal.ai · 11,470 downloads · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: 3-modality overview and shared embedding space; (2) Benchmarks: MTEB/AudioCaps/MSR-VTT comparison table; (3) Live Demo: cross-modal similarity search across text/audio/video corpus; (4) Implementation Patterns: 3 drop-in patterns (text-only, cross-modal retrieval, full multimodal RAG pipeline).
+**Implemented:** Yes — `hf-space/embedding_gemma2/` · Tab 48 in `hf-space/app.py` (2026-10-08)
+
+### ⚪ [Anthropic drops Claude Haiku 5.5, its fastest small model at 75% lower cost] — Score 4/10
+> Product pricing release: $0.10/M input, $0.50/M output, 90% cheaper than Haiku 4.5 for prompts under 100K tokens. No novel algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-10-08 · news@alphasignal.ai · 39,062 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI ships GPT-6 with interactive visuals, buttons, and tools inside ChatGPT] — Score 1/10
+> Product feature release: interactive UI elements generated dynamically in chat. No novel algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-08 · news@alphasignal.ai · 25,270 likes · Scored via Gmail MCP connector
+
+### ⚪ [Google Labs launches Playground, a no-code AI game creation tool] — Score 1/10
+> Product release: natural language → game, no code required. Not applicable to RAG or agent engineering.
+> **Source:** AlphaSignal Top News · 2026-10-08 · news@alphasignal.ai · 21,415 likes · Scored via Gmail MCP connector
+
+### ⚪ [New hierarchical world model boosts robot planning success from 18% to 73%] — Score 3/10
+> Hierarchical world model for robotic control — domain-specific (embodied robotics), lacks LLM/retrieval component for RAG engineering.
+> **Source:** AlphaSignal Signal · 2026-10-08 · news@alphasignal.ai · 545 likes · Scored via Gmail MCP connector
+
+### ⚪ [Stanford's new diffusion method generates images up to 4.6x faster] — Score 2/10
+> Image generation acceleration technique — unrelated to LLM inference, RAG, or retrieval pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-08 · news@alphasignal.ai · 707 likes · Scored via Gmail MCP connector
+
+### ⚪ [Free open-source kit turns a single image into a rigged 3D character model] — Score 1/10
+> 3D modeling tool — domain-specific computer vision, not applicable to RAG or LLM engineering.
+> **Source:** AlphaSignal Signal · 2026-10-08 · news@alphasignal.ai · 7,664 likes · Scored via Gmail MCP connector
+
+### ⚪ [Google ships image generation model with mask editing and sharper visual design] — Score 1/10
+> Image generation model release — not applicable to RAG or LLM pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-08 · news@alphasignal.ai · 6,980 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-07)
 
