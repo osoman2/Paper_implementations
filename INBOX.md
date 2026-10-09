@@ -1,5 +1,39 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-08 · Scanned via Gmail MCP (1 new email: 2026-10-08). 1 new paper scored >= 8. All 48 tabs up to date.
+Last updated: 2026-10-09 · Scanned via Gmail MCP (1 new email: 2026-10-09). 0 new papers scored >= 8. All 48 tabs up to date.
+
+## New Papers (this run — 2026-10-09)
+
+### ⚪ [Anthropic ships Claude Dashboards and Motion to turn data into live charts and animations] — Score 3/10
+> Product feature release: Claude Dashboards connects to BigQuery/Snowflake/Salesforce for plain-English queries that auto-build live charts; Motion generates editable code-based animations. No novel algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-10-09 · news@alphasignal.ai · 31,872 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI opens Decisions API beta, routing model choices 10x faster than GPT-6 Luna] — Score 7/10
+> POST /v1/decisions returns Predicate/Choice/Score typed answers at $0.10/M input with free output tokens — extends the System One/Jev pattern (Tab 42) to OpenAI's production API; no novel technique beyond existing Tab 42 coverage.
+> **Source:** AlphaSignal Top News · 2026-10-09 · news@alphasignal.ai · 6,207 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic opens Claude to verified security pros for offensive pen testing] — Score 2/10
+> CVP (Cyber Verification Program) tiered access for pen testing — policy/product announcement, not an algorithmic technique.
+> **Source:** AlphaSignal Top News · 2026-10-09 · news@alphasignal.ai · 5,780 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic ships built-in browser and computer control to Claude's Python and TypeScript SDKs] — Score 5/10
+> SDK-level computer-use and browser-control APIs for Python/TypeScript — product feature release; no novel retrieval or agent-pipeline algorithm beyond existing computer-use patterns.
+> **Source:** AlphaSignal Signal · 2026-10-09 · news@alphasignal.ai · 5,321 likes · Scored via Gmail MCP connector
+
+### ⚪ [Dev rewrites TypeScript compiler in Rust using $20k of Claude in two weeks] — Score 4/10
+> Large-scale refactoring case study using Claude; no novel RAG or agent pipeline algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-09 · news@alphasignal.ai · 5,732 likes · Scored via Gmail MCP connector
+
+### ⚪ [Quantized GLM model runs on two desktop NVIDIA DGX Sparks at 71.8 tok/s] — Score 4/10
+> Consumer desktop inference benchmark — hardware-specific result, not a novel RAG or agent pipeline algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-09 · news@alphasignal.ai · 5,422 downloads · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI's Navier-Stokes proof has a flaw, its Lean verification doesn't match the actual argument] — Score 1/10
+> Mathematical proof critique — not an AI engineering or RAG technique.
+> **Source:** AlphaSignal Signal · 2026-10-09 · news@alphasignal.ai · 3,908 likes · Scored via Gmail MCP connector
+
+### ⚪ [Chandra OCR creator calls out repo that copied model, dropped accuracy by 2 points] — Score 1/10
+> Attribution and model copying dispute — not an implementable technique.
+> **Source:** AlphaSignal Signal · 2026-10-09 · news@alphasignal.ai · 2,612 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-08)
 
