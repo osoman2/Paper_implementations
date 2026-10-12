@@ -8416,5 +8416,119 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "clip retrieval, cross-modal Q&A, enterprise wikis with mixed content."
             )
 
+        # ── Tab 49: KV Cache Techniques for Multi-Model Agents ─────────────────
+        with gr.Tab("⚡ KV Cache Multi-Model Agents"):
+            gr.Markdown(
+                "## ⚡ KV Cache Techniques for Faster Multi-Model Agents\n"
+                "**Source:** AlphaSignal Deep Dive · 2026-10-12 · Score 9/10\n\n"
+                "Every time an agent hands work between models it pays a *prefill tax* — "
+                "the new model re-reads the entire accumulated context from scratch. "
+                "Two complementary techniques eliminate most of that cost:\n\n"
+                "| Technique | Use case | Speedup |\n"
+                "|---|---|---|\n"
+                "| **Nvidia cross-model KV cache transfer** | Model switching (e.g. 14B → 32B) | **25×** |\n"
+                "| **Cache-2-Cache (C2C)** | Specialist delegation (parallel agents) | **2.5× avg** |"
+            )
+            with gr.Tabs():
+                # ── Sub-tab 1: Architecture ──────────────────────────────────
+                with gr.Tab("🏗️ Architecture"):
+                    from kv_cache_multimodel import TECHNIQUES
+
+                    for tech in TECHNIQUES:
+                        gr.Markdown(
+                            f"### {tech['icon']} {tech['name']}\n\n"
+                            f"**Source:** {tech['source']}  |  "
+                            f"**Use case:** {tech['use_case']}  |  "
+                            f"**Speedup:** `{tech['speedup']}` ({tech['speedup_detail']})\n\n"
+                            f"**Requirements:** {tech['requirements']}\n\n"
+                            + tech["description"]
+                            + "\n\n---"
+                        )
+
+                # ── Sub-tab 2: Benchmarks ────────────────────────────────────
+                with gr.Tab("📊 Benchmarks"):
+                    from kv_cache_multimodel import benchmark_table_html
+
+                    gr.Markdown("### Measured Results")
+                    gr.HTML(benchmark_table_html())
+                    gr.Markdown(
+                        "\n**Notes:**\n"
+                        "- Cross-model transfer calibrated on 500 × 1,024-token sequences; no GPU training required.\n"
+                        "- C2C fuser trained with both models frozen; only the small projection head learns.\n"
+                        "- Both techniques require access to model weights and KV buffers — closed-model APIs are not supported.\n"
+                        "- A hybrid C2C + text-summary approach consistently outperforms either alone."
+                    )
+
+                # ── Sub-tab 3: Live Demo (Handoff Cost Simulator) ────────────
+                with gr.Tab("⚙️ Handoff Cost Simulator"):
+                    gr.Markdown(
+                        "### Estimate handoff latency for your agent pipeline\n"
+                        "Adjust context size and handoff type to see the potential savings."
+                    )
+                    with gr.Row():
+                        sim_ctx = gr.Slider(
+                            minimum=1_000,
+                            maximum=128_000,
+                            value=32_768,
+                            step=1_000,
+                            label="Context length (tokens)",
+                        )
+                        sim_type = gr.Radio(
+                            choices=["model_switch", "specialist_delegation"],
+                            value="model_switch",
+                            label="Handoff type",
+                        )
+                        sim_out_tokens = gr.Slider(
+                            minimum=20,
+                            maximum=500,
+                            value=80,
+                            step=10,
+                            label="Specialist report tokens (C2C only)",
+                        )
+                    sim_btn = gr.Button("⚡ Calculate", variant="primary")
+                    sim_out = gr.Markdown()
+
+                    def _run_sim(ctx, htype, out_tok):
+                        from kv_cache_multimodel import run_handoff_simulation
+                        return run_handoff_simulation(int(ctx), htype, int(out_tok))
+
+                    sim_btn.click(
+                        _run_sim,
+                        inputs=[sim_ctx, sim_type, sim_out_tokens],
+                        outputs=sim_out,
+                    )
+                    gr.Examples(
+                        examples=[
+                            [32_768, "model_switch", 80],
+                            [8_000, "model_switch", 80],
+                            [64_000, "specialist_delegation", 200],
+                            [4_000, "specialist_delegation", 40],
+                        ],
+                        inputs=[sim_ctx, sim_type, sim_out_tokens],
+                    )
+
+                # ── Sub-tab 4: Implementation Patterns ──────────────────────
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from kv_cache_multimodel import IMPL_PATTERNS as KV_PATTERNS
+
+                    gr.Markdown("### 3 Production Patterns for KV Cache Handoffs")
+                    for p in KV_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight:** The prefill tax scales with context length — at 32K tokens "
+                "it already costs ~7 seconds on an A100. As coding agents accumulate longer "
+                "sessions, every model handoff that skips the rebuild step compounds into "
+                "significant throughput gains. Cross-model KV transfer needs only an offline "
+                "ridge-regression calibration (no GPU training); C2C needs a small trained "
+                "fuser but works across architectures and delivers accuracy improvements on top "
+                "of the latency win.\n\n"
+                "**Applicable to:** Multi-model agent orchestration, long-context coding agents, "
+                "specialist delegation pipelines, cost-optimised inference (route easy tokens to "
+                "small models, hard tokens to large models without rebuild overhead)."
+            )
+
 if __name__ == "__main__":
     demo.launch()

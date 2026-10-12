@@ -1,5 +1,38 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-11 · Scanned via Gmail MCP (0 new emails: 2026-10-11). 0 new papers scored >= 8. All 48 tabs up to date.
+Last updated: 2026-10-12 · Scanned via Gmail MCP (2 new emails: 2026-10-12). 1 new paper scored >= 8. 49 tabs up to date.
+
+## New Papers (this run — 2026-10-12)
+
+### 🔴 [KV cache techniques for faster, cheaper multi-model AI agents] — Score 9/10
+> Two complementary techniques that eliminate the prefill tax on model handoffs: (1) Nvidia cross-model KV cache transfer maps a smaller model's KV cache to a larger one via layer-selection + RoPE-removal + ridge regression — 25× speedup (278 ms vs ~7 s for a 32K-token context) for model switching (Qwen3 14B→32B, Llama 3.1, Ministral 3 families); (2) Cache-2-Cache (C2C) lets a specialist receive a main agent's internal representations without generating text tokens — trained fuser (frozen models), 2.5× avg latency win, +3.1–5.4 pp accuracy over text handoffs. Both techniques apply to any team that controls model weights and KV buffers.
+> **Source:** AlphaSignal Deep Dive · 2026-10-12 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: side-by-side explanation of both techniques; (2) Benchmarks: measured speedup table; (3) Handoff Cost Simulator: estimate latency savings for any context length and handoff type; (4) Implementation Patterns: 3 drop-in patterns (KV calibration, C2C fuser training, adaptive orchestrator).
+**Implemented:** Yes — `hf-space/kv_cache_multimodel/` · Tab 49 in `hf-space/app.py` (2026-10-12)
+
+### ⚪ [Anthropic launches Claude managed agents, coordinating up to 1,000 agents per run] — Score 8/10
+> multiagent_20261001 config: one lead agent writes a plan, splits work into phases, hands off to up to 1,000 parallel worker agents, merges results. Found 66/70 bugs in a 116K-line codebase (vs 27 for a single agent). Architectural pattern directly applicable to large-scale parallel agent pipelines; opt-in via agent config type. Score 8 — relevant but a product/API announcement rather than a novel algorithm; the parallel agent orchestration pattern is covered by Tab 47 (darwin_godel) and Tab 40 (claude_bio_agents).
+> **Source:** AlphaSignal Top News · 2026-10-12 · news@alphasignal.ai · 14,228 likes · Scored via Gmail MCP connector
+
+### ⚪ [AirLLM runs Llama 405B on just 8GB of VRAM with no quantization] — Score 6/10
+> Layer-by-layer inference: loads one layer at a time into GPU memory, 70B on 4GB VRAM, 405B on 8GB, no quantization (full precision). Optional 4-bit mode for up to 3× speed. Supports Llama, Qwen, Mistral, DeepSeek on Linux/Windows/macOS. Deployment-level optimization enabling local inference on consumer hardware — no novel RAG or agent pipeline algorithm.
+> **Source:** AlphaSignal Top Repo · 2026-10-12 · news@alphasignal.ai · 7,292 likes · Scored via Gmail MCP connector
+
+### ⚪ [New study breaks down which coding agent harness components actually improve performance] — Score 7/10
+> Research identifying which specific harness components drive agent benchmark gains. Highly relevant to Tab 47 (darwin_godel) and Tab 34 (self_harness) territory; insufficient technical detail in signal to extract a novel implementable pattern beyond existing tabs. Score 7 — below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-10-12 · news@alphasignal.ai · 3,146 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI's Codex now predicts your next message before you type it] — Score 3/10
+> Closed-API product feature: next-message prediction in Codex. Not implementable for open pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-12 · news@alphasignal.ai · 7,266 likes · Scored via Gmail MCP connector
+
+### ⚪ [New open-source tool turns any mobile app into a callable Python library] — Score 3/10
+> Mobile-to-Python bridge tooling. Tangentially relevant to agent tool calling but not a RAG or retrieval algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-12 · news@alphasignal.ai · 2,606 stars · Scored via Gmail MCP connector
+
+### ⚪ [Baidu open-sources a 3B OCR model that reads 100-page PDFs in one pass] — Score 5/10
+> 3B OCR model reading 100-page PDFs in a single pass. Relevant to document RAG ingestion pipelines but no novel retrieval or agent algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-12 · news@alphasignal.ai · 6,019 likes · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-11)
 
