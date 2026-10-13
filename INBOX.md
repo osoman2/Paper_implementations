@@ -1,5 +1,33 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-12 · Scanned via Gmail MCP (2 new emails: 2026-10-12). 1 new paper scored >= 8. 49 tabs up to date.
+Last updated: 2026-10-13 · Scanned via Gmail MCP (1 new email: 2026-10-13). 0 new papers scored >= 8. 49 tabs up to date.
+
+## New Papers (this run — 2026-10-13)
+
+### ⚪ [🆓 Claude Code free proxy: 53 providers, 1.3B tokens/month] — Score 2/10
+> GitHub proxy routing Claude Code through 53 free AI providers (DeepSeek, Kimi, Groq, Gemini), pooling 1.3B tokens/month. Auto-failover, no restarts. 55k GitHub stars.
+> **Source:** AlphaSignal Top Repo · 2026-10-13 · news@alphasignal.ai · 6,399 likes · Scored via Gmail MCP connector
+
+### ⚪ [Z.ai releases GLM-Legal, a model that matches frontier models on legal tasks] — Score 3/10
+> GLM-Legal: 19.2% all-pass rate on Harvey LAB (24 legal areas), vs 6.7% base. $0.15/task vs $10.55 for Gemini 4 Argon. Domain application (legal), not a novel RAG/agent engineering technique.
+> **Source:** AlphaSignal Top News · 2026-10-13 · news@alphasignal.ai · 5,055 likes · Scored via Gmail MCP connector
+
+### ⚪ [NVIDIA open-sources PersonaPlex-7B voice model that listens and speaks simultaneously] — Score 4/10
+> Single-model duplex voice: <300ms latency, single GPU (<16GB VRAM), beats Gemini Live and Qwen 2.5 Omni. Collapses STT+LM+TTS into one model. MIT license. Voice-agent interface component, but not a RAG or retrieval algorithm.
+> **Source:** AlphaSignal Top Repo · 2026-10-13 · news@alphasignal.ai · 4,348 likes · Scored via Gmail MCP connector
+
+### ⚪ [New open-source framework lets AI agents recursively self-improve across coding, science, and GUI tasks] — Score 7/10
+> RSI-Anything: open-source recursive self-improvement framework for agents across coding, science, and GUI tasks, without human babysitting. Relevant to agent self-improvement pipelines (darwin_godel Tab 47, dream_rsi Tab 37 already cover this pattern). Insufficient technical detail in signal headline to confirm novel implementable technique beyond existing coverage.
+> **Source:** AlphaSignal Signal · 2026-10-13 · news@alphasignal.ai · 1,582 likes · Scored via Gmail MCP connector
+
+### ⚪ [Sakana AI's self-improving model beats its own baseline by 1.6x using virtual agent teams] — Score 6/10
+> Self-improving model using virtual agent teams, 1.6x baseline improvement. Relevant pattern but covered by talking_agents (Tab 39) and darwin_godel (Tab 47). Insufficient novel technique detail.
+> **Source:** AlphaSignal Signal · 2026-10-13 · news@alphasignal.ai · 1,440 likes · Scored via Gmail MCP connector
+
+### ⚪ [Redis helps devs cut LLM and token costs with semantic caching, agent memory, and smarter storage] — Score 5/10
+> Redis product: semantic caching, agent memory, structured storage for LLM applications. Infrastructure tool, not a novel paper algorithm.
+> **Source:** AlphaSignal Signal (sponsored) · 2026-10-13 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+_No papers scored >= 8 this run. All 49 POC tabs remain current._
 
 ## New Papers (this run — 2026-10-12)
 
