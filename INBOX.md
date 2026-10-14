@@ -1,5 +1,41 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-13 · Scanned via Gmail MCP (1 new email: 2026-10-13). 0 new papers scored >= 8. 49 tabs up to date.
+Last updated: 2026-10-14 · Scanned via Gmail MCP (1 new email: 2026-10-14). 0 new papers scored >= 8. 49 tabs up to date.
+
+## New Papers (this run — 2026-10-14)
+
+### ⚪ [Anthropic Scion VCS — Built After AI Agents Pushed Git Past 30,000 Daily Merges] — Score 5/10
+> Custom server-centric VCS (Scion) replacing Git for AI-driven monorepos: 200× CPU/memory improvement, checkout in seconds. Novel infrastructure pattern but not an implementable RAG or agent-pipeline algorithm — an ops/DevOps story for teams at Anthropic's scale.
+> **Source:** AlphaSignal Top News · 2026-10-14 · news@alphasignal.ai · 17,736 likes · Scored via Gmail MCP connector
+
+### ⚪ [Fish Audio Drama 3 — 35B Open-Weight TTS with Word-Level Tone Control] — Score 3/10
+> Open-weight TTS, 3B active of 35B total, 83 languages, word-level emotion/tone control, 89ms to first audio on H200, #1 on Artificial Analysis open-weight TTS leaderboard. Voice model — not relevant to RAG or LLM engineering pipelines.
+> **Source:** AlphaSignal Top News · 2026-10-14 · news@alphasignal.ai · 11,110 likes · Scored via Gmail MCP connector
+
+### ⚪ [Claude Maps 5,285 km of US Roads into Clicker Game for Under $500] — Score 1/10
+> Claude Code skill (pixel-path) generating a coast-to-coast road clicker game from OpenStreetMap + elevation data, 1,185 AI-generated images. Creative use case — not applicable to RAG or LLM engineering.
+> **Source:** AlphaSignal Top Repo · 2026-10-14 · news@alphasignal.ai · 7,108 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic Drops 400+ Free Ready-to-Use Agents and Skills for Claude] — Score 3/10
+> Product release: 400+ pre-built agents and skills. No novel algorithmic technique.
+> **Source:** AlphaSignal Signal · 2026-10-14 · news@alphasignal.ai · 5,900 likes · Scored via Gmail MCP connector
+
+### ⚪ [Gemini 4 Argon Debuts at #1 on APEX-Agents with 88.4% Pass@1] — Score 3/10
+> Model benchmark: Gemini 4 Argon #1 on management consulting tasks at 88.4% Pass@1. No novel algorithm or implementable technique.
+> **Source:** AlphaSignal Signal (Mercor) · 2026-10-14 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+### ⚪ [New Open-Source Toolkit Makes AI Go/No-Go Decisions Auditable and Replayable Offline] — Score 7/10
+> Open-source decision tracing toolkit: makes agent go/no-go decisions auditable with full replay support offline. Relevant to production agent pipelines for compliance and debugging, but a tooling/observability release rather than a novel RAG or retrieval algorithm. Below implementation threshold.
+> **Source:** AlphaSignal Signal · 2026-10-14 · news@alphasignal.ai · 152 stars · Scored via Gmail MCP connector
+
+### ⚪ [LiquidAI Releases 24B Reasoning Model Running On-Device with 2B Active Params] — Score 5/10
+> 24B total / 2B active parameter reasoning model for on-device inference. Efficient architecture but a model release without a novel RAG or agent pipeline algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-14 · news@alphasignal.ai · 2,565 downloads · Scored via Gmail MCP connector
+
+### ⚪ [Leiden University Drops Free 472-Page Textbook on Agentic LLMs] — Score 4/10
+> Educational resource: 472-page open textbook on agentic LLMs. Useful reference but not an implementable technique.
+> **Source:** AlphaSignal Signal · 2026-10-14 · news@alphasignal.ai · 1,051 likes · Scored via Gmail MCP connector
+
+_No papers scored >= 8 this run. All 49 POC tabs remain current._
 
 ## New Papers (this run — 2026-10-13)
 
