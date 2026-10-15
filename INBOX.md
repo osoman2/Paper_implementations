@@ -1,5 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-14 · Scanned via Gmail MCP (1 new email: 2026-10-14). 0 new papers scored >= 8. 49 tabs up to date.
+Last updated: 2026-10-15 · Scanned via Gmail MCP (1 new email: 2026-10-15). 1 new paper scored >= 8. 50 tabs up to date.
+
+## New Papers (this run — 2026-10-15)
+
+### 🔴 [Fork-and-Flush: Simple Trick Boosts Research Agents 66% by Escaping Idea Ruts] — Score 9/10
+> Drop-in applicable: spawn N parallel agent copies from a shared checkpoint, then independently flush each fork's working memory (tool-call history / accumulated scratchpad) on a fixed (every K steps) or adaptive (cosine-similarity trigger) cadence. Each fork resets its direction bias while preserving committed findings. 3-fork + adaptive flush achieves research score 0.83 vs 0.51 for a single agent (+63%) at 2.8× token cost — best efficiency point. Merge step de-duplicates across forks (cosine sim > 0.85) and ranks by novelty × confidence × citation support.
+> **Source:** AlphaSignal newsletter · 2026-10-15 · news@alphasignal.ai · 1,000 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: fork/flush/merge explanation; (2) Benchmarks: score table across setups; (3) Live Simulator: adjustable forks × steps × flush cadence; (4) Implementation Patterns: 3 drop-in asyncio/adaptive/orchestrator patterns.
+**Implemented:** Yes — `hf-space/fork_flush/` · Tab 50 in `hf-space/app.py` (2026-10-15)
 
 ## New Papers (this run — 2026-10-14)
 

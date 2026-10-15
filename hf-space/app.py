@@ -49,6 +49,9 @@ Tabs:
  45. PageIndex: Tree-Based RAG (98.7% on FinanceBench vs 61% for vector-RAG) — score 9/10
  46. CLM: LLM Self-Managed Context (beats human-designed strategies by 47.6%) — score 8/10
  47. Darwin Gödel Machine: Self-Evolving Agent Stack (DGM + Hyperagents + EnvHarness + Raven) — score 9/10
+ 48. EmbeddingGemma 2: Multimodal Embeddings (text + image + audio + video) — score 9/10
+ 49. KV Cache Techniques for Multi-Model Agents (cross-model transfer + C2C) — score 9/10
+ 50. Fork-and-Flush: Parallel Research Agents That Escape Idea Ruts (+66%) — score 9/10
 """
 
 import os
@@ -8528,6 +8531,114 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Applicable to:** Multi-model agent orchestration, long-context coding agents, "
                 "specialist delegation pipelines, cost-optimised inference (route easy tokens to "
                 "small models, hard tokens to large models without rebuild overhead)."
+            )
+
+        # ── Tab 50: Fork-and-Flush — Parallel Research Agents Escaping Idea Ruts ──
+        with gr.Tab("🍴 Fork-and-Flush Agents"):
+            gr.Markdown(
+                "## 🍴 Fork-and-Flush: Parallel Research Agents That Escape Idea Ruts\n"
+                "**Source:** AlphaSignal newsletter · 2026-10-15 · Score 9/10\n\n"
+                "A single research agent that has been exploring direction D will "
+                "preferentially generate follow-up queries *near* D — an **idea rut**. "
+                "The fork-and-flush trick breaks this: spawn N parallel copies of the "
+                "agent from a shared checkpoint, then independently flush each fork's "
+                "working memory on a fixed or adaptive cadence.\n\n"
+                "**Result:** +66% improvement in research quality vs a single agent, "
+                "at only 3× token cost — because forks explore *different* directions "
+                "rather than reinforcing the same one."
+            )
+            with gr.Tabs():
+                # Sub-tab 1: Architecture
+                with gr.Tab("🏗️ Architecture"):
+                    from fork_flush import TECHNIQUE_CARDS
+                    for card in TECHNIQUE_CARDS:
+                        gr.Markdown(
+                            f"### {card['icon']} {card['name']}\n\n"
+                            f"**Summary:** {card['summary']}\n\n"
+                            + card["description"]
+                            + "\n\n---"
+                        )
+
+                # Sub-tab 2: Benchmarks
+                with gr.Tab("📊 Benchmarks"):
+                    from fork_flush import benchmark_table_html as ff_bench_html
+                    gr.Markdown("### Reported Results (AlphaSignal Deep Dive, 2026-10-15)")
+                    gr.HTML(ff_bench_html())
+                    gr.Markdown(
+                        "\n**Notes:**\n"
+                        "- Research score = fraction of ground-truth insights discovered.\n"
+                        "- Adaptive flush triggers when intra-fork query cosine similarity "
+                        "  exceeds 0.88 over a 5-step window.\n"
+                        "- Cost ratio measured in total LLM tokens (input + output) relative "
+                        "  to the single-agent baseline.\n"
+                        "- 3-fork + adaptive flush achieves 0.83 score at only 2.8× cost — "
+                        "  the best efficiency point."
+                    )
+
+                # Sub-tab 3: Live Simulator
+                with gr.Tab("⚙️ Live Simulator"):
+                    gr.Markdown(
+                        "### Simulate fork-and-flush vs single agent\n"
+                        "Adjust parameters and observe the coverage improvement."
+                    )
+                    with gr.Row():
+                        sim_ff_steps = gr.Slider(
+                            minimum=10, maximum=100, value=40, step=5,
+                            label="Steps per fork",
+                        )
+                        sim_ff_forks = gr.Slider(
+                            minimum=1, maximum=6, value=3, step=1,
+                            label="Number of forks",
+                        )
+                        sim_ff_flush = gr.Slider(
+                            minimum=5, maximum=40, value=20, step=5,
+                            label="Flush every N steps",
+                        )
+                        sim_ff_seed = gr.Slider(
+                            minimum=0, maximum=99, value=42, step=1,
+                            label="Random seed",
+                        )
+                    sim_ff_btn = gr.Button("🍴 Run Simulation", variant="primary")
+                    sim_ff_out = gr.Markdown()
+
+                    def _run_ff_sim(steps, forks, flush_every, seed):
+                        from fork_flush import run_fork_flush_simulation
+                        return run_fork_flush_simulation(
+                            int(steps), int(forks), int(flush_every), int(seed)
+                        )
+
+                    sim_ff_btn.click(
+                        _run_ff_sim,
+                        inputs=[sim_ff_steps, sim_ff_forks, sim_ff_flush, sim_ff_seed],
+                        outputs=sim_ff_out,
+                    )
+                    gr.Examples(
+                        examples=[
+                            [40, 3, 20, 42],
+                            [40, 1, 20, 42],
+                            [60, 5, 15, 7],
+                            [30, 3, 10, 13],
+                        ],
+                        inputs=[sim_ff_steps, sim_ff_forks, sim_ff_flush, sim_ff_seed],
+                    )
+
+                # Sub-tab 4: Implementation Patterns
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from fork_flush import IMPL_PATTERNS as FF_PATTERNS
+                    gr.Markdown("### 3 Drop-In Patterns for Fork-and-Flush Agents")
+                    for p in FF_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight:** A single research agent accumulates a *direction bias* — "
+                "each tool call makes subsequent calls more likely to stay near the same "
+                "semantic cluster. Flushing resets the short-term context bias while keeping "
+                "committed findings, giving each fork a fresh exploration trajectory.\n\n"
+                "**Applicable to:** Autonomous research pipelines, RAG query diversification, "
+                "multi-agent science systems, long-horizon coding agents, any task where "
+                "coverage breadth matters more than depth."
             )
 
 if __name__ == "__main__":
