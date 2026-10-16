@@ -1,5 +1,38 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-15 · Scanned via Gmail MCP (1 new email: 2026-10-15). 1 new paper scored >= 8. 50 tabs up to date.
+Last updated: 2026-10-16 · Scanned via Gmail MCP (1 new email: 2026-10-16). 1 new paper scored >= 8. 51 tabs up to date.
+
+## New Papers (this run — 2026-10-16)
+
+### 🔴 [Muse Spark Open: Meta Drops 816B MoE Model — 42B Active Params, 1M Context, Runs Locally on Two Mac Studios] — Score 8/10
+> MoE architecture: 816B total parameters, only 42B active per request (256 specialists, top-8 routing). 1M token context window enables full-corpus-in-context RAG — skip retrieval for corpora under 1M tokens, eliminating chunking errors and retrieval misses. Native multimodal (text + image + video + audio) in a single model. Runs locally on two Apple M5 Ultra Mac Studios via MLX tensor parallelism. Cloud: Groq (ultra-low latency), Together AI, OpenRouter. Fine-tunable via PyTorch. Check Muse Model License for commercial limits.
+> **Source:** AlphaSignal Top News · 2026-10-16 · news@alphasignal.ai · 9,882 likes · Scored via Gmail MCP connector
+
+**POC idea:** 4-sub-tab Gradio demo — (1) Architecture: MoE routing, 1M context implications, multimodal, local inference; (2) Benchmarks: model comparison table; (3) RAG Cost Calculator: full-context vs. retrieval-RAG cost comparison; (4) Implementation Patterns: Groq API, MLX local, long-context RAG.
+**Implemented:** Yes — `hf-space/muse_spark_open/` · Tab 51 in `hf-space/app.py` (2026-10-16)
+
+### ⚪ [Handwired: Open-Source Tool Converts JavaScript Code into a Real Neural Net Without Training] — Score 3/10
+> Code-to-weights converter: if-else statements and loops become differentiable neural net weights. Runs in-browser via WebGPU, searches 100k JSON files in real time. Novel concept (differentiable programming) but not a RAG or LLM agent pipeline technique.
+> **Source:** AlphaSignal Top Repo · 2026-10-16 · news@alphasignal.ai · 9,040 likes · Scored via Gmail MCP connector
+
+### ⚪ [OpenAI Ships GPT-Live-1.1 with 13 New Voices in Six Languages] — Score 2/10
+> Voice model update: 13 new voices across French, German, Hindi, Japanese, Korean, Mexican Spanish + English. More natural accents and handoffs. Voice interface feature — not a RAG or retrieval algorithm.
+> **Source:** AlphaSignal Top News · 2026-10-16 · news@alphasignal.ai · 8,941 likes · Scored via Gmail MCP connector
+
+### ⚪ [Google Releases Gemini 4 Argon, Turning Prompts into Apps, Slides, and 3D Files] — Score 3/10
+> Product feature release: Gemini 4 Argon prompt-to-app/slide/3D capabilities. No novel algorithm.
+> **Source:** AlphaSignal Signal · 2026-10-16 · news@alphasignal.ai · 8,685 likes · Scored via Gmail MCP connector
+
+### ⚪ [GPT-6 Solves 49 of 50 Expert Physics Problems at 98% Accuracy for $3 Each] — Score 4/10
+> Model benchmark: GPT-6 at 98% accuracy on expert physics. Impressive result but not an implementable RAG or agent pipeline technique.
+> **Source:** AlphaSignal Signal · 2026-10-16 · news@alphasignal.ai · 2,053 likes · Scored via Gmail MCP connector
+
+### ⚪ [Meta Releases AudioCraft, Open-Source PyTorch Library for Music and Audio Generation] — Score 2/10
+> Open-source audio/music generation library. Not relevant to RAG or LLM engineering pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-16 · news@alphasignal.ai · 23,715 stars · Scored via Gmail MCP connector
+
+### ⚪ [Black Forest Labs Releases 5.6B Open-Weights Model for Text-to-Image and Multi-Reference Editing] — Score 2/10
+> Image generation model, multi-reference editing. Not relevant to RAG or agent pipelines.
+> **Source:** AlphaSignal Signal · 2026-10-16 · news@alphasignal.ai · 3,241 downloads · Scored via Gmail MCP connector
 
 ## New Papers (this run — 2026-10-15)
 

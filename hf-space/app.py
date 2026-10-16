@@ -52,6 +52,7 @@ Tabs:
  48. EmbeddingGemma 2: Multimodal Embeddings (text + image + audio + video) — score 9/10
  49. KV Cache Techniques for Multi-Model Agents (cross-model transfer + C2C) — score 9/10
  50. Fork-and-Flush: Parallel Research Agents That Escape Idea Ruts (+66%) — score 9/10
+ 51. Muse Spark Open: Meta 816B MoE Model (42B active, 1M context, local inference) — score 8/10
 """
 
 import os
@@ -8639,6 +8640,117 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "**Applicable to:** Autonomous research pipelines, RAG query diversification, "
                 "multi-agent science systems, long-horizon coding agents, any task where "
                 "coverage breadth matters more than depth."
+            )
+
+        # ── Tab 51: Muse Spark Open — Meta 816B MoE Model ──
+        with gr.Tab("🧠 Muse Spark Open (816B MoE)"):
+            gr.Markdown(
+                "## 🧠 Muse Spark Open: Meta's 816B MoE Model\n"
+                "*Source: AlphaSignal Top News · 2026-10-16 · Score 8/10*\n\n"
+                "Meta's **Muse Spark Open** is an 816B parameter Mixture-of-Experts model "
+                "that activates only **42B parameters per request** (256 experts, top-8 routing). "
+                "It features a **1M token context window**, native multimodal input "
+                "(text + image + video + audio), and can run locally on two M5 Ultra Mac Studios "
+                "via the MLX framework — no cloud required.\n\n"
+                "**Why it matters for AI engineering:** The MoE architecture delivers frontier-quality "
+                "outputs at 42B-dense inference cost. The 1M context window changes RAG architecture "
+                "decisions — for many workloads, you can eliminate retrieval entirely."
+            )
+            with gr.Tabs():
+                # Sub-tab 1: Architecture
+                with gr.Tab("🏗️ Architecture"):
+                    from muse_spark_open import ARCHITECTURE_CARDS
+                    for card in ARCHITECTURE_CARDS:
+                        gr.Markdown(
+                            f"### {card['icon']} {card['name']}\n\n"
+                            f"**Summary:** {card['summary']}\n\n"
+                            + card["description"]
+                            + "\n\n---"
+                        )
+
+                # Sub-tab 2: Benchmarks
+                with gr.Tab("📊 Benchmarks"):
+                    from muse_spark_open import benchmark_table_html as ms_bench_html
+                    gr.Markdown("### Model Comparison (2026-10-16)")
+                    gr.HTML(ms_bench_html())
+                    gr.Markdown(
+                        "\n**Notes:**\n"
+                        "- Coding score from internal AlphaSignal benchmarks / published leaderboards.\n"
+                        "- Cost per 1M input tokens from provider pricing pages (October 2026).\n"
+                        "- 'Local' = can run without cloud API on consumer/prosumer hardware.\n"
+                        "- Muse Spark Open active params ≈ 42B (8/256 experts × 816B total).\n"
+                        "- Mistral Large 4 pricing reflects 50% launch discount."
+                    )
+
+                # Sub-tab 3: RAG Cost Calculator
+                with gr.Tab("💰 RAG Cost Calculator"):
+                    gr.Markdown(
+                        "### Full-Context vs. Retrieval-RAG Cost Calculator\n"
+                        "Compare the cost of passing your entire corpus (1M context) vs. "
+                        "using a retrieval index (top-5 × 512-token chunks)."
+                    )
+                    with gr.Row():
+                        calc_docs = gr.Slider(
+                            minimum=10, maximum=10000, value=500, step=10,
+                            label="Number of documents",
+                        )
+                        calc_avg_tokens = gr.Slider(
+                            minimum=100, maximum=5000, value=800, step=100,
+                            label="Avg tokens per document",
+                        )
+                    with gr.Row():
+                        calc_queries = gr.Slider(
+                            minimum=10, maximum=10000, value=1000, step=100,
+                            label="Queries per day",
+                        )
+                        calc_cost = gr.Slider(
+                            minimum=0.05, maximum=5.0, value=0.18, step=0.05,
+                            label="Model cost per 1M input tokens ($)",
+                        )
+                    calc_full_ctx = gr.Checkbox(
+                        value=False,
+                        label="Use full-context strategy (pass entire corpus per query)",
+                    )
+                    calc_btn = gr.Button("💰 Calculate Cost", variant="primary")
+                    calc_out = gr.Markdown()
+
+                    def _calc(docs, avg_tok, queries, cost, full_ctx):
+                        from muse_spark_open import compute_rag_cost
+                        return compute_rag_cost(int(docs), int(avg_tok), int(queries), full_ctx, float(cost))
+
+                    calc_btn.click(
+                        _calc,
+                        inputs=[calc_docs, calc_avg_tokens, calc_queries, calc_cost, calc_full_ctx],
+                        outputs=calc_out,
+                    )
+                    gr.Examples(
+                        examples=[
+                            [500, 800, 1000, 0.18, False],
+                            [100, 2000, 500, 0.18, True],
+                            [50, 4000, 200, 0.18, True],
+                            [5000, 500, 5000, 0.18, False],
+                        ],
+                        inputs=[calc_docs, calc_avg_tokens, calc_queries, calc_cost, calc_full_ctx],
+                    )
+
+                # Sub-tab 4: Implementation Patterns
+                with gr.Tab("🛠️ Implementation Patterns"):
+                    from muse_spark_open import IMPL_PATTERNS as MS_PATTERNS
+                    gr.Markdown("### 3 Drop-In Patterns for Muse Spark Open")
+                    for p in MS_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+
+            gr.Markdown(
+                "---\n"
+                "**Key insight:** The MoE architecture lets Muse Spark Open deliver near-frontier "
+                "quality at ~42B-dense inference cost. Combined with the 1M token context, "
+                "it unlocks a new RAG design point: skip retrieval entirely for corpora that "
+                "fit in context, eliminating chunking errors, retrieval misses, and index "
+                "maintenance overhead.\n\n"
+                "**Applicable to:** Long-document QA, codebase understanding, compliance review, "
+                "multimodal agent pipelines, air-gapped/on-premise deployments requiring "
+                "frontier-quality inference."
             )
 
 if __name__ == "__main__":
