@@ -42,28 +42,48 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           python - <<'PY'
-          import os
+          import os, sys, traceback
           from huggingface_hub import HfApi
 
-          if not os.environ.get("HF_TOKEN"):
-              raise SystemExit("Missing secret HF_TOKEN: add it in Settings > Secrets and variables > Actions, then re-run.")
-          api = HfApi(token=os.environ["HF_TOKEN"])
-          user = api.whoami()["name"]
+          def fail(msg):
+              # ::error:: becomes a run annotation, readable without downloading logs.
+              print(f"::error::{msg}")
+              sys.exit(1)
+
+          token = os.environ.get("HF_TOKEN", "").strip()
+          if not token:
+              fail("Missing secret HF_TOKEN: add it in Settings > Secrets and variables > Actions, then re-run.")
+          api = HfApi(token=token)
+          try:
+              user = api.whoami()["name"]
+          except Exception as e:
+              fail(f"HF token rejected by whoami ({type(e).__name__}): {str(e)[:300]}")
           space_id = os.environ.get("HF_SPACE_ID") or f"{user}/vrl-lab"
 
-          spaces = [s.id for s in api.list_spaces(author=user)]
-          print(f"Spaces under {user}: {spaces}")
+          try:
+              spaces = [s.id for s in api.list_spaces(author=user)]
+              print(f"::notice::Spaces under {user}: {', '.join(spaces) or '(none)'}")
+          except Exception as e:
+              print(f"::warning::Could not list spaces: {str(e)[:200]}")
 
-          api.create_repo(space_id, repo_type="space", space_sdk="gradio", exist_ok=True, private=False)
-          api.upload_folder(
-              folder_path="hf-space",
-              repo_id=space_id,
-              repo_type="space",
-              commit_message=f"Sync from GitHub {os.environ['COMMIT_SHA'][:7]}",
-              ignore_patterns=["**/__pycache__/**", "**/*.pyc"],
-          )
+          try:
+              api.create_repo(space_id, repo_type="space", space_sdk="gradio", exist_ok=True, private=False)
+          except Exception as e:
+              fail(f"create_repo {space_id} failed ({type(e).__name__}): {str(e)[:300]}")
+          try:
+              api.upload_folder(
+                  folder_path="hf-space",
+                  repo_id=space_id,
+                  repo_type="space",
+                  commit_message=f"Sync from GitHub {os.environ['COMMIT_SHA'][:7]}",
+                  ignore_patterns=["**/__pycache__/**", "**/*.pyc"],
+              )
+          except Exception as e:
+              traceback.print_exc()
+              fail(f"upload_folder to {space_id} failed ({type(e).__name__}): {str(e)[:300]}")
+
           url = f"https://huggingface.co/spaces/{space_id}"
-          print(f"Deployed: {url}")
+          print(f"::notice::Deployed {url}")
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(f"Space deployed: {url}\n")
           PY
