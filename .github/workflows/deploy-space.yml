@@ -5,8 +5,8 @@ name: Deploy Hugging Face Space
 #
 # Setup (once):
 #   - Secret HF_TOKEN: a Hugging Face token with write access.
-#   - Optional variable HF_SPACE_ID (e.g. osoman2/vrl-lab). Default: <your HF user>/vrl-lab.
-#     The Space is created if it does not exist.
+#   - Optional variable HF_SPACE_ID. Default: osoman2/Gradio_pocs (the existing POC Space).
+#     It is only created if it does not exist (creating new Spaces may need a paid HF plan).
 #   - First deploy: after adding the secret, open the latest "Deploy Hugging Face Space" run in
 #     Actions and click "Re-run all jobs".
 
@@ -58,7 +58,7 @@ jobs:
               user = api.whoami()["name"]
           except Exception as e:
               fail(f"HF token rejected by whoami ({type(e).__name__}): {str(e)[:300]}")
-          space_id = os.environ.get("HF_SPACE_ID") or f"{user}/vrl-lab"
+          space_id = os.environ.get("HF_SPACE_ID") or "osoman2/Gradio_pocs"
 
           try:
               spaces = [s.id for s in api.list_spaces(author=user)]
@@ -66,10 +66,11 @@ jobs:
           except Exception as e:
               print(f"::warning::Could not list spaces: {str(e)[:200]}")
 
-          try:
-              api.create_repo(space_id, repo_type="space", space_sdk="gradio", exist_ok=True, private=False)
-          except Exception as e:
-              fail(f"create_repo {space_id} failed ({type(e).__name__}): {str(e)[:300]}")
+          if not api.repo_exists(space_id, repo_type="space"):
+              try:
+                  api.create_repo(space_id, repo_type="space", space_sdk="gradio", private=False)
+              except Exception as e:
+                  fail(f"create_repo {space_id} failed ({type(e).__name__}): {str(e)[:300]}")
           try:
               api.upload_folder(
                   folder_path="hf-space",
