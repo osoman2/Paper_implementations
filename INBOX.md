@@ -1,5 +1,9 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-17 · Scanned via Gmail MCP (0 new emails: 2026-10-17). 0 new papers scored >= 8. 51 tabs up to date.
+Last updated: 2026-10-18 · Scanned via Gmail MCP (0 new emails: 2026-10-18). 0 new papers scored >= 8. 51 tabs up to date.
+
+## New Papers (this run — 2026-10-18)
+
+_No new emails from AlphaSignal / JournalClub.io today. All 51 tabs remain current._
 
 ## New Papers (this run — 2026-10-17)
 
