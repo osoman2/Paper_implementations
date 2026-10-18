@@ -50,6 +50,8 @@ jobs:
 
           def fail(msg):
               # ::error:: becomes a run annotation, readable without downloading logs.
+              # Newlines must be escaped or the annotation keeps only the first line.
+              msg = str(msg).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
               print(f"::error::{msg}")
               sys.exit(1)
 
@@ -93,7 +95,13 @@ jobs:
           import time
           deadline = time.time() + 20 * 60
           stage = "UNKNOWN"
-          time.sleep(30)
+          # The runtime still reports the previous state right after upload: wait for the rebuild to start.
+          start_wait = time.time() + 5 * 60
+          while time.time() < start_wait:
+              stage = api.get_space_runtime(space_id).stage
+              if stage in ("BUILDING", "APP_STARTING", "RUNNING_BUILDING", "RUNNING_APP_STARTING"):
+                  break
+              time.sleep(10)
           while time.time() < deadline:
               rt = api.get_space_runtime(space_id)
               stage = rt.stage
@@ -101,7 +109,7 @@ jobs:
                   break
               if stage.endswith("ERROR"):
                   msg = (rt.raw or {}).get("errorMessage", "")
-                  fail(f"Space {stage}: {str(msg)[-900:]}")
+                  fail(f"Space {stage}: {str(msg)[-3000:]}")
               time.sleep(20)
           if stage != "RUNNING":
               fail(f"Space did not reach RUNNING in 20 min (last stage: {stage})")
