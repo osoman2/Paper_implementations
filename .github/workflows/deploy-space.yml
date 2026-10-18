@@ -20,9 +20,12 @@ concurrency:
   group: deploy-space
   cancel-in-progress: true
 
+# Space builds can take a while on the free CPU tier.
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -84,7 +87,25 @@ jobs:
               fail(f"upload_folder to {space_id} failed ({type(e).__name__}): {str(e)[:300]}")
 
           url = f"https://huggingface.co/spaces/{space_id}"
-          print(f"::notice::Deployed {url}")
+          print(f"::notice::Uploaded to {url}; waiting for the Space to build")
+
+          # Wait for the Space to build and start, so a broken app fails this run instead of silently.
+          import time
+          deadline = time.time() + 20 * 60
+          stage = "UNKNOWN"
+          time.sleep(30)
+          while time.time() < deadline:
+              rt = api.get_space_runtime(space_id)
+              stage = rt.stage
+              if stage == "RUNNING":
+                  break
+              if stage.endswith("ERROR"):
+                  msg = (rt.raw or {}).get("errorMessage", "")
+                  fail(f"Space {stage}: {str(msg)[-900:]}")
+              time.sleep(20)
+          if stage != "RUNNING":
+              fail(f"Space did not reach RUNNING in 20 min (last stage: {stage})")
+          print(f"::notice::Space running: {url}")
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(f"Space deployed: {url}\n")
           PY

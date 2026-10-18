@@ -1,6 +1,10 @@
-gradio>=4.44.0
-sentence-transformers>=3.0.0
+gradio==4.44.0
+# gradio 4.44 imports HfFolder, removed in huggingface_hub 1.x
+huggingface_hub>=0.25,<1.0
+sentence-transformers>=3.0.0,<4
+transformers>=4.41,<5
 rank-bm25>=0.2.2
 numpy>=1.26.0
 scikit-learn>=1.4.0
+matplotlib>=3.8
 anthropic>=0.30.0

@@ -58,6 +58,7 @@ Tabs:
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -8039,7 +8040,8 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     clm_chart_html = gr.HTML(value=_clm_chart())
                     from clm_context import BENCHMARK_ROWS as CLM_BENCH
                     gr.Dataframe(
-                        value=CLM_BENCH,
+                        value=[list(r.values()) for r in CLM_BENCH],
+                        headers=list(CLM_BENCH[0].keys()),
                         label="Strategy comparison",
                         interactive=False,
                         wrap=True,
