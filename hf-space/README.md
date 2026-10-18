@@ -1,5 +1,5 @@
 ---
-title: Paper POCs — AI Engineering
+title: Vector Ridge Lab — POC demos
 emoji: 🔬
 colorFrom: blue
 colorTo: indigo

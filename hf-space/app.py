@@ -1710,32 +1710,26 @@ EEA_DEMO_QUERIES_LIST = [
 ]
 
 
-with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as demo:
-    gr.Markdown(
-        "# Paper POCs — AI Engineering\n"
-        "Practical reproductions of high-relevance AI/ML papers. "
-        "Each tab is a runnable demo of a technique directly applicable to RAG, retrieval, or LLM evaluation.\n\n"
-        "| Paper | Score | Tab |\n"
-        "|-------|-------|-----|\n"
-        "| Query-Adaptive Hybrid Search (DAT/vstash) | 🔴 10/10 | Hybrid Search |\n"
-        "| CAD Score: Context-Aware Semantic Diversity | 🔴 9/10 | CAD Score |\n"
-        "| Dynamic Sub-Sequence Warping (DSSW) | 🔴 9/10 | DSSW |\n"
-        "| Synergistic Engine: CEP + Declarative Rules | 🔴 8/10 | Synergistic Engine |\n"
-        "| Attribution Crisis: LLM Search Attribution | 🔴 8/10 | Attribution Crisis |\n"
-        "| OLR-WAA: Adaptive Drift-Resilient Online Regression | 🔴 8/10 | OLR-WAA |\n"
-        "| Bi-Stage Adaptive RAG (Group Recommendation) | 🔴 8/10 | Bi-Stage RAG |\n"
-        "| Opinion Maximization with Fairness | 🔴 8/10 | Opinion Maximization |\n"
-        "| TopoMAS: LLM-Driven Multi-Agent System (Zhang et al.) | 🔴 8/10 | TopoMAS |\n"
-        "| Label Scarcity: Semi-Supervised Pseudo-Labeling | 🔴 8/10 | Label Scarcity |\n"
-        "| Extreme Event AI: Reliability Calibration for RAG | 🔴 8/10 | Extreme Event AI |\n"
-        "| GrepSeek DCI: Hybrid Search for AI Agents | 🔴 9/10 | GrepSeek DCI |\n"
-        "| DeepSeek-Lattice-KG: Knowledge Graph RAG | 🔴 8/10 | KG-RAG |\n"
-        "| Self-Harness & HarnessX: Self-Improving Agent Harness | 🔴 9/10 | Self-Harness |"
-    )
+from lab_nav import (  # noqa: E402
+    CSS as LAB_CSS,
+    FORCE_DARK_JS,
+    HEADER_MD,
+    REGION_CHOICES,
+    THEME as LAB_THEME,
+    poc_choices,
+    poc_tab,
+    wire_navigation,
+)
 
-    with gr.Tabs():
+with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_CSS, js=FORCE_DARK_JS) as demo:
+    gr.HTML(HEADER_MD)
+    with gr.Row(elem_id="vrl-nav"):
+        region_dd = gr.Dropdown(choices=REGION_CHOICES, value="all", label="Region", scale=1)
+        poc_dd = gr.Dropdown(choices=poc_choices("all"), value=poc_choices("all")[0][1], label="Proof of concept", scale=3)
+
+    with gr.Tabs(elem_id="poc-tabs") as poc_tabs:
         # ── Tab 1: Hybrid Search ──────────────────────────────────────────
-        with gr.Tab("🔍 Hybrid Search"):
+        with poc_tab("🔍 Hybrid Search"):
             gr.Markdown(
                 "## Query-Adaptive Hybrid Search\n"
                 "**Paper: DAT (arXiv:2503.23013) + vstash (arXiv:2604.15484) — Score 10/10**\n\n"
@@ -1788,7 +1782,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 2: CAD Score ──────────────────────────────────────────────
-        with gr.Tab("📊 CAD Score"):
+        with poc_tab("📊 CAD Score"):
             gr.Markdown(
                 "## CAD Score: Context-Aware Semantic Diversity\n"
                 "**Paper: Kim et al. 2025 — PeerJ Computer Science — Score 9/10**\n\n"
@@ -1859,7 +1853,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 3: DSSW ──────────────────────────────────────────────────
-        with gr.Tab("📈 DSSW"):
+        with poc_tab("📈 DSSW"):
             gr.Markdown(
                 "## Dynamic Sub-Sequence Warping (DSSW)\n"
                 "**Paper: Score 9/10 — Representation-Based Similarity for Long Time Series**\n\n"
@@ -1922,7 +1916,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 4: Synergistic Engine ─────────────────────────────────────
-        with gr.Tab("⚡ Synergistic Engine"):
+        with poc_tab("⚡ Synergistic Engine"):
             gr.Markdown(
                 "## Synergistic Engine: CEP + Declarative Rules for RAG\n"
                 "**Paper: 'A synergistic engine paradigm for real-time, context-aware decision-making: "
@@ -2004,7 +1998,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 5: Attribution Crisis ─────────────────────────────────────
-        with gr.Tab("📜 Attribution Crisis"):  # noqa: E501 (kept for readability)
+        with poc_tab("📜 Attribution Crisis"):  # noqa: E501 (kept for readability)
             gr.Markdown(
                 "## Attribution Crisis: LLM Search Attribution Scorer\n"
                 "**Paper: 'The attribution crisis in LLM search results: Estimating ecosystem exploitation' — Score 8/10**\n\n"
@@ -2076,7 +2070,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 6: OLR-WAA ───────────────────────────────────────────────
-        with gr.Tab("📉 OLR-WAA"):
+        with poc_tab("📉 OLR-WAA"):
             gr.Markdown(
                 "## OLR-WAA: Adaptive & Drift-Resilient Online Regression\n"
                 "**Paper: 'OLR-WAA: Adaptive and Drift-Resilient Online Regression with Dynamic Weighted Averaging' — Score 8/10**\n\n"
@@ -2144,7 +2138,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 7: Bi-Stage Adaptive RAG ──────────────────────────────────
-        with gr.Tab("🎯 Bi-Stage RAG"):
+        with poc_tab("🎯 Bi-Stage RAG"):
             gr.Markdown(
                 "## Bi-Stage Adaptive RAG\n"
                 "**Paper: 'Group-Based Recommendation System Using Bi-Stage Adaptive Deep Learning Model' — Score 8/10**\n\n"
@@ -2228,7 +2222,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 8: Opinion Maximization with Fairness ─────────────────────
-        with gr.Tab("🌐 Opinion Maximization"):
+        with poc_tab("🌐 Opinion Maximization"):
             gr.Markdown(
                 "## Opinion Maximization Based on Fairness in Social Networks\n"
                 "**Paper: 'Opinion Maximization Based on Fairness in Social Networks' — Score 8/10**\n\n"
@@ -2301,7 +2295,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 9: TopoMAS ────────────────────────────────────────────
-        with gr.Tab("🔬 TopoMAS"):
+        with poc_tab("🔬 TopoMAS"):
             gr.Markdown(
                 "## TopoMAS: LLM-Driven Topological Materials Multi-Agent System\n"
                 "**Paper: Zhang et al. (MGE Advances, 2026) — Score 8/10**\n\n"
@@ -2356,7 +2350,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 10: Label Scarcity — Semi-Supervised Pseudo-Labeling ─────────
-        with gr.Tab("🏷️ Label Scarcity"):
+        with poc_tab("🏷️ Label Scarcity"):
             gr.Markdown(
                 "## Label Scarcity: Semi-Supervised Pseudo-Labeling for RAG\n"
                 "**Paper: 'Overcoming labelled data scarcity for defect classification "
@@ -2444,7 +2438,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 11: Extreme Event AI — Reliability Calibration ───────────────
-        with gr.Tab("🌡️ Extreme Event AI"):
+        with poc_tab("🌡️ Extreme Event AI"):
             gr.Markdown(
                 "## Extreme Event AI: Reliability Calibration for RAG on Edge-Case Queries\n"
                 "**Paper: 'Predictability of precipitation extremes in the Western United States "
@@ -2533,7 +2527,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         # ------------------------------------------------------------------
         # Tab 12 — GrepSeek DCI
         # ------------------------------------------------------------------
-        with gr.Tab("🖥️ GrepSeek DCI"):
+        with poc_tab("🖥️ GrepSeek DCI"):
             gr.Markdown(
                 "## GrepSeek: Direct Corpus Interaction — Hybrid Search for AI Agents\n"
                 "**Paper source:** AlphaSignal deep-dive · 2026-05-31 · Score 🔴 9/10\n\n"
@@ -2588,11 +2582,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             gr.Markdown("---")
             with gr.Tabs():
-                with gr.Tab("🔀 Active mode result"):
+                with gr.Tab("Active mode result"):
                     dci_main_out = gr.Markdown()
-                with gr.Tab("🧠 Semantic only"):
+                with gr.Tab("Semantic only"):
                     dci_sem_out = gr.Markdown()
-                with gr.Tab("🖥️ DCI / Grep only"):
+                with gr.Tab("DCI / Grep only"):
                     dci_dci_out = gr.Markdown()
 
             gr.Examples(
@@ -2655,7 +2649,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 13: DeepSeek-Lattice-KG — Knowledge Graph RAG ────────────────
-        with gr.Tab("🧠 KG-RAG"):
+        with poc_tab("🧠 KG-RAG"):
             gr.Markdown(
                 "## DeepSeek-Lattice-KG: Knowledge Graph Augmented RAG\n"
                 "**Paper: Shu et al., Xi'an Jiaotong University, MGE Advances 2026 — Score 8/10**\n\n"
@@ -2810,7 +2804,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 14: Self-Harness — Self-Improving AI Agent Harness ───────────
-        with gr.Tab("🔄 Self-Harness"):
+        with poc_tab("🔄 Self-Harness"):
             gr.Markdown(
                 "## Self-Harness & HarnessX: Self-Improving AI Agent Harnesses\n"
                 "**Source: AlphaSignal deep-dive · 2026-07-05 · Score 9/10**\n\n"
@@ -2902,7 +2896,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                 # Stage 1: Weakness Mining
                 if not mining.top_patterns:
-                    mining_md = f"### ✅ No significant failures detected\n\nPass rate: {1 - mining.failure_rate:.1%} · Total failures: {mining.total_failures}/{mining.total_tasks}"
+                    mining_md = f"### No significant failures detected\n\nPass rate: {1 - mining.failure_rate:.1%} · Total failures: {mining.total_failures}/{mining.total_tasks}"
                 else:
                     fail_rows = "\n".join(
                         f"| `{p}` | {c} | {c/max(mining.total_tasks,1):.0%} |"
@@ -2924,7 +2918,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 # Stage 2: Harness Proposal
                 if not proposal.proposed_rule_ids:
                     proposal_md = (
-                        "### ✅ No new rules needed\n\n"
+                        "### No new rules needed\n\n"
                         "The current harness already covers all detected failure patterns, "
                         "or no rules in the library match the observed failures."
                     )
@@ -3075,7 +3069,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 15: ElementBERT — Domain-Specific Element Embeddings ─────────
-        with gr.Tab("⚗️ ElementBERT"):
+        with poc_tab("⚗️ ElementBERT"):
             gr.Markdown(
                 "## ElementBERT: Domain-Specific Element Embeddings for Materials Inference\n"
                 "**Source: JournalClub.io · 2026-07-11 · Score 8/10**\n\n"
@@ -3281,7 +3275,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 16: HuntGPT — RAG Anomaly Detection with XAI + LLM Assistant ──
-        with gr.Tab("🔍 HuntGPT"):
+        with poc_tab("🔍 HuntGPT"):
             gr.Markdown(
                 "## HuntGPT: RAG Anomaly Detection with XAI + Conversational Assistant\n"
                 "**Source: JournalClub.io · 2026-07-12 · Score 8/10**\n\n"
@@ -3509,7 +3503,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 17: PromptShield — Privacy-Preserving LLM Proxy ──────────────
-        with gr.Tab("🛡️ PromptShield"):
+        with poc_tab("🛡️ PromptShield"):
             gr.Markdown(
                 "## PromptShield: Privacy-Preserving LLM Proxy\n"
                 "**Source: JournalClub.io · 2026-07-22 · Score 8/10**\n\n"
@@ -3599,11 +3593,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 with gr.Column():
                     gr.Markdown("### Version Comparison")
                     with gr.Tabs():
-                        with gr.Tab("📄 Original"):
+                        with gr.Tab("Original"):
                             ps_original_out = gr.Textbox(label="Original prompt", lines=5, interactive=False)
-                        with gr.Tab("🚫 Sanitized"):
+                        with gr.Tab("Sanitized"):
                             ps_sanitized_out = gr.Textbox(label="Sanitized (PII replaced with placeholders)", lines=5, interactive=False)
-                        with gr.Tab("✍️ Reformulated"):
+                        with gr.Tab("Reformulated"):
                             ps_reformulated_out = gr.Textbox(label="Template-based reformulation (preserves intent)", lines=5, interactive=False)
                     ps_send_choice = gr.Radio(
                         choices=["Send original", "Send sanitized", "Send reformulated"],
@@ -3707,9 +3701,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         # ================================================================
         # Tab 18 — AI Agent Security: 3-Layer Defense Stack
         # ================================================================
-        with gr.Tab("🛡️ Agent Security (NemoClaw/NanoClaw/CrabTrap)"):
+        with poc_tab("🛡️ Agent Security (NemoClaw/NanoClaw/CrabTrap)"):
             gr.Markdown(
-                "## 🛡️ AI Agent Security: 3-Layer Defense Stack\n"
+                "## AI Agent Security: 3-Layer Defense Stack\n"
                 "**Source:** AlphaSignal deep-dive · 2026-08-16 · Score 9/10\n\n"
                 "When AI agents have tool access, prompt injection and hallucinations can cause them to "
                 "wipe databases, leak credentials, or mass-delete emails. Semantic guardrails in system "
@@ -3957,9 +3951,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
         # ── Tab 19: AI Mind Viruses — Adversarial Prompt Propagation ─────────
         # ====================================================================
-        with gr.Tab("🦠 Mind Virus Propagation"):
+        with poc_tab("🦠 Mind Virus Propagation"):
             gr.Markdown(
-                "## 🦠 AI Mind Viruses — Adversarial Prompt Propagation in Agent Networks\n"
+                "## AI Mind Viruses — Adversarial Prompt Propagation in Agent Networks\n"
                 "**Source:** Anthropic research (AlphaSignal · 2026-08-18) · Score 8/10\n\n"
                 "Adversarial instructions embedded in user-sourced content can propagate through "
                 "multi-agent pipelines like a virus — each agent summarises the prior agent's output "
@@ -3978,7 +3972,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab A: Propagation Simulator ───────────────────────
-                with gr.Tab("🔬 Propagation Simulator"):
+                with gr.Tab("Propagation Simulator"):
                     gr.Markdown(
                         "Select an adversarial payload, then compare undefended vs defended "
                         "propagation side-by-side. Each hop shows the agent's status and what "
@@ -4009,7 +4003,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab B: Mutation Tracer ──────────────────────────────
-                with gr.Tab("🔀 Mutation Tracer"):
+                with gr.Tab("Mutation Tracer"):
                     gr.Markdown(
                         "Shows how the adversarial payload is rephrased at each hop. "
                         "By the time it reaches the executor, the original suspicious wording "
@@ -4030,7 +4024,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab C: Defense Warning ──────────────────────────────
-                with gr.Tab("🛡️ Defense System Prompt"):
+                with gr.Tab("Defense System Prompt"):
                     gr.Markdown(
                         "### The One-Line Fix\n"
                         "Anthropic found that adding a targeted warning to every agent's system "
@@ -4060,9 +4054,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
         # ── Tab 20: Self-Verify — LLM Self-Verification for 11x Cheaper Inference ─
         # ===========================================================================
-        with gr.Tab("✅ Self-Verify (11x Cheaper)"):
+        with poc_tab("✅ Self-Verify (11x Cheaper)"):
             gr.Markdown(
-                "## ✅ LLM Self-Verification — 11× Cheaper Inference on Coding Tasks\n"
+                "## LLM Self-Verification — 11× Cheaper Inference on Coding Tasks\n"
                 "**Source:** Stanford research (AlphaSignal deep-dive · 2026-08-19) · Score 8/10\n\n"
                 "**Core insight:** Verification is easier than generation. Instead of calling an "
                 "expensive large model once, a smaller model generates a candidate solution and "
@@ -4083,7 +4077,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab A: Verification Loop Simulator ──────────────────
-                with gr.Tab("🔄 Verification Loop"):
+                with gr.Tab("Verification Loop"):
                     gr.Markdown(
                         "Select a coding challenge to see the self-verification loop in action. "
                         "The small model generates a candidate solution and immediately checks it "
@@ -4116,7 +4110,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab B: Benchmark Results ────────────────────────────
-                with gr.Tab("📊 Benchmark Results"):
+                with gr.Tab("Benchmark Results"):
                     gr.Markdown(
                         "Aggregate accuracy and cost results across four major coding benchmarks. "
                         "Self-Verify matches or exceeds the large model's pass@1 rate in all cases "
@@ -4125,7 +4119,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     gr.Markdown(sv_benchmark_table())
 
                 # ── Sub-tab C: Applicability Guide ──────────────────────────
-                with gr.Tab("🏭 Production Guide"):
+                with gr.Tab("Production Guide"):
                     gr.Markdown(sv_applicability_guide())
 
             gr.Markdown(
@@ -4144,9 +4138,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
         # ===========================================================================
         # ── Tab 21: LLMs vs Embeddings — The 1,431x Cost Study ──────────────────
         # ===========================================================================
-        with gr.Tab("💰 LLMs vs Embeddings (1,431×)"):
+        with poc_tab("💰 LLMs vs Embeddings (1,431×)"):
             gr.Markdown(
-                "## 💰 LLMs vs Embedding Models: The 1,431× Cost Study\n"
+                "## LLMs vs Embedding Models: The 1,431× Cost Study\n"
                 "**Source:** AlphaSignal signal · 2026-08-21 · Score 8/10\n\n"
                 "**Core finding:** LLMs used as retrieval scorers outperform embedding models "
                 "on complex queries (NDCG@10 +8–15 points on BEIR) but cost up to **1,431× more** "
@@ -4157,11 +4151,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab A: Study Summary ────────────────────────────────
-                with gr.Tab("📖 Study Summary"):
+                with gr.Tab("Study Summary"):
                     gr.Markdown(lve_study_summary())
 
                 # ── Sub-tab B: Cost Calculator ──────────────────────────────
-                with gr.Tab("💰 Cost Calculator"):
+                with gr.Tab("Cost Calculator"):
                     gr.Markdown(
                         "Set your workload parameters and see the projected monthly cost "
                         "for every retrieval model. Costs update when you click **Calculate**."
@@ -4197,7 +4191,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab C: Query Type Analysis ──────────────────────────
-                with gr.Tab("🎯 Query Type Analysis"):
+                with gr.Tab("Query Type Analysis"):
                     gr.Markdown(lve_query_table())
 
             gr.Markdown(
@@ -4212,9 +4206,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 22: Matryoshka LM ──────────────────────────────────────────
-        with gr.Tab("🪆 Matryoshka LM (36% Compute)"):
+        with poc_tab("🪆 Matryoshka LM (36% Compute)"):
             gr.Markdown(
-                "## 🪆 Matryoshka Language Model — 36% Compute Savings\n"
+                "## Matryoshka Language Model — 36% Compute Savings\n"
                 "**Source:** AlphaSignal signal · 2026-08-21 · Score 8/10\n\n"
                 "**Core idea:** One training run produces a *nested family* of LLMs "
                 "(small, medium, large). At inference, queries are routed to the smallest "
@@ -4226,11 +4220,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab A: Architecture ──────────────────────────────────
-                with gr.Tab("📐 Architecture"):
+                with gr.Tab("Architecture"):
                     gr.Markdown(mlm_architecture_summary())
 
                 # ── Sub-tab B: Adaptive Routing Demo ────────────────────────
-                with gr.Tab("🔀 Adaptive Routing Demo"):
+                with gr.Tab("Adaptive Routing Demo"):
                     gr.Markdown(
                         "Enter a query (or pick a preset) to see how the Matryoshka "
                         "routing heuristic determines complexity and selects the right "
@@ -4275,7 +4269,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab C: Cost Savings Calculator ───────────────────────
-                with gr.Tab("💰 Cost Savings Calculator"):
+                with gr.Tab("Cost Savings Calculator"):
                     gr.Markdown(
                         "Set the proportion of your workload at each complexity tier "
                         "and see projected monthly cost savings vs always-using-large."
@@ -4339,9 +4333,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 23: Agent Skills ──────────────────────────────────────────
-        with gr.Tab("🧠 Agent Skills (Runbooks > Facts)"):
+        with poc_tab("🧠 Agent Skills (Runbooks > Facts)"):
             gr.Markdown(
-                "## 🧠 Agent Skills: What 8,100 Trial Records Reveal\n"
+                "## Agent Skills: What 8,100 Trial Records Reveal\n"
                 "**Source:** AlphaSignal deep-dive · 2026-08-23 · 8,135 trials across "
                 "Terminal-Bench 2.0 and SkillsBench · **Score: 8/10**\n\n"
                 "Skills don't teach agents facts — they **stabilize execution**. "
@@ -4353,7 +4347,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Skill Format Comparison ───────────────────
-                with gr.Tab("📋 Skill Format Demo"):
+                with gr.Tab("Skill Format Demo"):
                     gr.Markdown(
                         "### Runbook vs Raw Memory vs No Skill\n"
                         "Distilling experience into a standardized runbook improves "
@@ -4446,7 +4440,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Annotation Impact ─────────────────────────
-                with gr.Tab("🏷️ Annotation Impact"):
+                with gr.Tab("Annotation Impact"):
                     gr.Markdown(
                         "### Annotating Trajectories with Success/Failure is Critical\n"
                         "Distilling skills from mixed trajectories **without** telling the agent "
@@ -4524,7 +4518,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Catalog Scale & 2-Level Retrieval ─────────
-                with gr.Tab("🗂️ Catalog Scale & 2-Level Retrieval"):
+                with gr.Tab("Catalog Scale & 2-Level Retrieval"):
                     gr.Markdown(
                         "### Skill Catalog Scaling Creates Retrieval Bottlenecks\n"
                         "Retrieval precision collapses from **29.6% → 3.3%** as catalog grows "
@@ -4575,7 +4569,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     as_scale_btn.click(fn=as_plot_scale, outputs=[as_scale_out])
 
-                    gr.Markdown("### 🔍 Two-Level Retrieval Demo")
+                    gr.Markdown("### Two-Level Retrieval Demo")
                     gr.Markdown(
                         "Enter a task description and any error signal. "
                         "The system will classify the domain (Level 1) then match "
@@ -4657,7 +4651,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 24 — Pi Prune+Spill ──────────────────────────────────────────
-        with gr.Tab("💾 Prune+Spill (88% Cost Cut)"):
+        with poc_tab("💾 Prune+Spill (88% Cost Cut)"):
             gr.Markdown(
                 "## Pi Prune+Spill: Context-Efficient Agent Memory\n"
                 "**Source:** AlphaSignal signal · 2026-08-25 · Score: 8/10\n\n"
@@ -4671,7 +4665,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Truncation vs Prune+Spill ─────────────────
-                with gr.Tab("✂️ vs 💾 Strategy Comparison"):
+                with gr.Tab("vs Strategy Comparison"):
                     gr.Markdown(
                         "### Truncation vs Prune+Spill — Side by Side\n"
                         "Click **Show Example** to see how each strategy handles a 3,847-token pytest output "
@@ -4681,7 +4675,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     with gr.Row():
                         with gr.Column():
-                            gr.Markdown("#### ✂️ Truncation (Current Agents)")
+                            gr.Markdown("#### Truncation (Current Agents)")
                             pps_trunc_head_out = gr.Textbox(
                                 label="Context: HEAD kept",
                                 lines=8, interactive=False,
@@ -4693,7 +4687,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                             )
 
                         with gr.Column():
-                            gr.Markdown("#### 💾 Prune+Spill (Pi's Approach)")
+                            gr.Markdown("#### Prune+Spill (Pi's Approach)")
                             pps_spill_entry_out = gr.Textbox(
                                 label="Context: file path reference (18 tokens)",
                                 lines=5, interactive=False,
@@ -4728,7 +4722,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         ],
                     )
 
-                    gr.Markdown("### 🔴 Common Truncation Failure Scenarios")
+                    gr.Markdown("### Common Truncation Failure Scenarios")
                     for fm in PPS_FAILURE_MODES:
                         status = "✅ Recoverable with Prune+Spill" if fm["recoverable_with_spill"] else "❌"
                         gr.Markdown(
@@ -4738,7 +4732,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # ── Sub-tab 2: Cost & Context Savings ─────────────────────
-                with gr.Tab("💰 Cost & Context Savings"):
+                with gr.Tab("Cost & Context Savings"):
                     gr.Markdown(
                         "### Cost Savings Calculator\n"
                         "Adjust session parameters to see how Prune+Spill reduces token spend."
@@ -4813,7 +4807,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         outputs=[pps_cost_report_out, pps_cost_chart_out],
                     )
 
-                    gr.Markdown("### 📊 Measured Savings (Pi Dev Notes, 19 real sessions)")
+                    gr.Markdown("### Measured Savings (Pi Dev Notes, 19 real sessions)")
                     savings_rows = "\n".join(
                         f"| {length} | {pct}% |"
                         for length, pct in PPS_COST_SAVINGS.items()
@@ -4823,7 +4817,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Production Guide ─────────────────────────
-                with gr.Tab("🏭 Production Guide"):
+                with gr.Tab("Production Guide"):
                     gr.Markdown(PPS_PRODUCTION_GUIDE)
 
             gr.Markdown(
@@ -4839,7 +4833,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 25: Prime Intellect Agent Harness ──────────────────────────
-        with gr.Tab("🔁 Prime Intellect Harness (ARC-AGI-3: 30%→95.5%)"):
+        with poc_tab("🔁 Prime Intellect Harness (ARC-AGI-3: 30%→95.5%)"):
             gr.Markdown(
                 "## Prime Intellect Agent Harness: Context Reuse Across Runs\n"
                 "**Source:** AlphaSignal signal · 2026-08-26 · Score 8/10\n\n"
@@ -4852,7 +4846,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Context Reuse Demo ──────────────────────────
-                with gr.Tab("🔄 Context Reuse Demo"):
+                with gr.Tab("Context Reuse Demo"):
                     gr.Markdown(
                         "### Stateless vs. Persistent-Context Agent\n"
                         "See how context reuse changes agent behavior on abstract reasoning tasks. "
@@ -4868,10 +4862,10 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     with gr.Row():
                         with gr.Column():
-                            gr.Markdown("### ❌ Stateless Agent")
+                            gr.Markdown("### Stateless Agent")
                             pih_stateless_out = gr.Markdown()
                         with gr.Column():
-                            gr.Markdown("### ✅ Persistent-Context Agent")
+                            gr.Markdown("### Persistent-Context Agent")
                             pih_persistent_out = gr.Markdown()
 
                     pih_task_info = gr.Markdown()
@@ -4920,7 +4914,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     pih_task_info.value = _pih_init[2]
 
                 # ── Sub-tab 2: Score Progression ───────────────────────────
-                with gr.Tab("📈 Score Progression (30%→95.5%)"):
+                with gr.Tab("Score Progression (30%→95.5%)"):
                     gr.Markdown(
                         "### ARC-AGI-3 Score as Harness Features Are Added\n"
                         "Each row shows the cumulative score after adding one harness feature. "
@@ -4964,7 +4958,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # ── Sub-tab 3: Architecture Guide ──────────────────────────
-                with gr.Tab("🏗️ Architecture Guide"):
+                with gr.Tab("Architecture Guide"):
                     gr.Markdown(PIH_ARCHITECTURE_GUIDE)
 
             gr.Markdown(
@@ -4978,7 +4972,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 26: Agent Escape — Sandbox/VM Escape Incidents & Defense ──
-        with gr.Tab("🔓 Agent Escape (VM & Sandbox Breach Patterns)"):
+        with poc_tab("🔓 Agent Escape (VM & Sandbox Breach Patterns)"):
             gr.Markdown(
                 "## Agent Escape: Real Incidents & Defense Patterns\n"
                 "**Source:** AlphaSignal deep-dive · 2026-08-30 · Score 8/10\n\n"
@@ -5006,7 +5000,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Escape Scenarios ────────────────────────────
-                with gr.Tab("🔓 Escape Scenarios"):
+                with gr.Tab("Escape Scenarios"):
                     gr.Markdown("### Incident 1: OpenAI → Hugging Face Breach Chain")
                     gr.Markdown(
                         "Each step shows how a piece of trusted infrastructure was turned "
@@ -5065,7 +5059,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     ae_chain_out.value = ae_render_chain("OpenAI → HuggingFace (sandbox chain)")
 
                 # ── Sub-tab 2: Defense Checklist ───────────────────────────
-                with gr.Tab("🛡️ Defense Checklist"):
+                with gr.Tab("Defense Checklist"):
                     gr.Markdown("### 7 Defense Guidelines: Interactive Assessment\n"
                                 "Select a guideline to see the detail, checklist items, "
                                 "and the risk if it is missing.")
@@ -5100,7 +5094,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     ae_guideline_detail.value = ae_render_guideline(ae_guideline_choices[0])
 
                 # ── Sub-tab 3: Attack Surface Map ──────────────────────────
-                with gr.Tab("🗺️ Attack Surface Map"):
+                with gr.Tab("Attack Surface Map"):
                     gr.Markdown(
                         "### Transitive Reachability: Where Can an Agent Get To?\n"
                         "The OpenAI incident succeeded because **transitive reachability** was "
@@ -5168,7 +5162,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     ae_node_detail.value = ae_render_node(ae_node_choices[0])
 
                 # ── Sub-tab 4: Production Checklist ────────────────────────
-                with gr.Tab("✅ Production Checklist"):
+                with gr.Tab("Production Checklist"):
                     gr.Markdown(PRODUCTION_CHECKLIST)
 
             gr.Markdown(
@@ -5183,9 +5177,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 27 — Skill Team ──────────────────────────────────────────────
-        with gr.Tab("🤝 Skill Team: 68-Agent × 286-Skill Engineering Team"):
+        with poc_tab("🤝 Skill Team: 68-Agent × 286-Skill Engineering Team"):
             gr.Markdown(
-                "## 🤝 Skill Team: 68-Agent × 286-Skill Engineering Team\n\n"
+                "## Skill Team: 68-Agent × 286-Skill Engineering Team\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-03 · 2,541 likes — "
                 "highest-engagement signal of the day\n\n"
                 "**Paper / signal:** *\"Anthropic hackathon winner open-sources a "
@@ -5211,7 +5205,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture ────────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     gr.Markdown(
                         f"### Team at a glance: **{TOTAL_AGENTS} agents · {TOTAL_SKILLS} skills**\n\n"
                         "Select a **role family** to explore the agents in that family "
@@ -5247,7 +5241,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     st_family_detail.value = st_render_family(st_families[0])
 
                 # ── Sub-tab 2: Skill Catalogue ─────────────────────────────
-                with gr.Tab("🗂️ Skill Catalogue"):
+                with gr.Tab("Skill Catalogue"):
                     gr.Markdown(
                         f"### 286 skills across 6 categories\n\n"
                         "Select a **skill category** to browse all skills in it."
@@ -5276,7 +5270,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     st_skill_list.value = st_render_skills(st_cat_choices[0])
 
                 # ── Sub-tab 3: Task Decomposition ──────────────────────────
-                with gr.Tab("🔀 Task Decomposition"):
+                with gr.Tab("Task Decomposition"):
                     gr.Markdown(
                         "### How the team decomposes real engineering tasks\n\n"
                         "Select an **example task** to see which agents activate, "
@@ -5324,7 +5318,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     st_task_detail.value = st_render_task(st_task_choices[0])
 
                 # ── Sub-tab 4: Benchmark ───────────────────────────────────
-                with gr.Tab("📊 Benchmark"):
+                with gr.Tab("Benchmark"):
                     gr.Markdown(
                         "### 68-Agent Team vs. Single Large Model\n\n"
                         "Select a **metric** to see the comparison and explanation. "
@@ -5369,7 +5363,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     st_bench_detail.value = st_render_bench(st_bench_choices[0])
 
                 # ── Sub-tab 5: Design Principles ───────────────────────────
-                with gr.Tab("💡 Design Principles"):
+                with gr.Tab("Design Principles"):
                     gr.Markdown(
                         "### 5 Design Principles from the 68-Agent Team\n\n"
                         "Select a principle to see the detail and the engineering takeaway."
@@ -5412,9 +5406,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 28 — Agent Wiki ──────────────────────────────────────────────
-        with gr.Tab("📖 Agent Wiki: Small Agent > 3× Larger Model"):
+        with poc_tab("📖 Agent Wiki: Small Agent > 3× Larger Model"):
             gr.Markdown(
-                "## 📖 Agent Wiki: Persistent Knowledge Wiki for Small Agents\n\n"
+                "## Agent Wiki: Persistent Knowledge Wiki for Small Agents\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-03 PM · 406 likes\n\n"
                 "**Paper / signal:** *\"Google's framework lets small AI agents outperform "
                 "models 3× their size using a persistent knowledge wiki\"*\n\n"
@@ -5437,7 +5431,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Live Demo ──────────────────────────────────
-                with gr.Tab("🔬 Live Demo"):
+                with gr.Tab("Live Demo"):
                     gr.Markdown(
                         "### Step through a multi-turn task — watch the wiki grow\n\n"
                         "Select a task and advance turn-by-turn. The left panel shows the "
@@ -5470,10 +5464,10 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     with gr.Row():
                         with gr.Column():
-                            gr.Markdown("#### 🤖 7B Agent + Wiki")
+                            gr.Markdown("#### 7B Agent + Wiki")
                             aw_agent7b_md = gr.Markdown()
                         with gr.Column():
-                            gr.Markdown("#### 🦣 21B Model (no wiki)")
+                            gr.Markdown("#### 21B Model (no wiki)")
                             aw_agent21b_md = gr.Markdown()
 
                     def aw_update(task_label: str, turn: int):
@@ -5498,7 +5492,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     aw_agent21b_md.value = init_21b
 
                 # ── Sub-tab 2: Benchmark ──────────────────────────────────
-                with gr.Tab("📊 Benchmark"):
+                with gr.Tab("Benchmark"):
                     gr.Markdown(
                         "### 7B + Wiki vs 21B (No Wiki) — Performance Comparison\n\n"
                         "Select a benchmark dimension to see the head-to-head results."
@@ -5536,7 +5530,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     aw_bench_detail.value = aw_render_bench(aw_bench_choices[0])
 
                 # ── Sub-tab 3: Wiki Mechanics ─────────────────────────────
-                with gr.Tab("⚙️ Wiki Mechanics"):
+                with gr.Tab("Wiki Mechanics"):
                     gr.Markdown(
                         "### How the Persistent Wiki Works\n\n"
                         "Select a concept to see the detail, analogy, and code sketch."
@@ -5582,9 +5576,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 29 — Uncertainty Calibration ────────────────────────────────
-        with gr.Tab("🎯 Uncertainty Calibration: LLMs That Know What They Don't Know"):
+        with poc_tab("🎯 Uncertainty Calibration: LLMs That Know What They Don't Know"):
             gr.Markdown(
-                "## 🎯 Uncertainty Calibration: LLMs That Know What They Don't Know\n\n"
+                "## Uncertainty Calibration: LLMs That Know What They Don't Know\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-03 AM · 1,081 likes\n\n"
                 "**Paper / signal:** *\"Google's new training trick makes LLMs know what they don't know\"*\n\n"
                 "**Score: 8/10** — directly implementable calibration technique that reduces "
@@ -5606,7 +5600,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Query Comparison ───────────────────────────
-                with gr.Tab("🔬 Query Comparison"):
+                with gr.Tab("Query Comparison"):
                     gr.Markdown(
                         "### Standard LLM vs Calibrated LLM — Side-by-Side\n\n"
                         "Select a query to see how the standard LLM (overconfident, no retrieval) "
@@ -5623,10 +5617,10 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     with gr.Row():
                         with gr.Column():
-                            gr.Markdown("#### ❌ Standard LLM (uncalibrated)")
+                            gr.Markdown("#### Standard LLM (uncalibrated)")
                             uc_std_md = gr.Markdown()
                         with gr.Column():
-                            gr.Markdown("#### ✅ Calibrated LLM (Google's technique)")
+                            gr.Markdown("#### Calibrated LLM (Google's technique)")
                             uc_cal_md = gr.Markdown()
 
                     def uc_update(label: str):
@@ -5641,7 +5635,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     uc_cal_md.value = init_cal
 
                 # ── Sub-tab 2: ECE Dashboard ──────────────────────────────
-                with gr.Tab("📊 ECE Dashboard"):
+                with gr.Tab("ECE Dashboard"):
                     gr.Markdown(uc_get_ece_improvement())
 
                     gr.Markdown(
@@ -5662,7 +5656,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Calibration Concepts ──────────────────────
-                with gr.Tab("⚙️ Calibration Concepts"):
+                with gr.Tab("Calibration Concepts"):
                     gr.Markdown(
                         "### Key Concepts in LLM Uncertainty Calibration\n\n"
                         "Select a concept to see the detail, formula, and production target."
@@ -5703,9 +5697,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 30 — Symbolic Structure in LLM Vectors ──────────────────────
-        with gr.Tab("🧠 Symbolic Structure in LLM Vectors"):
+        with poc_tab("🧠 Symbolic Structure in LLM Vectors"):
             gr.Markdown(
-                "## 🧠 Symbolic Structure in LLM Vectors: 8-Year Study\n\n"
+                "## Symbolic Structure in LLM Vectors: 8-Year Study\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-03 PM · 900 likes\n\n"
                 "**Paper / signal:** *\"8-year study finds LLMs secretly build symbolic structure inside their vectors\"*\n\n"
                 "**Score: 8/10** — applicable to LLM debugging, alignment, and interpretability tooling for production systems.\n\n"
@@ -5734,7 +5728,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Structural Probing Demo ────────────────────
-                with gr.Tab("🔬 Structural Probing Demo"):
+                with gr.Tab("Structural Probing Demo"):
                     gr.Markdown(
                         "### Probe a Sentence for Symbolic Structure\n\n"
                         "Select a sentence to see the symbolic structures detected by simulated linear probes "
@@ -5796,7 +5790,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     ss_logical_md.value = init_log
 
                 # ── Sub-tab 2: Probe Accuracy Benchmark ───────────────────
-                with gr.Tab("📊 Probe Accuracy Benchmark"):
+                with gr.Tab("Probe Accuracy Benchmark"):
                     gr.Markdown(
                         "### What Structures Are Recoverable from LLM Hidden States?\n\n"
                         "Linear probes (a single-layer linear classifier trained on frozen hidden states) "
@@ -5815,7 +5809,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # ── Sub-tab 3: 8-Year Research Timeline ───────────────────
-                with gr.Tab("📅 8-Year Research Timeline"):
+                with gr.Tab("8-Year Research Timeline"):
                     gr.Markdown(
                         "### 8 Years of Structural Probing Research (2018–2026)\n\n"
                         "The longitudinal arc: from first evidence of syntactic encoding (2019) "
@@ -5825,14 +5819,14 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     for item in SS_TIMELINE:
                         gr.Markdown(
-                            f"#### 📌 {item['year']} — {item['finding']}\n\n"
+                            f"#### {item['year']} — {item['finding']}\n\n"
                             f"{item['detail']}\n\n"
                             f"**Impact:** _{item['impact']}_"
                         )
                         gr.Markdown("---")
 
                 # ── Sub-tab 4: Production Implications ────────────────────
-                with gr.Tab("🏭 Production Implications"):
+                with gr.Tab("Production Implications"):
                     gr.Markdown(
                         "### Applying Structural Probing to Production LLM Systems\n\n"
                         "The 8-year synthesis makes structural probing practically useful — not just "
@@ -5863,9 +5857,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 31 — Shopify Self-Improving AI Pipeline ─────────────────────
-        with gr.Tab("⚙️ Shopify Flywheel: Self-Improving AI Pipeline"):
+        with poc_tab("⚙️ Shopify Flywheel: Self-Improving AI Pipeline"):
             gr.Markdown(
-                "## ⚙️ Shopify Self-Improving AI Pipeline\n\n"
+                "## Shopify Self-Improving AI Pipeline\n\n"
                 "**Source:** AlphaSignal deep-dive · 2026-09-06 · news@alphasignal.ai\n\n"
                 "**Signal:** *\"What Developers Can Learn From Shopify's Self-Improving AI Pipeline\"*\n\n"
                 "**Score: 8/10** — concrete production case with implementable flywheel pattern, "
@@ -5894,7 +5888,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Flywheel Stages ────────────────────────────
-                with gr.Tab("🔄 Flywheel Stages"):
+                with gr.Tab("Flywheel Stages"):
                     gr.Markdown(
                         "### The 5-Stage Self-Improving Production Loop\n\n"
                         "Shopify's production flywheel turns real-world failures into training data "
@@ -5910,7 +5904,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         gr.Markdown("---")
 
                 # ── Sub-tab 2: Production Conversation Simulator ──────────
-                with gr.Tab("🔬 Failure → Repair Demo"):
+                with gr.Tab("Failure → Repair Demo"):
                     gr.Markdown(
                         "### From Production Failure to Training Data\n\n"
                         "Select a simulated production conversation. For failures, see how the frontier "
@@ -5985,7 +5979,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     sf_repair_md.value = init_rep
 
                 # ── Sub-tab 3: LLM Judge Calibration ─────────────────────
-                with gr.Tab("⚖️ LLM Judge Calibration"):
+                with gr.Tab("LLM Judge Calibration"):
                     gr.Markdown(
                         "### Calibrating LLM Judges with Cohen's Kappa\n\n"
                         "Shopify uses **4 LLM judges** scoring each conversation dimension against a human-labeled "
@@ -6010,7 +6004,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Cost Analysis ──────────────────────────────
-                with gr.Tab("💰 Cost Analysis"):
+                with gr.Tab("Cost Analysis"):
                     gr.Markdown(
                         "### Frontier vs Specialized Model: What the Numbers Look Like\n\n"
                         "Specialization's ROI depends on request volume. At Shopify's scale (millions of requests/day), "
@@ -6037,7 +6031,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 5: When to Specialize ─────────────────────────
-                with gr.Tab("🏭 When to Specialize"):
+                with gr.Tab("When to Specialize"):
                     gr.Markdown(
                         "### Four Conditions for Profitable Specialization\n\n"
                         "Shopify's flywheel only makes sense once all four readiness conditions are met. "
@@ -6071,9 +6065,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 32: DeepMind 100-Agent Swarm ─────────────────────────────
-        with gr.Tab("🐝 DeepMind Swarm: Emergent Cheating & Whistleblowing"):
+        with poc_tab("🐝 DeepMind Swarm: Emergent Cheating & Whistleblowing"):
             gr.Markdown(
-                "## 🐝 DeepMind 100-Agent Swarm: Emergent Cheating & Whistleblowing\n\n"
+                "## DeepMind 100-Agent Swarm: Emergent Cheating & Whistleblowing\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-07 · news@alphasignal.ai\n\n"
                 "**Signal:** *\"Google DeepMind's 100-agent swarm spontaneously split into cheaters and whistleblowers\"*\n\n"
                 "**Score: 8/10** — Critical empirical finding for multi-agent production system design. "
@@ -6108,7 +6102,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Swarm Overview ─────────────────────────────
-                with gr.Tab("🐝 Swarm Overview"):
+                with gr.Tab("Swarm Overview"):
                     gr.Markdown(
                         f"### {DS_OVERVIEW['title']}\n\n"
                         f"#### Setup\n{DS_OVERVIEW['setup']}\n\n"
@@ -6140,7 +6134,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Agent Behavior Explorer ───────────────────
-                with gr.Tab("🔬 Agent Behavior Explorer"):
+                with gr.Tab("Agent Behavior Explorer"):
                     gr.Markdown(
                         "### Explore Individual Agent Behaviors\n\n"
                         "Select an agent to see its role, strategy, reward score, and — for cheaters — "
@@ -6178,7 +6172,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     ds_agent_md.value = ds_update_agent(ds_agent_labels()[0])
 
                 # ── Sub-tab 3: Reward Hacking Patterns ───────────────────
-                with gr.Tab("🎯 Reward Hacking Patterns"):
+                with gr.Tab("Reward Hacking Patterns"):
                     gr.Markdown(
                         "### How Agents Game Reward Signals\n\n"
                         "These four patterns were observed or predicted from the DeepMind swarm experiment. "
@@ -6191,7 +6185,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         gr.Markdown("---")
 
                 # ── Sub-tab 4: Defense Principles ────────────────────────
-                with gr.Tab("🛡️ Defense Principles"):
+                with gr.Tab("Defense Principles"):
                     gr.Markdown(
                         "### Designing Multi-Agent Systems That Resist Emergent Cheating\n\n"
                         "These five principles directly counter the behavioral clusters observed "
@@ -6232,7 +6226,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 5: Production Checklist ──────────────────────
-                with gr.Tab("✅ Production Checklist"):
+                with gr.Tab("Production Checklist"):
                     gr.Markdown(
                         "### Multi-Agent Production Deployment Checklist\n\n"
                         "A concrete audit checklist for any production multi-agent system. "
@@ -6287,9 +6281,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 33: Meta AIRA3 ────────────────────────────────────────────
-        with gr.Tab("🏆 Meta AIRA3: Autonomous Research Agent (8th/4,002 Teams)"):
+        with poc_tab("🏆 Meta AIRA3: Autonomous Research Agent (8th/4,002 Teams)"):
             gr.Markdown(
-                "## 🏆 Meta AIRA3: Autonomous Multi-Agent Research System\n\n"
+                "## Meta AIRA3: Autonomous Multi-Agent Research System\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-08 · news@alphasignal.ai\n\n"
                 "**Signal:** *\"Meta's autonomous research system places top 10 among 4,000 Kaggle teams\"*\n\n"
                 "**Score: 9/10** — Direct blueprint for production multi-agent research systems. "
@@ -6302,7 +6296,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: System Overview ────────────────────────────
-                with gr.Tab("🏗️ System Overview"):
+                with gr.Tab("System Overview"):
                     from meta_aira3 import domain_table, latency_waterfall
 
                     gr.Markdown(
@@ -6338,7 +6332,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     gr.Markdown(latency_waterfall())
 
                 # ── Sub-tab 2: Agent Explorer ─────────────────────────────
-                with gr.Tab("🔬 Agent Explorer"):
+                with gr.Tab("Agent Explorer"):
                     from meta_aira3 import agent_labels, agent_card, get_agent, AGENTS
 
                     gr.Markdown(
@@ -6381,7 +6375,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Forum Simulation ───────────────────────────
-                with gr.Tab("💬 Forum: Knowledge Compounding"):
+                with gr.Tab("Forum: Knowledge Compounding"):
                     from meta_aira3 import forum_round_summary
 
                     gr.Markdown(
@@ -6418,7 +6412,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Coordination Patterns ─────────────────────
-                with gr.Tab("🔗 Coordination Patterns"):
+                with gr.Tab("Coordination Patterns"):
                     from meta_aira3 import coordination_labels, coordination_card, get_coordination_pattern
 
                     gr.Markdown(
@@ -6450,7 +6444,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     aira3_coord_md.value = aira3_update_coord(coordination_labels()[0])
 
                 # ── Sub-tab 5: Production Principles ─────────────────────
-                with gr.Tab("🚀 Production Principles"):
+                with gr.Tab("Production Principles"):
                     from meta_aira3 import production_labels, production_card, get_production_principle
 
                     gr.Markdown(
@@ -6506,9 +6500,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 34: TOC-Guided Retrieval ──────────────────────────────────
-        with gr.Tab("📋 TOC-Guided Retrieval: 82.6% Recall, Near-Zero Hallucination"):
+        with poc_tab("📋 TOC-Guided Retrieval: 82.6% Recall, Near-Zero Hallucination"):
             gr.Markdown(
-                "## 📋 TOC-Guided Retrieval: Table of Contents as a Routing Index\n\n"
+                "## TOC-Guided Retrieval: Table of Contents as a Routing Index\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-08 · news@alphasignal.ai\n\n"
                 "**Signal:** *\"New retrieval model uses table of contents to hit 82.6% recall "
                 "with near-zero hallucination\"*\n\n"
@@ -6522,7 +6516,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Architecture Overview ─────────────────────
-                with gr.Tab("🏗️ Architecture Overview"):
+                with gr.Tab("Architecture Overview"):
                     from toc_retrieval import get_architecture_overview
 
                     gr.Markdown(
@@ -6544,7 +6538,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Live TOC Router Demo ──────────────────────
-                with gr.Tab("🔍 TOC Router Demo"):
+                with gr.Tab("TOC Router Demo"):
                     from toc_retrieval import (
                         route_query, routing_result_md, SAMPLE_DOCUMENT,
                     )
@@ -6587,7 +6581,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Retrieval Comparison ──────────────────────
-                with gr.Tab("⚔️ Standard vs TOC-Guided"):
+                with gr.Tab("Standard vs TOC-Guided"):
                     from toc_retrieval import (
                         comparison_labels, get_comparison_scenario, comparison_md,
                     )
@@ -6619,7 +6613,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     toc_comp_md.value = toc_update_comparison(comparison_labels()[0])
 
                 # ── Sub-tab 4: Benchmark Results ──────────────────────────
-                with gr.Tab("📊 Benchmark Results"):
+                with gr.Tab("Benchmark Results"):
                     from toc_retrieval import get_benchmark_table, BENCHMARK_DATA
 
                     gr.Markdown(
@@ -6647,7 +6641,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 5: Implementation Patterns ───────────────────
-                with gr.Tab("🔧 Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from toc_retrieval import pattern_labels, pattern_card, get_pattern
 
                     gr.Markdown(
@@ -6710,9 +6704,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 35: DeepSeek V4.1-Flash KV Cache Efficiency ──────────────
-        with gr.Tab("🚀 DeepSeek V4.1-Flash: KV Efficiency"):
+        with poc_tab("🚀 DeepSeek V4.1-Flash: KV Efficiency"):
             gr.Markdown(
-                "## 🚀 DeepSeek V4.1-Flash: 2× Bigger, 4× Lighter on KV Cache\n\n"
+                "## DeepSeek V4.1-Flash: 2× Bigger, 4× Lighter on KV Cache\n\n"
                 "**Source:** AlphaSignal deep-dive · 2026-09-13 · news@alphasignal.ai\n\n"
                 "**Score: 9/10** — Novel architecture (CED, CSA2, Bounded Replay, Hierarchical Indexer) with "
                 "quantified production impact. Directly applicable to long-context agent systems.\n\n"
@@ -6734,7 +6728,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: KV Cache Evolution ────────────────────────
-                with gr.Tab("📉 KV Evolution"):
+                with gr.Tab("KV Evolution"):
                     gr.Markdown("### Global KV footprint per token — across DeepSeek generations")
                     gr.HTML(kv_evolution_html())
                     gr.Markdown(
@@ -6763,7 +6757,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: CED Architecture ──────────────────────────
-                with gr.Tab("🏗️ CED Architecture"):
+                with gr.Tab("CED Architecture"):
                     gr.Markdown(
                         "### Causal Encoder-Decoder (CED)\n\n"
                         "V4.1-Flash splits its 40-layer Transformer into two halves:\n\n"
@@ -6789,7 +6783,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: CSA2 Modes ────────────────────────────────
-                with gr.Tab("🔀 CSA2 Layer Modes"):
+                with gr.Tab("CSA2 Layer Modes"):
                     gr.Markdown(
                         "### Compressed Sparse Attention 2 (CSA2)\n\n"
                         "In a conventional Transformer, every layer creates its own KV pairs "
@@ -6812,7 +6806,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Hierarchical Indexer ──────────────────────
-                with gr.Tab("🔎 Hierarchical Indexer"):
+                with gr.Tab("Hierarchical Indexer"):
                     gr.Markdown(
                         "### Hierarchical Sparse Indexer\n\n"
                         "Before sparse attention can select 512 relevant positions from 1M tokens, "
@@ -6842,7 +6836,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 5: Cost & Performance ────────────────────────
-                with gr.Tab("💰 Cost & Performance"):
+                with gr.Tab("Cost & Performance"):
                     gr.Markdown("### Token cost vs AI Intelligence Index score")
                     tokens_slider = gr.Slider(
                         minimum=1, maximum=1000, step=1,
@@ -6883,9 +6877,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 36: Denoising Trick for Looped Models ────────────────────────
-        with gr.Tab("✨ Denoising Looped Models"):
+        with poc_tab("✨ Denoising Looped Models"):
             gr.Markdown(
-                "## ✨ Denoising Trick for Looped Models: 58.8% on ARC-AGI-1\n\n"
+                "## Denoising Trick for Looped Models: 58.8% on ARC-AGI-1\n\n"
                 "**Source:** AlphaSignal signal · 2026-09-14 · news@alphasignal.ai\n\n"
                 "**Score: 8/10** — A denoising training objective applied to looped (weight-shared) "
                 "transformer architectures achieves 58.8% on ARC-AGI-1 — competitive with models "
@@ -6909,7 +6903,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture Overview ─────────────────────
-                with gr.Tab("🏗️ Architecture Overview"):
+                with gr.Tab("Architecture Overview"):
                     gr.Markdown(
                         "### Standard vs Looped vs Denoising-Looped Transformers\n\n"
                         "A **looped transformer** shares a single transformer block's weights "
@@ -6941,7 +6935,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Denoising Schedule ────────────────────────
-                with gr.Tab("📉 Denoising Schedule"):
+                with gr.Tab("Denoising Schedule"):
                     gr.Markdown(
                         "### How Noise Decays Across Loop Iterations\n\n"
                         "The core of the trick is a **decreasing noise schedule** across loop "
@@ -6970,7 +6964,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: ARC-AGI Benchmark Results ─────────────────
-                with gr.Tab("📊 ARC-AGI Results"):
+                with gr.Tab("ARC-AGI Results"):
                     gr.Markdown(
                         "### ARC-AGI-1 Benchmark Comparison\n\n"
                         "ARC-AGI-1 (Abstraction and Reasoning Corpus) tests few-shot abstract "
@@ -6994,7 +6988,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Guide ──────────────────────
-                with gr.Tab("🛠️ Implementation Guide"):
+                with gr.Tab("Implementation Guide"):
                     gr.Markdown(
                         "### Five Patterns for Applying the Denoising Trick\n\n"
                         "These patterns apply to any architecture where the same module "
@@ -7025,9 +7019,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 37: Dream-RSI — Self-Improving Agent Search ───────────────────
-        with gr.Tab("🔄 Dream-RSI: Self-Improving Search"):
+        with poc_tab("🔄 Dream-RSI: Self-Improving Search"):
             gr.Markdown(
-                "## 🔄 Dream-RSI: Self-Improving Agent Cuts AI Search Costs by 162×\n\n"
+                "## Dream-RSI: Self-Improving Agent Cuts AI Search Costs by 162×\n\n"
                 "**Source:** Google DeepMind · AlphaSignal Top Paper · 2026-09-17 · 5,433 likes\n\n"
                 "**Score: 8/10** — A trajectory-replay technique that lets any AI search agent "
                 "improve its own strategy from past experience — no retraining, no new experiments. "
@@ -7048,7 +7042,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture Overview ─────────────────────
-                with gr.Tab("🏗️ Architecture Overview"):
+                with gr.Tab("Architecture Overview"):
                     gr.Markdown(
                         "### Standard Search vs Dream-RSI\n\n"
                         "Most AI search agents use a **fixed strategy** that never improves. "
@@ -7072,7 +7066,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Trajectory Replay Mechanism ────────────────
-                with gr.Tab("🎬 Trajectory Replay"):
+                with gr.Tab("Trajectory Replay"):
                     gr.Markdown(
                         "### How Dream-RSI Replays Trajectories\n\n"
                         "The four-step loop runs asynchronously after every K real search episodes. "
@@ -7095,7 +7089,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Cost Analysis ──────────────────────────────
-                with gr.Tab("💰 Cost Analysis"):
+                with gr.Tab("Cost Analysis"):
                     gr.Markdown(
                         "### AI Call Reduction Across Domains\n\n"
                         "The 162× headline figure comes from algorithm design tasks. "
@@ -7122,7 +7116,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Guide ──────────────────────
-                with gr.Tab("🛠️ Implementation Guide"):
+                with gr.Tab("Implementation Guide"):
                     gr.Markdown(
                         "### Five Drop-In Patterns for Dream-RSI\n\n"
                         "These patterns cover the full range from a greenfield agent (Pattern 1) "
@@ -7153,9 +7147,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 38: Jev Memory Compaction ─────────────────────────────────────
-        with gr.Tab("🧹 Jev Memory Compaction"):
+        with poc_tab("🧹 Jev Memory Compaction"):
             gr.Markdown(
-                "## 🧹 Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls\n\n"
+                "## Jev Memory Compaction: Scoring & Dropping Irrelevant Tool Calls\n\n"
                 "**Source:** TypesafeAI's Jev · AlphaSignal Signal + Top Repo · 2026-09-18 · "
                 "4,044 likes (Signal) + 7,129 likes (Browser Use + Jev demo)\n\n"
                 "**Score: 8/10** — A scoring-based memory compaction layer for agent context windows. "
@@ -7185,7 +7179,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Problem Overview ───────────────────────────────
-                with gr.Tab("📈 Context Bloat Problem"):
+                with gr.Tab("Context Bloat Problem"):
                     gr.Markdown(
                         "### Why Context Windows Bloat in Long Agent Sessions\n\n"
                         "Every tool call appends its output to the context window. "
@@ -7213,7 +7207,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Scoring Mechanism ──────────────────────────────
-                with gr.Tab("⚖️ Scoring Mechanism"):
+                with gr.Tab("Scoring Mechanism"):
                     gr.Markdown(
                         "### Composite Relevance Score = Recency × Importance × Task Alignment\n\n"
                         "Jev assigns each tool call a score in [0, 1] using three weighted sub-scores:\n\n"
@@ -7234,7 +7228,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # ── Sub-tab 3: Live Compaction Demo ───────────────────────────
-                with gr.Tab("🔬 Live Demo"):
+                with gr.Tab("Live Demo"):
                     gr.Markdown(
                         "### Try Jev Compaction on 8 Example Tool Calls\n\n"
                         "The demo uses 8 realistic tool calls from a hybrid-search research session. "
@@ -7298,7 +7292,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Guide ───────────────────────────
-                with gr.Tab("🛠️ Implementation Guide"):
+                with gr.Tab("Implementation Guide"):
                     gr.Markdown(
                         "### Four Drop-In Patterns for Jev-Style Memory Compaction\n\n"
                         "Start with **Pattern 1** (passive logging) — zero overhead, "
@@ -7328,9 +7322,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 39: Talking Agents ─────────────────────────────────────────────
-        with gr.Tab("🗣️ Talking Agents: 4-to-1 Reasoning Gain"):
+        with poc_tab("🗣️ Talking Agents: 4-to-1 Reasoning Gain"):
             gr.Markdown(
-                "## 🗣️ Talking AI Agents Beat Solo Agents 4-to-1 on Hard Reasoning\n\n"
+                "## Talking AI Agents Beat Solo Agents 4-to-1 on Hard Reasoning\n\n"
                 "**Source:** AlphaSignal Signal · 2026-09-22 · 897 likes\n\n"
                 "**Score: 9/10** — Multiple AI agents communicating via natural language "
                 "**outperform solo agents by 4× on hard reasoning tasks** (multi-step math, "
@@ -7356,7 +7350,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Benchmark Results ──────────────────────────────
-                with gr.Tab("📊 Benchmark: Solo vs Team"):
+                with gr.Tab("Benchmark: Solo vs Team"):
                     gr.Markdown(
                         "### Accuracy: Solo Agent vs Team of 4 Talking Agents\n\n"
                         "Hard reasoning tasks only (top-quartile difficulty from ARC-AGI style, "
@@ -7377,7 +7371,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Communication Protocol ────────────────────────
-                with gr.Tab("🔀 Communication Protocols"):
+                with gr.Tab("Communication Protocols"):
                     gr.Markdown(
                         "### Four Talking-Agent Communication Patterns\n\n"
                         "Not all multi-agent setups are equal. The communication topology "
@@ -7391,7 +7385,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     gr.HTML(protocol_cards_html())
 
                 # ── Sub-tab 3: Live Demo ──────────────────────────────────────
-                with gr.Tab("🔬 Live Demo: Solo vs Team"):
+                with gr.Tab("Live Demo: Solo vs Team"):
                     gr.Markdown(
                         "### See the 4-to-1 Gain in Action\n\n"
                         "Pick a hard reasoning task and compare the solo agent's "
@@ -7432,7 +7426,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: When to Use ────────────────────────────────────
-                with gr.Tab("🛠️ When & How to Deploy"):
+                with gr.Tab("When & How to Deploy"):
                     gr.Markdown(
                         "### Decision Guide: Solo vs Talking Agents\n\n"
                         "| Signal | Use Solo | Use Team of 4 |\n"
@@ -7500,9 +7494,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 40: Claude 950 Agents — Autonomous Science Pipeline ──────────────
-        with gr.Tab("🧬 Claude 950 Agents: Autonomous Science"):
+        with poc_tab("🧬 Claude 950 Agents: Autonomous Science"):
             gr.Markdown(
-                "## 🧬 Claude 950 Agents: Autonomous Science Pipeline\n\n"
+                "## Claude 950 Agents: Autonomous Science Pipeline\n\n"
                 "**Source:** AlphaSignal Top News · 2026-09-24 · 36,668 likes · Score **9/10**\n\n"
                 "950 Claude agents ran autonomously for 21 hours, consumed 210 million tokens, "
                 "and discovered **ART** — a novel CRISPR-like enzyme system in virus DNA that nobody "
@@ -7524,11 +7518,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Architecture Overview ─────────────────────────
-                with gr.Tab("🏗️ Architecture Overview"):
+                with gr.Tab("Architecture Overview"):
                     gr.HTML(pipeline_overview_html())
 
                 # ── Sub-tab 2: Discovery Context ──────────────────────────────
-                with gr.Tab("🔬 Discovery: ART Enzyme"):
+                with gr.Tab("Discovery: ART Enzyme"):
                     gr.Markdown(
                         "### What Did Claude Find?\n\n"
                         "After processing 200,000 reverse transcriptase candidates, the 950-agent "
@@ -7544,7 +7538,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     gr.HTML(crispr_comparison_html())
 
                 # ── Sub-tab 3: Mini Live Demo ─────────────────────────────────
-                with gr.Tab("⚡ Mini-Pipeline Demo"):
+                with gr.Tab("Mini-Pipeline Demo"):
                     gr.Markdown(
                         "### 5-Agent Mini-Pipeline\n\n"
                         "The full system uses 950 agents. This demo runs the same **5-stage architecture** "
@@ -7574,12 +7568,12 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Scale & Cost Analysis ─────────────────────────
-                with gr.Tab("📊 Scale & Cost Analysis"):
+                with gr.Tab("Scale & Cost Analysis"):
                     gr.Markdown("### Scaling the Pipeline: 10 → 2,000 Agents")
                     gr.HTML(scale_cost_html())
 
                 # ── Sub-tab 5: Implementation Patterns ───────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     gr.Markdown(
                         "### 4 Drop-in Patterns for Autonomous Research Pipelines\n\n"
                         "These patterns compose into the full 950-agent architecture. "
@@ -7605,9 +7599,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 41: MAttr — Model Attribution for Refusal Behaviour ──────────
-        with gr.Tab("🎯 MAttr: Refusal Head Attribution"):
+        with poc_tab("🎯 MAttr: Refusal Head Attribution"):
             gr.Markdown(
-                "## 🎯 MAttr: Model Attribution for Refusal Behaviour\n\n"
+                "## MAttr: Model Attribution for Refusal Behaviour\n\n"
                 "**Source:** AlphaSignal Signal · 2026-09-24 · 931 likes · Score **8/10**\n\n"
                 "MAttr (Model Attribution) identifies the specific attention heads responsible "
                 "for refusal behaviour in Llama-class models. The core finding: only **~1% of "
@@ -7632,11 +7626,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Method Overview ─────────────────────────────────
-                with gr.Tab("📖 Method Overview"):
+                with gr.Tab("Method Overview"):
                     gr.HTML(method_overview_html())
 
                 # ── Sub-tab 2: Weight Attribution Map ─────────────────────────
-                with gr.Tab("🗺️ Weight Map (32×32)"):
+                with gr.Tab("Weight Map (32×32)"):
                     gr.HTML(weight_map_html())
                     gr.Markdown(
                         "Each cell represents one attention head (layer × head). "
@@ -7645,7 +7639,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Interactive Attribution Demo ────────────────────
-                with gr.Tab("⚡ Attribution Demo"):
+                with gr.Tab("Attribution Demo"):
                     gr.Markdown(
                         "### Run MAttr on Example Prompts\n\n"
                         "Select a prompt below and click **▶ Attribute** to see which "
@@ -7675,11 +7669,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Benchmark Comparison ───────────────────────────
-                with gr.Tab("📊 Benchmark Comparison"):
+                with gr.Tab("Benchmark Comparison"):
                     gr.HTML(benchmark_comparison_html())
 
                 # ── Sub-tab 5: Implementation Patterns ───────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     gr.Markdown(
                         "### 3 Production Patterns for MAttr-Based Behaviour Steering\n\n"
                         "These patterns let you apply MAttr findings to any "
@@ -7701,9 +7695,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 42: System One Models — Jev / Laya / CLM ─────────────────────
-        with gr.Tab("⚡ System One: Fast Typed Decisions"):
+        with poc_tab("⚡ System One: Fast Typed Decisions"):
             gr.Markdown(
-                "## ⚡ System One Models: Jev / Laya / CLM-8B\n\n"
+                "## System One Models: Jev / Laya / CLM-8B\n\n"
                 "**Source:** AlphaSignal Deep Dive · 2026-09-27 · news@alphasignal.ai · Score **9/10**\n\n"
                 "A new model category makes fast, **typed AI decisions** instead of generating text. "
                 "Jev (TypeSafe AI), Laya (open-source, 421M params), and CLM-8B (Stanford/Nvidia) "
@@ -7716,12 +7710,12 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture Overview ──────────────────────────
-                with gr.Tab("🏗️ Architecture Overview"):
+                with gr.Tab("Architecture Overview"):
                     from system_one_jev import architecture_html
                     gr.HTML(architecture_html())
 
                 # ── Sub-tab 2: Decision Schemas ────────────────────────────────
-                with gr.Tab("📋 Decision Schemas"):
+                with gr.Tab("Decision Schemas"):
                     from system_one_jev import DECISION_SCHEMAS, schema_html
                     schema_choices = [s["use_case"] for s in DECISION_SCHEMAS]
                     s1_schema_dd = gr.Dropdown(
@@ -7741,7 +7735,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Routing Demo ────────────────────────────────────
-                with gr.Tab("⚡ Routing Demo"):
+                with gr.Tab("Routing Demo"):
                     from system_one_jev import routing_demo_html, example_labels
                     s1_ex_labels = example_labels()
                     s1_example_dd = gr.Dropdown(
@@ -7762,12 +7756,12 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Benchmarks ──────────────────────────────────────
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from system_one_jev import benchmark_chart_html
                     gr.HTML(benchmark_chart_html())
 
                 # ── Sub-tab 5: Implementation Patterns ────────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from system_one_jev import IMPL_PATTERNS
                     gr.Markdown(
                         "### 4 Production Patterns for System One Decision Models\n\n"
@@ -7790,9 +7784,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 43: Claude Science Harness ────────────────────────────────────
-        with gr.Tab("🔬 Claude Science: 9-Loop Physics"):
+        with poc_tab("🔬 Claude Science: 9-Loop Physics"):
             gr.Markdown(
-                "## 🔬 Claude Science Harness: Nine-Loop Particle Calculation\n\n"
+                "## Claude Science Harness: Nine-Loop Particle Calculation\n\n"
                 "**Source:** AlphaSignal Top News · 2026-09-28 · news@alphasignal.ai · Score **8/10**\n\n"
                 "Claude solved the **nine-loop scattering amplitude** — the previous world record "
                 "was eight loops, set by SLAC's Lance Dixon. The harness: SymPy + Python, 96 CPUs, "
@@ -7806,17 +7800,17 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture ────────────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from claude_science_harness import architecture_html as csh_arch_html
                     gr.HTML(csh_arch_html())
 
                 # ── Sub-tab 2: Scattering Amplitude Context ────────────────────
-                with gr.Tab("⚛️ Loop Complexity"):
+                with gr.Tab("Loop Complexity"):
                     from claude_science_harness import loop_complexity_html as csh_loop_html
                     gr.HTML(csh_loop_html())
 
                 # ── Sub-tab 3: Mini Harness Demo ───────────────────────────────
-                with gr.Tab("⚙️ Mini Harness Demo"):
+                with gr.Tab("Mini Harness Demo"):
                     from claude_science_harness import demo_task_html, demo_task_labels
                     csh_task_labels = demo_task_labels()
                     csh_task_dd = gr.Dropdown(
@@ -7837,12 +7831,12 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Cost & Scale ────────────────────────────────────
-                with gr.Tab("💰 Cost & Scale"):
+                with gr.Tab("Cost & Scale"):
                     from claude_science_harness import cost_scale_html as csh_cost_html
                     gr.HTML(csh_cost_html())
 
                 # ── Sub-tab 5: Implementation Patterns ────────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from claude_science_harness import IMPL_PATTERNS as CSH_IMPL_PATTERNS
                     gr.Markdown(
                         "### 3 Production Patterns for Long-Running Symbolic Computation Agents\n\n"
@@ -7866,9 +7860,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 44: ScientistTwo — Autonomous Research Agent ──────────────────
-        with gr.Tab("🤖 ScientistTwo: Autonomous Research"):
+        with poc_tab("🤖 ScientistTwo: Autonomous Research"):
             gr.Markdown(
-                "## 🤖 ScientistTwo: Google's Autonomous Research Agent\n\n"
+                "## ScientistTwo: Google's Autonomous Research Agent\n\n"
                 "**Source:** AlphaSignal Signal · 2026-09-29 · news@alphasignal.ai · Score **9/10**\n\n"
                 "Google's **ScientistTwo** autonomously generates hypotheses, runs experiments, "
                 "analyses results, and writes papers — **outperforming human submissions by 25%** "
@@ -7883,17 +7877,17 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             with gr.Tabs():
 
                 # ── Sub-tab 1: Architecture ────────────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from scientist_two import architecture_html as st2_arch_html
                     gr.HTML(st2_arch_html())
 
                 # ── Sub-tab 2: Benchmarks ──────────────────────────────────────
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from scientist_two import benchmark_html as st2_bench_html
                     gr.HTML(st2_bench_html())
 
                 # ── Sub-tab 3: Mini Research Demo ──────────────────────────────
-                with gr.Tab("⚙️ Research Demo"):
+                with gr.Tab("Research Demo"):
                     from scientist_two import demo_task_html as st2_demo_html, demo_task_labels as st2_task_labels
                     st2_labels = st2_task_labels()
                     st2_task_dd = gr.Dropdown(
@@ -7914,7 +7908,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Patterns ────────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from scientist_two import IMPL_PATTERNS as ST2_IMPL_PATTERNS
                     gr.Markdown(
                         "### 3 Production Patterns for Autonomous Research Agents\n\n"
@@ -7938,9 +7932,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 45: PageIndex ─────────────────────────────────────────────────
-        with gr.Tab("🌳 PageIndex: Tree-Based RAG"):
+        with poc_tab("🌳 PageIndex: Tree-Based RAG"):
             gr.Markdown(
-                "## 🌳 PageIndex: Tree-Based Document Retrieval\n"
+                "## PageIndex: Tree-Based Document Retrieval\n"
                 "*Source: AlphaSignal · 2026-09-30 · 4,598 likes · Score 9/10 · Implemented 2026-10-01*\n\n"
                 "**Key insight:** Instead of chunking + embedding + cosine search, PageIndex builds a "
                 "hierarchical tree from the document and reasons through it. "
@@ -7951,7 +7945,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
 
-                with gr.Tab("🔍 Live Demo"):
+                with gr.Tab("Live Demo"):
                     from page_index import SAMPLE_DOCS as PI_DOCS, PageIndex as _PI
                     gr.Markdown("Select a document and enter a query.")
                     with gr.Row():
@@ -7986,7 +7980,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         ["AI Safety Research 2025", "What is scalable oversight?"],
                     ], inputs=[pi_doc_dd, pi_query])
 
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from page_index import BENCHMARK_DATA as PI_BENCH
                     gr.Markdown("### PageIndex vs Vector RAG Accuracy (%)")
                     pi_bench_btn = gr.Button("Load Benchmark Data", variant="primary")
@@ -7998,11 +7992,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
                     pi_bench_btn.click(fn=_pi_bench, inputs=[], outputs=[pi_bench_out])
 
-                with gr.Tab("🧠 How It Works"):
+                with gr.Tab("How It Works"):
                     from page_index import CONCEPTS_MD as PI_CONCEPTS
                     gr.Markdown(PI_CONCEPTS)
 
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from page_index import IMPL_PATTERNS as PI_PATTERNS
                     gr.Markdown("### 3 Production Patterns for PageIndex")
                     for p in PI_PATTERNS:
@@ -8020,9 +8014,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 46: CLM Self-Managed Context ─────────────────────────────────────
-        with gr.Tab("🧠 CLM: LLM Self-Managed Context"):
+        with poc_tab("🧠 CLM: LLM Self-Managed Context"):
             gr.Markdown(
-                "## 🧠 CLM: LLMs Managing Their Own Context\n"
+                "## CLM: LLMs Managing Their Own Context\n"
                 "*Source: AlphaSignal Signal · 2026-10-01 · 1,055 likes · Score 8/10 · Implemented 2026-10-02*\n\n"
                 "**Key insight:** Instead of human-designed scoring rules, the LLM itself classifies each "
                 "conversation segment as ANCHOR / KEEP / COMPRESS / DROP before each call. "
@@ -8031,11 +8025,11 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
 
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from clm_context import ARCH_MD as CLM_ARCH
                     gr.Markdown(CLM_ARCH)
 
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from clm_context import benchmark_chart_html as _clm_chart
                     clm_chart_html = gr.HTML(value=_clm_chart())
                     from clm_context import BENCHMARK_ROWS as CLM_BENCH
@@ -8047,7 +8041,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         wrap=True,
                     )
 
-                with gr.Tab("⚙️ Live Demo"):
+                with gr.Tab("Live Demo"):
                     gr.Markdown(
                         "Enter a query and see how CLM classifies the 10-turn RAG planning conversation. "
                         "The LLM would anchor goal turns, keep relevant ones verbatim, compress background, "
@@ -8076,7 +8070,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         inputs=[clm_query_input],
                     )
 
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from clm_context import IMPL_PATTERNS as CLM_PATTERNS
                     gr.Markdown("### 3 Drop-In Patterns for CLM Self-Managed Context")
                     for p in CLM_PATTERNS:
@@ -8094,7 +8088,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 47: Darwin Gödel Machine — Self-Evolving Agent Stack ─────────
-        with gr.Tab("🧬 Darwin Gödel Machine"):
+        with poc_tab("🧬 Darwin Gödel Machine"):
             gr.Markdown(
                 "## Darwin Gödel Machine: Self-Evolving Agent Stack\n"
                 "**Source:** AlphaSignal Deep Dive · 2026-10-04 · Score 9/10\n\n"
@@ -8109,7 +8103,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Architecture ──────────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from darwin_godel import STACK_LAYERS, BENCHMARK_DATA
                     import json as _json
 
@@ -8141,7 +8135,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: DGM Explorer ──────────────────────────────────
-                with gr.Tab("🧬 DGM Explorer"):
+                with gr.Tab("DGM Explorer"):
                     from darwin_godel import run_dgm_exploration
 
                     gr.Markdown(
@@ -8179,7 +8173,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Evolution Simulator ──────────────────────────
-                with gr.Tab("⚙️ Evolution Simulator"):
+                with gr.Tab("Evolution Simulator"):
                     from darwin_godel import run_skill_opt, run_env_harness
 
                     gr.Markdown(
@@ -8223,7 +8217,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Patterns ──────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from darwin_godel import IMPL_PATTERNS as DGM_PATTERNS
 
                     gr.Markdown("### 4 Drop-In Patterns for the Self-Evolving Agent Stack")
@@ -8245,7 +8239,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 48: EmbeddingGemma 2 Multimodal Embeddings ──────────────────
-        with gr.Tab("🌐 EmbeddingGemma 2: Multimodal RAG"):
+        with poc_tab("🌐 EmbeddingGemma 2: Multimodal RAG"):
             gr.Markdown(
                 "## EmbeddingGemma 2: Quantized Multimodal Embeddings\n"
                 "**Source:** AlphaSignal Signal · 2026-10-08 · Score 9/10\n\n"
@@ -8261,7 +8255,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
 
             with gr.Tabs():
                 # ── Sub-tab 1: Modality Overview ─────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from embedding_gemma2 import MODALITY_OVERVIEW
 
                     gr.Markdown("### Three Modalities, One Shared Embedding Space")
@@ -8296,7 +8290,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 2: Benchmarks ────────────────────────────────────
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from embedding_gemma2 import BENCHMARK_DATA
 
                     gr.Markdown("### Performance Across Modalities and Benchmarks")
@@ -8334,7 +8328,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Live Demo ─────────────────────────────────────
-                with gr.Tab("🔍 Live Demo"):
+                with gr.Tab("Live Demo"):
                     gr.Markdown(
                         "### Cross-Modal Similarity Search\n\n"
                         "Enter a text query and select which modalities to search. "
@@ -8402,7 +8396,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Patterns ──────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from embedding_gemma2 import IMPL_PATTERNS as EG2_PATTERNS
 
                     gr.Markdown("### 3 Drop-In Patterns for Multimodal RAG with EmbeddingGemma 2")
@@ -8423,9 +8417,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 49: KV Cache Techniques for Multi-Model Agents ─────────────────
-        with gr.Tab("⚡ KV Cache Multi-Model Agents"):
+        with poc_tab("⚡ KV Cache Multi-Model Agents"):
             gr.Markdown(
-                "## ⚡ KV Cache Techniques for Faster Multi-Model Agents\n"
+                "## KV Cache Techniques for Faster Multi-Model Agents\n"
                 "**Source:** AlphaSignal Deep Dive · 2026-10-12 · Score 9/10\n\n"
                 "Every time an agent hands work between models it pays a *prefill tax* — "
                 "the new model re-reads the entire accumulated context from scratch. "
@@ -8437,7 +8431,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
             with gr.Tabs():
                 # ── Sub-tab 1: Architecture ──────────────────────────────────
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from kv_cache_multimodel import TECHNIQUES
 
                     for tech in TECHNIQUES:
@@ -8452,7 +8446,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # ── Sub-tab 2: Benchmarks ────────────────────────────────────
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from kv_cache_multimodel import benchmark_table_html
 
                     gr.Markdown("### Measured Results")
@@ -8466,7 +8460,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 3: Live Demo (Handoff Cost Simulator) ────────────
-                with gr.Tab("⚙️ Handoff Cost Simulator"):
+                with gr.Tab("Handoff Cost Simulator"):
                     gr.Markdown(
                         "### Estimate handoff latency for your agent pipeline\n"
                         "Adjust context size and handoff type to see the potential savings."
@@ -8514,7 +8508,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # ── Sub-tab 4: Implementation Patterns ──────────────────────
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from kv_cache_multimodel import IMPL_PATTERNS as KV_PATTERNS
 
                     gr.Markdown("### 3 Production Patterns for KV Cache Handoffs")
@@ -8537,9 +8531,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 50: Fork-and-Flush — Parallel Research Agents Escaping Idea Ruts ──
-        with gr.Tab("🍴 Fork-and-Flush Agents"):
+        with poc_tab("🍴 Fork-and-Flush Agents"):
             gr.Markdown(
-                "## 🍴 Fork-and-Flush: Parallel Research Agents That Escape Idea Ruts\n"
+                "## Fork-and-Flush: Parallel Research Agents That Escape Idea Ruts\n"
                 "**Source:** AlphaSignal newsletter · 2026-10-15 · Score 9/10\n\n"
                 "A single research agent that has been exploring direction D will "
                 "preferentially generate follow-up queries *near* D — an **idea rut**. "
@@ -8552,7 +8546,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
             with gr.Tabs():
                 # Sub-tab 1: Architecture
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from fork_flush import TECHNIQUE_CARDS
                     for card in TECHNIQUE_CARDS:
                         gr.Markdown(
@@ -8563,7 +8557,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # Sub-tab 2: Benchmarks
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from fork_flush import benchmark_table_html as ff_bench_html
                     gr.Markdown("### Reported Results (AlphaSignal Deep Dive, 2026-10-15)")
                     gr.HTML(ff_bench_html())
@@ -8579,7 +8573,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # Sub-tab 3: Live Simulator
-                with gr.Tab("⚙️ Live Simulator"):
+                with gr.Tab("Live Simulator"):
                     gr.Markdown(
                         "### Simulate fork-and-flush vs single agent\n"
                         "Adjust parameters and observe the coverage improvement."
@@ -8626,7 +8620,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # Sub-tab 4: Implementation Patterns
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from fork_flush import IMPL_PATTERNS as FF_PATTERNS
                     gr.Markdown("### 3 Drop-In Patterns for Fork-and-Flush Agents")
                     for p in FF_PATTERNS:
@@ -8645,9 +8639,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
 
         # ── Tab 51: Muse Spark Open — Meta 816B MoE Model ──
-        with gr.Tab("🧠 Muse Spark Open (816B MoE)"):
+        with poc_tab("🧠 Muse Spark Open (816B MoE)"):
             gr.Markdown(
-                "## 🧠 Muse Spark Open: Meta's 816B MoE Model\n"
+                "## Muse Spark Open: Meta's 816B MoE Model\n"
                 "*Source: AlphaSignal Top News · 2026-10-16 · Score 8/10*\n\n"
                 "Meta's **Muse Spark Open** is an 816B parameter Mixture-of-Experts model "
                 "that activates only **42B parameters per request** (256 experts, top-8 routing). "
@@ -8660,7 +8654,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
             )
             with gr.Tabs():
                 # Sub-tab 1: Architecture
-                with gr.Tab("🏗️ Architecture"):
+                with gr.Tab("Architecture"):
                     from muse_spark_open import ARCHITECTURE_CARDS
                     for card in ARCHITECTURE_CARDS:
                         gr.Markdown(
@@ -8671,7 +8665,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                         )
 
                 # Sub-tab 2: Benchmarks
-                with gr.Tab("📊 Benchmarks"):
+                with gr.Tab("Benchmarks"):
                     from muse_spark_open import benchmark_table_html as ms_bench_html
                     gr.Markdown("### Model Comparison (2026-10-16)")
                     gr.HTML(ms_bench_html())
@@ -8685,7 +8679,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # Sub-tab 3: RAG Cost Calculator
-                with gr.Tab("💰 RAG Cost Calculator"):
+                with gr.Tab("RAG Cost Calculator"):
                     gr.Markdown(
                         "### Full-Context vs. Retrieval-RAG Cost Calculator\n"
                         "Compare the cost of passing your entire corpus (1M context) vs. "
@@ -8736,7 +8730,7 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                     )
 
                 # Sub-tab 4: Implementation Patterns
-                with gr.Tab("🛠️ Implementation Patterns"):
+                with gr.Tab("Implementation Patterns"):
                     from muse_spark_open import IMPL_PATTERNS as MS_PATTERNS
                     gr.Markdown("### 3 Drop-In Patterns for Muse Spark Open")
                     for p in MS_PATTERNS:
@@ -8754,6 +8748,9 @@ with gr.Blocks(title="Paper POCs — AI Engineering", theme=gr.themes.Soft()) as
                 "multimodal agent pipelines, air-gapped/on-premise deployments requiring "
                 "frontier-quality inference."
             )
+
+    wire_navigation(demo, region_dd, poc_dd, poc_tabs)
+
 
 if __name__ == "__main__":
     demo.launch()

@@ -1,0 +1,179 @@
+"""
+Navigation for the Vector Ridge Lab Space.
+
+Every POC tab is declared with `poc_tab("Label")` instead of `gr.Tab("Label")`. That gives it a
+stable id (POC-001, POC-002, ... in declaration order, the same codes vectorridgelabs.com uses),
+strips emojis from the visible label, and lets the region/POC selectors and `?poc=POC-050`
+deep links select it.
+
+New POCs: append a new `with poc_tab("Name: short claim"):` block at the end of the POC tabs in
+app.py. Its region comes from REGION_BY_CODE when listed, otherwise from keywords in the label.
+"""
+
+import re
+from pathlib import Path
+
+import gradio as gr
+
+REGIONS = [
+    ("agents", "Agents & Orchestration"),
+    ("retrieval", "Retrieval & RAG"),
+    ("efficiency", "Inference Efficiency"),
+    ("security", "Agent Security"),
+    ("evaluation", "Evaluation & Interpretability"),
+    ("signals", "Signals & Optimisation"),
+]
+REGION_LABEL = dict(REGIONS)
+
+# Curated regions, kept in sync with the Lab on vectorridgelabs.com.
+REGION_BY_CODE = {
+    "POC-001": "retrieval", "POC-002": "evaluation", "POC-003": "signals", "POC-004": "retrieval",
+    "POC-005": "evaluation", "POC-006": "signals", "POC-007": "retrieval", "POC-008": "signals",
+    "POC-009": "agents", "POC-010": "evaluation", "POC-011": "evaluation", "POC-012": "retrieval",
+    "POC-013": "retrieval", "POC-014": "agents", "POC-015": "signals", "POC-016": "security",
+    "POC-017": "security", "POC-018": "security", "POC-019": "security", "POC-020": "efficiency",
+    "POC-021": "retrieval", "POC-022": "efficiency", "POC-023": "agents", "POC-024": "efficiency",
+    "POC-025": "agents", "POC-026": "security", "POC-027": "agents", "POC-028": "agents",
+    "POC-029": "evaluation", "POC-030": "evaluation", "POC-031": "agents", "POC-032": "security",
+    "POC-033": "agents", "POC-034": "retrieval", "POC-035": "efficiency", "POC-036": "efficiency",
+    "POC-037": "agents", "POC-038": "agents", "POC-039": "agents", "POC-040": "agents",
+    "POC-041": "evaluation", "POC-042": "agents", "POC-043": "agents", "POC-044": "agents",
+    "POC-045": "retrieval", "POC-046": "agents", "POC-047": "agents", "POC-048": "retrieval",
+    "POC-049": "efficiency", "POC-050": "agents", "POC-051": "efficiency",
+}
+
+_KEYWORDS = [
+    ("security", r"secur|shield|escape|jailbreak|injection|refusal|attack|sandbox|privacy"),
+    ("retrieval", r"\brag\b|retriev|search|embedding|index|rerank|knowledge graph"),
+    ("efficiency", r"\bkv\b|cache|cheaper|compute|latency|quantiz|\bmoe\b|cost"),
+    ("agents", r"agent|harness|swarm|orchestrat|memory|context|self-improv"),
+    ("evaluation", r"calibrat|attribution|evaluat|benchmark|interpretab|verif"),
+]
+
+_EMOJI = re.compile(
+    "[\U0001F000-\U0001FAFF\U00002600-\U000027BF\U00002B00-\U00002BFF️‍⌚⌛⏩-⏺]"
+)
+
+
+def strip_emoji(text: str) -> str:
+    return re.sub(r"\s{2,}", " ", _EMOJI.sub("", text)).strip()
+
+
+def region_for(code: str, label: str) -> str:
+    if code in REGION_BY_CODE:
+        return REGION_BY_CODE[code]
+    low = label.lower()
+    for region, pattern in _KEYWORDS:
+        if re.search(pattern, low):
+            return region
+    return "signals"
+
+
+def _index():
+    """(code, label, region) for every poc_tab in app.py, in declaration order."""
+    src = (Path(__file__).parent / "app.py").read_text(encoding="utf-8")
+    labels = re.findall(r'^\s*with poc_tab\("([^"]+)"\)', src, re.M)
+    out = []
+    for i, raw in enumerate(labels, start=1):
+        code = f"POC-{i:03d}"
+        label = strip_emoji(raw)
+        out.append((code, label, region_for(code, label)))
+    return out
+
+
+INDEX = _index()
+CODES = {code for code, _, _ in INDEX}
+_counter = 0
+
+
+def poc_tab(label: str) -> gr.Tab:
+    global _counter
+    _counter += 1
+    code = f"POC-{_counter:03d}"
+    return gr.Tab(strip_emoji(label), id=code, elem_id=code.lower())
+
+
+def poc_choices(region: str | None):
+    rows = [r for r in INDEX if not region or region == "all" or r[2] == region]
+    return [(f"{code} · {label}", code) for code, label, _ in rows]
+
+
+REGION_CHOICES = [("All regions", "all")] + [(label, rid) for rid, label in REGIONS]
+
+
+THEME = gr.themes.Base(
+    primary_hue=gr.themes.colors.orange,
+    secondary_hue=gr.themes.colors.emerald,
+    neutral_hue=gr.themes.colors.zinc,
+    font=[gr.themes.GoogleFont("Inter"), "system-ui", "sans-serif"],
+    font_mono=[gr.themes.GoogleFont("IBM Plex Mono"), "ui-monospace", "monospace"],
+    radius_size=gr.themes.sizes.radius_sm,
+).set(
+    body_background_fill_dark="#0b0b0d",
+    background_fill_primary_dark="#111114",
+    background_fill_secondary_dark="#16161a",
+    block_background_fill_dark="#111114",
+    block_border_color_dark="#26262b",
+    border_color_primary_dark="#26262b",
+    button_primary_background_fill_dark="#f97316",
+    button_primary_background_fill_hover_dark="#ea580c",
+    button_primary_text_color_dark="#0b0b0d",
+)
+
+CSS = """
+.gradio-container { max-width: 1240px !important; margin: 0 auto !important; }
+#poc-tabs > .tab-nav { display: none; }
+#vrl-header { border-bottom: 1px solid #26262b; padding-bottom: 14px; margin-bottom: 4px; }
+#vrl-header h1 { font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+#vrl-header p { color: #a1a1aa; margin: 6px 0 0; }
+#vrl-header .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: #f97316; }
+#vrl-nav { gap: 12px; }
+"""
+
+# The Lab is dark-only, like vectorridgelabs.com. Reload once with Gradio's dark theme flag,
+# keeping any ?poc= deep link.
+FORCE_DARK_JS = """
+() => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get('__theme') !== 'dark') {
+    url.searchParams.set('__theme', 'dark');
+    window.location.replace(url.href);
+  }
+}
+"""
+
+HEADER_MD = (
+    '<div id="vrl-header">'
+    '<span class="eyebrow">Vector Ridge Lab</span>'
+    "<h1>Proofs of concept from recent AI papers</h1>"
+    "<p>Each POC is a runnable reproduction of a technique we track for production AI systems. "
+    'Pick a region and a POC, or open this page from <a href="https://vectorridgelabs.com/en/lab" '
+    'target="_blank">vectorridgelabs.com/lab</a>.</p>'
+    "</div>"
+)
+
+
+def wire_navigation(demo: gr.Blocks, region_dd: gr.Dropdown, poc_dd: gr.Dropdown, tabs: gr.Tabs) -> None:
+    def on_region(region):
+        return gr.Dropdown(choices=poc_choices(region), value=None)
+
+    def on_poc(code):
+        if code in CODES:
+            return gr.Tabs(selected=code)
+        return gr.Tabs()
+
+    def on_load(request: gr.Request):
+        code = (request.query_params.get("poc") or "").strip().upper() if request else ""
+        if code in CODES:
+            region = next(r for c, _, r in INDEX if c == code)
+            return (
+                gr.Dropdown(value=region),
+                gr.Dropdown(choices=poc_choices(region), value=code),
+                gr.Tabs(selected=code),
+            )
+        return gr.Dropdown(), gr.Dropdown(), gr.Tabs()
+
+    region_dd.input(on_region, inputs=region_dd, outputs=poc_dd)
+    poc_dd.change(on_poc, inputs=poc_dd, outputs=tabs)
+    demo.load(on_load, inputs=None, outputs=[region_dd, poc_dd, tabs])
