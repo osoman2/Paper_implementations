@@ -7,11 +7,13 @@ name: Deploy Hugging Face Space
 #   - Secret HF_TOKEN: a Hugging Face token with write access.
 #   - Optional variable HF_SPACE_ID (e.g. osoman2/vrl-lab). Default: <your HF user>/vrl-lab.
 #     The Space is created if it does not exist.
+#   - First deploy: after adding the secret, open the latest "Deploy Hugging Face Space" run in
+#     Actions and click "Re-run all jobs".
 
 on:
   push:
     branches: [claude/implement-hybrid-search-WEN8O]
-    paths: ['hf-space/**']
+    paths: ['hf-space/**', '.github/workflows/deploy-space.yml']
   workflow_dispatch:
 
 concurrency:
@@ -43,6 +45,8 @@ jobs:
           import os
           from huggingface_hub import HfApi
 
+          if not os.environ.get("HF_TOKEN"):
+              raise SystemExit("Missing secret HF_TOKEN: add it in Settings > Secrets and variables > Actions, then re-run.")
           api = HfApi(token=os.environ["HF_TOKEN"])
           user = api.whoami()["name"]
           space_id = os.environ.get("HF_SPACE_ID") or f"{user}/vrl-lab"
