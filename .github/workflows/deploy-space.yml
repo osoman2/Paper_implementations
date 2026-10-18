@@ -1,0 +1,65 @@
+name: Deploy Hugging Face Space
+
+# Publishes hf-space/ (the Gradio app with every POC tab) to a public Hugging Face Space.
+# Runs on every push that touches hf-space/ on the scanner branch, and on demand from Actions.
+#
+# Setup (once):
+#   - Secret HF_TOKEN: a Hugging Face token with write access.
+#   - Optional variable HF_SPACE_ID (e.g. osoman2/vrl-lab). Default: <your HF user>/vrl-lab.
+#     The Space is created if it does not exist.
+
+on:
+  push:
+    branches: [claude/implement-hybrid-search-WEN8O]
+    paths: ['hf-space/**']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-space
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Always deploy the scanner branch, even when triggered from main.
+          ref: claude/implement-hybrid-search-WEN8O
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet "huggingface_hub>=0.25"
+
+      - name: Upload hf-space/ to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          user = api.whoami()["name"]
+          space_id = os.environ.get("HF_SPACE_ID") or f"{user}/vrl-lab"
+
+          spaces = [s.id for s in api.list_spaces(author=user)]
+          print(f"Spaces under {user}: {spaces}")
+
+          api.create_repo(space_id, repo_type="space", space_sdk="gradio", exist_ok=True, private=False)
+          api.upload_folder(
+              folder_path="hf-space",
+              repo_id=space_id,
+              repo_type="space",
+              commit_message=f"Sync from GitHub {os.environ['COMMIT_SHA'][:7]}",
+              ignore_patterns=["**/__pycache__/**", "**/*.pyc"],
+          )
+          url = f"https://huggingface.co/spaces/{space_id}"
+          print(f"Deployed: {url}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(f"Space deployed: {url}\n")
+          PY
