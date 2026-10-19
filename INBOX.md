@@ -1,5 +1,24 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-18 · Scanned via Gmail MCP (0 new emails: 2026-10-18). 0 new papers scored >= 8. 51 tabs up to date.
+Last updated: 2026-10-19 · Scanned via Gmail MCP (2 emails: 2026-10-18, 2026-10-19). 1 new paper scored >= 8. 52 tabs.
+
+## New Papers (this run — 2026-10-19)
+
+### 🔴 [Next-Concept Modeling (NCM): Stanford's Coarse-to-Fine Hierarchical Text Generation] — Score 8/10
+> Replaces token-by-token generation with a hierarchy of discrete codes (multiscale autoencoder + transformer predicting each level in parallel). One decoding step per level: 10-31x faster than diffusion LM baselines (21x on LM1B, H100), 4-5x fewer training tokens, better hard-Sudoku results, ~7% higher ROUGE-L with MBR decoding. MIT code + checkpoints on HF/GitHub. Caveat: ~100M-725M scale only, early-stage; relevance is architectural/inference-compute rather than a drop-in RAG technique.
+> **Source:** AlphaSignal Sunday Deep Dive · 2026-10-18 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 5-sub-tab Gradio demo: architecture, step/latency calculator, coarse-to-fine toy, MBR decoding selector, implementation patterns.
+**Implemented:** Yes — `hf-space/ncm/` · Tab 52 in `hf-space/app.py` (2026-10-19)
+
+### ⚪ [DeepSeek V4.1-Flash-1017: 77% DeepSWE, 1M ctx, free Search/Fetch APIs] — Score 6/10
+> Incremental update to the already-implemented DeepSeek Flash KV-efficiency tab (Tab 35). Useful for coding agents; search API at $0.75/1k calls. Not a new technique.
+> **Source:** AlphaSignal · 2026-10-19 · news@alphasignal.ai · 35,581 likes
+
+### ⚪ [Claude Code strips 25 bloatware apps from Xiaomi TV via ADB] — Score 2/10
+> Fun agent demo, not an AI-engineering technique.
+
+### ⚪ [Grok Bot 3x faster tasks / Claude quantum circuits / 16-day multi-agent sim / 50→8 step distillation] — Score 3-4/10
+> Product news and anecdotal results; no implementable method in the newsletter text.
 
 ## New Papers (this run — 2026-10-18)
 

@@ -8749,6 +8749,62 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "frontier-quality inference."
             )
 
+        # ── Tab 52: Next-Concept Modeling ──
+        with poc_tab("Next-Concept Modeling: coarse-to-fine text generation"):
+            gr.Markdown(
+                "## Next-Concept Modeling (NCM)\n"
+                "*Source: AlphaSignal Sunday Deep Dive · 2026-10-18 · Score 8/10*\n\n"
+                "Stanford's NCM generates text as a hierarchy of discrete codes, from coarse concepts to "
+                "fine detail, instead of one token at a time. Decoding needs one step per level, with all "
+                "codes of a level predicted in parallel. At ~100M scale it reports 10-31x faster generation "
+                "than diffusion LM baselines and 4-5x fewer training tokens. The speed can be reinvested in "
+                "MBR decoding for better quality. Early-stage; not yet shown at LLM scale."
+            )
+            with gr.Tabs():
+                with gr.Tab("Architecture"):
+                    from ncm import CARDS as NCM_CARDS
+                    for card in NCM_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                with gr.Tab("Step Calculator"):
+                    from ncm import latency_table as ncm_latency
+                    with gr.Row():
+                        ncm_n = gr.Slider(16, 2048, value=256, step=16, label="Output tokens")
+                        ncm_l = gr.Slider(2, 10, value=6, step=1, label="NCM hierarchy levels")
+                        ncm_d = gr.Slider(8, 256, value=64, step=8, label="Diffusion steps")
+                    ncm_t = gr.Markdown(ncm_latency(256, 6, 64))
+                    for _c in (ncm_n, ncm_l, ncm_d):
+                        _c.change(ncm_latency, [ncm_n, ncm_l, ncm_d], ncm_t)
+                with gr.Tab("Coarse-to-Fine Toy"):
+                    from ncm import coarse_to_fine as ncm_c2f
+                    ncm_txt = gr.Textbox(
+                        value="the quick brown fox jumps over the lazy dog near the old river bank",
+                        label="Sentence")
+                    ncm_lv = gr.Slider(1, 5, value=4, step=1, label="Levels")
+                    ncm_out = gr.Markdown(ncm_c2f("the quick brown fox jumps over the lazy dog near the old river bank", 4))
+                    gr.Markdown("*Illustration only: strided reveal, not the learned multiscale autoencoder.*")
+                    for _c in (ncm_txt, ncm_lv):
+                        _c.change(ncm_c2f, [ncm_txt, ncm_lv], ncm_out)
+                with gr.Tab("MBR Decoding"):
+                    from ncm import mbr_select as ncm_mbr
+                    ncm_cands = gr.Textbox(
+                        lines=5, label="Candidate outputs (one per line)",
+                        value="The model plans coarse concepts first\n"
+                              "The model first plans coarse concepts then details\n"
+                              "Coarse concepts are planned first by the model\n"
+                              "Bananas are yellow")
+                    ncm_btn = gr.Button("Select consensus candidate", variant="primary")
+                    ncm_res = gr.Markdown()
+                    ncm_btn.click(ncm_mbr, ncm_cands, ncm_res)
+                with gr.Tab("Implementation Patterns"):
+                    from ncm import IMPL_PATTERNS as NCM_PATTERNS
+                    for p in NCM_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** latency-sensitive generation, best-of-N / MBR inference-time "
+                "compute, constraint-heavy tasks (Sudoku-like). Watch for scaling results before production use."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
