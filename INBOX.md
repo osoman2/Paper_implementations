@@ -1,5 +1,25 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-19 · Scanned via Gmail MCP (2 emails: 2026-10-18, 2026-10-19). 1 new paper scored >= 8. 52 tabs.
+Last updated: 2026-10-20 · Scanned via Gmail MCP (1 new email: 2026-10-20). 0 new papers scored >= 8. 52 tabs up to date.
+
+## New Papers (this run — 2026-10-20)
+
+### ⚪ [DeepSeek ships open-source V4.1-Flash-1017 with faster outputs and free Search/Fetch APIs] — Score 5/10
+> Model release: RL with self-feedback, 77.0% DeepSWE, 1M context / 256K output, MIT weights, Search+Fetch APIs at $0.75/1k calls. Useful deployment signal, no novel RAG or agent algorithm; similar in kind to Tab 51 (Muse Spark Open).
+> **Source:** AlphaSignal Top News · 2026-10-20 · news@alphasignal.ai · 45,288 likes · Scored via Gmail MCP connector
+
+### ⚪ [Google DeepMind finds bad user guesses cut AI agent success rates by nearly half] — Score 6/10
+> Study on agent sensitivity to incorrect user hints. Relevant to agent robustness, but the signal gives no technique detail to implement; revisit if a deep dive appears.
+> **Source:** AlphaSignal Signal · 2026-10-20 · news@alphasignal.ai · 1,194 likes · Scored via Gmail MCP connector
+
+### ⚪ [Anthropic OSS Scanner: 77 critical / 803 high findings in open-source projects in one week] — Score 3/10
+> Security-scanning product launch. Not a RAG or agent-pipeline technique.
+> **Source:** AlphaSignal Top News · 2026-10-20 · news@alphasignal.ai · 8,010 likes · Scored via Gmail MCP connector
+
+### ⚪ [Nvidia robot learning framework hits 99% success across 80 manipulation tasks] — Score 2/10
+> Robotics domain application.
+> **Source:** AlphaSignal Signal · 2026-10-20 · news@alphasignal.ai · 546 stars · Scored via Gmail MCP connector
+
+_No papers scored >= 8 this run. All 52 POC tabs remain current._
 
 ## New Papers (this run — 2026-10-19)
 
