@@ -1,5 +1,24 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-20 · Scanned via Gmail MCP (1 new email: 2026-10-20). 0 new papers scored >= 8. 52 tabs up to date.
+Last updated: 2026-10-21 · Scanned via Gmail MCP (1 new email: 2026-10-21). 0 new papers scored >= 8. 52 tabs up to date.
+
+## New Papers (this run — 2026-10-21)
+
+### ⚪ [DeepSeek open-sources DeepInfer: production inference stack (DSpark speculative decoding, structured outputs)] — Score 6/10
+> Apache 2.0 engine, speculative decoding drafting 5 tokens (~30% less verification, +4-7% throughput), distributed inference, JSON/regex-constrained outputs; SM100 / Ascend 950 only. Useful infra signal, not a new RAG or agent algorithm; overlaps Tabs 35 and 52 in theme.
+> **Source:** AlphaSignal Top Repo · 2026-10-21 · news@alphasignal.ai · 32,366 likes · Scored via Gmail MCP connector
+
+### ⚪ [GRAFT: stopping RL reward hacking via a disposable adapter] — Score 5/10
+> Let the model exploit rewards in a throwaway adapter, then delete it. Interesting for RLHF training, but only a one-line signal; revisit if a deep dive appears.
+> **Source:** AlphaSignal Signals · 2026-10-21 · 1,741 likes
+
+### ⚪ [Claude designs 318K proteins for scorpion antivenom (17 lab-confirmed binders)] — Score 3/10
+> Autonomous agentic science result; biology domain, not an AI-engineering technique.
+> **Source:** AlphaSignal Top News · 2026-10-21 · 7,389 likes
+
+### ⚪ [Anthropic 400+ agents/skills library; Qwen3 censorship 58%→2%; looped-transformer residual trick; Timestral] — Score 2-4/10
+> Tooling/news items without a concrete implementable technique.
+
+_No papers scored >= 8 this run. All 52 POC tabs remain current._
 
 ## New Papers (this run — 2026-10-20)
 
