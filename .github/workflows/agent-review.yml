@@ -1,0 +1,129 @@
+name: Agent review
+
+# Independent reviewer for POC pull requests written by the daily author agent (branches poc/*).
+# The reviewer runs in a fresh context: it never saw the authoring session. It reviews the diff
+# against REVIEW_CHECKLIST.md, comments on the PR, and writes a verdict file. This job FAILS when
+# the verdict is not PASS, so mark the "review" job as a required status check: a failing review
+# blocks auto-merge exactly like a failing test.
+#
+# Why a status check and not a GitHub "Approve": approvals made with the Actions token do not count
+# toward branch protection unless extra repository settings are enabled, and the author agent opens
+# PRs with the owner's account. A pass/fail check is simpler and cannot be bypassed by the author.
+#
+# PRs from other branches pass this check immediately (no review, no API cost).
+#
+# Setup (once): repository secret ANTHROPIC_API_KEY.
+
+on:
+  pull_request:
+    branches: [claude/implement-hybrid-search-WEN8O]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR number to review
+        required: true
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number || inputs.pr }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      BASE_REF: claude/implement-hybrid-search-WEN8O
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Decide whether this PR needs an agent review
+        id: gate
+        run: |
+          head="$HEAD_REF"
+          if [ -z "$head" ]; then
+            head=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRefName -q .headRefName)
+          fi
+          echo "head=$head" >> "$GITHUB_OUTPUT"
+          if [[ "$head" == poc/* ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Not an agent POC branch ($head): no agent review needed." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          ref: ${{ steps.gate.outputs.head }}
+          fetch-depth: 0
+
+      - name: Deterministic scope check
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          git fetch --quiet origin "$BASE_REF"
+          mkdir -p .agent-review
+          python tools/check_pr_scope.py --base "origin/$BASE_REF" > .agent-review/scope.md || true
+          cat .agent-review/scope.md >> "$GITHUB_STEP_SUMMARY"
+          git diff --stat "origin/$BASE_REF...HEAD" > .agent-review/diffstat.txt
+
+      - name: Reviewer agent
+        if: steps.gate.outputs.run == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ github.token }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ env.PR_NUMBER }}
+            BASE BRANCH: ${{ env.BASE_REF }}
+
+            You are a code reviewer who did NOT write this code. The PR branch is checked out.
+            Review the diff (`gh pr diff ${{ env.PR_NUMBER }}`) against REVIEW_CHECKLIST.md.
+            The deterministic scope check result is in .agent-review/scope.md; the PR body
+            (`gh pr view ${{ env.PR_NUMBER }}`) may justify out-of-scope files.
+
+            Rules:
+            - Do not edit, create or delete any file except .agent-review/verdict.json.
+            - Read only what you need: the diff, the new POC folder, the new tab block in
+              hf-space/app.py and the new INBOX.md entry. Do not read the whole app.py or INBOX.md.
+            - For each checklist item give PASS, FAIL or N/A with a file:line reference.
+            - For each FAIL give the exact fix.
+
+            Then:
+            1. Post ONE top-level comment with `gh pr comment` titled "Agent review: PASS" or
+               "Agent review: FAIL", with the item table and fixes. Use inline comments
+               (mcp__github_inline_comment__create_inline_comment with confirmed: true) for
+               specific lines that FAIL.
+            2. Write .agent-review/verdict.json exactly in this shape:
+               {"verdict": "PASS" | "FAIL", "failed_items": [<item numbers>], "summary": "<one line>"}
+               PASS only if every item is PASS or N/A.
+          claude_args: |
+            --allowedTools "Read,Glob,Grep,Write(.agent-review/verdict.json),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(git diff:*),Bash(git log:*),mcp__github_inline_comment__create_inline_comment"
+
+      - name: Enforce verdict
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          # The reviewer must not have changed tracked files.
+          changed=$(git status --porcelain --untracked-files=no)
+          if [ -n "$changed" ]; then
+            echo "::error::Reviewer modified files: $changed"; exit 1
+          fi
+          f=.agent-review/verdict.json
+          if [ ! -s "$f" ]; then
+            echo "::error::Reviewer produced no verdict file"; exit 1
+          fi
+          verdict=$(python -c "import json;print(json.load(open('$f'))['verdict'])")
+          summary=$(python -c "import json;print(json.load(open('$f')).get('summary',''))")
+          echo "### Agent review: $verdict" >> "$GITHUB_STEP_SUMMARY"
+          echo "$summary" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$verdict" != "PASS" ]; then
+            echo "::error::Agent review FAIL: $summary"; exit 1
+          fi
