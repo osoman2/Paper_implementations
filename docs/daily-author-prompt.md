@@ -2,8 +2,11 @@
 
 Versioned here so changes to the agent's instructions go through review like code.
 The repo's CLAUDE.md is loaded automatically and holds the details; this prompt is the run order.
+Paste everything below the line into the scheduled task.
 
 ---
+
+Repository: osoman2/Paper_implementations. Its CLAUDE.md is the agent guide; follow it.
 
 0. Check out branch deploy and pull. Install test deps if missing:
    pip install -q -r hf-space/requirements.txt pytest requests
@@ -29,13 +32,15 @@ The repo's CLAUDE.md is loaded automatically and holds the details; this prompt 
      insertion line, and `python tools/kb.py search "<topic>"` to name overlapping tabs.
    - Follow "Shipping a POC" in CLAUDE.md: branch poc/<slug>-<YYYY-MM-DD>, implement
      hf-space/<slug>/, add the tab and the INBOX `**Implemented:**` + `**Link:**` lines,
-     smoke test green, open the PR with REST, enable auto-merge with REST.
+     smoke test green, open the PR with REST, enable auto-merge with REST. If enabling
+     auto-merge fails, leave the PR open and say so in the email: Osman merges it by hand.
    - PR body: paper link, score, what each sub-tab shows, smoke test summary line.
    - Wait for checks: poll `gh api repos/osoman2/Paper_implementations/pulls/<n>` until `merged`
      is true or a check fails (max 25 min). If it fails, fix once (step 2 procedure); otherwise
      leave it for tomorrow's run.
    - Only after the PR is merged: `gh api repos/osoman2/MyWebPage/dispatches -f event_type=lab-poc-added`.
      If that fails, do not retry (MyWebPage's daily action at 10:30 Lima opens the same PR).
+   - Never set commit statuses, never post a review verdict, never push code to deploy.
 6. No new POC today: commit INBOX.md directly to the deploy branch and push. On Mondays also run
    `python tools/agent_metrics.py --write` and include METRICS.md in that commit.
 7. Send Osman a confirmation and an email in Spanish: papers scanned, scores and why, re-listed

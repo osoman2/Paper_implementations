@@ -15,6 +15,10 @@ pinned: false
 Practical reproductions of high-relevance AI/ML research papers, focused on techniques
 directly applicable to RAG, retrieval, agents, and LLM evaluation.
 
+Source, tests and the agent review loop: [osoman2/Paper_implementations](https://github.com/osoman2/Paper_implementations)
+(branch `deploy`). Every change reaches this Space only after a smoke test and an independent review.
+Catalog and integration prompts: [vectorridgelabs.com/lab](https://vectorridgelabs.com/en/lab).
+
 ## Tabs
 
 ### 🔍 Hybrid Search — Score 10/10

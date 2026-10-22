@@ -45,6 +45,14 @@ Return ONLY a JSON object with this shape:
 verdict is PASS only if every item is PASS or N/A. Cover every checklist item 1-12."""
 
 
+def _error(msg: str) -> None:
+    """Print an error; inside GitHub Actions also as an annotation, readable without the logs."""
+    msg = str(msg)
+    print(msg, file=sys.stderr)
+    if os.environ.get("GITHUB_ACTIONS"):
+        print("::error::" + msg.replace("%", "%25").replace("\r", "").replace("\n", "%0A"))
+
+
 def sh(*args: str) -> str:
     return subprocess.run(args, capture_output=True, text=True, check=True, cwd=ROOT).stdout
 
@@ -72,7 +80,14 @@ def call_groq(messages: list[dict], model: str, key: str) -> dict:
     ).encode()
     for attempt in range(4):
         req = urllib.request.Request(
-            API, data=payload, headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+            API,
+            data=payload,
+            # Groq sits behind Cloudflare, which rejects the default Python-urllib user agent.
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+                "User-Agent": "vrl-agent-review/1.0 (+https://github.com/osoman2/Paper_implementations)",
+            },
         )
         try:
             with urllib.request.urlopen(req, timeout=180) as r:
@@ -83,7 +98,9 @@ def call_groq(messages: list[dict], model: str, key: str) -> dict:
                 wait = int(e.headers.get("retry-after", "20") or 20)
                 time.sleep(min(max(wait, 5), 60))
                 continue
-            raise RuntimeError(f"Groq HTTP {e.code}: {e.read()[:300]!r}") from e
+            raise RuntimeError(f"Groq HTTP {e.code}: {e.read()[:400].decode('utf-8', 'replace')}") from e
+        except urllib.error.URLError as e:
+            raise RuntimeError(f"Groq unreachable: {e.reason}") from e
         except json.JSONDecodeError as e:
             if attempt < 3:
                 continue
@@ -117,7 +134,7 @@ def main() -> int:
 
     key = os.environ.get("GROQ_API_KEY", "").strip()
     if not key:
-        print("GROQ_API_KEY missing", file=sys.stderr)
+        _error("GROQ_API_KEY missing")
         return 2
     model = os.environ.get("GROQ_MODEL") or DEFAULT_MODEL
     checklist = (ROOT / "REVIEW_CHECKLIST.md").read_text(encoding="utf-8")
@@ -130,7 +147,7 @@ def main() -> int:
     try:
         review = call_groq([{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}], model, key)
     except RuntimeError as e:
-        print(str(e), file=sys.stderr)
+        _error(f"Reviewer could not run: {e}")
         return 2
 
     items = review.get("items", [])
