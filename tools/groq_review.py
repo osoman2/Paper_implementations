@@ -27,7 +27,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+TOOLS_ROOT = Path(__file__).resolve().parent.parent
+ROOT = TOOLS_ROOT  # repository whose diff is reviewed; --repo points it at the PR checkout
 API = "https://api.groq.com/openai/v1/chat/completions"
 DEFAULT_MODEL = "openai/gpt-oss-120b"
 MAX_DIFF_CHARS = 60_000  # keeps one request inside free-tier token limits
@@ -130,14 +131,20 @@ def main() -> int:
     ap.add_argument("--out", default=".agent-review")
     ap.add_argument("--pr-body", default="")
     ap.add_argument("--scope", default="")
+    ap.add_argument("--repo", default="", help="checkout of the PR head (default: this repository)")
+    ap.add_argument("--checklist", default="", help="checklist file (default: REVIEW_CHECKLIST.md next to this tool)")
     args = ap.parse_args()
+    global ROOT
+    if args.repo:
+        ROOT = Path(args.repo).resolve()
 
     key = os.environ.get("GROQ_API_KEY", "").strip()
     if not key:
         _error("GROQ_API_KEY missing")
         return 2
     model = os.environ.get("GROQ_MODEL") or DEFAULT_MODEL
-    checklist = (ROOT / "REVIEW_CHECKLIST.md").read_text(encoding="utf-8")
+    # The checklist comes from the trusted copy, never from the PR under review.
+    checklist = Path(args.checklist or TOOLS_ROOT / "REVIEW_CHECKLIST.md").read_text(encoding="utf-8")
     scope = Path(args.scope).read_text(encoding="utf-8") if args.scope and Path(args.scope).exists() else ""
     body = Path(args.pr_body).read_text(encoding="utf-8") if args.pr_body and Path(args.pr_body).exists() else ""
     user = (
