@@ -71,3 +71,8 @@ python tools/kb.py seen "<paper title>"        # already scored or implemented?
 Open a PR to `deploy` from a `poc/<slug>-<date>` branch. Read `REVIEW_CHECKLIST.md` first: the new
 tab is declared with `with poc_tab("Name: short claim"):`, starts with a `gr.Markdown` intro, keeps
 the pinned `gradio==4.44.0`, does no heavy work at import time, and links the original paper.
+
+## License
+
+Code is released under the [MIT License](LICENSE). Each POC reimplements ideas from the paper or
+announcement it links; credit for the research belongs to its authors.
