@@ -11,7 +11,7 @@ name: Smoke test
 
 on:
   pull_request:
-    branches: [claude/implement-hybrid-search-WEN8O]
+    branches: [deploy, claude/implement-hybrid-search-WEN8O]  # old name: transition only, removed after the rename
   workflow_call:
   workflow_dispatch:
 

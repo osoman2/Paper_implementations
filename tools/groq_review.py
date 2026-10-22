@@ -2,7 +2,7 @@
 """
 Reviewer agent for poc/* pull requests, run inside GitHub Actions with Groq (free tier).
 
-    GROQ_API_KEY=... python tools/groq_review.py --base origin/claude/implement-hybrid-search-WEN8O \
+    GROQ_API_KEY=... python tools/groq_review.py --base origin/deploy \
         --out .agent-review
 
 Inputs it gives the model: REVIEW_CHECKLIST.md, the deterministic scope report, the PR body, and the

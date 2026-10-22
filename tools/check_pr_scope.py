@@ -2,7 +2,7 @@
 """
 Deterministic scope check for agent POC pull requests (REVIEW_CHECKLIST item 11).
 
-    python tools/check_pr_scope.py --base origin/claude/implement-hybrid-search-WEN8O
+    python tools/check_pr_scope.py --base origin/deploy
 
 Prints a markdown report and exits 1 if the diff touches files a POC PR should not touch.
 Allowed: one new hf-space/<folder>/, hf-space/app.py and INBOX.md. Anything else is listed so
@@ -32,7 +32,7 @@ def changed_files(base: str) -> list[tuple[str, str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--base", default="origin/claude/implement-hybrid-search-WEN8O")
+    ap.add_argument("--base", default="origin/deploy")
     args = ap.parse_args()
 
     rows = changed_files(args.base)

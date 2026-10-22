@@ -12,7 +12,7 @@ name: Deploy Hugging Face Space
 
 on:
   push:
-    branches: [claude/implement-hybrid-search-WEN8O]
+    branches: [deploy]
     paths: ['hf-space/**', '.github/workflows/deploy-space.yml']
   workflow_dispatch:
 
@@ -34,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Always deploy the scanner branch, even when triggered from main.
-          ref: claude/implement-hybrid-search-WEN8O
+          # Always publish the deploy branch, even when dispatched from another ref.
+          ref: deploy
 
       - uses: actions/setup-python@v5
         with:

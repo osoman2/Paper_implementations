@@ -1,6 +1,6 @@
 # Paper_implementations — agent guide
 
-Deploy branch: `claude/implement-hybrid-search-WEN8O`. `hf-space/` is published to the Hugging Face
+Deploy branch: `deploy`. `hf-space/` is published to the Hugging Face
 Space `osoman2/Gradio_pocs` and read by vectorridgelabs.com (Lab catalog) from this branch.
 
 ## Read the Lab through the knowledge base, not the raw files
@@ -30,7 +30,7 @@ file only when a command points you to a line (`Read` with offset/limit), never 
    so `gh pr create` / `gh pr merge --auto` fail; use REST:
    ```bash
    gh api repos/osoman2/Paper_implementations/pulls -f title="POC: ..." -f head=poc/<slug>-<date> \
-     -f base=claude/implement-hybrid-search-WEN8O -F body=@pr.md -q .number
+     -f base=deploy -F body=@pr.md -q .number
    gh api -X PUT repos/osoman2/Paper_implementations/pulls/<n>/ccr/auto_merge -f merge_method=squash
    ```
    It merges only when the `smoke` and `review` checks pass. Never push code to the deploy branch.

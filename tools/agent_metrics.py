@@ -30,7 +30,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "osoman2/Paper_implementations")
-DEPLOY_BRANCH = "claude/implement-hybrid-search-WEN8O"
+DEPLOY_BRANCH = "deploy"
+# Name of the deploy branch before 2026-10-22; runs and PRs keep it, so history is read under both.
+DEPLOY_BRANCH_ALIASES = [DEPLOY_BRANCH, "claude/implement-hybrid-search-WEN8O"]
 AGENT_PREFIX = "poc/"
 METRICS_MD = Path(__file__).resolve().parent.parent / "METRICS.md"
 
@@ -83,6 +85,7 @@ def collect(weeks: int) -> dict[str, dict]:
     stats: dict[str, dict] = defaultdict(lambda: defaultdict(int))
     merge_hours: dict[str, list[float]] = defaultdict(list)
 
+    # Renamed branches retarget PRs, so the current name covers old PRs too.
     prs = _paged(f"/repos/{REPO}/pulls", {"state": "all", "base": DEPLOY_BRANCH, "sort": "created", "direction": "desc"})
     for pr in prs:
         created = _ts(pr["created_at"])
@@ -107,11 +110,13 @@ def collect(weeks: int) -> dict[str, dict]:
             stats[wk]["merged"] += 1
             merge_hours[wk].append((merged - created).total_seconds() / 3600)
 
-    runs = _paged(
-        f"/repos/{REPO}/actions/workflows/deploy-space.yml/runs",
-        {"branch": DEPLOY_BRANCH, "event": "push", "created": f">={since.date().isoformat()}"},
-        key="workflow_runs",
-    )
+    runs = []
+    for branch in DEPLOY_BRANCH_ALIASES:
+        runs += _paged(
+            f"/repos/{REPO}/actions/workflows/deploy-space.yml/runs",
+            {"branch": branch, "event": "push", "created": f">={since.date().isoformat()}"},
+            key="workflow_runs",
+        )
     for run in runs:
         wk = _week(_ts(run["created_at"]))
         stats[wk]["deploys"] += 1
