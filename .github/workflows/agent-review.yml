@@ -2,17 +2,16 @@ name: Agent review
 
 # Independent reviewer for POC pull requests written by the daily author agent (branches poc/*).
 # The reviewer runs in a fresh context: it never saw the authoring session. It reviews the diff
-# against REVIEW_CHECKLIST.md, comments on the PR, and writes a verdict file. This job FAILS when
-# the verdict is not PASS, so mark the "review" job as a required status check: a failing review
-# blocks auto-merge exactly like a failing test.
+# against REVIEW_CHECKLIST.md and comments on the PR. The verdict becomes THIS job's result inside
+# Actions, so no agent can mark its own work as reviewed. Mark the "review" job as a required
+# status check: a FAIL blocks auto-merge exactly like a failing test.
 #
-# Why a status check and not a GitHub "Approve": approvals made with the Actions token do not count
-# toward branch protection unless extra repository settings are enabled, and the author agent opens
-# PRs with the owner's account. A pass/fail check is simpler and cannot be bypassed by the author.
+# Reviewer model:
+#   - Groq (free tier), tools/groq_review.py: default. Secret GROQ_API_KEY, optional variable GROQ_MODEL.
+#   - Claude (claude-code-action): used instead when the secret ANTHROPIC_API_KEY exists. It can open
+#     files beyond the diff and leave inline comments; costs API credits.
 #
 # PRs from other branches pass this check immediately (no review, no API cost).
-#
-# Setup (once): repository secret ANTHROPIC_API_KEY.
 
 on:
   pull_request:
@@ -43,6 +42,7 @@ jobs:
       HEAD_REF: ${{ github.event.pull_request.head.ref }}
       BASE_REF: claude/implement-hybrid-search-WEN8O
       GH_TOKEN: ${{ github.token }}
+      HAS_ANTHROPIC: ${{ secrets.ANTHROPIC_API_KEY != '' }}
     steps:
       - name: Decide whether this PR needs an agent review
         id: gate
@@ -74,8 +74,22 @@ jobs:
           cat .agent-review/scope.md >> "$GITHUB_STEP_SUMMARY"
           git diff --stat "origin/$BASE_REF...HEAD" > .agent-review/diffstat.txt
 
-      - name: Reviewer agent
-        if: steps.gate.outputs.run == 'true'
+      - name: Reviewer agent (Groq)
+        if: steps.gate.outputs.run == 'true' && env.HAS_ANTHROPIC != 'true'
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+        run: |
+          if [ -z "$GROQ_API_KEY" ]; then
+            echo "::error::Add the repository secret GROQ_API_KEY (or ANTHROPIC_API_KEY) to enable the reviewer."; exit 1
+          fi
+          gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body -q .body > .agent-review/pr_body.md
+          python tools/groq_review.py --base "origin/$BASE_REF" --out .agent-review \
+            --scope .agent-review/scope.md --pr-body .agent-review/pr_body.md
+          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file .agent-review/comment.md
+
+      - name: Reviewer agent (Claude)
+        if: steps.gate.outputs.run == 'true' && env.HAS_ANTHROPIC == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
