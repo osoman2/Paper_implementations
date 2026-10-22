@@ -30,6 +30,7 @@ auto-merge                         only when both checks pass; `deploy` is prote
 Deploy (GitHub Actions)            smoke again, upload hf-space/, wait until the Space is RUNNING
    ▼
 vectorridgelabs.com Lab sync       rebuilds the catalog from app.py + INBOX.md
+Lab store sync (GitHub Actions)    mirrors POCs + papers into Supabase for the website's RAG
 ```
 
 Weekly numbers for this loop (PRs, reviewer failures, CI blocks, failed deploys) come from
@@ -46,6 +47,7 @@ Weekly numbers for this loop (PRs, reviewer failures, CI blocks, failed deploys)
 | `tools/kb.py` | Lab knowledge base: hybrid retrieval (BM25 + trigram, RRF) over INBOX.md, app.py and the POC folders. |
 | `tools/groq_review.py`, `tools/check_pr_scope.py` | The reviewer and its deterministic scope check. |
 | `tools/agent_metrics.py` | Weekly metrics of the agent loop from the GitHub API. |
+| `tools/lab_store_sync.py` | Mirrors POCs and scanned papers into the website's retrieval store (Supabase pgvector + full text) after each merge. |
 | `CLAUDE.md`, `docs/daily-author-prompt.md` | Instructions for the author agent (versioned like code). |
 | `hybrid-search/`, `cad-score/` | The first two POCs as standalone projects, before the Space existed. |
 

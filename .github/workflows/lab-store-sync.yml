@@ -1,0 +1,46 @@
+name: Lab store sync
+
+# Mirrors the Lab (POCs + scanned papers) into the retrieval store used by vectorridgelabs.com
+# (Supabase vrl.lab_documents, hybrid full-text + vector search). The repo stays the source of
+# truth; this runs after every merge to `deploy` and only sends documents whose content changed.
+#
+# Setup (once): repository secret LAB_SYNC_SECRET, the same value as the LAB_SYNC_SECRET edge
+# function secret in Supabase. Without it the job only prints a notice.
+
+on:
+  push:
+    branches: [deploy]
+    paths: ['INBOX.md', 'hf-space/**', 'tools/kb.py', 'tools/lab_catalog.py', 'tools/lab_store_sync.py']
+  workflow_dispatch:
+
+concurrency:
+  group: lab-store-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LAB_SYNC_SECRET: ${{ secrets.LAB_SYNC_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sync documents
+        run: python tools/lab_store_sync.py
+
+      - name: Probe retrieval (annotations show the top hits)
+        if: env.LAB_SYNC_SECRET != ''
+        run: |
+          python tools/lab_store_sync.py \
+            --probe "trucks deviate from routes and fuel card fraud" \
+            --probe "support chatbot answers badly when it needs several internal PDFs" \
+            --probe "AI agents are slow and expensive, dozens of LLM calls per task" \
+            --probe "legal worries about confidential data leaking from an internal assistant"
