@@ -6,7 +6,7 @@ Runs in GitHub Actions after every merge to `deploy` (.github/workflows/lab-stor
 The repo stays the source of truth; the store is a searchable copy for the website's RAG:
 
     POCs   (every tab of the Space)              -> kind=poc,   status=implemented
-    papers (every scanned paper without a tab)   -> kind=paper, status=scanned
+    papers (scanned, no tab, score >= 5)         -> kind=paper, status=scanned
 
 Only documents whose content changed are sent; the lab-sync edge function embeds them with
 gte-small and upserts. Documents that disappeared from the repo are pruned.
@@ -37,6 +37,8 @@ SPACE_APP = "https://osoman2-gradio-pocs.hf.space"
 # Free-tier edge functions embed ~2 documents per request before hitting their compute limit (HTTP 546).
 BATCH = 2
 RETRYABLE = {502, 503, 504, 546}
+# Papers below this score are mostly product news; indexing them crowds relevant results out.
+MIN_PAPER_SCORE = 5
 UA = "vrl-lab-store-sync/1.0 (+https://github.com/osoman2/Paper_implementations)"
 
 
@@ -82,6 +84,8 @@ def build_documents() -> list[dict]:
     for r in kb._load(kb.PAPERS):
         if r.get("implemented_folder"):
             continue  # represented by its POC
+        if (r.get("score") or 0) < MIN_PAPER_SCORE:
+            continue
         pid = _paper_id(r["title"])
         if pid in seen:
             continue
@@ -150,8 +154,8 @@ def sync(secret: str) -> dict:
     return {"documents": len(docs), "changed": len(changed), "upserted": upserted, "failed": len(failed), "pruned": pruned}
 
 
-def probe(query: str, count: int = 5) -> list[dict]:
-    return _post("lab-search", {"query": query, "count": count})["results"]
+def probe(query: str, count: int = 5, kind: str = "poc") -> list[dict]:
+    return _post("lab-search", {"query": query, "count": count, "kinds": [kind]})["results"]
 
 
 def main() -> int:
@@ -175,10 +179,12 @@ def main() -> int:
         if result["failed"]:
             print(f"::error::{result['failed']} documents could not be stored; re-run to retry them.")
             return 1
+    # Same split as the website: POCs and papers are searched separately.
     for q in args.probe:
-        hits = probe(q)
-        lines = [f"{h['kind']}:{h.get('code') or ''} {h['title'][:70]} (sim {h['similarity']:.2f})" for h in hits]
-        print(f"::notice title=probe: {q[:60]}::" + " | ".join(lines))
+        for kind in ("poc", "paper"):
+            hits = probe(q, kind=kind)
+            lines = [f"{h.get('code') or ''} {h['title'][:60]} (sim {h['similarity']:.2f})" for h in hits]
+            print(f"::notice title={kind} probe: {q[:50]}::" + " | ".join(lines))
     return 0
 
 

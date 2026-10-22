@@ -40,7 +40,7 @@ jobs:
         if: env.LAB_SYNC_SECRET != ''
         run: |
           python tools/lab_store_sync.py \
-            --probe "trucks deviate from routes and fuel card fraud" \
-            --probe "support chatbot answers badly when it needs several internal PDFs" \
-            --probe "AI agents are slow and expensive, dozens of LLM calls per task" \
-            --probe "legal worries about confidential data leaking from an internal assistant"
+            --probe "anomaly detection on fleet GPS data: route deviations and fuel card fraud" \
+            --probe "retrieval augmented generation over many internal PDF documents, multi-document question answering" \
+            --probe "reduce cost and latency of LLM agents that make many calls per task" \
+            --probe "privacy-preserving LLM assistant over confidential legal documents, prevent data leakage"
