@@ -1,5 +1,35 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-21 · Scanned via Gmail MCP (1 new email: 2026-10-21). 0 new papers scored >= 8. 52 tabs up to date.
+Last updated: 2026-10-22 · Scanned via Gmail MCP (1 new email: 2026-10-22 AlphaSignal; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
+
+
+## New Papers (this run — 2026-10-22)
+
+### ⚪ [Claude Duet: proactive background agent (research preview)] — Score 6/10
+> Standalone Anthropic app: morning briefs, monitors email/calendar/Slack, approval gates before sending/paying/deleting. Product announcement, no published technique; approval-gate pattern overlaps agent tabs.
+> **Source:** AlphaSignal Top News · 2026-10-22 · news@alphasignal.ai · 42,516 likes · Scored via Gmail MCP connector
+
+### ⚪ [New speculative decoding method: 6x faster inference on Qwen3-8B] — Score 6/10
+> One-line signal with no paper link in the email. Inference-efficiency topic; revisit if a deep dive appears. Overlaps efficiency tabs.
+> **Source:** AlphaSignal Signals · 2026-10-22 · 521 likes
+
+### ⚪ [EAGLE-4: 961 tokens/s, up to 4x faster than vanilla decoding] — Score 6/10
+> Speculative decoding successor; signal only, no details or source in the email.
+> **Source:** AlphaSignal Signals · 2026-10-22 · 8,470 likes
+
+### ⚪ [OpenAI models find critical security flaw in PHP] — Score 4/10
+> AI-assisted vulnerability discovery news; no reusable technique.
+> **Source:** AlphaSignal Signals · 2026-10-22 · 13,781 likes
+
+### ⚪ [DeepSeek V4.1 Flash 339 GB GGUF quantization for consumer hardware] — Score 4/10
+> Community quantization release; tooling news.
+> **Source:** AlphaSignal Signals · 2026-10-22 · 23,033 downloads
+
+### ⚪ [Unitree H2-X Kung Fu Legend Guardian humanoid; Nebius open cookbook] — Score 2/10
+> Robotics hardware and a generic cookbook; off target.
+> **Source:** AlphaSignal · 2026-10-22
+
+## Re-listed (already scored)
+- DeepSeek DeepInfer open-source inference engine: existing score 6/10 (2026-10-21).
 
 ## New Papers (this run — 2026-10-21)
 
