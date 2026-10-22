@@ -36,7 +36,9 @@ file only when a command points you to a line (`Read` with offset/limit), never 
    It merges only when the `smoke` and `review` checks pass. Never push code to the deploy branch.
 5. Days without a new POC: commit INBOX.md (and METRICS.md on Mondays) directly to the deploy branch.
 
-Every rule a reviewer will apply is in `REVIEW_CHECKLIST.md`. Read it before writing the tab.
+Every rule the reviewer applies is in `REVIEW_CHECKLIST.md`; read it before writing the tab. The
+reviewer runs inside GitHub Actions (`agent-review.yml`, Groq by default) and posts its verdict as a PR
+comment. Never set commit statuses or comment a verdict yourself.
 
 ## Hard rules
 
