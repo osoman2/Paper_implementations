@@ -12,7 +12,9 @@ def test_documents_cover_every_tab_and_unimplemented_paper():
     assert len(pocs) == len(catalog.parse_tabs())
     assert all(d["url"].endswith(f"?poc={d['code']}") for d in pocs)
     implemented = {p.title for p in catalog.parse_inbox() if p.implemented_folder}
-    assert not implemented & {d["title"] for d in docs if d["kind"] == "paper"}
+    papers = [d for d in docs if d["kind"] == "paper"]
+    assert not implemented & {d["title"] for d in papers}
+    assert all(d["score"] >= store.MIN_PAPER_SCORE for d in papers)
 
 
 def test_documents_fit_the_store_schema():
