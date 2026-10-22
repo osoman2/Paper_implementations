@@ -1,0 +1,42 @@
+name: Smoke test
+
+# Merge gate for agent-authored POCs. Every PR into the deploy branch must boot the whole
+# Gradio app, serve HTTP, and run every default-input handler through Gradio's real
+# preprocess/postprocess path. Born from the 2026-10-18 deploy failure (missing import,
+# dict rows into gr.Dataframe, dependency drift), all three of which this job reproduces.
+
+on:
+  pull_request:
+    branches: [claude/implement-hybrid-search-WEN8O]
+  push:
+    branches: [claude/implement-hybrid-search-WEN8O]
+  workflow_dispatch:
+
+concurrency:
+  group: smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: hf-space/requirements.txt
+
+      - name: Install the Space's pinned dependencies
+        run: pip install -r hf-space/requirements.txt pytest httpx
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-models-${{ hashFiles('hf-space/requirements.txt') }}
+
+      - name: Smoke test
+        run: pytest tests/test_smoke.py -v -p no:warnings

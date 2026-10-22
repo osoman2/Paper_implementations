@@ -67,6 +67,38 @@ Prioritise papers that are:
 
 ---
 
+---
+
+## Agent delivery loop
+
+Most code here is written by a scheduled Claude Code agent. Nothing it writes reaches the
+public Space without passing three gates:
+
+1. **Author agent** (daily scheduled task): scans paper newsletters, implements a POC on a
+   `poc/<slug>-<date>` branch, runs `pytest tests/test_smoke.py` until green, and opens a PR
+   into the deploy branch. It never pushes POC code to the deploy branch directly.
+2. **Reviewer agent**: a separate subagent with a fresh context, which never saw the code being
+   written, reviews the diff against [`REVIEW_CHECKLIST.md`](./REVIEW_CHECKLIST.md) and posts
+   `APPROVE` or `REQUEST_CHANGES` with file:line findings. The author fixes and re-requests.
+3. **CI smoke test** (`.github/workflows/smoke-test.yml`, required check): boots the full app,
+   serves HTTP, and runs every default-input handler through Gradio's real pre/postprocess.
+
+Merge happens only with an approving review and a green smoke test. The deploy workflow then
+publishes to Hugging Face and fails unless the Space reaches `RUNNING`.
+
+The checklist and tests grow from real incidents: the first full deploy (2026-10-18) failed on a
+missing import, dict rows passed to `gr.Dataframe`, and dependency drift. The smoke test
+reproduces all three.
+
+Run locally (where huggingface.co is unreachable, stub the embedding model):
+
+```bash
+pip install -r hf-space/requirements.txt pytest httpx
+SMOKE_FAKE_EMBEDDINGS=1 pytest tests/test_smoke.py -v
+```
+
+---
+
 ## POC Index
 
 | Folder | Paper / Technique | Key Gain | Status |
