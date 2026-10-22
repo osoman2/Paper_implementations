@@ -12,7 +12,7 @@ Scan JournalClub.io emails for new AI engineering papers, score their relevance 
 ## Steps
 
 <execute_bash>
-cd /home/user/Paper_implementations && python tools/daily_scan.py
+python tools/daily_scan.py   # from the repository root
 </execute_bash>
 
 After running the script, read INBOX.md and present a summary to the user:

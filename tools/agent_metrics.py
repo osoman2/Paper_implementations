@@ -91,6 +91,8 @@ def collect(weeks: int) -> dict[str, dict]:
         created = _ts(pr["created_at"])
         if created < since or not pr["head"]["ref"].startswith(AGENT_PREFIX):
             continue
+        if pr["title"].upper().startswith("TEST"):  # deliberate gate tests, not agent work
+            continue
         wk = _week(created)
         stats[wk]["agent_prs"] += 1
         n = pr["number"]
