@@ -24,6 +24,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -33,7 +34,9 @@ import kb  # noqa: E402
 
 FUNCTIONS_URL = os.environ.get("LAB_FUNCTIONS_URL", "https://jlavdoweaeuscqeqcfsb.supabase.co/functions/v1")
 SPACE_APP = "https://osoman2-gradio-pocs.hf.space"
-BATCH = 8
+# Free-tier edge functions embed ~2 documents per request before hitting their compute limit (HTTP 546).
+BATCH = 2
+RETRYABLE = {502, 503, 504, 546}
 UA = "vrl-lab-store-sync/1.0 (+https://github.com/osoman2/Paper_implementations)"
 
 
@@ -101,16 +104,28 @@ def build_documents() -> list[dict]:
     return docs
 
 
-def _post(path: str, payload: dict, secret: str | None = None, timeout: int = 120):
+def _post(path: str, payload: dict, secret: str | None = None, timeout: int = 120, retries: int = 3):
     headers = {"Content-Type": "application/json", "User-Agent": UA}
     if secret:
         headers["x-lab-sync-secret"] = secret
-    req = urllib.request.Request(f"{FUNCTIONS_URL}/{path}", data=json.dumps(payload).encode(), headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.load(r)
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"{path} HTTP {e.code}: {e.read()[:300].decode('utf-8', 'replace')}") from e
+    data = json.dumps(payload).encode()
+    for attempt in range(retries + 1):
+        req = urllib.request.Request(f"{FUNCTIONS_URL}/{path}", data=data, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            body = e.read()[:300].decode("utf-8", "replace")
+            if e.code in RETRYABLE and attempt < retries:
+                time.sleep(3 * (attempt + 1))
+                continue
+            raise RuntimeError(f"{path} HTTP {e.code}: {body}") from e
+        except urllib.error.URLError as e:
+            if attempt < retries:
+                time.sleep(3 * (attempt + 1))
+                continue
+            raise RuntimeError(f"{path} unreachable: {e.reason}") from e
+    raise RuntimeError(f"{path}: retries exhausted")
 
 
 def sync(secret: str) -> dict:
@@ -122,11 +137,17 @@ def sync(secret: str) -> dict:
         or existing[d["id"]]["content_hash"] != d["content_hash"]
         or not existing[d["id"]]["has_embedding"]
     ]
-    upserted = 0
+    upserted, failed = 0, []
     for i in range(0, len(changed), BATCH):
-        upserted += _post("lab-sync", {"action": "upsert", "docs": changed[i : i + BATCH]}, secret)["upserted"]
+        batch = changed[i : i + BATCH]
+        try:
+            upserted += _post("lab-sync", {"action": "upsert", "docs": batch}, secret)["upserted"]
+        except RuntimeError as e:
+            # Keep going: what was stored stays stored, and the next run retries only what is missing.
+            failed += [d["id"] for d in batch]
+            print(f"::warning::upsert failed for {[d['id'] for d in batch]}: {e}")
     pruned = _post("lab-sync", {"action": "prune", "keep_ids": [d["id"] for d in docs]}, secret)["pruned"]
-    return {"documents": len(docs), "changed": len(changed), "upserted": upserted, "pruned": pruned}
+    return {"documents": len(docs), "changed": len(changed), "upserted": upserted, "failed": len(failed), "pruned": pruned}
 
 
 def probe(query: str, count: int = 5) -> list[dict]:
@@ -151,6 +172,9 @@ def main() -> int:
             return 0
         result = sync(secret)
         print(f"::notice::Lab store synced: {json.dumps(result)}")
+        if result["failed"]:
+            print(f"::error::{result['failed']} documents could not be stored; re-run to retry them.")
+            return 1
     for q in args.probe:
         hits = probe(q)
         lines = [f"{h['kind']}:{h.get('code') or ''} {h['title'][:70]} (sim {h['similarity']:.2f})" for h in hits]
