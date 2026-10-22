@@ -26,7 +26,13 @@ file only when a command points you to a line (`Read` with offset/limit), never 
    `**Implemented:**` and `**Link:**` lines.
 3. Run the smoke test until green:
    `SMOKE_ALLOW_OFFLINE=1 pytest tests/ -q` (offline mode only tolerates model-hub network errors).
-4. Open a PR to the deploy branch and enable auto-merge (`gh pr merge --auto --squash`).
+4. Open a PR to the deploy branch and enable auto-merge. Agent sandboxes have no GitHub GraphQL,
+   so `gh pr create` / `gh pr merge --auto` fail; use REST:
+   ```bash
+   gh api repos/osoman2/Paper_implementations/pulls -f title="POC: ..." -f head=poc/<slug>-<date> \
+     -f base=claude/implement-hybrid-search-WEN8O -F body=@pr.md -q .number
+   gh api -X PUT repos/osoman2/Paper_implementations/pulls/<n>/ccr/auto_merge -f merge_method=squash
+   ```
    It merges only when the `smoke` and `review` checks pass. Never push code to the deploy branch.
 5. Days without a new POC: commit INBOX.md (and METRICS.md on Mondays) directly to the deploy branch.
 
