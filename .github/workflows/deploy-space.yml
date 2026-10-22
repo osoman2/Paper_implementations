@@ -23,7 +23,12 @@ concurrency:
 # Space builds can take a while on the free CPU tier.
 
 jobs:
+  smoke:
+    # Same gate as pull requests. A direct push that breaks the app never reaches the Space.
+    uses: ./.github/workflows/smoke-test.yml
+
   deploy:
+    needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

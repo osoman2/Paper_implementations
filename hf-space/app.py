@@ -282,11 +282,10 @@ CORPUS = [
 corpus_texts = [doc.text for doc in CORPUS]
 doc_map = {doc.id: doc for doc in CORPUS}
 
-print("Loading retrieval models (first run downloads ~90 MB)…")
+# The dense model loads lazily on the first Hybrid Search query (~90 MB download on first use).
 sparse_ret = SparseRetriever(CORPUS)
 dense_ret  = DenseRetriever(CORPUS)
 analyzer   = QueryAnalyzer(corpus_texts)
-print("Retrieval models ready.")
 
 
 def hs_search(query: str, fusion_method: str, top_k: int, force_alpha: float, auto_alpha: bool):
