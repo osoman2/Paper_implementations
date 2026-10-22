@@ -33,8 +33,14 @@ file only when a command points you to a line (`Read` with offset/limit), never 
      -f base=deploy -F body=@pr.md -q .number
    gh api -X PUT repos/osoman2/Paper_implementations/pulls/<n>/ccr/auto_merge -f merge_method=squash
    ```
-   It merges only when the `smoke` and `review` checks pass. Never push code to the deploy branch.
-5. Days without a new POC: commit INBOX.md (and METRICS.md on Mondays) directly to the deploy branch.
+   It merges only when the `smoke` and `review` checks pass. If enabling auto-merge answers
+   422 "clean status", the checks already passed: merge with
+   `gh api -X PUT repos/osoman2/Paper_implementations/pulls/<n>/merge -f merge_method=squash`.
+   Never merge a PR whose checks are failing or pending, and never push to the deploy branch:
+   it is protected without bypass, so every change, including INBOX.md, goes through a PR.
+5. Days without a new POC: commit INBOX.md (and METRICS.md on Mondays) on a branch
+   `inbox/<YYYY-MM-DD>`, open a PR to `deploy` and enable auto-merge the same way. Only the smoke
+   test runs on it (the reviewer only reviews `poc/*` branches).
 
 Every rule the reviewer applies is in `REVIEW_CHECKLIST.md`; read it before writing the tab. The
 reviewer runs inside GitHub Actions (`agent-review.yml`, Groq by default) and posts its verdict as a PR

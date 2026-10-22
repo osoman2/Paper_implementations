@@ -40,3 +40,26 @@ def test_missing_verdict_is_fail(monkeypatch, tmp_path):
 def test_collect_diff_runs_on_this_repo():
     base = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     assert "DIFF OF MODIFIED FILES" in groq_review.collect_diff(base)
+
+
+def test_checklist_and_repo_come_from_arguments(monkeypatch, tmp_path):
+    """The workflow passes the trusted checklist; a checklist edited inside the PR must not be used."""
+    trusted = tmp_path / "trusted.md"
+    trusted.write_text("TRUSTED CHECKLIST")
+    seen = {}
+
+    def fake_call(messages, model, key):
+        seen["user"] = messages[1]["content"]
+        return {"verdict": "PASS", "summary": "ok", "items": [{"n": 1, "result": "PASS"}]}
+
+    monkeypatch.setenv("GROQ_API_KEY", "test")
+    monkeypatch.setattr(groq_review, "call_groq", fake_call)
+    monkeypatch.setattr(groq_review, "collect_diff", lambda base: "diff")
+    monkeypatch.setattr(sys, "argv", [
+        "groq_review", "--base", "HEAD", "--out", str(tmp_path / "out"),
+        "--checklist", str(trusted), "--repo", str(tmp_path),
+    ])
+    assert groq_review.main() == 0
+    assert "TRUSTED CHECKLIST" in seen["user"]
+    assert groq_review.ROOT == tmp_path.resolve()
+    monkeypatch.setattr(groq_review, "ROOT", groq_review.TOOLS_ROOT)
