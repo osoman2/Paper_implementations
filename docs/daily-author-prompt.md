@@ -5,12 +5,12 @@ The repo's CLAUDE.md is loaded automatically and holds the details; this prompt 
 
 ---
 
-0. Check out branch claude/implement-hybrid-search-WEN8O and pull. Install test deps if missing:
+0. Check out branch deploy and pull. Install test deps if missing:
    pip install -q -r hf-space/requirements.txt pytest requests
 1. Run `python tools/kb.py brief`. Do NOT read INBOX.md or hf-space/app.py in full on this run;
    use tools/kb.py and read only the line ranges it points to.
 2. Fix before you add: list open agent PRs
-   `gh api "repos/osoman2/Paper_implementations/pulls?state=open&base=claude/implement-hybrid-search-WEN8O" -q '.[] | select(.head.ref|startswith("poc/")) | "\(.number) \(.head.ref)"'`
+   `gh api "repos/osoman2/Paper_implementations/pulls?state=open&base=deploy" -q '.[] | select(.head.ref|startswith("poc/")) | "\(.number) \(.head.ref)"'`
    For each, read its failing checks (`gh api repos/osoman2/Paper_implementations/commits/<sha>/check-runs`)
    and the "Agent review: FAIL" comment. Check out the branch, apply the fixes, run
    `SMOKE_ALLOW_OFFLINE=1 pytest tests/ -q` until green, push. Do not open a new POC while one is open.

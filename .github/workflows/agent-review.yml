@@ -15,7 +15,7 @@ name: Agent review
 
 on:
   pull_request:
-    branches: [claude/implement-hybrid-search-WEN8O]
+    branches: [deploy, claude/implement-hybrid-search-WEN8O]  # old name: transition only, removed after the rename
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:
@@ -40,7 +40,7 @@ jobs:
     env:
       PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
       HEAD_REF: ${{ github.event.pull_request.head.ref }}
-      BASE_REF: claude/implement-hybrid-search-WEN8O
+      BASE_REF: deploy
       GH_TOKEN: ${{ github.token }}
       HAS_ANTHROPIC: ${{ secrets.ANTHROPIC_API_KEY != '' }}
     steps:
