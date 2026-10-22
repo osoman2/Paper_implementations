@@ -1,85 +1,73 @@
-# Paper Implementations & POCs
+# Vector Ridge Lab · Paper implementations
 
-Practical reproductions of AI/ML research papers — focused on techniques directly applicable to production AI engineering (RAG, retrieval, agents, LLMs).
+Working proofs of concept of recent AI research, reproduced within days of publication and
+published as live demos. Research first, production always.
 
-Each POC lives in its own folder with an independent Python environment, a paper summary, a relevance assessment, and a runnable demo.
+- **Live demos:** [Hugging Face Space `osoman2/Gradio_pocs`](https://huggingface.co/spaces/osoman2/Gradio_pocs)
+  (open one directly with `?poc=POC-050`)
+- **Catalog, live matching and integration prompts:** [vectorridgelabs.com/lab](https://vectorridgelabs.com/en/lab)
+- **Publishing branch:** `deploy` (everything below describes that branch)
 
----
+## How the Lab is built
 
-## Repository Structure
+An author agent reads AI newsletters every morning, scores each paper for AI engineering relevance
+and, when one scores 8/10 or more, implements it as a new tab of the Space. Nothing it writes
+reaches production without passing two independent gates.
 
 ```
-.
-├── README.md                  ← this file
-├── hybrid-search/             ← Query-Adaptive Hybrid Search (DAT / vstash)
-│   ├── README.md              ← paper summary + relevance assessment
-│   ├── requirements.txt
-│   └── src/
-│       ├── app.py             ← Gradio demo (entry point)
-│       ├── retriever.py       ← BM25 + dense retriever
-│       ├── query_analyzer.py  ← IDF-based adaptive alpha
-│       └── fusion.py          ← RRF + score normalization
-└── <next-poc>/
-    └── ...
+Author agent (daily, Claude)       reads newsletters, scores papers (INBOX.md), writes the POC
+   │  opens a PR: poc/<slug>-<date>  (or inbox/<date> on days without a POC)
+   ▼
+smoke (GitHub Actions)             imports the app, renders it, serves / and /config, runs every
+   │                               event handler with default and example inputs, checks pins
+   │                               and the website contract                    → tests/
+review (GitHub Actions, Groq)      a reviewer that never saw the authoring checks the diff
+   │                               against REVIEW_CHECKLIST.md; reviewer code and checklist
+   │                               come from `deploy`, so a PR cannot change its own rules
+   ▼
+auto-merge                         only when both checks pass; `deploy` is protected, no bypass
+   ▼
+Deploy (GitHub Actions)            smoke again, upload hf-space/, wait until the Space is RUNNING
+   ▼
+vectorridgelabs.com Lab sync       rebuilds the catalog from app.py + INBOX.md
 ```
 
----
+Weekly numbers for this loop (PRs, reviewer failures, CI blocks, failed deploys) come from
+`tools/agent_metrics.py` and are kept in `METRICS.md`.
 
-## Guidelines for New POCs
+## Repository layout
 
-### Folder & naming
-- Use a short kebab-case name that matches the paper's key concept: `hybrid-search`, `speculative-rag`, `colbert-retrieval`.
-- Every POC needs a `README.md` that includes:
-  - **Paper** — title, authors, arXiv link
-  - **Core idea** — ≤5 sentences, what problem it solves and how
-  - **Relevance** — why this matters for AI engineering (RAG, latency, accuracy, cost)
-  - **Results** — key metric improvements from the paper
-  - **How to run** — copy-paste commands
+| Path | What it is |
+|---|---|
+| `hf-space/` | The Gradio app published to the Space. One folder per POC, one `poc_tab(...)` per POC in `app.py`. |
+| `INBOX.md` | Every paper scanned, with score, summary, original source link and implementation status. |
+| `tests/` | Smoke suite and its harness (`smoke_harness.py` exercises every wired handler). |
+| `REVIEW_CHECKLIST.md` | The rules the reviewer applies, each seeded from a real incident. |
+| `tools/kb.py` | Lab knowledge base: hybrid retrieval (BM25 + trigram, RRF) over INBOX.md, app.py and the POC folders. |
+| `tools/groq_review.py`, `tools/check_pr_scope.py` | The reviewer and its deterministic scope check. |
+| `tools/agent_metrics.py` | Weekly metrics of the agent loop from the GitHub API. |
+| `CLAUDE.md`, `docs/daily-author-prompt.md` | Instructions for the author agent (versioned like code). |
+| `hybrid-search/`, `cad-score/` | The first two POCs as standalone projects, before the Space existed. |
 
-### Environment
-- Each POC has its own `requirements.txt`. No monorepo-level deps.
-- Python ≥ 3.10. Use `venv`:
-  ```bash
-  python -m venv .venv && source .venv/bin/activate
-  pip install -r requirements.txt
-  ```
+## Run it locally
 
-### UI stack
-- **Frontend only** → plain HTML/JS or a single Python script with `gradio`.
-- **Backend needed** → Python + Gradio, NiceGUI, Streamlit, or Taipy.
-- No full-stack boilerplate. Keep it minimal and runnable in one command.
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r hf-space/requirements.txt pytest requests
+cd hf-space && python app.py          # the Space, on http://127.0.0.1:7860
+cd .. && pytest tests/ -q             # the same gate CI runs
+```
 
-### Code style
-- Entry point is always `src/app.py`.
-- No comments explaining *what* the code does — only non-obvious *why* constraints.
-- No premature abstractions. Three similar lines > a helper function.
+Explore the Lab without opening the big files:
 
-### Selecting papers to implement
-Prioritise papers that are:
-1. **Recent** (< 18 months) and not yet widely reproduced
-2. **Directly applicable** to RAG, retrieval, agents, or LLM inference
-3. **Implementable** without proprietary data or >24 GB VRAM
-4. **Benchmarked** — has clear metrics to validate the implementation against
+```bash
+python tools/kb.py brief                       # tabs, regions, recent scans, backlog
+python tools/kb.py search "agent memory cost"  # related POCs and papers
+python tools/kb.py seen "<paper title>"        # already scored or implemented?
+```
 
-### Claude workflow commands
-- `/vrl-implement` — implement a new POC from a paper or idea
-- `/vrl-research` — research a paper and produce relevance assessment
+## Contributing a POC
 
----
-
-## POC Index
-
-| Folder | Paper / Technique | Key Gain | Status |
-|--------|-------------------|----------|--------|
-| [`hybrid-search`](./hybrid-search/) | Query-Adaptive Hybrid Search (DAT + vstash) | +2–17% NDCG@10 over fixed-weight hybrid | ✅ Done |
-| [`cad-score`](./cad-score/) | CAD Score: Context-Aware Semantic Diversity (Kim et al. 2025) | Objective LLM creativity evaluation without human judges | ✅ Done |
-
-## Paper Backlog (from JournalClub.io)
-
-Papers sourced and assessed for relevance. Sorted by implementation priority.
-
-| Paper | Why relevant | Priority |
-|-------|-------------|----------|
-| A synergistic engine paradigm for real-time, context-aware decision-making | Event-driven pattern matching + state tracking — applicable to agent orchestration | Medium |
-| Drop-in density-aware partitioning for tree-based anomaly detection | Improved Isolation Forest — useful for LLM/system output monitoring | Medium |
-| The attribution crisis in LLM search results | Research on LLM attribution gap — informs RAG citation design | Low (research) |
+Open a PR to `deploy` from a `poc/<slug>-<date>` branch. Read `REVIEW_CHECKLIST.md` first: the new
+tab is declared with `with poc_tab("Name: short claim"):`, starts with a `gr.Markdown` intro, keeps
+the pinned `gradio==4.44.0`, does no heavy work at import time, and links the original paper.
