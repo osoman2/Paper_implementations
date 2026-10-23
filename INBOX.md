@@ -1,6 +1,11 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-22 · Scanned via Gmail MCP (1 new email: 2026-10-22 AlphaSignal; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
+Last updated: 2026-10-23 · Scanned via Gmail MCP (0 new emails: only the 2026-10-22 AlphaSignal already scored; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
 
+
+
+## New Papers (this run — 2026-10-23)
+
+No new newsletters since the last scan. Re-listed from the 2026-10-22 AlphaSignal email (already scored, not re-scored): Claude Duet (6/10), speculative decoding on Qwen3-8B (6/10), EAGLE-4 (6/10), OpenAI/PHP flaw (4/10).
 
 ## New Papers (this run — 2026-10-22)
 
