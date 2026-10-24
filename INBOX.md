@@ -1,7 +1,34 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-23 · Scanned via Gmail MCP (0 new emails: only the 2026-10-22 AlphaSignal already scored; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
+Last updated: 2026-10-24 · Scanned via Gmail MCP (1 new email: AlphaSignal 2026-10-23; no JournalClub email). 6 new papers scored, 0 >= 8. 52 tabs up to date.
 
 
+
+
+## New Papers (this run — 2026-10-24)
+
+### ⚪ [Meta byte-based models beat token-based Llama and Gemma with 1/6 of the data] — Score 6/10
+> Tokenizer-free byte models; efficiency and architecture angle, but signal only (one line, no paper link or details in the email). Revisit if a deep dive appears.
+> **Source:** AlphaSignal Signals · 2026-10-23 · news@alphasignal.ai · 2,848 likes
+
+### ⚪ [Anthropic launches Claude Security: continuous repo scanning with fix tracking] — Score 5/10
+> Product launch (Enterprise public beta): auto re-scan on change, finding reopen on regression, generated threat model, API + MCP connector. No published technique; overlaps Tab 18 (Agent Security).
+> **Source:** AlphaSignal Top News · 2026-10-23 · 11,456 likes
+
+### ⚪ [Open-source memory model beats transformer rivals on long-context benchmarks] — Score 5/10
+> Signal only, no name or paper in the email. Long-context/memory topic; revisit if details appear.
+> **Source:** AlphaSignal Signals · 2026-10-23 · 500 likes
+
+### ⚪ [Nous Hermes agent builds and trains a robot duck sim from one prompt] — Score 4/10
+> GTC Berlin demo of tool chaining (Nemotron planning, sim, RL training). Showcase, no technique; robotics-sim heavy.
+> **Source:** AlphaSignal Top News · 2026-10-23 · 9,791 likes
+
+### ⚪ [Recursive releases open-weight coding model at 150 tok/s on a laptop] — Score 4/10
+> Model release signal with no technical detail.
+> **Source:** AlphaSignal Signals · 2026-10-23 · 8,083 likes
+
+### ⚪ [Grok Bot controls phone calendar, reminders, contacts] — Score 3/10
+> Consumer product feature (per-app permission grants); no engineering technique.
+> **Source:** AlphaSignal Top News · 2026-10-23 · 8,528 likes
 
 ## New Papers (this run — 2026-10-23)
 
