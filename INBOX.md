@@ -1,8 +1,13 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-24 · Scanned via Gmail MCP (1 new email: AlphaSignal 2026-10-23; no JournalClub email). 6 new papers scored, 0 >= 8. 52 tabs up to date.
+Last updated: 2026-10-25 · Scanned via Gmail MCP (0 new emails: latest is the 2026-10-23 AlphaSignal already scored; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
 
 
 
+
+
+## New Papers (this run — 2026-10-25)
+
+No new newsletters since the last scan. Re-listed from the 2026-10-23 AlphaSignal email (already scored, not re-scored): Meta byte-based models (6/10), Claude Security (5/10), open-source memory model (5/10), Nous Hermes robot duck (4/10).
 
 ## New Papers (this run — 2026-10-24)
 
