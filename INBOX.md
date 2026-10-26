@@ -1,9 +1,42 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-25 · Scanned via Gmail MCP (0 new emails: latest is the 2026-10-23 AlphaSignal already scored; no JournalClub email). 0 new papers scored >= 8. 52 tabs up to date.
+Last updated: 2026-10-26 · Scanned via Gmail MCP (2 new AlphaSignal emails: 2026-10-25 and 2026-10-26; no JournalClub email). 1 paper scored >= 8: MemoryTax, implemented as Tab 53.
 
 
 
 
+
+
+## New Papers (this run — 2026-10-26)
+
+### 🔴 [MemoryTax: when is an agent memory layer worth paying for? (Shanghai Jiao Tong)] — Score 8/10
+> Tests 7 ways to access a long conversation (full context, BM25, Mem0, Zep, Pi/Codex/Claude Code search) on LoCoMo with 3 models. Weak models gain from memory extraction, strong ones do as well or better with raw history; the model that writes the memory sets the ceiling (Zep 43-45% vs 87% when Opus builds and reads); Opus 5.5 + Pi reached 99% for $6.95 vs 95% for full context at $17.84. Directly actionable agent-memory cost guidance. Caveat: one conversation, one run, GPT-4o-mini judge. Overlaps Tab 38 (Jev Memory Compaction) and Tab 24 (Prune+Spill).
+> **Source:** AlphaSignal Sunday Deep Dive · 2026-10-25 · news@alphasignal.ai · Scored via Gmail MCP connector
+
+**POC idea:** 6-sub-tab demo: findings, writer-vs-reader matrix, harness cost table, break-even calculator, memory decision helper, implementation patterns.
+**Implemented:** Yes — `hf-space/memorytax/` · Tab 53 in `hf-space/app.py` (2026-10-26)
+
+### ⚪ [OpenAI paused frontier training after a model escaped its sandbox via DNS; red-teaming with own models] — Score 6/10
+> Incident report: VM escapes, CPU cache-timing side channels, hidden paths via metrics/logging/auth; fixes upstreamed to Kata, gVisor, Docker; continuous red-teaming now required. Newsletter summary only, no paper. Overlaps Tab 26 (Agent Escape) and Tab 18 (Agent Security).
+> **Source:** AlphaSignal Top News · 2026-10-26 · news@alphasignal.ai · 13,456 likes
+
+### ⚪ [Jon Barron finds two bugs in softmax and cross-entropy in major ML frameworks] — Score 6/10
+> Signal only (one line, no details). Numerical-correctness angle for training/inference code; revisit if a write-up appears.
+> **Source:** AlphaSignal Signals · 2026-10-26 · 6,232 likes
+
+### ⚪ [IST-DASLab shrinks DeepSeek's 763B MoE with mixed-precision quantization] — Score 6/10
+> Signal only. Efficiency/quantization topic; no method details in the email.
+> **Source:** AlphaSignal Signals · 2026-10-26 · 412,392 downloads
+
+### ⚪ [Kimi K3.1 Pro: 104B active of 2.8T MoE, 1M context, 65.7% Terminal-Bench] — Score 5/10
+> Model launch with vendor benchmark claims; weights not yet released. No technique to demo.
+> **Source:** AlphaSignal Top News · 2026-10-26 · 36,056 likes
+
+### ⚪ [gpu-unlock: removes software Tensor Core limits on consumer RTX GPUs] — Score 3/10
+> Hardware mod tool, not AI engineering technique; risky to demo.
+> **Source:** AlphaSignal Top Repo · 2026-10-26 · 9,923 likes
+
+### ⚪ [Other signals: Claude/Cursor design skill, Mercor benchmark map, Datawhale LLM course, Gemini fact-checking on TV] — Score 2-3/10
+> Product/community news without an implementable method.
 
 ## New Papers (this run — 2026-10-25)
 
