@@ -8804,6 +8804,67 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "compute, constraint-heavy tasks (Sudoku-like). Watch for scaling results before production use."
             )
 
+        # ── Tab 53: MemoryTax ──
+        with poc_tab("MemoryTax: when agent memory is worth paying for"):
+            gr.Markdown(
+                "## MemoryTax: the hidden cost of agent memory\n"
+                "*Source: AlphaSignal Sunday Deep Dive · 2026-10-25 · Score 8/10*\n\n"
+                "A Shanghai Jiao Tong study tests seven ways an agent can access a long conversation: "
+                "full context, BM25, Mem0, Zep and agent-directed search. Weaker models gain from "
+                "extracted memory, stronger models often do better with the raw history, and the model "
+                "that writes the memory sets its quality ceiling. Results come from one LoCoMo "
+                "conversation and one run per setup."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from memorytax import CARDS as MT_CARDS, MODEL_ROWS as MT_MODELS
+                    for card in MT_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                    gr.Dataframe(value=MT_MODELS, headers=["Model", "Best method", "Takeaway"],
+                                 interactive=False)
+                with gr.Tab("Writer vs Reader"):
+                    from memorytax import CROSS_ROWS as MT_CROSS
+                    gr.Markdown("Zep graph accuracy (%) by the model that built it and the model that reads it "
+                                "(only the pairs reported in the summary).")
+                    gr.Dataframe(value=MT_CROSS, headers=["Builds the graph", "Reads the graph", "Accuracy %"],
+                                 interactive=False)
+                with gr.Tab("Harness Cost"):
+                    from memorytax import HARNESS_ROWS as MT_HARNESS
+                    gr.Markdown("Claude Opus 5.5 on 152 questions, by access method.")
+                    gr.Dataframe(value=MT_HARNESS, headers=["Method", "Accuracy %", "Total cost $"],
+                                 interactive=False)
+                with gr.Tab("Break-even Calculator"):
+                    from memorytax import break_even as mt_break_even
+                    with gr.Row():
+                        mt_build = gr.Number(value=0.56, label="Memory build cost ($)")
+                        mt_full = gr.Number(value=0.0028, label="Full-context cost per question ($)")
+                        mt_mem = gr.Number(value=0.0005, label="Memory cost per question ($)")
+                        mt_n = gr.Number(value=500, label="Questions over the history's life")
+                    mt_out = gr.Markdown(mt_break_even(0.56, 0.0028, 0.0005, 500))
+                    for _c in (mt_build, mt_full, mt_mem, mt_n):
+                        _c.change(mt_break_even, [mt_build, mt_full, mt_mem, mt_n], mt_out)
+                    gr.Markdown("*Illustration only: cost arithmetic with your inputs, no accuracy model. "
+                                "Defaults are placeholders, not figures from the study.*")
+                with gr.Tab("Which Memory?"):
+                    from memorytax import recommend as mt_recommend
+                    mt_fits = gr.Checkbox(value=True, label="History fits in the context window")
+                    mt_q = gr.Number(value=100, label="Expected questions")
+                    mt_strong = gr.Checkbox(value=True, label="Strong model")
+                    mt_stable = gr.Checkbox(value=False, label="Stable data queried repeatedly")
+                    mt_rec = gr.Markdown(mt_recommend(True, 100, True, False))
+                    for _c in (mt_fits, mt_q, mt_strong, mt_stable):
+                        _c.change(mt_recommend, [mt_fits, mt_q, mt_strong, mt_stable], mt_rec)
+                with gr.Tab("Implementation Patterns"):
+                    from memorytax import IMPL_PATTERNS as MT_PATTERNS
+                    for p in MT_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** long-running support or CRM agents, coding-agent memory, "
+                "cost planning for memory layers. Overlaps Tab 38 (Jev Memory Compaction) and "
+                "Tab 24 (Prune+Spill). Single-conversation study: use as a test framework."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
