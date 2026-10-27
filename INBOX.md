@@ -1,10 +1,15 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-26 · Scanned via Gmail MCP (2 new AlphaSignal emails: 2026-10-25 and 2026-10-26; no JournalClub email). 1 paper scored >= 8: MemoryTax, implemented as Tab 53.
+Last updated: 2026-10-27 · Scanned via Gmail MCP (no new JournalClub or AlphaSignal emails; only the 2026-10-26 AlphaSignal email, already scored). 0 new papers, no POC.
 
 
 
 
 
+
+
+## New Papers (this run — 2026-10-27)
+
+No new newsletters since the last scan. Re-listed from the 2026-10-26 AlphaSignal email (already scored, not re-scored): MemoryTax (8/10, Tab 53), OpenAI sandbox escape (6/10), Jon Barron softmax bugs (6/10), IST-DASLab MoE quantization (6/10), Kimi K3.1 Pro (5/10), gpu-unlock (3/10), other signals (2-3/10).
 
 ## New Papers (this run — 2026-10-26)
 
