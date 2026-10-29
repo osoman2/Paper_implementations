@@ -14,7 +14,12 @@ python tools/kb.py next                  # best paper >= 8 without a tab
 python tools/kb.py search "<topic>" -k 5 # related papers/POCs (for "overlaps Tab N" notes)
 python tools/kb.py template              # last tab block + exact insertion line for a new tab
 python tools/kb.py add-run run.md        # prepend today's INBOX section and re-index
+python tools/source_feeds.py show --since <date>  # Hugging Face Daily Papers + new GitHub repos
 ```
+
+Sources: newsletters by Gmail (JournalClub, AlphaSignal) and the feeds above. The `Source feeds` Action
+(12:17 UTC) publishes the feeds to the `feeds` branch, because agent sandboxes cannot call the GitHub
+search API. Never edit or push the `feeds` branch by hand: the Action overwrites it daily.
 
 The index (`kb/`, git-ignored) rebuilds itself when INBOX.md or app.py change. Read a slice of a big
 file only when a command points you to a line (`Read` with offset/limit), never the whole file.
