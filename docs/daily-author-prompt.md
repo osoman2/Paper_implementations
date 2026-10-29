@@ -17,9 +17,15 @@ Repository: osoman2/Paper_implementations. Its CLAUDE.md is the agent guide; fol
    For each, read its failing checks (`gh api repos/osoman2/Paper_implementations/commits/<sha>/check-runs`)
    and the "Agent review: FAIL" comment. Check out the branch, apply the fixes, run
    `SMOKE_ALLOW_OFFLINE=1 pytest tests/ -q` until green, push. Do not open a new POC while one is open.
-3. Scan new emails with the Gmail connector from the senders used in tools/daily_scan.py
-   (JournalClub, AlphaSignal), received after the "last scan" date in the brief.
-   For every candidate paper run `python tools/kb.py seen "<title>"`. Exit 0 means already
+3. Gather candidates from every source, all after the "last scan" date in the brief:
+   - Newsletters: new emails with the Gmail connector from the senders used in tools/daily_scan.py
+     (JournalClub, AlphaSignal).
+   - Feeds: `python tools/source_feeds.py show --since <last scan date>` (Hugging Face Daily Papers,
+     ranked by community upvotes, and new GitHub repos ranked by stars). Their URLs are already the
+     original source (arXiv or the repo): use them as the `**Link:**` line.
+   The same paper often appears in several sources: score it once and name every source on its
+   `**Source:**` line (e.g. "Hugging Face Daily Papers · AlphaSignal · 2026-10-29").
+   For every candidate run `python tools/kb.py seen "<title>"`. Exit 0 means already
    scored or implemented: list it as re-listed with the existing score, do not re-score it.
 4. Score the new ones (1-10, scoring guide in .claude/skills/journal-scan.md). Write today's
    section to run.md in the existing INBOX format (first line "Last updated: ...", then

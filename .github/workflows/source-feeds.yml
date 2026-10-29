@@ -1,0 +1,41 @@
+name: Source feeds
+
+# Fetches the non-newsletter candidate feeds (Hugging Face Daily Papers, new GitHub repos with fast stars)
+# and publishes them as candidates.json on the `feeds` branch. The daily author agent (14:00 UTC) reads
+# it with `python tools/source_feeds.py show`: agent sandboxes cannot call the GitHub search API.
+
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-feeds
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch feeds
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/source_feeds.py fetch --out "$RUNNER_TEMP/candidates.json"
+      - name: Publish to the feeds branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan feeds
+          git rm -rfq .
+          cp "$RUNNER_TEMP/candidates.json" candidates.json
+          git add candidates.json
+          git commit -qm "feeds: $(date -u +%F)"
+          git push -qf origin feeds
+          python -c "import json; d=json.load(open('candidates.json')); print(len(d['items']), 'candidates')" >> "$GITHUB_STEP_SUMMARY"
