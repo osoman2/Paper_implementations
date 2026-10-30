@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-28 · Scanned via Gmail MCP (AlphaSignal 2026-10-27 and 2026-10-28; no JournalClub emails). 13 new items, none >= 8, no POC.
+Last updated: 2026-10-30 · Scanned via Gmail MCP (AlphaSignal 2026-10-29; no JournalClub emails) + Hugging Face Daily Papers feed. 10 new items, none >= 8, no POC.
 
 
 
@@ -7,6 +7,56 @@ Last updated: 2026-10-28 · Scanned via Gmail MCP (AlphaSignal 2026-10-27 and 20
 
 
 
+
+
+## New Papers (this run — 2026-10-30)
+
+### 🟡 [Qwen BabelArena: benchmark for LLM agents across 23 languages] — Score 7/10
+> Agents may need ~8x more tool calls in Telugu than English for the same output. Directly relevant to agent evaluation and cost; no paper link in the email, worth a follow-up. Overlaps the evaluation tabs.
+> **Source:** AlphaSignal Top News/Signals · 2026-10-29 · news@alphasignal.ai · 1,244 likes
+
+### 🟡 [Artificial Analysis Intelligence Index v5: 60% private test sets, FrontierCode 2.0, Terminal-Bench-Science] — Score 6/10
+> Contamination-resistant evaluation design; useful as a reference, no new technique to implement.
+> **Source:** AlphaSignal Top News · 2026-10-29 · news@alphasignal.ai · 8,128 likes
+
+### 🟡 [Liquid AI LFM3: six open-weight on-device models (1.7B base, 256K context)] — Score 6/10
+> Efficient small models, run on Ollama/vLLM/llama.cpp; model release without a new method.
+> **Source:** AlphaSignal Top News · 2026-10-29 · news@alphasignal.ai · 8,447 likes
+
+### ⚪ [DTCA: Denoising Token Credit Assignment for RL in Diffusion Language Models] — Score 5/10
+> Token-level credit for RL on diffusion LMs; research-oriented, far from production RAG/agents.
+> **Source:** Hugging Face Daily Papers · 2026-10-29 · 256 upvotes
+> **Link:** https://arxiv.org/abs/2610.35201
+
+### ⚪ [Anthropic Claude for Legal: six ready-to-run artifact workflows] — Score 4/10
+> Vertical product launch; tangential.
+> **Source:** AlphaSignal Top News · 2026-10-29 · news@alphasignal.ai · 24,511 likes
+
+### ⚪ [Falcon: streaming audio-visual target speaker extraction] — Score 3/10
+> Audio-visual speech, outside the Lab's focus.
+> **Source:** Hugging Face Daily Papers · 2026-10-29 · 146 upvotes
+> **Link:** https://arxiv.org/abs/2610.32749
+
+### ⚪ [NVIDIA open-weight speech model topping transcription and speaker-ID benchmarks] — Score 3/10
+> Speech model release; tangential.
+> **Source:** AlphaSignal Signals · 2026-10-29 · news@alphasignal.ai · 5,419 likes
+
+### ⚪ [OmniShowcase: omnidirectional subject-consistent video generation] — Score 3/10
+> Video generation; not relevant to the Lab.
+> **Source:** Hugging Face Daily Papers · 2026-10-29 · 36 upvotes
+> **Link:** https://arxiv.org/abs/2610.35684
+
+### ⚪ [Sensorimotor Alignment: proxy for embodied policy success] — Score 3/10
+> Robotics representation metric; not relevant.
+> **Source:** Hugging Face Daily Papers · 2026-10-29 · 33 upvotes
+> **Link:** https://arxiv.org/abs/2610.31670
+
+### ⚪ [REA: 20 open-source repos for an AI reverse-engineering studio] — Score 3/10
+> Security tooling collection; no method details.
+> **Source:** AlphaSignal Signals · 2026-10-29 · news@alphasignal.ai · 3,776 likes
+
+### Re-listed (already scored, not re-scored)
+- Google DeepMind Genie 4 (4/10), IBM STAIR (7/10), NVIDIA agent-validation library (6/10), Anthropic drug discovery with Claude Science and OpenAI Kakeya/Yang-Mills proofs (existing scores), all from the 2026-10-28 AlphaSignal issue already in the Lab.
 
 ## New Papers (this run — 2026-10-28)
 
