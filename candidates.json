@@ -1,0 +1,446 @@
+{
+ "fetched_at": "2026-10-31T17:16:26+00:00",
+ "items": [
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Intrinsic Distribution Matching",
+   "url": "https://arxiv.org/abs/2610.39633",
+   "repo": "https://github.com/inclusionAI/IDM",
+   "signal": "243 upvotes",
+   "summary": "Intrinsic Distribution Matching improves few-step text-to-image generation by adding explicit moment constraints to distribution matching distillation, achieving state-of-the-art long-text rendering with minimal network evaluations."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Youtu-Parsing-Omni: One Encoder, One Schema, All Modalities",
+   "url": "https://arxiv.org/abs/2610.39301",
+   "repo": "",
+   "signal": "160 upvotes",
+   "summary": "Youtu-Parsing-Omni is a unified multi-modal parser that encodes documents, images, audio, and video into structured spatiotemporal records using shared weights and cross-modal fusion, achieving state-of-the-art results across parsing benchmarks through a self-evolving on-policy distillation procedure."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "A-RSI: Adaptive Task Refresh for Zero-Data Multimodal Self-Improvement",
+   "url": "https://arxiv.org/abs/2610.38568",
+   "repo": "",
+   "signal": "156 upvotes",
+   "summary": "A-RSI improves recursive self-improvement by refreshing training tasks based on declining learning signals and using independently verifiable program-generated answers, raising benchmark performance without external labels."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Your Benchmark Is an Empirical Measure Over Difficulty",
+   "url": "https://arxiv.org/abs/2610.29927",
+   "repo": "https://github.com/ASTRAL-Group/benchmark-difficulty-measure",
+   "signal": "142 upvotes",
+   "summary": "This work formalizes benchmark evaluation through difficulty measures, identifies failure modes of measure mismatch and coverage gaps, and proposes diagnostic metrics and a rewriting algorithm to improve benchmark coverage."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Look Only When Needed: Certificate-Guided Visual Routing for Efficient Diffusion VLMs",
+   "url": "https://arxiv.org/abs/2610.36671",
+   "repo": "https://github.com/hyeon9698/LOWN",
+   "signal": "97 upvotes",
+   "summary": "LOWN adaptively skips image processing during diffusion vision-language model decoding when predictions agree, reducing computation while preserving accuracy."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Proving and Improving the Platonic Representation Hypothesis with JEPAs",
+   "url": "https://arxiv.org/abs/2610.39302",
+   "repo": "https://github.com/galilai-group/prh-proof",
+   "signal": "56 upvotes",
+   "summary": "Joint-embedding predictive architectures trained on aligned multi-modal observations converge to shared representations with far greater efficiency than next-token prediction, demonstrating that positive view design—not scale alone—drives cross-modal alignment."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "L3G-World: Real-Time Infinite World Generation with Latent 3D Gaussian Memory",
+   "url": "https://arxiv.org/abs/2610.40614",
+   "repo": "https://github.com/cvlab-kaist/L3G-World",
+   "signal": "38 upvotes",
+   "summary": "L3G-World uses a compact latent 3D Gaussian memory and alternating autoregressive updates with a video diffusion transformer to generate spatially consistent interactive worlds in real time."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-30",
+   "title": "Read, Allocate, Route: Role-Coupled Tokenization for Pixel-Space Generative Transformers",
+   "url": "https://arxiv.org/abs/2610.40647",
+   "repo": "https://github.com/JiongfanYang/SpecSlot",
+   "signal": "36 upvotes",
+   "summary": "SpecSlot improves pixel-space generative Transformers by using localized spectral slots and restricted global attention to increase image detail without raising computational cost."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-29",
+   "title": "Efficient Streaming Audio-Visual Target Speaker Extraction for Real-World Acoustic Scenes",
+   "url": "https://arxiv.org/abs/2610.32749",
+   "repo": "https://github.com/JusperLee/Falcon",
+   "signal": "248 upvotes",
+   "summary": "Falcon is a lightweight causal audio-visual target speaker extraction method that achieves high quality with drastically reduced parameters and latency, supported by the realistic RealSSA benchmark."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-29",
+   "title": "OmniShowcase: Omnidirectional Subject-Consistent Video Generation from Multi-View Images",
+   "url": "https://arxiv.org/abs/2610.35684",
+   "repo": "https://github.com/justin4ai/OmniShowcase",
+   "signal": "107 upvotes",
+   "summary": "OmniShowcase improves subject-to-video generation by using geometry-driven training data and surface-normal conditioning to maintain 3D consistency across novel viewpoints."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-29",
+   "title": "TAO: Tool-Aware Joint Scheduling for LLM-Based Agentic Serving",
+   "url": "https://arxiv.org/abs/2610.37230",
+   "repo": "",
+   "signal": "62 upvotes",
+   "summary": "TAO improves scheduling for LLM agent services by considering tool readiness and using dynamic programming to place sessions, reducing latency and increasing throughput."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-29",
+   "title": "Sensorimotor Alignment: A Platonic Proxy for Embodied Policy Success",
+   "url": "https://arxiv.org/abs/2610.31670",
+   "repo": "https://github.com/yunfeixie233/sensorimotor-alignment",
+   "signal": "48 upvotes",
+   "summary": "Sensorimotor alignment measures how sensory representations match physical motion geometry, serving as a low-cost offline predictor of robot model performance."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-29",
+   "title": "OmniSpectra: A Unified Foundation Model for Universal Spectra Representation Learning",
+   "url": "https://arxiv.org/abs/2601.15351",
+   "repo": "",
+   "signal": "23 upvotes",
+   "summary": "OmniSpectra is a wavelength-native spectral foundation model that uses continuous coordinates and physics-grounded decoders to learn cross-instrument representations without destructive resampling, achieving high performance with far fewer parameters."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "ChronoReplay: One Answer Interface Is Not Enough for Streaming Spatial Intelligence",
+   "url": "https://arxiv.org/abs/2610.34283",
+   "repo": "https://github.com/yihaohu0118/ChronoReplay",
+   "signal": "420 upvotes",
+   "summary": "ChronoReplay mitigates interface lock-in in spatial vision-language models by replaying heterogeneous spatial supervision chronologically, improving cross-task transfer and enabling efficient inference-time evidence selection."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "The Trinity:Capability-Driven Recursive Self-Improvement for Multimodal Agents",
+   "url": "https://arxiv.org/abs/2610.36077",
+   "repo": "https://github.com/InfRec-Cardinal/The-Trinity",
+   "signal": "390 upvotes",
+   "summary": "The Trinity framework recursively improves multimodal agents by organizing tasks into a capability tree, generating simulated training worlds, and routing specialized harness modules to boost performance on diverse benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "Multiscale Policy Optimization for Long-Horizon LLM Agents",
+   "url": "https://arxiv.org/abs/2610.35013",
+   "repo": "https://github.com/IQuestLab/Multiscale-Policy-Optimization",
+   "signal": "386 upvotes",
+   "summary": "Multiscale Policy Optimization improves long-horizon agent training by aligning credit assignment and policy updates at the turn scale."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "Memory Tax: Dissecting the Net Value of Agent Memory",
+   "url": "https://arxiv.org/abs/2610.34073",
+   "repo": "https://github.com/hexuan21/MemoryTax",
+   "signal": "158 upvotes",
+   "summary": "Large-scale evaluation reveals that dedicated memory systems often underperform naive retrieval-augmented generation, introducing a framework of memory benefit and memory tax to assess net value."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "PDRVLA: A Vision-Language-Action Model with Physical Dynamics Representations",
+   "url": "https://arxiv.org/abs/2610.37381",
+   "repo": "",
+   "signal": "149 upvotes",
+   "summary": "PDRVLA improves robot action generation by integrating a lightweight physical dynamics module that predicts future visual features with world-model supervision, avoiding online video generation latency."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "Hy-Nomas: Towards Free-form Interactive World Generation",
+   "url": "https://arxiv.org/abs/2610.36729",
+   "repo": "https://github.com/Tencent-Hunyuan/Hy-Nomas",
+   "signal": "126 upvotes",
+   "summary": "Hy-Nomas is a video world model that uses causal attention and structured conditioning to generate interactive, multi-turn video segments with text and camera control."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "Can Test-Time Memory Evolution Outperform Test-Time Training for Scientific Discovery?",
+   "url": "https://arxiv.org/abs/2610.32046",
+   "repo": "https://github.com/yepengliu/TTME",
+   "signal": "124 upvotes",
+   "summary": "Test-Time Memory Evolution updates external memory without changing model weights to guide scientific discovery more efficiently than test-time training."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-28",
+   "title": "HABIT-Bench: Evaluating Habit Induction from Longitudinal Weak Evidence in Agent Memory",
+   "url": "https://arxiv.org/abs/2610.24520",
+   "repo": "https://github.com/LUMIA-Group/habit-bench",
+   "signal": "91 upvotes",
+   "summary": "HABIT-Bench evaluates whether LLM agent memory systems can infer implicit user habits from sparse dialogue evidence and apply them correctly across long-term interactions."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "Trajectory2Gym: Decision-Grounded Compositional Interaction Synthesis for Tool-Use Agents",
+   "url": "https://arxiv.org/abs/2610.33568",
+   "repo": "https://github.com/yihaohu0118/Trajectory2Gym",
+   "signal": "369 upvotes",
+   "summary": "Trajectory2Gym improves tool-use training by constructing interactions with compositional coverage and decision grounding rather than collecting successful trajectories."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "Trial by Trace: Benchmarking AI Agent Harnesses for Reliability and Failure Attribution",
+   "url": "https://arxiv.org/abs/2610.32285",
+   "repo": "https://github.com/TraceLite-AI/TraceTrial-Bench",
+   "signal": "299 upvotes",
+   "summary": "TraceTrial-Bench evaluates agent harness reliability across seven components using mechanism-oriented tasks, trajectory tracing, and failure attribution to compare harness designs and diagnose failures."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "StreamVibe: Proactive Video Agents for Evolving User Intent",
+   "url": "https://arxiv.org/abs/2610.34662",
+   "repo": "",
+   "signal": "172 upvotes",
+   "summary": "StreamVibe introduces a benchmark, streaming vision-language model, and hierarchical memory harness to enable proactive, intent-aware interaction with implicit and evolving user goals."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "DynaFlow: Learning Free-Form Multi-Agent Orchestration",
+   "url": "https://arxiv.org/abs/2610.34467",
+   "repo": "https://github.com/amiya-special/Dynaflow",
+   "signal": "144 upvotes",
+   "summary": "DynaFlow enables adaptive multi-agent collaboration by letting a main agent synthesize executable workflows that coordinate sub-agents through structured execution and verification."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "InteractiveWorld: A Verifiable Human-Centric Environment for Building Better Interactive MLLM Assistants",
+   "url": "https://arxiv.org/abs/2610.33966",
+   "repo": "https://github.com/facebookresearch/InteractiveWorld",
+   "signal": "127 upvotes",
+   "summary": "InteractiveWorld provides a verifiable simulation environment and benchmark to evaluate whether multimodal language models can reliably guide humans through physical tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "Work Agents: Systems, Capabilities, and Optimization",
+   "url": "https://arxiv.org/abs/2610.35845",
+   "repo": "https://github.com/EnjunDu/awesome-working-agent",
+   "signal": "119 upvotes",
+   "summary": "The paper proposes a unified framework for work agents that integrates foundation models with runtime harnesses to execute complex digital tasks reliably, introducing dimensions of persistence and openness alongside capability families and evaluation metrics."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "Representation Redistribution in Sparse Autoencoders",
+   "url": "https://arxiv.org/abs/2610.21240",
+   "repo": "https://github.com/OpenSAE/Redistribution-Sensitivity-Score",
+   "signal": "62 upvotes",
+   "summary": "Sparse autoencoders decompose language model activations into sparse features, and the redistribution sensitivity score identifies recurring feature changes that contribute to downstream readout failures without equating representation change with failure."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-27",
+   "title": "Continual Learning Exam: Benchmarking Long-Horizon RSI and Experiential Learning in LLM Agents",
+   "url": "https://arxiv.org/abs/2610.33956",
+   "repo": "https://github.com/haoyu-zhao/Continual-Learning-Exam",
+   "signal": "61 upvotes",
+   "summary": "A new benchmark evaluates whether LLM agents improve through repeated professional tasks with feedback, revealing limited sustained learning in current frontier models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "Reading, Writing, Sharing, and Interacting with the World through Video",
+   "url": "https://arxiv.org/abs/2610.31668",
+   "repo": "https://github.com/vid-gen/awesome-video-world-model",
+   "signal": "295 upvotes",
+   "summary": "This survey unifies video understanding and generation through world modeling, organizing progress around inferring, synthesizing, sharing, and interacting with latent temporal states to emphasize persistent dynamics over clip-level perception."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "Function-Space Temporal Self-Distillation for Policy Optimization",
+   "url": "https://arxiv.org/abs/2610.19687",
+   "repo": "",
+   "signal": "146 upvotes",
+   "summary": "Function-Space Policy Optimization improves reasoning and tool-use accuracy by combining temporal consolidation with privileged adaptation, reducing memory use and outperforming baselines."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "UserArena: Benchmarking Interactive User Simulation for Long-Horizon Shopping Agents",
+   "url": "https://arxiv.org/abs/2610.30932",
+   "repo": "https://github.com/RecGPT-Team/UserArena",
+   "signal": "65 upvotes",
+   "summary": "UserArena introduces a real-world interactive benchmark with long-horizon shopping trajectories and an evaluation framework, alongside On-Policy Trajectory Distillation to improve simulator fidelity for agentic recommendations."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "HiSTEVE 1.0: Harnessing Human-Interface VLA Agents for Open-World Games",
+   "url": "https://arxiv.org/abs/2610.31162",
+   "repo": "https://github.com/Andytonglove/HiSTEVE-1.0",
+   "signal": "61 upvotes",
+   "summary": "HiSTEVE is a hierarchical vision-language-action agent that combines long-horizon planning with native keyboard-and-mouse control to perform complex open-ended tasks in Minecraft."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "RynnUnify: Towards Unified Embodied Brain",
+   "url": "https://arxiv.org/abs/2610.32965",
+   "repo": "https://github.com/alibaba-damo-academy/RynnUnify",
+   "signal": "57 upvotes",
+   "summary": "RynnUnify is a 16B unified embodied model that integrates visual planning, physical reasoning, and robot control, achieving state-of-the-art results on long-horizon embodied tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "RSIHub: A Composable Framework for Agent-Evolution Methods",
+   "url": "https://arxiv.org/abs/2610.32253",
+   "repo": "https://github.com/simple-agent-lab/RSIHub",
+   "signal": "50 upvotes",
+   "summary": "RSIHub is an open-source framework that standardizes agent-evolution research by providing shared infrastructure for building, comparing, and extending methods with reusable components and consistent evaluation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "On-Policy Self-Training: Data-Free Self-Improvement in Large Language Models",
+   "url": "https://arxiv.org/abs/2610.32770",
+   "repo": "",
+   "signal": "46 upvotes",
+   "summary": "Foundation models can self-improve across text and vision tasks by generating synthetic questions and reasoning traces guided only by high-level topics, without external supervision."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-10-26",
+   "title": "Omni-Woodpecker: Hallucination Correction via Evidence-Prior Rebalancing for Omni LLMs",
+   "url": "https://arxiv.org/abs/2610.27103",
+   "repo": "https://github.com/ZiiJianLiu/Omni-Woodpecker",
+   "signal": "41 upvotes",
+   "summary": "Omni-Woodpecker is a training-free framework that reduces cross-modal hallucinations in omni LLMs by identifying modality conflicts and rebalancing hidden representations to suppress misleading priors."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-25",
+   "title": "ccch1mneyyy/dsh-Go: dsh-go — DeepSeek Harness 装进口袋：手机本机运行，也能遥控你的电脑。",
+   "url": "https://github.com/ccch1mneyyy/dsh-Go",
+   "repo": "https://github.com/ccch1mneyyy/dsh-Go",
+   "signal": "3461 stars",
+   "summary": "dsh-go — DeepSeek Harness 装进口袋：手机本机运行，也能遥控你的电脑。"
+  },
+  {
+   "source": "github",
+   "date": "2026-10-29",
+   "title": "wangzan101/Mika: Mika — 你手机上的私人 AI 助理，替你操作 App、上网、把事办成。An on-device AI agent for Android that operates apps and the web to get things done for you.",
+   "url": "https://github.com/wangzan101/Mika",
+   "repo": "https://github.com/wangzan101/Mika",
+   "signal": "2513 stars",
+   "summary": "Mika — 你手机上的私人 AI 助理，替你操作 App、上网、把事办成。An on-device AI agent for Android that operates apps and the web to get things done for you."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-25",
+   "title": "qybaihe/bla: 🛡️ BLA (Blind LLM Agents) — Adversarial defense shield that protects binaries, Electron apps, JS bundles, Python, and WebAssembly against AI reverse-engineering agents like REA. Poison -> Exhaust -> Hallucinate.",
+   "url": "https://github.com/qybaihe/bla",
+   "repo": "https://github.com/qybaihe/bla",
+   "signal": "1674 stars",
+   "summary": "🛡️ BLA (Blind LLM Agents) — Adversarial defense shield that protects binaries, Electron apps, JS bundles, Python, and WebAssembly against AI reverse-engineering agents like REA. Poison -> Exhaust -> Hallucinate."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-24",
+   "title": "daveebbelaar/bama: BAMA: Build Any Mac App. Agent skills to research, clone, design, build, optimize, and test native macOS apps with Swift and SwiftUI.",
+   "url": "https://github.com/daveebbelaar/bama",
+   "repo": "https://github.com/daveebbelaar/bama",
+   "signal": "1035 stars",
+   "summary": "BAMA: Build Any Mac App. Agent skills to research, clone, design, build, optimize, and test native macOS apps with Swift and SwiftUI."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-27",
+   "title": "jackwener/DSH-Android: 免 ROOT 免 Termux，一个 APK 在安卓手机上跑 DeepSeek Harness。引擎内嵌 App 进程 · 读屏操作 App · 改系统设置 · 定时/条件自动化 · 可选 Shizuku",
+   "url": "https://github.com/jackwener/DSH-Android",
+   "repo": "https://github.com/jackwener/DSH-Android",
+   "signal": "614 stars",
+   "summary": "免 ROOT 免 Termux，一个 APK 在安卓手机上跑 DeepSeek Harness。引擎内嵌 App 进程 · 读屏操作 App · 改系统设置 · 定时/条件自动化 · 可选 Shizuku"
+  },
+  {
+   "source": "github",
+   "date": "2026-10-24",
+   "title": "hevnsnt/CVEngine: AI-first external attack surface assessment with continuous discovery, evidence-based vulnerability validation, and developer-agent MCP integration.",
+   "url": "https://github.com/hevnsnt/CVEngine",
+   "repo": "https://github.com/hevnsnt/CVEngine",
+   "signal": "545 stars",
+   "summary": "AI-first external attack surface assessment with continuous discovery, evidence-based vulnerability validation, and developer-agent MCP integration."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-24",
+   "title": "yjid/kensaku: Search inside documents, code, and even screenshots - instantly and locally. A free, open-source file launcher with OCR, semantic search, and MCP agent access.",
+   "url": "https://github.com/yjid/kensaku",
+   "repo": "https://github.com/yjid/kensaku",
+   "signal": "342 stars",
+   "summary": "Search inside documents, code, and even screenshots - instantly and locally. A free, open-source file launcher with OCR, semantic search, and MCP agent access."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-30",
+   "title": "N1nEmAn/sapper-v2: Autonomous pentest legion — AI commander + worker swarm + layered fact-intent graph. 3rd Tencent Intelligent Attack-Defense online champion (634 teams · 8h unattended · 1B tokens beat 4.5B). The Nüwa Test: give AIs Create/Language/History, let a civilization grow.",
+   "url": "https://github.com/N1nEmAn/sapper-v2",
+   "repo": "https://github.com/N1nEmAn/sapper-v2",
+   "signal": "333 stars",
+   "summary": "Autonomous pentest legion — AI commander + worker swarm + layered fact-intent graph. 3rd Tencent Intelligent Attack-Defense online champion (634 teams · 8h unattended · 1B tokens beat 4.5B). The Nüwa Test: give AIs Create/Language/History, let a civilization grow."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-28",
+   "title": "jmanico/grim-prompter: Threat modeling for AI coding agents: point Claude Code, Codex or any agent at your repo and get an evidence-traced threat model. 36 architectures, 29 methods, MIT.",
+   "url": "https://github.com/jmanico/grim-prompter",
+   "repo": "https://github.com/jmanico/grim-prompter",
+   "signal": "295 stars",
+   "summary": "Threat modeling for AI coding agents: point Claude Code, Codex or any agent at your repo and get an evidence-traced threat model. 36 architectures, 29 methods, MIT."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-30",
+   "title": "boardshogunfluctuate/Capri-AI: ⚡ Tell your PC what to do. Capri is a cyberpunk AI agent that works with your files, projects and code through Claude Code, Codex or Antigravity. Windows installer, no terminal. Fan-made, not affiliated with CD PROJEKT RED.",
+   "url": "https://github.com/boardshogunfluctuate/Capri-AI",
+   "repo": "https://github.com/boardshogunfluctuate/Capri-AI",
+   "signal": "287 stars",
+   "summary": "⚡ Tell your PC what to do. Capri is a cyberpunk AI agent that works with your files, projects and code through Claude Code, Codex or Antigravity. Windows installer, no terminal. Fan-made, not affiliated with CD PROJEKT RED."
+  },
+  {
+   "source": "github",
+   "date": "2026-10-26",
+   "title": "JunWan666/astrbot-for-android: 在 Android 手机上本地部署和管理 AstrBot 与 NapCat，内置 PRoot Ubuntu 运行环境，支持原生管理界面、WebUI、日志、备份恢复和独立更新，无需 Root。",
+   "url": "https://github.com/JunWan666/astrbot-for-android",
+   "repo": "https://github.com/JunWan666/astrbot-for-android",
+   "signal": "286 stars",
+   "summary": "在 Android 手机上本地部署和管理 AstrBot 与 NapCat，内置 PRoot Ubuntu 运行环境，支持原生管理界面、WebUI、日志、备份恢复和独立更新，无需 Root。"
+  },
+  {
+   "source": "github",
+   "date": "2026-10-27",
+   "title": "davemessew/AgentFlux: Agentic AI platform for visual workflows and autonomous agents. Run it with Docker on your own computer or server.",
+   "url": "https://github.com/davemessew/AgentFlux",
+   "repo": "https://github.com/davemessew/AgentFlux",
+   "signal": "235 stars",
+   "summary": "Agentic AI platform for visual workflows and autonomous agents. Run it with Docker on your own computer or server."
+  }
+ ]
+}
