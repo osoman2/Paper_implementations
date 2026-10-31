@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-30 · Scanned via Gmail MCP (AlphaSignal 2026-10-29; no JournalClub emails) + Hugging Face Daily Papers feed. 10 new items, none >= 8, no POC.
+Last updated: 2026-10-31 · Scanned via Gmail MCP (AlphaSignal 2026-10-30; no JournalClub emails) + source feeds (0 new candidates). 8 new items, none >= 8, no POC.
 
 
 
@@ -8,6 +8,41 @@ Last updated: 2026-10-30 · Scanned via Gmail MCP (AlphaSignal 2026-10-29; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-10-31)
+
+### 🟡 [DeepSeek V4.1-Flash: 1M-token context in under 1GB of KV cache] — Score 7/10
+> Strong efficiency result, but no paper link in the email and it overlaps Tab 49 (KV cache multi-model agents); worth a follow-up once a technical report is out.
+> **Source:** AlphaSignal Signals · 2026-10-30 · news@alphasignal.ai · 5,357 likes
+
+### 🟡 [New retrieval method beats dense search by 17 points without vector embeddings] — Score 7/10
+> Directly relevant to retrieval, but the email gives no name, paper or repo, so nothing to implement yet. Overlaps the retrieval tabs.
+> **Source:** AlphaSignal Signals · 2026-10-30 · news@alphasignal.ai · 861 likes
+
+### 🟡 [Only GPT-6 Astra discovered hidden physics laws in a fake world; 11 other models scored zero] — Score 6/10
+> Interesting discovery-style evaluation; no link, benchmark details unknown.
+> **Source:** AlphaSignal Signals · 2026-10-30 · news@alphasignal.ai · 1,280 likes
+
+### 🟡 [Mistral open coding and cyberdefense model tops FrontierCode] — Score 6/10
+> Model release without a new method; relevant to coding agents.
+> **Source:** AlphaSignal Signals · 2026-10-30 · news@alphasignal.ai · 5,984 likes
+
+### 🟡 [CopilotKit self-hostable open-source AI agent template with human-in-the-loop controls] — Score 6/10
+> Useful agent scaffolding; a template, not a technique.
+> **Source:** AlphaSignal Signals · 2026-10-30 · news@alphasignal.ai · 3,886 likes
+
+### ⚪ [NVIDIA Nemotron 3.5 Transcribe: open-weight ASR, 4B active of 30B] — Score 5/10
+> Speech model release; outside the Lab's agents/RAG focus.
+> **Source:** AlphaSignal Top News · 2026-10-30 · news@alphasignal.ai · 9,693 likes
+
+### ⚪ [OpenAI gives Pro and Business users up to $500/month in API credits] — Score 3/10
+> Pricing news, not technical.
+> **Source:** AlphaSignal Top News · 2026-10-30 · news@alphasignal.ai · 10,332 likes
+
+### ⚪ [Anthropic Claude mobile update: multi-account, CarPlay, 33 languages] — Score 3/10
+> Product update, not technical.
+> **Source:** AlphaSignal Top News · 2026-10-30 · news@alphasignal.ai · 13,185 likes
 
 ## New Papers (this run — 2026-10-30)
 
