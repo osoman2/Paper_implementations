@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-10-31 · Scanned via Gmail MCP (AlphaSignal 2026-10-30; no JournalClub emails) + source feeds (0 new candidates). 8 new items, none >= 8, no POC.
+Last updated: 2026-11-02 · Scanned via Gmail MCP (AlphaSignal 2026-11-01; no JournalClub emails) + source feeds (0 new candidates). 1 new item, none >= 8, no POC.
 
 
 
@@ -9,6 +9,17 @@ Last updated: 2026-10-31 · Scanned via Gmail MCP (AlphaSignal 2026-10-30; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-11-02)
+
+### 🟡 [Why Specialized Foundation Models Could Reshape the AI Stack (Timestral, TabPFN, Kumo Relational, Jev)] — Score 6/10
+> Deep dive on a multi-model agent stack: a reasoning LLM orchestrating small specialized models (Timestral 5M-209M zero-shot forecaster, TabPFN, Kumo Relational, Jev). Applicable to agent design, but it is an overview with no paper or repo link, and Jev is already Tab 42 (system_one_jev). Timestral itself was re-listed (scored 2/10 on 2026-10-21).
+> **Source:** AlphaSignal · 2026-11-01 · news@alphasignal.ai
+
+## Re-listed (already scored)
+- Timestral: 2/10 (2026-10-21)
+- System One Models Jev / Laya / CLM-8B: 9/10, implemented Tab 42
 
 ## New Papers (this run — 2026-10-31)
 
