@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-02 · Scanned via Gmail MCP (AlphaSignal 2026-11-01; no JournalClub emails) + source feeds (0 new candidates). 1 new item, none >= 8, no POC.
+Last updated: 2026-11-03 · Scanned via Gmail MCP (AlphaSignal 2026-11-02; no JournalClub emails) + source feeds (0 new candidates). 3 new items, none >= 8, no POC.
 
 
 
@@ -10,6 +10,26 @@ Last updated: 2026-11-02 · Scanned via Gmail MCP (AlphaSignal 2026-11-01; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-11-03)
+
+### 🟡 [Vercel Labs agent-desktop: agents drive the OS through the accessibility tree instead of screenshots] — Score 6/10
+> Open-source tool (Apache 2.0) that gives each UI element a stable ref from the accessibility tree, so agents skip vision models. Useful idea, but it is a tool and not a paper, and a demo would only wrap an OS API that a hosted Space cannot access.
+> **Source:** AlphaSignal Top Repo · 2026-11-02 · news@alphasignal.ai · 9,473 likes
+
+### 🟡 [New method trains foundation models in one unified pass, beating staged training] — Score 5/10
+> Interesting claim, but the email gives no name, paper or repo, so nothing can be verified or implemented.
+> **Source:** AlphaSignal Signals · 2026-11-02 · news@alphasignal.ai · 1,472 likes
+
+### 🔴 [Fake Claude Code VS Code extension plants SSH backdoors on 5,000 dev machines] — Score 4/10
+> Supply-chain incident news with no technical write-up or reproducible artifact. Relevant to the security region, but there is nothing to build.
+> **Source:** AlphaSignal Signals · 2026-11-02 · news@alphasignal.ai · 7,006 likes
+
+## Re-listed (already scored)
+- Anthropic plan renames / Ultra 5-hour cap removal: product news, similar to existing entries scored 3-4/10 (no new score)
+- Red-heart emoji makes Claude and GPT pick recursion: no paper link, not scored (low value)
+- Scenario agent skills, 20 motion studio skills for Claude: product/promo items, skipped
 
 ## New Papers (this run — 2026-11-02)
 
