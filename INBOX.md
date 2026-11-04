@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-03 · Scanned via Gmail MCP (AlphaSignal 2026-11-02; no JournalClub emails) + source feeds (0 new candidates). 3 new items, none >= 8, no POC.
+Last updated: 2026-11-04 · Scanned via Gmail MCP (AlphaSignal 2026-11-03; no JournalClub emails) + source feeds (0 new candidates). 4 new items, none >= 8, no POC.
 
 
 
@@ -11,6 +11,29 @@ Last updated: 2026-11-03 · Scanned via Gmail MCP (AlphaSignal 2026-11-02; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-11-04)
+
+### 🟡 [Anthropic Message Threads: server-side conversation caching cuts time to first token 35%] — Score 6/10
+> Messages API beta: the server keeps the conversation between turns, requests shrink from ~800 KB to 1.8 KB and TTFT drops 35% at 500K-1M tokens. Relevant to inference/agent cost, but it is a vendor API feature with no paper or repo, and a hosted Space cannot call it without a key. Overlaps KV-cache tabs (POC-049).
+> **Source:** AlphaSignal Top News · 2026-11-03 · news@alphasignal.ai · 7,068 likes
+
+### 🟡 [Open-source sparse attention runs 72x faster at 10M-token context] — Score 6/10
+> Efficiency claim that fits the long-context region, but the email gives no name, paper or repo, so it cannot be verified or implemented.
+> **Source:** AlphaSignal Signals · 2026-11-03 · news@alphasignal.ai · 1,000 likes
+
+### 🟡 [OpenAI real-world benchmark built from thousands of ChatGPT user requests] — Score 5/10
+> Evaluation-relevant, but no link, dataset or methodology in the email.
+> **Source:** AlphaSignal Signals · 2026-11-03 · news@alphasignal.ai · 5,550 likes
+
+### ⚪ [Tokyo lab of AI agents runs a quantum physics experiment and discovers a new law] — Score 4/10
+> Headline only, no paper or repo; domain-specific physics.
+> **Source:** AlphaSignal Signals · 2026-11-03 · news@alphasignal.ai · 1,827 likes
+
+## Re-listed (already scored)
+- Google's autonomous research agent outperforms human scientists by 25% across 86 tasks: already 9/10, implemented as Tab 44 (scientist_two)
+- Anthropic paid AI safety residency, OpenAI Git backend, Studio Ghibli HTML film, AWS/OpenAI Bedrock ad: job/promo/product items, not scored
 
 ## New Papers (this run — 2026-11-03)
 
