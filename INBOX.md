@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-04 · Scanned via Gmail MCP (AlphaSignal 2026-11-03; no JournalClub emails) + source feeds (0 new candidates). 4 new items, none >= 8, no POC.
+Last updated: 2026-11-05 · Scanned via Gmail MCP (AlphaSignal 2026-11-04; no JournalClub emails) + source feeds (0 new candidates). 6 new items, none >= 8, no POC. 2 re-listed.
 
 
 
@@ -12,6 +12,37 @@ Last updated: 2026-11-04 · Scanned via Gmail MCP (AlphaSignal 2026-11-03; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-11-05)
+
+### 🧬 GPT-6 Astra edits another model's weights directly (Weight-Space Programming, MIT CSAIL) — Score 7/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Patching 0.016% of Qwen3.5-0.8B weights lifts MATH-500 7.9% to 48.1% without training. Interesting demo idea, but the newsletter gives no original paper/repo link and the claims are unverified, so no POC until a primary source is found.
+
+### 🔬 Hydrogen-1.0: 753B open-weight science model (MIT license) — Score 4/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Domain model on GLM-5.3; too large to demo, mostly a release announcement.
+
+### 🛠️ Study: can Claude Code improve itself by reviewing past mistakes — Score 5/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Relevant to agents (overlaps CodeAF, 7/10), but few details in the newsletter and no link.
+
+### 🧭 Google open multimodal embedding model beats models 12x its size — Score 4/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Overlaps POC-048 (EmbeddingGemma 2: Multimodal RAG).
+
+### 🔌 Anthropic lets Claude auto-connect plugins without re-authorizing — Score 3/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Product update, nothing to implement.
+
+### 💰 OpenAI quadruples bug bounty payouts, up to $172,000 — Score 3/10
+**Source:** AlphaSignal · 2026-11-04
+**Why:** Policy news.
+
+### Re-listed (not re-scored)
+- gpu-unlock: Tensor Core limits on GeForce GPUs — 3/10 (first scored 2026-10-26)
+- IST-DASLab 763B DeepSeek MoE at 1 bit/param — 6/10 (related entry 2026-10-26)
 
 ## New Papers (this run — 2026-11-04)
 
