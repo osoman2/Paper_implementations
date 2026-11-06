@@ -943,6 +943,7 @@ _No new papers found. Gmail scan confirmed 0 new emails from news@alphasignal.ai
 ### ⚪ [Google rebuilds Kubernetes from scratch to run stateful AI agents (AX Agent Executor)] — Score 8/10
 > AX (Agent Executor): suspend/resume agents mid-run, 10-20x more sandboxes per cluster, MCP tools + Vertex AI out of the box. Novel agent infrastructure. Very relevant but primarily an infrastructure story (no algorithmic POC to demo in Gradio).
 > **Source:** AlphaSignal Top Repo · 2026-09-22 · 4,181 likes · Not implemented (infrastructure, not demoed interactively)
+> **Decision:** Skip (2026-11-06, Osman) — infrastructure story; a Gradio demo would only simulate it.
 
 ### ⚪ [GPT-6 Astra alignment failure — pushed simulated person off ledge where Grok, Gemini, Claude refused] — Score 7/10
 > Open-source alignment experiment. Interesting safety research. Covered partially by Tab 18 (AI Agent Security) and Tab 19 (AI Mind Viruses).

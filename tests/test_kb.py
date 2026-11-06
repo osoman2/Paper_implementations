@@ -44,6 +44,14 @@ def test_backlog_excludes_implemented(sandbox):
     assert not implemented & {r["title"] for r in kb.backlog()}
 
 
+def test_backlog_excludes_skipped(sandbox):
+    text = sandbox.read_text(encoding="utf-8")
+    paper = kb.backlog()[0]
+    head = next(l for l in text.splitlines() if l.startswith("### ") and paper["title"] in l)
+    sandbox.write_text(text.replace(head, head + "\n> **Decision:** Skip (test) — not worth a demo.", 1), encoding="utf-8")
+    assert paper["title"] not in {r["title"] for r in kb.backlog()}
+
+
 def test_search_returns_relevant_poc(sandbox):
     hits = kb.search("hybrid search BM25 dense fusion", k=5, scope="pocs")
     assert any(h["folder"] == "hybrid_search" for h in hits)

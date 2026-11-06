@@ -62,6 +62,7 @@ class Paper:
     implemented_folder: str = ""
     implemented_tab: int = 0
     implemented_date: str = ""
+    skipped: str = ""  # "**Decision:** Skip — <reason>": scored >= 8 but deliberately not built
     line: int = 0
     tags: list[str] = field(default_factory=list)
 
@@ -114,6 +115,7 @@ def parse_inbox(text: str | None = None) -> list[Paper]:
         idea = re.search(r"\*\*POC idea:\*\* ([^\n]+)", block)
         link = re.search(r"\*\*Link:\*\* <?(https?://[^\s>]+)", block)
         impl = WEB_IMPL_RE.search(block)
+        skip = re.search(r"\*\*Decision:\*\* Skip\b[^\n]*", block, re.I)
         papers.append(
             Paper(
                 title=head.group(1).strip(),
@@ -126,6 +128,7 @@ def parse_inbox(text: str | None = None) -> list[Paper]:
                 implemented_folder=impl.group(1) if impl else "",
                 implemented_tab=int(impl.group(2)) if impl else 0,
                 implemented_date=impl.group(3) if impl else "",
+                skipped=_clean(skip.group(0)) if skip else "",
                 line=line,
             )
         )

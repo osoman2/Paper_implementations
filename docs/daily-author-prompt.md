@@ -31,7 +31,14 @@ Repository: osoman2/Paper_implementations. Its CLAUDE.md is the agent guide; fol
    section to run.md in the existing INBOX format (first line "Last updated: ...", then
    "## New Papers (this run — YYYY-MM-DD)" and one "### <emoji> [Title] — Score N/10" entry each),
    then `python tools/kb.py add-run run.md`.
-5. `python tools/kb.py next --since <today>`. If it returns a paper scored >= 8 that is worth a demo:
+5. Pick at most ONE paper to build today:
+   - First `python tools/kb.py next --since <today>` (a paper scored >= 8 in today's scan).
+   - If it prints NONE, take the backlog: `python tools/kb.py next` (best paper >= 8 from any earlier
+     run, without a tab and without a `**Decision:** Skip` line). Quiet days are for the backlog.
+   - If the paper turns out not to be demo-able (pure infrastructure, nothing to interact with),
+     add `> **Decision:** Skip (<today>, agent) — <reason>` under its INBOX entry, include it in
+     the inbox PR, say so in the email, and stop there: one decision per day.
+   If you picked a paper worth a demo:
    - Get the ORIGINAL source URL from the email (arXiv, repo, official blog). Never the newsletter,
      a tracking link or mailto; omit the line if unsure.
    - Read REVIEW_CHECKLIST.md. Use `python tools/kb.py template` for the tab structure and the
@@ -53,4 +60,5 @@ Repository: osoman2/Paper_implementations. Its CLAUDE.md is the agent guide; fol
    inbox/<YYYY-MM-DD>, open a PR to deploy, enable auto-merge. On Mondays also run
    `python tools/agent_metrics.py --write` and include METRICS.md in that commit.
 7. Send Osman a confirmation and an email in Spanish: papers scanned, scores and why, re-listed
-   items, PR link and check status if a POC was opened (Space and Lab update on merge).
+   items, PR link and check status if a POC was opened (Space and Lab update on merge), and
+   whether the POC came from today's scan or the backlog.
