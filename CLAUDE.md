@@ -10,7 +10,7 @@ Space `osoman2/Gradio_pocs` and read by vectorridgelabs.com (Lab catalog) from t
 ```bash
 python tools/kb.py brief                 # state of the Lab: tabs, regions, recent runs, backlog
 python tools/kb.py seen "<paper title>"  # exit 0 = already scored or implemented: skip it
-python tools/kb.py next                  # best paper >= 8 without a tab
+python tools/kb.py next                  # best paper >= 8 without a tab or a **Decision:** Skip line
 python tools/kb.py search "<topic>" -k 5 # related papers/POCs (for "overlaps Tab N" notes)
 python tools/kb.py template              # last tab block + exact insertion line for a new tab
 python tools/kb.py add-run run.md        # prepend today's INBOX section and re-index

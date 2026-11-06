@@ -159,7 +159,7 @@ def build() -> dict:
         else:
             rec["mentions"] += 1
             rec["score"] = max(rec["score"], d["score"])
-            for k in ("link", "poc_idea", "implemented_folder", "implemented_date", "source"):
+            for k in ("link", "poc_idea", "implemented_folder", "implemented_date", "source", "skipped"):
                 if not rec.get(k) and d.get(k):
                     rec[k] = d[k]
             if d["implemented_tab"]:
@@ -260,13 +260,13 @@ def seen(title: str, k: int = 3) -> list[dict]:
 
 
 def backlog(min_score: int = 8, since: str = "") -> list[dict]:
-    """Papers scored >= min_score with no tab, minus those matching an implemented POC."""
+    """Papers scored >= min_score with no tab and no "**Decision:** Skip" line, minus those matching an implemented POC."""
     _ensure_fresh()
     pocs = _load(POCS)
     implemented_titles = [f"{p['title']} {p['paper_title']}" for p in pocs]
     out = []
     for r in _load(PAPERS):
-        if r["score"] < min_score or r.get("implemented_folder"):
+        if r["score"] < min_score or r.get("implemented_folder") or r.get("skipped"):
             continue
         if since and (r.get("run_date") or "") < since:
             continue
