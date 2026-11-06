@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-05 · Scanned via Gmail MCP (AlphaSignal 2026-11-04; no JournalClub emails) + source feeds (0 new candidates). 6 new items, none >= 8, no POC. 2 re-listed.
+Last updated: 2026-11-06 · Scanned via Gmail MCP (AlphaSignal 2026-11-05; no JournalClub emails) + source feeds (8 candidates, Hugging Face Daily Papers). 10 new items, none >= 8, no POC. 0 re-listed.
 
 
 
@@ -13,6 +13,57 @@ Last updated: 2026-11-05 · Scanned via Gmail MCP (AlphaSignal 2026-11-04; no Jo
 
 
 
+
+
+## New Papers (this run — 2026-11-06)
+
+### 🤖 What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents? — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (30 upvotes)
+**Link:** https://arxiv.org/abs/2611.06483 · code: https://github.com/GaryStack/Rethinking-Agent-RL
+**Why:** Pass@(K,T) analysis: agentic RL gains depend on the turn budget and concentrate in error recovery, not single-step quality. Relevant to agent evaluation, but the contribution is a training analysis; a demo would be a synthetic simulation, not the method.
+
+### 🎥 Turns Matter: Advancing Streaming Video RL via Turn-Level Credit (TurnWise) — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (65 upvotes)
+**Link:** https://arxiv.org/abs/2611.06728 · code: https://github.com/XD111ds/turn-wise-rl
+**Why:** Turn-level credit in GRPO for streaming video; video-specific, off the Lab's focus.
+
+### 🧪 FrontierPhysics: Evaluating Agents for End-to-End Physics Research — Score 6/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (41 upvotes)
+**Link:** https://arxiv.org/abs/2611.06910
+**Why:** Agent benchmark (56 tasks, deterministic verifiers + rubrics). Evaluation angle is relevant, but it is domain-specific physics and needs heavy tooling.
+
+### 🦾 From Pixels to Actions - Towards Native Vision-Language-Action Policies (NEO-VLA) — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (55 upvotes)
+**Link:** https://arxiv.org/abs/2611.06918
+**Why:** Robotics VLA policy; not AI-engineering for production LLM systems.
+
+### 🎮 GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (33 upvotes)
+**Link:** https://arxiv.org/abs/2610.37257 · code: https://github.com/kangverse/GameVerse
+**Why:** World-model dataset; tangential.
+
+### 🌐 Halley: A Predictive Control Plane for Optical AI Data Center Networks — Score 2/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (26 upvotes)
+**Link:** https://arxiv.org/abs/2611.04408
+**Why:** Datacenter optical networking; not relevant.
+
+### 🎬 EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+**Link:** https://arxiv.org/abs/2611.06518 · code: https://github.com/Tencent-Hunyuan/EmoReward
+**Why:** Video-generation reward design; off focus.
+
+### 🤖 PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+**Link:** https://arxiv.org/abs/2611.05320
+**Why:** Coding agent generating robot demos; robotics-specific.
+
+### 💸 Claude Code cuts background subagent token cost 99% in v2.1.316 — Score 6/10
+**Source:** AlphaSignal · 2026-11-05
+**Why:** Status updates written by a small model from short notes instead of re-reading the full transcript. Useful agent-cost pattern (overlaps Tab POC-050 / POC-053 themes), but it is a product change with no paper or repo to implement from.
+
+### 🧠 Kimi K3.1 Pro open weights (2.8T MoE, 1M context) — Score 5/10
+**Source:** AlphaSignal · 2026-11-05
+**Why:** Release announcement; 1.56 TB of weights cannot be demoed (similar to the Muse Spark Open tab).
 
 ## New Papers (this run — 2026-11-05)
 
