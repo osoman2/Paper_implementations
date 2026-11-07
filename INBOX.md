@@ -25,35 +25,10 @@ Last updated: 2026-11-07 · Scanned via Gmail MCP (AlphaSignal 2026-11-04, 11-05
 **Link:** https://arxiv.org/abs/2611.08449
 > Drafter predicts structured coordinates jointly instead of token by token (speculative-decoding flavor), but aimed at robotics/driving visual plans.
 
-### 🦾 [SLA: Scaling Spatial-Language-Action Model via Continual Pre-training] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-06 (48 upvotes)
-**Link:** https://arxiv.org/abs/2611.08373
-> Robotics VLA; off focus.
-
-### 🖼️ [WeLM-Image: A Unified Image Generation Model towards Visual Intelligence] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-06 (37 upvotes)
-**Link:** https://arxiv.org/abs/2611.07392
-> Image generation foundation model (MoT + MoE); off focus.
-
-### ✏️ [TailSteer: Trajectory-Tail Steering for Drift-Resistant Multi-turn Image Editing] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-06 (35 upvotes)
-**Link:** https://arxiv.org/abs/2611.06741 · code: https://github.com/Lyricccco/tailsteer
-> Diffusion editing drift; off focus.
-
 ### 📱 [JosssphZhou/poki: let AI agents operate a real iPhone (local MCP server)] — Score 5/10
 > **Source:** GitHub new repos · 2026-11-05 (387 stars)
 **Link:** https://github.com/JosssphZhou/poki
 > Agent device-control via MCP; needs real hardware, not demoable on a CPU Space.
-
-### 🧱 [HerdBuilderEstimate/roblox-studio-mcp] — Score 3/10
-> **Source:** GitHub new repos · 2026-11-06 (427 stars)
-**Link:** https://github.com/HerdBuilderEstimate/roblox-studio-mcp
-> MCP server for Roblox Studio; niche.
-
-### 🌐 [yucezerey/turkish-anti-ai-skill] — Score 2/10
-> **Source:** GitHub new repos · 2026-11-05 (215 stars)
-**Link:** https://github.com/yucezerey/turkish-anti-ai-skill
-> Turkish text humanizer skill; off focus.
 
 ### 🔐 [OpenAI GPT-6 Cyber (security-focused model, Daybreak access program)] — Score 6/10
 > **Source:** AlphaSignal · 2026-11-06
@@ -63,66 +38,58 @@ Last updated: 2026-11-07 · Scanned via Gmail MCP (AlphaSignal 2026-11-04, 11-05
 > **Source:** AlphaSignal · 2026-11-06
 > Report on AI-accelerated AI research (~2x, 80% attributed to internal AI use). Analysis, not a technique.
 
-### 🧬 [Anthropic used Claude to map a protein structure (vault particles)] — Score 2/10
-> **Source:** AlphaSignal · 2026-11-06
-> Biology case study.
-
-### 🧪 [AlphaSignal 2026-11-06 signals (LivLiv player, Orca 39.8B coding agent, Web AI 8B coding model, image-matching model)] — Score 3/10
-> **Source:** AlphaSignal · 2026-11-06
-> Model/repo announcements without a technique to reproduce; no original links.
-
 ### Re-listed (already scored; not re-scored)
-Multi-Turn RL in LLM Agents 7/10 · Turns Matter 4/10 · FrontierPhysics 6/10 · NEO-VLA 3/10 · GameVerse 3/10 · Halley 2/10 · EmoReward 3/10 · PyRUA-DataFarm 3/10 · Claude Code subagent cost 6/10 · Kimi K3.1 Pro 5/10 · GPT-6 Astra Weight-Space Programming 7/10 · Hydrogen-1.0 4/10 · Claude Code self-improvement study 5/10.
+Skipped as off focus (2-3/10): SLA, WeLM-Image, TailSteer, roblox-studio-mcp, turkish-anti-ai-skill, Claude protein-structure case study, AlphaSignal 11-06 signals. Re-listed: Multi-Turn RL in LLM Agents 7/10 · Turns Matter 4/10 · FrontierPhysics 6/10 · NEO-VLA 3/10 · GameVerse 3/10 · Halley 2/10 · EmoReward 3/10 · PyRUA-DataFarm 3/10 · Claude Code subagent cost 6/10 · Kimi K3.1 Pro 5/10 · GPT-6 Astra Weight-Space Programming 7/10 · Hydrogen-1.0 4/10 · Claude Code self-improvement study 5/10.
 
 ## New Papers (this run — 2026-11-06)
 
-### 🤖 [What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents?] — Score 7/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (30 upvotes)
+### 🤖 What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents? — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (30 upvotes)
 **Link:** https://arxiv.org/abs/2611.06483 · code: https://github.com/GaryStack/Rethinking-Agent-RL
-> Pass@(K,T) analysis: agentic RL gains depend on the turn budget and concentrate in error recovery, not single-step quality. Relevant to agent evaluation, but the contribution is a training analysis; a demo would be a synthetic simulation, not the method.
+**Why:** Pass@(K,T) analysis: agentic RL gains depend on the turn budget and concentrate in error recovery, not single-step quality. Relevant to agent evaluation, but the contribution is a training analysis; a demo would be a synthetic simulation, not the method.
 
-### 🎥 [Turns Matter: Advancing Streaming Video RL via Turn-Level Credit (TurnWise)] — Score 4/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (65 upvotes)
+### 🎥 Turns Matter: Advancing Streaming Video RL via Turn-Level Credit (TurnWise) — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (65 upvotes)
 **Link:** https://arxiv.org/abs/2611.06728 · code: https://github.com/XD111ds/turn-wise-rl
-> Turn-level credit in GRPO for streaming video; video-specific, off the Lab's focus.
+**Why:** Turn-level credit in GRPO for streaming video; video-specific, off the Lab's focus.
 
-### 🧪 [FrontierPhysics: Evaluating Agents for End-to-End Physics Research] — Score 6/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (41 upvotes)
+### 🧪 FrontierPhysics: Evaluating Agents for End-to-End Physics Research — Score 6/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (41 upvotes)
 **Link:** https://arxiv.org/abs/2611.06910
-> Agent benchmark (56 tasks, deterministic verifiers + rubrics). Evaluation angle is relevant, but it is domain-specific physics and needs heavy tooling.
+**Why:** Agent benchmark (56 tasks, deterministic verifiers + rubrics). Evaluation angle is relevant, but it is domain-specific physics and needs heavy tooling.
 
-### 🦾 [From Pixels to Actions - Towards Native Vision-Language-Action Policies (NEO-VLA)] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (55 upvotes)
+### 🦾 From Pixels to Actions - Towards Native Vision-Language-Action Policies (NEO-VLA) — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (55 upvotes)
 **Link:** https://arxiv.org/abs/2611.06918
-> Robotics VLA policy; not AI-engineering for production LLM systems.
+**Why:** Robotics VLA policy; not AI-engineering for production LLM systems.
 
-### 🎮 [GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (33 upvotes)
+### 🎮 GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (33 upvotes)
 **Link:** https://arxiv.org/abs/2610.37257 · code: https://github.com/kangverse/GameVerse
-> World-model dataset; tangential.
+**Why:** World-model dataset; tangential.
 
-### 🌐 [Halley: A Predictive Control Plane for Optical AI Data Center Networks] — Score 2/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (26 upvotes)
+### 🌐 Halley: A Predictive Control Plane for Optical AI Data Center Networks — Score 2/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (26 upvotes)
 **Link:** https://arxiv.org/abs/2611.04408
-> Datacenter optical networking; not relevant.
+**Why:** Datacenter optical networking; not relevant.
 
-### 🎬 [EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+### 🎬 EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
 **Link:** https://arxiv.org/abs/2611.06518 · code: https://github.com/Tencent-Hunyuan/EmoReward
-> Video-generation reward design; off focus.
+**Why:** Video-generation reward design; off focus.
 
-### 🤖 [PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data] — Score 3/10
-> **Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+### 🤖 PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
 **Link:** https://arxiv.org/abs/2611.05320
-> Coding agent generating robot demos; robotics-specific.
+**Why:** Coding agent generating robot demos; robotics-specific.
 
-### 💸 [Claude Code cuts background subagent token cost 99% in v2.1.316] — Score 6/10
-> **Source:** AlphaSignal · 2026-11-05
-> Status updates written by a small model from short notes instead of re-reading the full transcript. Useful agent-cost pattern (overlaps Tab POC-050 / POC-053 themes), but it is a product change with no paper or repo to implement from.
+### 💸 Claude Code cuts background subagent token cost 99% in v2.1.316 — Score 6/10
+**Source:** AlphaSignal · 2026-11-05
+**Why:** Status updates written by a small model from short notes instead of re-reading the full transcript. Useful agent-cost pattern (overlaps Tab POC-050 / POC-053 themes), but it is a product change with no paper or repo to implement from.
 
-### 🧠 [Kimi K3.1 Pro open weights (2.8T MoE, 1M context)] — Score 5/10
-> **Source:** AlphaSignal · 2026-11-05
-> Release announcement; 1.56 TB of weights cannot be demoed (similar to the Muse Spark Open tab).
+### 🧠 Kimi K3.1 Pro open weights (2.8T MoE, 1M context) — Score 5/10
+**Source:** AlphaSignal · 2026-11-05
+**Why:** Release announcement; 1.56 TB of weights cannot be demoed (similar to the Muse Spark Open tab).
 
 ## New Papers (this run — 2026-11-05)
 
@@ -1551,7 +1518,6 @@ _No new high-relevance papers (score ≥ 8) found. No new emails from JournalClu
 
 **POC idea:** Gradio demo with three sub-tabs — (1) Strategy Comparison: truncation vs prune+spill side-by-side on a 3,847-token pytest output with 2 FAILED tests buried in the middle, showing the permanent information loss; (2) Cost Calculator: adjustable session length, tool output size, model price → per-session cost chart comparing truncation vs prune+spill; (3) Production Guide: drop-in implementation pattern, when-to-apply table, intent log pattern for crash recovery.
 **Implemented:** Yes — `hf-space/pi_prune_spill/` · Tab 24 in `hf-space/app.py` (2026-08-25)
-
 
 ### 🔴 [AI agent skills: Why they succeed — and what causes them to crash] — Score 8/10
 > Drop-in applicable empirical study on AI agent skill library design (AlphaSignal deep-dive · 2026-08-23). 8,135 trial records across Terminal-Bench 2.0 and SkillsBench. Core finding: skills work as **procedural anchors** (stabilizing execution), not knowledge repositories. Procedural anchoring accounts for 65.7% of successes vs only 4.5% from explicit knowledge injection. Distilled runbook skills beat raw workflow memory by +6.06 pp. Annotation impact: 74.6% success with success/failure hints vs 40.0% without — a 34.6 pp gap. Catalog scaling: precision drops from 29.6% (5 skills) to 3.3% (100 skills), but task success remains stable (~37-39%) because related distractors provide partial procedural support. Fix: two-level retrieval (domain bucket → strict trigger rule). Directly applicable to any production agent system, RAG pipeline, multi-step LLM workflow, or coding agent.
