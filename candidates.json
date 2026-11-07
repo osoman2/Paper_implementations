@@ -1,0 +1,473 @@
+{
+ "fetched_at": "2026-11-07T17:46:13+00:00",
+ "items": [
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "VFlash: Fast, Accurate Visual Planning via Flash Primitive Decoding",
+   "url": "https://arxiv.org/abs/2611.08449",
+   "repo": "",
+   "signal": "98 upvotes",
+   "summary": "Models for physical AI tasks, such as robotics and autonomous driving, need not reason solely in language. They can use visual plans--points, bounding boxes, and trajectories--to represent spatial goals and anticipate motion. However, autoregressive vision-language models generate these plans one coordinate token at a time, making richer predictions increasingly costly. We introduce VFlash, a method for fast, accurate visual planning through Flash Primitive Decoding. VFlash exploits the known structure of visual primitives to predict their coordinates jointly, using a lightweight drafter that "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "SLA: Scaling Spatial-Language-Action Model via Continual Pre-training",
+   "url": "https://arxiv.org/abs/2611.08373",
+   "repo": "",
+   "signal": "79 upvotes",
+   "summary": "SLA is a spatial-language-action model that continually pre-trains and post-trains a pretrained VLA policy with spatial alignment to a frozen 3D perception model, using feature-dependent gates and probabilistic state dropout to improve spatial understanding across diverse robot data while preserving inference architecture."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "Harness-S: Learning from Sibling Harnesses for Generalizable Agent Training",
+   "url": "https://arxiv.org/abs/2611.04277",
+   "repo": "https://github.com/DeepExperience/Harness-S",
+   "signal": "60 upvotes",
+   "summary": "A selective harness-rescue training method uses specialized sibling harnesses to replace failed reinforcement learning rollouts and transfer their benefits into a single policy that performs better under the original base harness."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "Random Is Almost Enough? Stable and Low-Cost Benchmark Compression via BestRand",
+   "url": "https://arxiv.org/abs/2611.00883",
+   "repo": "https://github.com/George-Ling3/BestRand",
+   "signal": "47 upvotes",
+   "summary": "Benchmark compression reduces the often prohibitive time and cost of model evaluation by evaluating models on a small benchmark subset that closely matches full-benchmark results. To quantify estimation error, we derive an accurate analytical approximation to the error distribution when estimating full-benchmark scores from a subset, showing that most subsets yield small errors, while a few produce much larger errors, resulting in a long-tailed distribution. This means random sampling alone can achieve surprisingly strong performance with high probability, but remains unstable due to rare larg"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "From Autonomous Agents to Cognitive Symbionts: Toward AI-Augmented Human Intelligence",
+   "url": "https://arxiv.org/abs/2611.05376",
+   "repo": "",
+   "signal": "46 upvotes",
+   "summary": "Physical AI should include AI-augmented human intelligence via lifelong cognitive symbionts that close cognitive gaps through sensing, context retention, and proactive assistance, requiring embedded governance."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "WeLM-Image: A Unified Image Generation Model towards Visual Intelligence",
+   "url": "https://arxiv.org/abs/2611.07392",
+   "repo": "",
+   "signal": "42 upvotes",
+   "summary": "We present WeLM-Image, a unified image foundation model that integrates multimodal understanding into text-to-image generation, instruction-guided editing, and multi-reference synthesis. Designed for single-GPU deployment in WeChat's large-scale consumer applications, the model processes text, reference images, and target latents as one interleaved sequence. A Mixture-of-Transformers (MoT) backbone combines shared attention with independent understanding and generation parameters to limit optimization interference. Equipping each path with Mixture-of-Experts (MoE) modules provides sparse capac"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "TailSteer: Trajectory-Tail Steering for Drift-Resistant Multi-turn Image Editing",
+   "url": "https://arxiv.org/abs/2611.06741",
+   "repo": "https://github.com/Lyricccco/tailsteer",
+   "signal": "39 upvotes",
+   "summary": "TailSteer, a final-stage training framework, reduces cumulative visual drift in multi-turn editing by keeping early denoising dynamics close to the base model and learning tail-focused preservation corrections from on-policy rollouts, preserving pretrained generative and editing abilities."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-06",
+   "title": "EvoMemState: Evolving Memory State for Personal Agents",
+   "url": "https://arxiv.org/abs/2611.03743",
+   "repo": "https://github.com/XMUDeepLIT/EvoMemState",
+   "signal": "24 upvotes",
+   "summary": "Long-term memory enables large language model (LLM) agents to provide continuous personalized assistance by retaining user information across interactions. Existing systems support this process through fact extraction, organization, updating, and retrieval, but largely maintain memories as independent facts. This fact-centric paradigm may overlook how new facts update, constrain, or conflict with earlier ones, while leaving their applicability, role, and priority for the current request implicit. In this paper, we introduce EvoMemState, a state-centric framework that augments persistent facts "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "From Pixels to Actions - Towards Native Vision-Language-Action Policies",
+   "url": "https://arxiv.org/abs/2611.06918",
+   "repo": "",
+   "signal": "60 upvotes",
+   "summary": "NEO-VLA eliminates fixed visual encoders to let action policies access evolving visual representations across network depths, improving manipulation robustness."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "FrontierPhysics: Evaluating Agents for End-to-End Physics Research",
+   "url": "https://arxiv.org/abs/2611.06910",
+   "repo": "",
+   "signal": "54 upvotes",
+   "summary": "FrontierPhysics is an end-to-end benchmark of 56 expert-designed physics tasks that evaluates AI agents on literature review, research planning, experimentation, and manuscript production using deterministic verifiers and expert rubrics."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "Turns Matter: Advancing Streaming Video RL via Turn-Level Credit",
+   "url": "https://arxiv.org/abs/2611.06728",
+   "repo": "https://github.com/XD111ds/turn-wise-rl",
+   "signal": "49 upvotes",
+   "summary": "TurnWise improves streaming video understanding by assigning turn-level credit and balancing decision weights in group relative policy optimization."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents?",
+   "url": "https://arxiv.org/abs/2611.06483",
+   "repo": "https://github.com/GaryStack/Rethinking-Agent-RL",
+   "signal": "37 upvotes",
+   "summary": "While multi-turn agentic reinforcement learning (RL) excels on long-horizon tasks, its performance gains remain highly sensitive to interaction constraints. Evaluating across sampling breadth K and interaction depth T via Pass@(K,T), we show that trajectory-level RL advantages depend on sufficient turn budgets, diminishing significantly when budgets tighten. Besides, agentic RL does not uniformly elevate single-step decision quality; rather, its strength concentrates in error recovery and long-horizon resilience. To mitigate the deployment risks caused by this budget dependence, we provide a p"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling",
+   "url": "https://arxiv.org/abs/2610.37257",
+   "repo": "https://github.com/kangverse/GameVerse",
+   "signal": "37 upvotes",
+   "summary": "GameVerse is a large-scale gameplay dataset with minute-long sequences and event-aligned annotations that improves long-horizon interactive world modeling."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "Halley: A Predictive Control Plane for Optical AI Data Center Networks",
+   "url": "https://arxiv.org/abs/2611.04408",
+   "repo": "",
+   "signal": "32 upvotes",
+   "summary": "Halley is a predictive control framework for AI data center optical networks that improves effective throughput and reduces capacity needs by forecasting failures and controlling resources with formal guarantees."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "VideoMemBench: How Well Do MLLMs Remember in Video Conversations?",
+   "url": "https://arxiv.org/abs/2610.40131",
+   "repo": "https://github.com/Oliiveralien/VideoMemBench",
+   "signal": "26 upvotes",
+   "summary": "VideoMemBench evaluates multimodal language models on long multi-turn video dialogues requiring retrieval of earlier visual and conversational context, revealing substantial performance gaps."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-05",
+   "title": "EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL",
+   "url": "https://arxiv.org/abs/2611.06518",
+   "repo": "https://github.com/Tencent-Hunyuan/EmoReward",
+   "signal": "25 upvotes",
+   "summary": "Group Relative Policy Optimization (GRPO) has advanced generative model post-training in verifiable domains such as code and mathematics, but evaluating video quality, especially emotional expression, often depends on subjective aesthetics and has no uniquely correct target. Existing approaches typically rely on fixed rewards for visual quality, motion quality, and text alignment that poorly capture emotional intent and can invite reward hacking, while RLHF is difficult to scale and subject to individual aesthetic differences that complicate the calibration of facial, body motion, and chromati"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "Route Anything: A Study of Model and Policy Routing for General-Purpose AI Systems",
+   "url": "https://arxiv.org/abs/2611.05275",
+   "repo": "https://github.com/InfRec-Cardinal/route-anything",
+   "signal": "79 upvotes",
+   "summary": "Route Anything is a framework for dynamically selecting and coordinating specialized AI models and policies across diverse tasks to improve performance and efficiency."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "Words Caught in the Heart: Simulating Person-Specific Expression for Self-Opaque Clients in Psychotherapy",
+   "url": "https://arxiv.org/abs/2611.00617",
+   "repo": "https://github.com/whunextgen/Pandora",
+   "signal": "76 upvotes",
+   "summary": "Pandora is a psychotherapy client simulation framework that models evolving psychological and relational states to generate more authentic, individually aligned expressions and reduce AI-like responses."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "MoviEdit: Long-form Multi-Shot Video Editing Made Easy",
+   "url": "https://arxiv.org/abs/2611.02737",
+   "repo": "https://github.com/adobe-research/MoviEdit-Bench",
+   "signal": "74 upvotes",
+   "summary": "MoviEdit is an end-to-end framework for long-form multi-shot video editing that uses cascaded bidirectional-autoregressive modeling and a new benchmark to maintain coherence across scenes while reducing manual data annotation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "Behind Video Generation: Observations and Insights on Multimodal Understanding from Kling",
+   "url": "https://arxiv.org/abs/2611.04916",
+   "repo": "",
+   "signal": "72 upvotes",
+   "summary": "Kling's multimodal understanding stack links caption density, perceptual text encoding, reward modeling, and evaluation protocols to improve controllable video generation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "Think Less, Locally: Local Preference Learning for Reasoning Compression",
+   "url": "https://arxiv.org/abs/2611.04814",
+   "repo": "https://github.com/MuyaoYuan/LoCo",
+   "signal": "61 upvotes",
+   "summary": "LoCo uses local preference learning to teach reasoning models when to stop deliberating, reducing output length substantially while preserving or improving accuracy across math and code tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "DreamX: Video Diffusion Model is a Universal Latent Action Learner",
+   "url": "https://arxiv.org/abs/2611.05377",
+   "repo": "",
+   "signal": "57 upvotes",
+   "summary": "DreamX leverages a pretrained video diffusion model to learn compact, appearance-invariant latent actions that enable cross-embodiment transfer and efficient policy learning."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "RoboColosseum: Evaluating Physical Intelligence at Scale In-The-Wild",
+   "url": "https://arxiv.org/abs/2611.02497",
+   "repo": "https://github.com/RoboColosseum/robocolosseum-client",
+   "signal": "49 upvotes",
+   "summary": "RoboColosseum evaluates general robot policies across diverse embodiments and environments, revealing weak cross-embodiment agreement, limited open-world reliability, and substantial differences between zero-shot and fine-tuned performance."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-04",
+   "title": "Factorized MLLM Embeddings for Composed Image Retrieval",
+   "url": "https://arxiv.org/abs/2611.05193",
+   "repo": "https://github.com/cvlab-kaist/FactEmbed",
+   "signal": "48 upvotes",
+   "summary": "FactEmbed improves composed image retrieval by decoupling query understanding from embedding construction through factorized latents that simulate visual modifications before retrieval."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "Advances in Agentic Computer Graphics",
+   "url": "https://arxiv.org/abs/2611.01860",
+   "repo": "",
+   "signal": "143 upvotes",
+   "summary": "This report proposes a unified taxonomy and literature system for agentic computer graphics driven by large language models, analyzing trends and open challenges in human-agent collaboration and long-horizon planning."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "Wave Forcing: Towards Speed-of-Light Streaming Video Generation",
+   "url": "https://arxiv.org/abs/2611.00859",
+   "repo": "https://github.com/SJTU-DENG-Lab/WaveForcing",
+   "signal": "125 upvotes",
+   "summary": "Wave Forcing enables efficient continuous long-video generation with consistent appearance and natural motion through co-designed generation, training, and execution, achieving high throughput and quality."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "CoworkOS:Scaling Agent Coworkers for Real-world Automation",
+   "url": "https://arxiv.org/abs/2611.03178",
+   "repo": "https://github.com/RUC-NLPIR/CoworkOS",
+   "signal": "100 upvotes",
+   "summary": "CoworkOS is a long-horizon agent harness that separates strategy from execution, supports human-in-the-loop collaboration via shared artifacts, and improves model performance through sustained automated post-training."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "Video Generation Meets Agent Harness: Agentic Video Generation, Agentic World Modeling and Recursive Self-Improvement",
+   "url": "https://arxiv.org/abs/2610.40191",
+   "repo": "https://github.com/agentic-videogen/awesome-agentic-videogen",
+   "signal": "78 upvotes",
+   "summary": "Agent harnesses integrate video generation and world models to enable planning, tool use, and recursive self-improvement for autonomous multi-shot video production."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "Democratizing Robot-Use Agents: A Unified Harness with Open Models",
+   "url": "https://arxiv.org/abs/2611.01560",
+   "repo": "https://github.com/Open-RUA/uni-robot-agent",
+   "signal": "48 upvotes",
+   "summary": "Uni-robot-agent enables open-weight robot-use agents to surpass proprietary models in zero-shot manipulation and suggests joint development of four core capabilities for future training."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "CUA-Master: Scaling Computer-use Agents through Open-World Recursive Improvements",
+   "url": "https://arxiv.org/abs/2611.03126",
+   "repo": "https://github.com/xlyu0106/CUA-Master",
+   "signal": "46 upvotes",
+   "summary": "CUA-Master uses nested recursive loops with open-world data and feedback-driven retries to continuously improve computer-use agents across diverse benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "IdeaTaste: Do LLMs Share the Research Taste of Human Researchers?",
+   "url": "https://arxiv.org/abs/2611.03424",
+   "repo": "https://github.com/cxcscmu/IdeaTaste",
+   "signal": "45 upvotes",
+   "summary": "IdeaTaste benchmarks LLM research proposals against future publications, revealing that AI agents match human communities in broad directions but fall far behind in concrete approaches and expected success."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-03",
+   "title": "SWE-Trail: History-Guided Trajectory Collection for Coding Agent Training",
+   "url": "https://arxiv.org/abs/2611.02074",
+   "repo": "",
+   "signal": "40 upvotes",
+   "summary": "SWE-Trail improves trajectory collection for coding agents by using past rollouts to guide exploration without exposing history to the agent, yielding better-trained student models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "Does Scaling Toward AGI Depend on What System-1 Lets System-2 Execute?",
+   "url": "https://arxiv.org/abs/2610.39497",
+   "repo": "",
+   "signal": "64 upvotes",
+   "summary": "Co-designing a resource-heavy reasoning system with a lightweight predictive evaluator can reduce execution costs by filtering interactions, with efficiency governed by the density of useful interactions."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "R^2Orch: Recursive Self-Improvement for Agent Orchestration via Self-Play within a Skill-Internalization Loop",
+   "url": "https://arxiv.org/abs/2610.22740",
+   "repo": "https://github.com/beita6969/R2Orch",
+   "signal": "47 upvotes",
+   "summary": "R²Orch uses recursive self-play with learnable task selection and skill withdrawal to train orchestrators without hand-designed curricula, improving performance across reasoning and interactive tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "Latent Reasoning in Continuous Space for Unified Multimodal Models",
+   "url": "https://arxiv.org/abs/2610.42149",
+   "repo": "https://github.com/rootyJeon/LARC",
+   "signal": "44 upvotes",
+   "summary": "LARC enables continuous latent reasoning for unified multimodal models, improving image generation quality and enabling test-time scaling without discrete token bottlenecks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "Apriel Voice 27B Preview: An Open Model for Speech, Reasoning, and Tool Use",
+   "url": "https://arxiv.org/abs/2610.40738",
+   "repo": "",
+   "signal": "36 upvotes",
+   "summary": "Apriel Voice 27B Preview is an open speech-language model that integrates speech understanding, reasoning, and tool use within a shared backbone, achieving strong results on audio benchmarks through a two-stage training procedure with online distillation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "FrameForge: Harnessing Priors of Video Foundation Models for Unified Image Generation",
+   "url": "https://arxiv.org/abs/2610.36545",
+   "repo": "https://github.com/Lyne1/FrameForge",
+   "signal": "33 upvotes",
+   "summary": "FrameForge enables adaptive conditional image generation by modeling variable condition-target relationships through dynamic temporal experts and intermediate reasoning pathways in pretrained video models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "Follow the Gradient: Tracing Safety Degradation Back to Training Data",
+   "url": "https://arxiv.org/abs/2610.37481",
+   "repo": "",
+   "signal": "31 upvotes",
+   "summary": "SimpleLoRIF uses gradient alignment to filter instruction data that silently degrades LLM safety, yielding a safer dataset that reduces adversarial success while preserving capabilities."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "ReLift: Dense 3D Tracking as Lifted Trajectory Repair",
+   "url": "https://arxiv.org/abs/2610.42136",
+   "repo": "https://github.com/ReLift3D/ReLift",
+   "signal": "28 upvotes",
+   "summary": "ReLift improves dense 3D tracking by repairing and completing lifted trajectories using geometric trajectory refinement without requiring image-based training."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-02",
+   "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
+   "url": "https://arxiv.org/abs/2610.34722",
+   "repo": "https://github.com/mlvlab/CEPO",
+   "signal": "26 upvotes",
+   "summary": "CEPO improves multi-agent prompt optimization by separating shared coordination from agent-specific execution, boosting performance across benchmarks and scaling efficiently with more agents."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-03",
+   "title": "KKKKhazix/agent-autoloop: 让你的命令行 Agent 在后台自己接活、自己跟进到底；平时不烦你，遇到拿不准的事才发卡片找你拍板。",
+   "url": "https://github.com/KKKKhazix/agent-autoloop",
+   "repo": "https://github.com/KKKKhazix/agent-autoloop",
+   "signal": "3929 stars",
+   "summary": "让你的命令行 Agent 在后台自己接活、自己跟进到底；平时不烦你，遇到拿不准的事才发卡片找你拍板。"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-03",
+   "title": "Sandflow-ai/sand3d: 3D modeling in Python, built for LLMs.",
+   "url": "https://github.com/Sandflow-ai/sand3d",
+   "repo": "https://github.com/Sandflow-ai/sand3d",
+   "signal": "993 stars",
+   "summary": "3D modeling in Python, built for LLMs."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-05",
+   "title": "voyager-so/vork: Headless 3D and VFX engine for agents. Research preview.",
+   "url": "https://github.com/voyager-so/vork",
+   "repo": "https://github.com/voyager-so/vork",
+   "signal": "766 stars",
+   "summary": "Headless 3D and VFX engine for agents. Research preview."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-05",
+   "title": "JosssphZhou/poki: Let AI agents operate a real iPhone. Local MCP server and agent, no jailbreak, no extra hardware.",
+   "url": "https://github.com/JosssphZhou/poki",
+   "repo": "https://github.com/JosssphZhou/poki",
+   "signal": "479 stars",
+   "summary": "Let AI agents operate a real iPhone. Local MCP server and agent, no jailbreak, no extra hardware."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-01",
+   "title": "SAOS-3624/dsh-see-now: 让 AI 实时看见你的屏幕：按变化量筛选帧、多帧拼进一张图，静止画面几乎不花 token",
+   "url": "https://github.com/SAOS-3624/dsh-see-now",
+   "repo": "https://github.com/SAOS-3624/dsh-see-now",
+   "signal": "459 stars",
+   "summary": "让 AI 实时看见你的屏幕：按变化量筛选帧、多帧拼进一张图，静止画面几乎不花 token"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "HerdBuilderEstimate/roblox-studio-mcp: Model Context Protocol server for Roblox Studio. Connect AI assistants (Claude, Cursor) to read object trees, edit scripts, and run playtests safely. Open-source and lightweight",
+   "url": "https://github.com/HerdBuilderEstimate/roblox-studio-mcp",
+   "repo": "https://github.com/HerdBuilderEstimate/roblox-studio-mcp",
+   "signal": "427 stars",
+   "summary": "Model Context Protocol server for Roblox Studio. Connect AI assistants (Claude, Cursor) to read object trees, edit scripts, and run playtests safely. Open-source and lightweight"
+  },
+  {
+   "source": "github",
+   "date": "2026-10-31",
+   "title": "Interactive-Active-AI/NextTransformer: :sunrise: A comprehensive, cutting-edge open-source framework for next-generation Transformers/LLM, with compute-matched benchmarking and a platform for autonomous architecture research.",
+   "url": "https://github.com/Interactive-Active-AI/NextTransformer",
+   "repo": "https://github.com/Interactive-Active-AI/NextTransformer",
+   "signal": "372 stars",
+   "summary": ":sunrise: A comprehensive, cutting-edge open-source framework for next-generation Transformers/LLM, with compute-matched benchmarking and a platform for autonomous architecture research."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-01",
+   "title": "mrhlaingbwardev/agentic-hacking-skills: AI-Powered Web Security & Automation - Official bonus skills, agents & MCP configs for the 'Agentic Hacking' ebook (28 SKILL.md templates)",
+   "url": "https://github.com/mrhlaingbwardev/agentic-hacking-skills",
+   "repo": "https://github.com/mrhlaingbwardev/agentic-hacking-skills",
+   "signal": "345 stars",
+   "summary": "AI-Powered Web Security & Automation - Official bonus skills, agents & MCP configs for the 'Agentic Hacking' ebook (28 SKILL.md templates)"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-01",
+   "title": "duyunzhoudyz/dyz-med-paper-skills: 医学论文写作与科研助手：面向中国医生和医学研究生的 32 个 Agent Skills，适用于 Claude Code、Codex，覆盖选题、PubMed 文献检索、中英写作、选刊投稿与审稿修回。Medical writing & research skills.",
+   "url": "https://github.com/duyunzhoudyz/dyz-med-paper-skills",
+   "repo": "https://github.com/duyunzhoudyz/dyz-med-paper-skills",
+   "signal": "291 stars",
+   "summary": "医学论文写作与科研助手：面向中国医生和医学研究生的 32 个 Agent Skills，适用于 Claude Code、Codex，覆盖选题、PubMed 文献检索、中英写作、选刊投稿与审稿修回。Medical writing & research skills."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-02",
+   "title": "DominikScholz/open-bot-avatar: A JSON spec and renderer for interactive agent avatars",
+   "url": "https://github.com/DominikScholz/open-bot-avatar",
+   "repo": "https://github.com/DominikScholz/open-bot-avatar",
+   "signal": "286 stars",
+   "summary": "A JSON spec and renderer for interactive agent avatars"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-01",
+   "title": "Balanov/uncut: The lossless, headless coding agent harness. One 7 MB static binary, four tools, plain stdin/stdout, no silent cuts.",
+   "url": "https://github.com/Balanov/uncut",
+   "repo": "https://github.com/Balanov/uncut",
+   "signal": "255 stars",
+   "summary": "The lossless, headless coding agent harness. One 7 MB static binary, four tools, plain stdin/stdout, no silent cuts."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-05",
+   "title": "yucezerey/turkish-anti-ai-skill: Türkçe metinlerdeki yapay zeka izlerini (AI slop, translationese, çeviri kokan cümle mimarisi ve TDK hatalarını) temizleyen Agent Skill ve Humanizer paketi.",
+   "url": "https://github.com/yucezerey/turkish-anti-ai-skill",
+   "repo": "https://github.com/yucezerey/turkish-anti-ai-skill",
+   "signal": "253 stars",
+   "summary": "Türkçe metinlerdeki yapay zeka izlerini (AI slop, translationese, çeviri kokan cümle mimarisi ve TDK hatalarını) temizleyen Agent Skill ve Humanizer paketi."
+  }
+ ]
+}
