@@ -1,69 +1,128 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-06 · Scanned via Gmail MCP (AlphaSignal 2026-11-05; no JournalClub emails) + source feeds (8 candidates, Hugging Face Daily Papers). 10 new items, none >= 8, no POC. 0 re-listed.
+Last updated: 2026-11-07 · Scanned via Gmail MCP (AlphaSignal 2026-11-04, 11-05, 11-06; no JournalClub emails) + source feeds (18 candidates, Hugging Face Daily Papers + GitHub). 17 new items, 1 >= 8 (BestRand). 13 re-listed (already scored 2026-11-06, see below).
 
+## New Papers (this run — 2026-11-07)
 
+### 📉 [Random Is Almost Enough? Stable and Low-Cost Benchmark Compression via BestRand] — Score 8/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (50 upvotes)
+**Link:** https://arxiv.org/abs/2611.00883 · code: https://github.com/George-Ling3/BestRand
+**Implemented:** Yes — `hf-space/bestrand/` · Tab 54 in `hf-space/app.py` (2026-11-07)
+> Evaluating an LLM on a small benchmark subset is the everyday way to cut eval cost. The paper derives the error distribution of subset-vs-full scores (most subsets are accurate, a few are far off: long tail) and proposes BestRand to get stable low-cost compression from random sampling. Direct LLM-evaluation value, demoable with a simulation.
+**POC idea:** Subset-error simulator: draw random subsets, show the long-tailed error distribution and the tail risk, compare plain random vs best-of-N selection on a calibration set of models.
 
+### 🧩 [Harness-S: Learning from Sibling Harnesses for Generalizable Agent Training] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (54 upvotes)
+**Link:** https://arxiv.org/abs/2611.04277 · code: https://github.com/DeepExperience/Harness-S
+> Replaces failed RL rollouts with rollouts from specialized sibling harnesses, transferred into one policy. Agent-relevant but a training method; a demo would be a toy.
 
+### 🧠 [EvoMemState: Evolving Memory State for Personal Agents] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (20 upvotes)
+**Link:** https://arxiv.org/abs/2611.03743 · code: https://github.com/XMUDeepLIT/EvoMemState
+> State-centric agent memory: new facts update, constrain or conflict with earlier ones instead of being stored as independent facts. Overlaps Tab 53 (MemoryTax), Tab 38 (Jev Memory Compaction).
 
+### 👁️ [VFlash: Fast, Accurate Visual Planning via Flash Primitive Decoding] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (82 upvotes)
+**Link:** https://arxiv.org/abs/2611.08449
+> Drafter predicts structured coordinates jointly instead of token by token (speculative-decoding flavor), but aimed at robotics/driving visual plans.
 
+### 🦾 [SLA: Scaling Spatial-Language-Action Model via Continual Pre-training] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (48 upvotes)
+**Link:** https://arxiv.org/abs/2611.08373
+> Robotics VLA; off focus.
 
+### 🖼️ [WeLM-Image: A Unified Image Generation Model towards Visual Intelligence] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (37 upvotes)
+**Link:** https://arxiv.org/abs/2611.07392
+> Image generation foundation model (MoT + MoE); off focus.
 
+### ✏️ [TailSteer: Trajectory-Tail Steering for Drift-Resistant Multi-turn Image Editing] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (35 upvotes)
+**Link:** https://arxiv.org/abs/2611.06741 · code: https://github.com/Lyricccco/tailsteer
+> Diffusion editing drift; off focus.
 
+### 📱 [JosssphZhou/poki: let AI agents operate a real iPhone (local MCP server)] — Score 5/10
+> **Source:** GitHub new repos · 2026-11-05 (387 stars)
+**Link:** https://github.com/JosssphZhou/poki
+> Agent device-control via MCP; needs real hardware, not demoable on a CPU Space.
 
+### 🧱 [HerdBuilderEstimate/roblox-studio-mcp] — Score 3/10
+> **Source:** GitHub new repos · 2026-11-06 (427 stars)
+**Link:** https://github.com/HerdBuilderEstimate/roblox-studio-mcp
+> MCP server for Roblox Studio; niche.
 
+### 🌐 [yucezerey/turkish-anti-ai-skill] — Score 2/10
+> **Source:** GitHub new repos · 2026-11-05 (215 stars)
+**Link:** https://github.com/yucezerey/turkish-anti-ai-skill
+> Turkish text humanizer skill; off focus.
 
+### 🔐 [OpenAI GPT-6 Cyber (security-focused model, Daybreak access program)] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-06
+> 81 Firefox vulns, 948 Linux exploits, 48.5% ExploitGym, 99% in-scope. Closed model behind vetted access: no demo; no original source link in the email.
 
+### 📈 [METR: Anthropic's AI is doubling its own capability growth rate] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-06
+> Report on AI-accelerated AI research (~2x, 80% attributed to internal AI use). Analysis, not a technique.
 
+### 🧬 [Anthropic used Claude to map a protein structure (vault particles)] — Score 2/10
+> **Source:** AlphaSignal · 2026-11-06
+> Biology case study.
+
+### 🧪 [AlphaSignal 2026-11-06 signals (LivLiv player, Orca 39.8B coding agent, Web AI 8B coding model, image-matching model)] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-06
+> Model/repo announcements without a technique to reproduce; no original links.
+
+### Re-listed (already scored; not re-scored)
+Multi-Turn RL in LLM Agents 7/10 · Turns Matter 4/10 · FrontierPhysics 6/10 · NEO-VLA 3/10 · GameVerse 3/10 · Halley 2/10 · EmoReward 3/10 · PyRUA-DataFarm 3/10 · Claude Code subagent cost 6/10 · Kimi K3.1 Pro 5/10 · GPT-6 Astra Weight-Space Programming 7/10 · Hydrogen-1.0 4/10 · Claude Code self-improvement study 5/10.
 
 ## New Papers (this run — 2026-11-06)
 
-### 🤖 What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents? — Score 7/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (30 upvotes)
+### 🤖 [What Does Multi-Turn Reinforcement Learning Really Improve in LLM Agents?] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (30 upvotes)
 **Link:** https://arxiv.org/abs/2611.06483 · code: https://github.com/GaryStack/Rethinking-Agent-RL
-**Why:** Pass@(K,T) analysis: agentic RL gains depend on the turn budget and concentrate in error recovery, not single-step quality. Relevant to agent evaluation, but the contribution is a training analysis; a demo would be a synthetic simulation, not the method.
+> Pass@(K,T) analysis: agentic RL gains depend on the turn budget and concentrate in error recovery, not single-step quality. Relevant to agent evaluation, but the contribution is a training analysis; a demo would be a synthetic simulation, not the method.
 
-### 🎥 Turns Matter: Advancing Streaming Video RL via Turn-Level Credit (TurnWise) — Score 4/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (65 upvotes)
+### 🎥 [Turns Matter: Advancing Streaming Video RL via Turn-Level Credit (TurnWise)] — Score 4/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (65 upvotes)
 **Link:** https://arxiv.org/abs/2611.06728 · code: https://github.com/XD111ds/turn-wise-rl
-**Why:** Turn-level credit in GRPO for streaming video; video-specific, off the Lab's focus.
+> Turn-level credit in GRPO for streaming video; video-specific, off the Lab's focus.
 
-### 🧪 FrontierPhysics: Evaluating Agents for End-to-End Physics Research — Score 6/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (41 upvotes)
+### 🧪 [FrontierPhysics: Evaluating Agents for End-to-End Physics Research] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (41 upvotes)
 **Link:** https://arxiv.org/abs/2611.06910
-**Why:** Agent benchmark (56 tasks, deterministic verifiers + rubrics). Evaluation angle is relevant, but it is domain-specific physics and needs heavy tooling.
+> Agent benchmark (56 tasks, deterministic verifiers + rubrics). Evaluation angle is relevant, but it is domain-specific physics and needs heavy tooling.
 
-### 🦾 From Pixels to Actions - Towards Native Vision-Language-Action Policies (NEO-VLA) — Score 3/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (55 upvotes)
+### 🦾 [From Pixels to Actions - Towards Native Vision-Language-Action Policies (NEO-VLA)] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (55 upvotes)
 **Link:** https://arxiv.org/abs/2611.06918
-**Why:** Robotics VLA policy; not AI-engineering for production LLM systems.
+> Robotics VLA policy; not AI-engineering for production LLM systems.
 
-### 🎮 GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling — Score 3/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (33 upvotes)
+### 🎮 [GameVerse: A Minute-Scale Gameplay Dataset for Long-Horizon Interactive World Modeling] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (33 upvotes)
 **Link:** https://arxiv.org/abs/2610.37257 · code: https://github.com/kangverse/GameVerse
-**Why:** World-model dataset; tangential.
+> World-model dataset; tangential.
 
-### 🌐 Halley: A Predictive Control Plane for Optical AI Data Center Networks — Score 2/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (26 upvotes)
+### 🌐 [Halley: A Predictive Control Plane for Optical AI Data Center Networks] — Score 2/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (26 upvotes)
 **Link:** https://arxiv.org/abs/2611.04408
-**Why:** Datacenter optical networking; not relevant.
+> Datacenter optical networking; not relevant.
 
-### 🎬 EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL — Score 3/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+### 🎬 [EmoReward: Self-Evolving Reward Calibration for Emotional Video Generation RL] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
 **Link:** https://arxiv.org/abs/2611.06518 · code: https://github.com/Tencent-Hunyuan/EmoReward
-**Why:** Video-generation reward design; off focus.
+> Video-generation reward design; off focus.
 
-### 🤖 PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data — Score 3/10
-**Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
+### 🤖 [PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-05 (22 upvotes)
 **Link:** https://arxiv.org/abs/2611.05320
-**Why:** Coding agent generating robot demos; robotics-specific.
+> Coding agent generating robot demos; robotics-specific.
 
-### 💸 Claude Code cuts background subagent token cost 99% in v2.1.316 — Score 6/10
-**Source:** AlphaSignal · 2026-11-05
-**Why:** Status updates written by a small model from short notes instead of re-reading the full transcript. Useful agent-cost pattern (overlaps Tab POC-050 / POC-053 themes), but it is a product change with no paper or repo to implement from.
+### 💸 [Claude Code cuts background subagent token cost 99% in v2.1.316] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-05
+> Status updates written by a small model from short notes instead of re-reading the full transcript. Useful agent-cost pattern (overlaps Tab POC-050 / POC-053 themes), but it is a product change with no paper or repo to implement from.
 
-### 🧠 Kimi K3.1 Pro open weights (2.8T MoE, 1M context) — Score 5/10
-**Source:** AlphaSignal · 2026-11-05
-**Why:** Release announcement; 1.56 TB of weights cannot be demoed (similar to the Muse Spark Open tab).
+### 🧠 [Kimi K3.1 Pro open weights (2.8T MoE, 1M context)] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-05
+> Release announcement; 1.56 TB of weights cannot be demoed (similar to the Muse Spark Open tab).
 
 ## New Papers (this run — 2026-11-05)
 

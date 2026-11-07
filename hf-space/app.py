@@ -8865,6 +8865,54 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "Tab 24 (Prune+Spill). Single-conversation study: use as a test framework."
             )
 
+        # ── Tab 54: BestRand ──
+        with poc_tab("BestRand: cheaper benchmark subsets, stable scores"):
+            gr.Markdown(
+                "## BestRand: benchmark compression with random sampling\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-06 · Score 8/10*\n\n"
+                "Evaluating on a small subset of a benchmark saves time and money, but a subset can "
+                "misstate the full score. The paper derives the error distribution of random subsets, "
+                "finds it long-tailed (most subsets are accurate, a few are far off) and proposes "
+                "BestRand for stable low-cost compression. This demo is a simulated illustration, "
+                "not the paper's algorithm or results."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from bestrand import FINDINGS as BR_CARDS
+                    for card in BR_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                with gr.Tab("Error Simulator"):
+                    from bestrand import simulate as br_simulate
+                    with gr.Row():
+                        br_k = gr.Number(value=100, label="Subset size (items)")
+                        br_t = gr.Number(value=200, label="Trials")
+                        br_b = gr.Number(value=20, label="Candidates to screen")
+                        br_s = gr.Number(value=0, label="Seed")
+                    br_btn = gr.Button("Simulate")
+                    br_txt = gr.Markdown()
+                    br_tbl = gr.Dataframe(
+                        value=[], headers=["Strategy", "Median error", "95th pct", "99th pct", "Max"],
+                        interactive=False)
+                    br_plot = gr.Plot()
+                    br_btn.click(br_simulate, [br_k, br_t, br_b, br_s], [br_txt, br_tbl, br_plot])
+                with gr.Tab("Subset Size"):
+                    from bestrand import subset_size_for as br_size
+                    br_m = gr.Number(value=2.0, label="Margin (accuracy points)")
+                    br_a = gr.Number(value=0.6, label="Expected accuracy (0-1)")
+                    br_n = gr.Number(value=2000, label="Full benchmark size")
+                    br_out = gr.Markdown(br_size(2.0, 0.6, 2000))
+                    for _c in (br_m, br_a, br_n):
+                        _c.change(br_size, [br_m, br_a, br_n], br_out)
+                with gr.Tab("Implementation Patterns"):
+                    from bestrand import IMPL_PATTERNS as BR_PATTERNS
+                    for p in BR_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** LLM eval pipelines, CI regression suites, model-selection "
+                "sweeps. No direct overlap with existing tabs. Simulated data: use as a test framework."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
