@@ -1,19 +1,45 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-06 · Scanned via Gmail MCP (AlphaSignal 2026-11-05; no JournalClub emails) + source feeds (8 candidates, Hugging Face Daily Papers). 10 new items, none >= 8, no POC. 0 re-listed.
+Last updated: 2026-11-07 · Scanned via Gmail MCP (AlphaSignal 2026-11-04, 11-05, 11-06; no JournalClub emails) + source feeds (18 candidates, Hugging Face Daily Papers + GitHub). 17 new items, 1 >= 8 (BestRand). 13 re-listed (already scored 2026-11-06, see below).
 
+## New Papers (this run — 2026-11-07)
 
+### 📉 [Random Is Almost Enough? Stable and Low-Cost Benchmark Compression via BestRand] — Score 8/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (50 upvotes)
+**Link:** https://arxiv.org/abs/2611.00883 · code: https://github.com/George-Ling3/BestRand
+**Implemented:** Yes — `hf-space/bestrand/` · Tab 54 in `hf-space/app.py` (2026-11-07)
+> Evaluating an LLM on a small benchmark subset is the everyday way to cut eval cost. The paper derives the error distribution of subset-vs-full scores (most subsets are accurate, a few are far off: long tail) and proposes BestRand to get stable low-cost compression from random sampling. Direct LLM-evaluation value, demoable with a simulation.
+**POC idea:** Subset-error simulator: draw random subsets, show the long-tailed error distribution and the tail risk, compare plain random vs best-of-N selection on a calibration set of models.
 
+### 🧩 [Harness-S: Learning from Sibling Harnesses for Generalizable Agent Training] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (54 upvotes)
+**Link:** https://arxiv.org/abs/2611.04277 · code: https://github.com/DeepExperience/Harness-S
+> Replaces failed RL rollouts with rollouts from specialized sibling harnesses, transferred into one policy. Agent-relevant but a training method; a demo would be a toy.
 
+### 🧠 [EvoMemState: Evolving Memory State for Personal Agents] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (20 upvotes)
+**Link:** https://arxiv.org/abs/2611.03743 · code: https://github.com/XMUDeepLIT/EvoMemState
+> State-centric agent memory: new facts update, constrain or conflict with earlier ones instead of being stored as independent facts. Overlaps Tab 53 (MemoryTax), Tab 38 (Jev Memory Compaction).
 
+### 👁️ [VFlash: Fast, Accurate Visual Planning via Flash Primitive Decoding] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-06 (82 upvotes)
+**Link:** https://arxiv.org/abs/2611.08449
+> Drafter predicts structured coordinates jointly instead of token by token (speculative-decoding flavor), but aimed at robotics/driving visual plans.
 
+### 📱 [JosssphZhou/poki: let AI agents operate a real iPhone (local MCP server)] — Score 5/10
+> **Source:** GitHub new repos · 2026-11-05 (387 stars)
+**Link:** https://github.com/JosssphZhou/poki
+> Agent device-control via MCP; needs real hardware, not demoable on a CPU Space.
 
+### 🔐 [OpenAI GPT-6 Cyber (security-focused model, Daybreak access program)] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-06
+> 81 Firefox vulns, 948 Linux exploits, 48.5% ExploitGym, 99% in-scope. Closed model behind vetted access: no demo; no original source link in the email.
 
+### 📈 [METR: Anthropic's AI is doubling its own capability growth rate] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-06
+> Report on AI-accelerated AI research (~2x, 80% attributed to internal AI use). Analysis, not a technique.
 
-
-
-
-
-
+### Re-listed (already scored; not re-scored)
+Skipped as off focus (2-3/10): SLA, WeLM-Image, TailSteer, roblox-studio-mcp, turkish-anti-ai-skill, Claude protein-structure case study, AlphaSignal 11-06 signals. Re-listed: Multi-Turn RL in LLM Agents 7/10 · Turns Matter 4/10 · FrontierPhysics 6/10 · NEO-VLA 3/10 · GameVerse 3/10 · Halley 2/10 · EmoReward 3/10 · PyRUA-DataFarm 3/10 · Claude Code subagent cost 6/10 · Kimi K3.1 Pro 5/10 · GPT-6 Astra Weight-Space Programming 7/10 · Hydrogen-1.0 4/10 · Claude Code self-improvement study 5/10.
 
 ## New Papers (this run — 2026-11-06)
 
@@ -1492,7 +1518,6 @@ _No new high-relevance papers (score ≥ 8) found. No new emails from JournalClu
 
 **POC idea:** Gradio demo with three sub-tabs — (1) Strategy Comparison: truncation vs prune+spill side-by-side on a 3,847-token pytest output with 2 FAILED tests buried in the middle, showing the permanent information loss; (2) Cost Calculator: adjustable session length, tool output size, model price → per-session cost chart comparing truncation vs prune+spill; (3) Production Guide: drop-in implementation pattern, when-to-apply table, intent log pattern for crash recovery.
 **Implemented:** Yes — `hf-space/pi_prune_spill/` · Tab 24 in `hf-space/app.py` (2026-08-25)
-
 
 ### 🔴 [AI agent skills: Why they succeed — and what causes them to crash] — Score 8/10
 > Drop-in applicable empirical study on AI agent skill library design (AlphaSignal deep-dive · 2026-08-23). 8,135 trial records across Terminal-Bench 2.0 and SkillsBench. Core finding: skills work as **procedural anchors** (stabilizing execution), not knowledge repositories. Procedural anchoring accounts for 65.7% of successes vs only 4.5% from explicit knowledge injection. Distilled runbook skills beat raw workflow memory by +6.06 pp. Annotation impact: 74.6% success with success/failure hints vs 40.0% without — a 34.6 pp gap. Catalog scaling: precision drops from 29.6% (5 skills) to 3.3% (100 skills), but task success remains stable (~37-39%) because related distractors provide partial procedural support. Fix: two-level retrieval (domain bucket → strict trigger rule). Directly applicable to any production agent system, RAG pipeline, multi-step LLM workflow, or coding agent.
