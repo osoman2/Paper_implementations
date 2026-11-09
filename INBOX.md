@@ -1,5 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-07 · Scanned via Gmail MCP (AlphaSignal 2026-11-04, 11-05, 11-06; no JournalClub emails) + source feeds (18 candidates, Hugging Face Daily Papers + GitHub). 17 new items, 1 >= 8 (BestRand). 13 re-listed (already scored 2026-11-06, see below).
+Last updated: 2026-11-09
+
+
+## New Papers (this run — 2026-11-09)
+
+No new papers scored today. Sources: AlphaSignal (2026-11-08), Hugging Face Daily Papers / GitHub feeds (0 candidates since 2026-11-07), JournalClub (no new emails).
+
+### Re-listed (already scored, not re-scored)
+- Latent Sparse Attention (LSA), Prefrontal AI + ETH Zurich — Score 6/10 (same work as "Open-source sparse attention runs 72x faster at 10M-token context", 2026-11-04). **Source:** AlphaSignal · 2026-11-08
+- OpenAI GPT-6 Cyber — Score 6/10 (first listed 2026-11-07). **Source:** AlphaSignal · 2026-11-06
 
 ## New Papers (this run — 2026-11-07)
 
