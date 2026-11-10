@@ -1,6 +1,73 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-09
+Last updated: 2026-11-10
 
+
+
+## New Papers (this run — 2026-11-10)
+
+### 🧬 [Beneath the Surface: What We Overlook When We Talk About Agent Evolution] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (22 upvotes)
+**Link:** https://arxiv.org/abs/2611.07624
+> Harness evolution improves benchmarks without weight updates, but gains are unreliable, costly and transfer inconsistently; proposes preservation-aware evaluation (EvoAudit). Evaluation angle is relevant; overlaps Tab 47 (darwin_godel) and Harness-S (7/10). Not >= 8, no demo.
+
+### 🔌 [PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (23 upvotes)
+**Link:** https://arxiv.org/abs/2611.08175 · code: https://github.com/chip-ai-agent/PCBRouteAgent
+> Planner + detail-executor agent over native routing tools. Good agent architecture, domain-specific (EDA).
+
+### 🧪 [P^2-MOPD: Accelerating Multi-Teacher On-Policy Distillation via Parameter Priors] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (43 upvotes)
+**Link:** https://arxiv.org/abs/2611.03953 · code: https://github.com/SinuoWang/P2-MOPD
+> Training method for merging multiple teachers into one student; no direct production-engineering demo.
+
+### 🔁 [Tencent Terminal-RSI: 27B model rewrites and retrains itself] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-09
+> Self-improving 27B model, no original paper link in the newsletter (link omitted). Overlaps Tab 47 (darwin_godel).
+
+### 🔎 [neuml txtai: semantic search + LLM orchestration framework] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-09
+**Link:** https://github.com/neuml/txtai
+> Mature open-source framework, not a new paper; useful reference for retrieval tabs.
+
+### 🌐 [OpenCode Browse: coding agent drives your real browser] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-09
+> Product release, no paper; overlaps agent-desktop (6/10, 2026-11-03).
+
+### 🔌 [Nanoutrolley/roblox-studio-mcp] — Score 5/10
+> **Source:** GitHub feed · 2026-11-09 (281 stars)
+**Link:** https://github.com/Nanoutrolley/roblox-studio-mcp
+> MCP server for Roblox Studio; niche.
+
+### 🧭 [StartLux: decision models 0.8B-27B that think only when uncertain] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-09
+> Adaptive-thinking models; little detail in the newsletter, link omitted.
+
+### 🗳️ [Nous Research Arete-27B: Qwen3 political bias 22% to 1% via SFT] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-09
+> Bias removal by fine-tuning; model release, tangential.
+
+### 🧫 [OpenAI + Ligo wet-lab agent benchmark] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-09
+> Agent benchmark in biology; domain-specific.
+
+### 🎙️ [Confucius4-R2T2: stable-prefix streaming ASR] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (22 upvotes)
+**Link:** https://arxiv.org/abs/2611.06043 · code: https://github.com/netease-youdao/Confucius4-R2T2
+> Speech recognition, outside the Lab's focus.
+
+### 🖼️ [SplatAnything: Gaussian Spacing Normalization for feed-forward 3DGS] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (60 upvotes)
+**Link:** https://arxiv.org/abs/2611.08264 · code: https://github.com/zju3dv/SplatAnything
+> 3D vision, not relevant.
+
+### 🍌 [LongBanana: benchmark for long-context multi-reference image synthesis] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-09 (26 upvotes)
+**Link:** https://arxiv.org/abs/2611.06856 · code: https://github.com/KlingAIResearch/LongBanana
+> Image-synthesis benchmark, not relevant.
+
+### Re-listed (already scored, not re-scored)
+- Latent Sparse Attention (LSA) — Score 6/10 (first listed 2026-11-04/11-09). **Source:** AlphaSignal · 2026-11-08
+- LLMs Don't Know What They Know (temporal self-knowledge, financial backtesting) — matches existing uncertainty-calibration work (Tab 29, 8/10 implemented). **Source:** Hugging Face Daily Papers · 2026-11-09
 
 ## New Papers (this run — 2026-11-09)
 
