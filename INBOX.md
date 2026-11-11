@@ -1,7 +1,40 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-10
+Last updated: 2026-11-11
 
 
+
+
+## New Papers (this run — 2026-11-11)
+
+### 🚀 [Anthropic Claude Fable 5.2 and Mythos 5.2: 30% faster, $8/$40 per M tokens] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-10
+> Model release (1,000-agent Fermat verification claim, protein capsid results). Product news, no reproducible technique for a demo. Overlaps the Fable 5.1 entries already scored.
+
+### 🖥️ [OpenAI Codex runs tasks across multiple machines] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-10
+> Product feature: one agent dispatching tasks to several machines. No paper or code to implement.
+
+### 🛑 [OpenAI Control Room: inference-layer kill switch halts rogue jobs in 35 s] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-10
+> Internal-only safety infrastructure (per-job safety case, authorization checked before generation, revocation). Interesting agent-control pattern, but no public spec to reproduce faithfully.
+
+### ⚡ [Tencent 27B model reaches 125 tok/s on an RTX 3090 with speculative decoding] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-10
+> Inference optimisation, but the newsletter gives no paper or repo link (link omitted). Overlaps earlier speculative decoding entries and Tab 51.
+
+### 🕸️ [Open-source tool plants fake code to trap AI reverse-engineering attacks] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-10
+> Security tool, deception against LLM-assisted reverse engineering; no link in the newsletter (omitted).
+
+### 🔊 [Suno open-sources Bark text-to-audio model] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-10
+> Audio generation, outside the Lab's focus.
+
+## Re-listed (already scored)
+- Tencent Terminal-RSI: 27B model rewrites and retrains itself — 6/10 (AlphaSignal, 2026-11-10)
+- CodeAF (AgentField AI sponsor item) — 7/10 (existing entries 2026-09-30 / 2026-10-01)
+
+Hugging Face Daily Papers / GitHub feeds: 0 new candidates since 2026-11-10. Gmail: no JournalClub email since the last scan.
 
 ## New Papers (this run — 2026-11-10)
 
