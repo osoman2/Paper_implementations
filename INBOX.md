@@ -1,8 +1,52 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-11
+Last updated: 2026-11-12
 
 
 
+
+
+## New Papers (this run — 2026-11-12)
+
+### ✂️ [Weight-edited Qwen 27B thinks 27–54% less while scoring higher on hard benchmarks] — Score 7/10
+> **Source:** AlphaSignal · 2026-11-11
+> Reasoning-length reduction by editing weights (efficiency/inference cost). Relevant, but the newsletter gives no paper or repo link (link omitted), so a faithful demo is not possible yet. Overlaps Tab 51 and earlier reasoning-budget entries.
+
+### 🔬 [Anthropic Claude Fable 5.2 and Mythos 5.2: physics, circuit design, math optimization] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-11
+> Model release with capability claims; no reproducible technique. Overlaps the Fable 5.2 entry of 2026-11-10.
+
+### 🧮 [New clustering algorithm beats k-means with up to 45x GPU speedup] — Score 5/10
+> **Source:** AlphaSignal · 2026-11-11
+> General ML, tangential to LLM engineering; no link in the newsletter (omitted).
+
+### 🧩 [Anthropic ships Claude Whiteboards, Sheets, Data and Interactive Connectors] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-11
+> Product launch, nothing to reproduce.
+
+### 🛒 [OpenAI Businesses in ChatGPT: custom Business Agents] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-11
+> Product launch (beta), no technical detail.
+
+### 🧠 [Alibaba previews Qwen4-Max] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-11
+> Model preview, no technical report yet.
+
+### 🏠 [Open-source server lets Claude and ChatGPT control your smart home] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-11
+> MCP-style tool server for home automation; narrow domain, no link in the newsletter (omitted).
+
+### 🦀 [Open-source Rust browser loads pages in 85ms, beats Puppeteer] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-11
+> Agent-browsing infrastructure, tangential; no link in the newsletter (omitted).
+
+### 🚢 [Kinference: open-source inference serving for platform teams] — Score 2/10
+> **Source:** AlphaSignal (sponsored, Buoyant.io) · 2026-11-11
+> Sponsored item.
+
+## Re-listed (already scored)
+- None.
+
+Hugging Face Daily Papers / GitHub feeds: 0 new candidates since 2026-11-11. Gmail: no JournalClub email since the last scan; one new AlphaSignal (2026-11-11).
 
 ## New Papers (this run — 2026-11-11)
 
