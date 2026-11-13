@@ -1,0 +1,437 @@
+{
+ "fetched_at": "2026-11-13T19:47:16+00:00",
+ "items": [
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "SO-Arena: Benchmarking the Capability Spectrum and Reliability of System One Models",
+   "url": "https://arxiv.org/abs/2611.15777",
+   "repo": "https://github.com/holdrain/SO-Arena",
+   "signal": "72 upvotes",
+   "summary": "SO-Arena evaluates System One models across domains and capability families, revealing that scaling and reasoning gains vary and that high overall accuracy does not ensure reliable decision-making."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "BirdDreams: Joint Perspective and BEV Video Generation for a Plausible, Reactive Driving World Model",
+   "url": "https://arxiv.org/abs/2611.14815",
+   "repo": "",
+   "signal": "45 upvotes",
+   "summary": "Driving world models aim to simulate how a scene unfolds under different ego actions. This requires plausible motion of surrounding vehicles as well as precise ego-trajectory control. Learning vehicle motion from perspective video alone is challenging because motion is entangled with appearance and vehicles can be occluded. Prior work therefore conditions video generation on layouts that specify vehicle motion, providing control over surrounding vehicles but requiring their future trajectories as inputs. We introduce BirdDreams, an autoregressive driving world model that jointly generates pers"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "PhysLoop: Harnessing LLMs' Physics Awareness for Self-Improving Video Generation Models",
+   "url": "https://arxiv.org/abs/2611.16748",
+   "repo": "https://github.com/DAGroup-PKU/PhysLoop",
+   "signal": "41 upvotes",
+   "summary": "PhysLoop leverages large language models to guide video generation, selection, and correction, enabling physically consistent self-improvement and controllable data construction for video models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "G-STAR: Group-Scaled Token Capacity for Deeply Compressed Autoregressive Generation",
+   "url": "https://arxiv.org/abs/2611.13004",
+   "repo": "https://github.com/DAGroup-PKU/G-STAR",
+   "signal": "40 upvotes",
+   "summary": "Discrete autoregressive models offer a scalable framework for image generation. However, they face a fundamental trade-off: long token sequences preserve representation quality but slow generation, while aggressive spatial compression reduces representation capacity. Based on product quantization, we show that, under a fixed nominal information budget, group size should scale quadratically with the per-axis spatial compression factor. Building on this principle, we propose GSTAR, a spatial--group co-scaling framework that enables \\(32\\times\\) and even effective \\(64\\times\\) compression while p"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "Duo: A Reciprocal World Model for Full-Duplex Interaction",
+   "url": "https://arxiv.org/abs/2611.15131",
+   "repo": "https://github.com/inclusionAI/Duo",
+   "signal": "35 upvotes",
+   "summary": "A reciprocal world model enables real-time full-duplex audiovisual interaction by jointly modeling intent and realization using autoregressive reasoning, synchronized attention, and dual rollout distillation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents",
+   "url": "https://arxiv.org/abs/2611.17167",
+   "repo": "https://github.com/ZJU-REAL/decision-agents",
+   "signal": "29 upvotes",
+   "summary": "A decision model that acts poorly can still teach reinforcement learning policies effectively by judging complete action trajectories, improving success on ALFWorld and WebShop."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "Open Vision Banana: A Fully Open Recipe for Generative Visual Perception",
+   "url": "https://arxiv.org/abs/2611.15844",
+   "repo": "https://github.com/OpenVisionBanana/OpenVisionBanana",
+   "signal": "27 upvotes",
+   "summary": "Recent work suggests that pretrained image generators encode real-world understanding beyond image synthesis. Vision Banana exploits this by framing vision tasks as conditional image editing. However, its data, weights, code, and implementation details are not public. We present Open Vision Banana (OVB), a fully open and reproducible recipe for converting pretrained generators into unified multi-task perception systems. Our analyses identify the design choices that matter most for generalization, including color encoding, prompt design, parameter adaptation, and task balancing. These choices i"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-13",
+   "title": "On the Design of Hyper-Connections: Simplification, Stability, and Scalability",
+   "url": "https://arxiv.org/abs/2611.05984",
+   "repo": "https://github.com/aHapBean/SimpleHC",
+   "signal": "26 upvotes",
+   "summary": "A systematic study of Hyper-Connections architectures identifies the simpler efficient design SimpleHC, which removes residual mixing and uses shared memory access to match mHC performance while adding minimal training overhead and improving stability."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-12",
+   "title": "Scaling Mathematical Proof Supervision from Structured Textbooks",
+   "url": "https://arxiv.org/abs/2610.40394",
+   "repo": "",
+   "signal": "44 upvotes",
+   "summary": "A large-scale corpus of structured proof-supervision records derived from university mathematics textbooks improves language model mathematical reasoning by 16.7 percentage points over a base model when used for fine-tuning."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-12",
+   "title": "SteerDistill: Quantizing LLM Agents via Closed-Loop Teacher Steering",
+   "url": "https://arxiv.org/abs/2611.13410",
+   "repo": "https://github.com/air-embodied-brain/SteerDistill",
+   "signal": "35 upvotes",
+   "summary": "Low-bit quantized LLM agents can recover much of their task success through closed-loop guidance from a full-precision teacher, followed by unassisted student training on corrected and reference turns."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-12",
+   "title": "Incentivizing Self-Learning in Large Language Models via Reinforcement Learning",
+   "url": "https://arxiv.org/abs/2610.39671",
+   "repo": "",
+   "signal": "30 upvotes",
+   "summary": "Large language models (LLMs) draw on parametric knowledge and retrieval-augmented generation (RAG) to solve knowledge-intensive tasks. Yet problem solving in unfamiliar domains calls for tightly coupled knowledge acquisition and reasoning, beyond factual retrieval and aggregation or learning solely from a preassembled context. We study self-learning -- autonomously retrieving, studying, and applying knowledge from long-form reference materials on the fly. To investigate this capability, we formulate a textbook-based mathematical problem-solving task. LLMs must navigate textbook exposition, lea"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-12",
+   "title": "Read Less, Solve More: Token-Efficient Sparse Reading of External Content for AI Agents",
+   "url": "https://arxiv.org/abs/2608.22237",
+   "repo": "https://github.com/Liuzedooong/SparseReading",
+   "signal": "21 upvotes",
+   "summary": "Web-facing AI agents repeatedly access webpages, documents, repositories, and tool responses, yet reading interfaces often expose entire objects when only sparse evidence is needed. This over-reading increases token and latency costs and can dilute relevant evidence. We present SparseRead, a reusable reading control layer that governs content admission without modifying the agent model. Its Read Intent Protocol tracks evolving needs and source coverage; Adaptive Reader Backends select how evidence is located and exposed; and the Budgeted Read Gate bounds cumulative raw exposure per episode wit"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "Few-Step Streaming Video Generation via Condition Shifting",
+   "url": "https://arxiv.org/abs/2611.14033",
+   "repo": "",
+   "signal": "88 upvotes",
+   "summary": "APEX extends a streaming video generation method by replacing a separate fake-score network with condition shifting to estimate the generated distribution’s velocity field, improving instruction following and visual aesthetics while reducing memory and iteration time relative to DMD."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "Don't Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents",
+   "url": "https://arxiv.org/abs/2611.14320",
+   "repo": "https://github.com/yukyeongleee/wikitrace",
+   "signal": "66 upvotes",
+   "summary": "WikiTrace links each distilled lesson to its source trajectory and rationale, enabling LLM agents to verify and correct memories before acting, improving performance and reducing memory-induced degradation across agentic benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "World In-Context Learning for Agentic Robot Manipulation",
+   "url": "https://arxiv.org/abs/2611.12885",
+   "repo": "https://github.com/ArcheOne-AI/RoboScript",
+   "signal": "56 upvotes",
+   "summary": "Trained action policies write manipulation skill into network weights, tying what is learned to the distribution it is learned from. In-context learning (ICL) avoids this coupling but has not matched trained policies, because a demonstration recorded in another scene carries no feedback from the world the robot currently faces. We observe that what an agent learns in context is semantic, recording task steps and object roles rather than visual appearance, so experience gathered in one world transfers to another. Based on this insight, we propose World In-Context Learning (WICL), a paradigm in "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "Tree-Ising: Repairing Language Models with Bit-Level Ising Edits",
+   "url": "https://arxiv.org/abs/2611.14210",
+   "repo": "https://github.com/TheQuantumGOAT/Tree-Ising",
+   "signal": "45 upvotes",
+   "summary": "Tree-Ising repairs reasoning loops in LLM weights by solving sparse Ising/QUBO problems over BF16 parameters, improving math benchmark accuracy with fewer weight edits and no gradient or LLM-token cost."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "One Table, Many Queries: Benchmarking Generalist Tabular Models Across Generation, Imputation, and Prediction",
+   "url": "https://arxiv.org/abs/2611.13001",
+   "repo": "https://github.com/limix-ldm-ai/OTBench",
+   "signal": "38 upvotes",
+   "summary": "A large aligned benchmark reveals that tabular generation, imputation, and prediction share useful conditional information but show distinct fidelity rankings and objective interactions, motivating unified models that improve categorical reconstruction and joint sampling."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "dNaViT: Discrete Codes are General-Purpose Visual Representations",
+   "url": "https://arxiv.org/abs/2611.12426",
+   "repo": "",
+   "signal": "34 upvotes",
+   "summary": "A discrete native-resolution vision transformer with grouped product quantization and a dual-branch objective acts as a versatile visual tokenizer, matching or exceeding task-specific baselines across visual understanding, generation, and editing tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "MACaQ: Fast, Model Agnostic Calibrated Quantization for Low-Precision Weights and Activations",
+   "url": "https://arxiv.org/abs/2611.10649",
+   "repo": "https://github.com/huawei-csl/MACaQ",
+   "signal": "30 upvotes",
+   "summary": "MACaQ is an MXFP4 W4A4 post-training quantization method that quantizes each linear layer independently using online activation transforms and Hessian-aware refinement, reducing cost while preserving accuracy across language and diffusion models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-11",
+   "title": "Embodied First Exam",
+   "url": "https://arxiv.org/abs/2611.12177",
+   "repo": "https://github.com/mll-lab-nu/embodied-first-exam",
+   "signal": "28 upvotes",
+   "summary": "Early successes on agentic robotics point to a potential paradigm shift toward using coding agents to control robots. Existing robotics benchmarks are built around visuomotor policy learning, leaving it open whether coding agents can reliably control diverse robots under physical-world constraints. We therefore introduce the Embodied First Exam, a unified, comprehensive, and agent-native evaluation framework where coding agents can choose their own control approach: direct control, code to control, or train a policy to control. We hope it serves as a first exam for coding agents before they en"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "Learning Heterogeneous Tactile Representation for General Dexterous Manipulation",
+   "url": "https://arxiv.org/abs/2611.12806",
+   "repo": "https://github.com/Robbyant/lingbot-touch",
+   "signal": "102 upvotes",
+   "summary": "LingBot-Touch is a tactile foundation model that learns a unified, extensible representation across heterogeneous tactile sensors, yielding plug-and-play tactile tokens that consistently enhance manipulation policies such as diffusion policy and VLA models."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "WorldFoundry: Towards Unified Infrastructure for World Intelligence",
+   "url": "https://arxiv.org/abs/2611.10771",
+   "repo": "https://github.com/OpenEnvision/WorldFoundry",
+   "signal": "58 upvotes",
+   "summary": "WorldFoundry offers open-source infrastructure for reproducible inference and evaluation of generative world models across video, 3D/4D, embodied action, and interactive systems, with traceable evidence and benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "Sage-Taiyi: A Metacognitive Architecture for Scientific Discovery",
+   "url": "https://arxiv.org/abs/2611.12762",
+   "repo": "https://github.com/Alpha-Innovator/Sage-Taiyi",
+   "signal": "57 upvotes",
+   "summary": "We introduce Sage-Taiyi, a metacognition-inspired architecture that uses accumulated scientific understanding to guide what to investigate next and how to investigate it. Through explicit monitoring and control, the system revises its understanding of evidence, assumptions, and unresolved questions, then uses these assessments to adapt research targets and select reusable reasoning methods. On Taiyi-Bench, an AI co-scientist ideation benchmark comprising 265 tasks from 50 papers across ten disciplines, Sage-Taiyi ranks first on all eight metrics of historical rediscovery and open-ended ideatio"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "Infrathon: Benchmarking Language Agents for Real-World, Long-Horizon AI Infra Optimization",
+   "url": "https://arxiv.org/abs/2611.11995",
+   "repo": "https://github.com/InfrathonX/Infrathon",
+   "signal": "43 upvotes",
+   "summary": "In this work, we study whether frontier agent can continually improve real-world AI infrastructure over long horizons. We introduce Infrathon, a benchmark of diverse, long-horizon AI infrastructure optimization tasks across different levels. We evaluate six models across 150 runs with 24-hour budgets, totaling over 10,000 GPU-hours. Our results show that model rankings vary with the evaluation horizon, while 135 of the 150 runs achieve further improvements during the second half of their budgets. These findings indicate that shorter evaluations can overlook both optimization gains and changes "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "Reframe: Observation-Aligned Multi-Teacher On-Policy Distillation for Agentic Visual Reasoning",
+   "url": "https://arxiv.org/abs/2611.12886",
+   "repo": "https://github.com/EliYuan30/Reframe",
+   "signal": "40 upvotes",
+   "summary": "Reframe is a two-stage post-training framework that aligns visual agents’ observation states through evidence-aware reinforcement learning and observation-gated on-policy distillation, improving tool use and outperforming Mix-RL and vanilla MOPD across image and video benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "Flide: Accelerating Decision Inference with Exact State Forking",
+   "url": "https://arxiv.org/abs/2610.42148",
+   "repo": "https://github.com/OmniJev/Flide",
+   "signal": "36 upvotes",
+   "summary": "Flide is an exact inference engine that accelerates decision-model LLM agents by decoupling logical request trees from physical execution and using ForkAttention to preserve exact branch evaluations."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "InfraRSI: Harnessing Recursive Self-Improvement for Training Infrastructure",
+   "url": "https://arxiv.org/abs/2611.11558",
+   "repo": "https://github.com/TokenRhythm/InfraRSI",
+   "signal": "33 upvotes",
+   "summary": "While Recursive Self-Improvement (RSI) accelerates isolated algorithm and kernel synthesis, distributed LLM training depends on tightly coupled launch settings, operator kernels, and communication schedules, where single edits often hit out-of-memory (OOM) boundaries, compiler conflicts, measurement jitter, or silent numerical drift. We present InfraRSI, the agentic harness that turns open-ended human commands into verified training optimizations via a five-stage workflow: init locks editable scope and a fixed task contract over workload, loss, and timing invariants to prevent reward hacking, "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-10",
+   "title": "ReproBridge: Building Reproducibility into ML Research Artifacts",
+   "url": "https://arxiv.org/abs/2611.08452",
+   "repo": "",
+   "signal": "32 upvotes",
+   "summary": "Reproducing machine learning experiments requires reconstructing procedures from information scattered across papers, released code, and supporting artifacts. For coding agents, reproduction success can therefore depend on their ability to fill in missing details, rather than on the released artifacts alone. We ask whether preserving recovered procedures and decisions improves subsequent independent reproduction. We define a standardized artifact design comprising a refined codebase, environment setup, experiment launchers, and a reproduction guide, and introduce ReproBridge, an agent workflow"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "Confucius4-R2T2: A Stable-Prefix Streaming ASR Model for Real Real-Time Transcription",
+   "url": "https://arxiv.org/abs/2611.06043",
+   "repo": "https://github.com/netease-youdao/Confucius4-R2T2",
+   "signal": "93 upvotes",
+   "summary": "A full-context speech recognizer is adapted to emit immutable streaming transcripts with near full-context accuracy and low latency by learning longest stable prefix labels."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "P^2-MOPD: Accelerating Multi-Teacher On-Policy Distillation via Parameter Priors",
+   "url": "https://arxiv.org/abs/2611.03953",
+   "repo": "https://github.com/SinuoWang/P2-MOPD",
+   "signal": "69 upvotes",
+   "summary": "P^2-MOPD jointly optimizes mixing coefficients and student weights under an on-policy distillation objective, enabling faster and more balanced recovery than MOPD by treating experts as parameter priors while keeping the student trainable."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "SplatAnything: Gaussian Spacing Normalization for Feed-forward 3DGS across Arbitrary Scenes",
+   "url": "https://arxiv.org/abs/2611.08264",
+   "repo": "https://github.com/zju3dv/SplatAnything",
+   "signal": "69 upvotes",
+   "summary": "SplatAnything applies Gaussian Spacing Normalization to canonicalize scene-level Gaussian spacing, yielding more consistent supervision and improved feed-forward 3D Gaussian Splatting under varying scene scales and viewpoints."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "Toward the Era of Agentic Embodied Intelligence",
+   "url": "https://arxiv.org/abs/2611.09124",
+   "repo": "https://github.com/AutoLab-SAI-SJTU/A2MEAS",
+   "signal": "53 upvotes",
+   "summary": "An embodied multi-agent framework uses learned correction codes and a vision-language-action model with motion-aware history and latent world modeling to improve robot control, failure recovery, and training efficiency."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?",
+   "url": "https://arxiv.org/abs/2611.08175",
+   "repo": "https://github.com/chip-ai-agent/PCBRouteAgent",
+   "signal": "42 upvotes",
+   "summary": "Automating printed circuit board (PCB) routing requires coordinating board-level connectivity decisions with geometric execution under strict design rules. Although recent agents can interact with native routing tools, reliable routing on complex boards remains challenging. We present PCBRouteAgent, a multimodal PCB routing agent inspired by how human engineers coordinate global strategy with local execution. A Global Routing Planner combines board images and structured electrical and geometric information to specify connection topology, routing order, corridors, and layer transitions. A Detai"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "OneTrans-GSR: A Generative Slate Ranking Paradigm Unifying Reranking and Mix-Ranking with One Autoregressive Transformer",
+   "url": "https://arxiv.org/abs/2611.04720",
+   "repo": "",
+   "signal": "41 upvotes",
+   "summary": "A unified decoder-only policy guided by reward-model-based reinforcement learning generates recommendation exposure slates end-to-end, improving business metrics and reducing reranking and mix-ranking latency in a large-scale system."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "LLMs Don't Know What They Know: Benchmarking Temporal Self-Knowledge for Financial Backtesting",
+   "url": "https://arxiv.org/abs/2611.06808",
+   "repo": "",
+   "signal": "34 upvotes",
+   "summary": "A benchmark of dated U.S. financial facts shows that large language models often understate their knowledge and that common safeguards cannot reliably certify that historical backtests are free of information leakage."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-09",
+   "title": "LongBanana: An Expert-Verified Benchmark for Long-Context Multi-Reference Image Synthesis",
+   "url": "https://arxiv.org/abs/2611.06856",
+   "repo": "https://github.com/KlingAIResearch/LongBanana",
+   "signal": "31 upvotes",
+   "summary": "LongBanana is an expert-verified benchmark and agent-harness framework for evaluating and improving long-context multi-reference image synthesis through graph-grounded checklists and an RPR workflow."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "DIYgod/pinky: Let AI use your iPhone or Android phone, with you in the loop: any MCP agent from macOS, Windows or Linux, or Pinky itself, right on the phone.",
+   "url": "https://github.com/DIYgod/pinky",
+   "repo": "https://github.com/DIYgod/pinky",
+   "signal": "2078 stars",
+   "summary": "Let AI use your iPhone or Android phone, with you in the loop: any MCP agent from macOS, Windows or Linux, or Pinky itself, right on the phone."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-09",
+   "title": "agentes-chat/agentes-chat: Open-source, self-hosted Slack alternative where your team and AI agents work together in channels and DMs. Agents run on Claude, ChatGPT/Codex, Gemini or Grok, with MCP tools, their own computer and browser, routines, memory and approvals. Web, desktop and phone apps. Docker Compose + Postgres. AGPL-3.0.",
+   "url": "https://github.com/agentes-chat/agentes-chat",
+   "repo": "https://github.com/agentes-chat/agentes-chat",
+   "signal": "1326 stars",
+   "summary": "Open-source, self-hosted Slack alternative where your team and AI agents work together in channels and DMs. Agents run on Claude, ChatGPT/Codex, Gemini or Grok, with MCP tools, their own computer and browser, routines, memory and approvals. Web, desktop and phone apps. Docker Compose + Postgres. AGPL-3.0."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-10",
+   "title": "FrigadeHQ/yogurt: Private AI meeting notes. Free and open source.",
+   "url": "https://github.com/FrigadeHQ/yogurt",
+   "repo": "https://github.com/FrigadeHQ/yogurt",
+   "signal": "1225 stars",
+   "summary": "Private AI meeting notes. Free and open source."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "Marcian15350/mt5-tradeprotocol",
+   "url": "https://github.com/Marcian15350/mt5-tradeprotocol",
+   "repo": "https://github.com/Marcian15350/mt5-tradeprotocol",
+   "signal": "1103 stars",
+   "summary": ""
+  },
+  {
+   "source": "github",
+   "date": "2026-11-07",
+   "title": "dabingfy-dot/solo-to-team-skills: Skills for human-led AI teams: delegate tasks, verify evidence, explain steps clearly, and learn from real cases. 一个人统筹 AI 团队：派活、核证、清楚说明、经验复用。",
+   "url": "https://github.com/dabingfy-dot/solo-to-team-skills",
+   "repo": "https://github.com/dabingfy-dot/solo-to-team-skills",
+   "signal": "841 stars",
+   "summary": "Skills for human-led AI teams: delegate tasks, verify evidence, explain steps clearly, and learn from real cases. 一个人统筹 AI 团队：派活、核证、清楚说明、经验复用。"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-09",
+   "title": "alexeyw/lot-map: A live map beside the chat that shows what Claude Code is doing: tool calls, model steps, hooks, skills and subagents light up as they happen. Local only, in 7 languages.",
+   "url": "https://github.com/alexeyw/lot-map",
+   "repo": "https://github.com/alexeyw/lot-map",
+   "signal": "713 stars",
+   "summary": "A live map beside the chat that shows what Claude Code is doing: tool calls, model steps, hooks, skills and subagents light up as they happen. Local only, in 7 languages."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-09",
+   "title": "Dodaios/ste80-humanizer: STE80 Humanizer: agent skill that removes AI tells and rewrites text 80% of the way to ASD-STE100 (Simplified Technical English), the method Andrej Karpathy shared.",
+   "url": "https://github.com/Dodaios/ste80-humanizer",
+   "repo": "https://github.com/Dodaios/ste80-humanizer",
+   "signal": "486 stars",
+   "summary": "STE80 Humanizer: agent skill that removes AI tells and rewrites text 80% of the way to ASD-STE100 (Simplified Technical English), the method Andrej Karpathy shared."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-07",
+   "title": "21stware/bowel: Bowel is a mihomo client for macOS, Windows, Linux and Android.",
+   "url": "https://github.com/21stware/bowel",
+   "repo": "https://github.com/21stware/bowel",
+   "signal": "478 stars",
+   "summary": "Bowel is a mihomo client for macOS, Windows, Linux and Android."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "shanselman/sandbox-mcp: Fresh, throwaway Windows machines for testing your apps: an MCP server and CLI that automate Windows Sandbox",
+   "url": "https://github.com/shanselman/sandbox-mcp",
+   "repo": "https://github.com/shanselman/sandbox-mcp",
+   "signal": "425 stars",
+   "summary": "Fresh, throwaway Windows machines for testing your apps: an MCP server and CLI that automate Windows Sandbox"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "gogoymh/auto-ontology-mcp: NVIDIA Auto Ontology's semantic layer and a personal knowledge base as an MCP server for Claude, ChatGPT and other MCP clients. No LLM API key needed.",
+   "url": "https://github.com/gogoymh/auto-ontology-mcp",
+   "repo": "https://github.com/gogoymh/auto-ontology-mcp",
+   "signal": "388 stars",
+   "summary": "NVIDIA Auto Ontology's semantic layer and a personal knowledge base as an MCP server for Claude, ChatGPT and other MCP clients. No LLM API key needed."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-06",
+   "title": "dhruvthakur11/youtube-ai-video-editing-system: Eyeline teleprompter meets editing agents: JSON-driven animation and motion graphics workflow",
+   "url": "https://github.com/dhruvthakur11/youtube-ai-video-editing-system",
+   "repo": "https://github.com/dhruvthakur11/youtube-ai-video-editing-system",
+   "signal": "386 stars",
+   "summary": "Eyeline teleprompter meets editing agents: JSON-driven animation and motion graphics workflow"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-11",
+   "title": "op7418/guizang-game-skill: 歸藏 Game Skill：让 AI 从零做出能在浏览器里玩的 3D 动作游戏，附可玩演示《雾锁山门》。Agent skill for Claude Code / Codex that builds a playable browser 3D action game with AI-generated assets (three.js, single-HTML). Playable demo included.",
+   "url": "https://github.com/op7418/guizang-game-skill",
+   "repo": "https://github.com/op7418/guizang-game-skill",
+   "signal": "309 stars",
+   "summary": "歸藏 Game Skill：让 AI 从零做出能在浏览器里玩的 3D 动作游戏，附可玩演示《雾锁山门》。Agent skill for Claude Code / Codex that builds a playable browser 3D action game with AI-generated assets (three.js, single-HTML). Playable demo included."
+  }
+ ]
+}
