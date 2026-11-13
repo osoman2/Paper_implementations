@@ -1,9 +1,14 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-12
+Last updated: 2026-11-13
 
 
 
 
+
+
+## New Papers (this run — 2026-11-13)
+
+No new papers scored. The Gmail connector failed to connect (HTTP 502), so JournalClub and AlphaSignal newsletters were not read. The source feeds (Hugging Face Daily Papers, GitHub) returned 0 candidates after 2026-11-12. Open backlog >= 8 is unchanged.
 
 ## New Papers (this run — 2026-11-12)
 
