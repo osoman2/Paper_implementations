@@ -1,10 +1,56 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-13
+Last updated: 2026-11-14
 
 
 
 
 
+
+
+## New Papers (this run — 2026-11-14)
+
+### 🎭 [Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents] — Score 8/10
+> **Source:** Hugging Face Daily Papers · 2026-11-13
+**Link:** https://arxiv.org/abs/2611.17167 · code: https://github.com/ZJU-REAL/decision-agents
+> A model that acts poorly can still teach RL policies well by judging full action trajectories (ALFWorld, WebShop). Direct agent-engineering value (LLM-as-judge for trajectories, cost of the actor role). Code: https://github.com/ZJU-REAL/decision-agents
+**Implemented:** Yes — `hf-space/decision_roles/` · Tab 55 in `hf-space/app.py` (2026-11-14)
+
+### 📊 [SO-Arena: Benchmarking the Capability Spectrum and Reliability of System One Models] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-13
+> **Link:** https://arxiv.org/abs/2611.15777
+> Evaluation: high overall accuracy does not ensure reliable decisions. Useful for eval practice, but the benchmark is heavy to reproduce.
+
+### 🔗 [On the Design of Hyper-Connections: Simplification, Stability, and Scalability] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-13
+> **Link:** https://arxiv.org/abs/2611.05984
+> Architecture/training study (SimpleHC); relevant to pretraining, not to production LLM apps.
+
+### ☠️ [Anthropic: adding clean data to poisoned training sets can triple model misalignment] — Score 7/10
+> **Source:** AlphaSignal · 2026-11-13
+> Safety finding about data cleaning; no paper link in the newsletter (link omitted).
+
+### ✂️ [NYU method matches full fine-tuning by deleting just 0.1% of weights] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-13
+> Efficient adaptation; no link in the newsletter (omitted).
+
+### 🧰 [NVIDIA releases open-source tool to test and score AI agent skills] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-13
+> Agent-eval tooling; no link in the newsletter (omitted).
+
+### 🏗️ [Anthropic opens private beta for self-hosted Claude Managed Agents] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-13
+> Product beta, nothing to reproduce. Overlaps the Managed Agents backlog item.
+
+### 🎙️ [Claude Meetings joins Google Meet] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-13
+> Product launch.
+
+### 🖼️ [Vision/video/driving papers: BirdDreams 3, PhysLoop 3, G-STAR 4, Duo 4, Open Vision Banana 4]
+> **Source:** Hugging Face Daily Papers · 2026-11-13
+> Generative vision/audio, off-target for the Lab.
+
+### Re-listed
+None (every candidate was new).
 
 ## New Papers (this run — 2026-11-13)
 

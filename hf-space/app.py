@@ -8913,6 +8913,52 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "sweeps. No direct overlap with existing tabs. Simulated data: use as a test framework."
             )
 
+        # ── Tab 55: Actor, Judge or Teacher ──
+        with poc_tab("Actor, Judge or Teacher: decision models in long-horizon agents"):
+            gr.Markdown(
+                "## Actor, Judge or Teacher? Decision models in long-horizon agents\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-13 · Score 8/10*\n\n"
+                "The paper studies which role a decision model should play in a long-horizon agent. "
+                "A model that acts poorly can still teach RL policies well by judging complete action "
+                "trajectories (ALFWorld, WebShop). This demo is a simulated illustration built from "
+                "the abstract, not the paper's results."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from decision_roles import FINDINGS as DR_CARDS
+                    for card in DR_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                    from decision_roles import ROLE_ROWS as DR_ROLES
+                    gr.Dataframe(value=DR_ROLES, headers=["Role", "Unit", "Cost", "Requirement"],
+                                 interactive=False)
+                with gr.Tab("Teaching Simulator"):
+                    from decision_roles import simulate as dr_simulate
+                    with gr.Row():
+                        dr_j = gr.Number(value=0.8, label="Judge accuracy (0.5-1)")
+                        dr_a = gr.Number(value=0.3, label="Actor success rate (0-1)")
+                        dr_n = gr.Number(value=500, label="Trajectories")
+                        dr_s = gr.Number(value=0, label="Seed")
+                    dr_btn = gr.Button("Simulate")
+                    dr_txt = gr.Markdown()
+                    dr_tbl = gr.Dataframe(value=[], headers=["Quantity", "Value"], interactive=False)
+                    dr_btn.click(dr_simulate, [dr_j, dr_a, dr_n, dr_s], [dr_txt, dr_tbl])
+                with gr.Tab("Role Advisor"):
+                    from decision_roles import role_advice as dr_advice
+                    dr_a2 = gr.Number(value=0.3, label="Actor success rate (0-1)")
+                    dr_j2 = gr.Number(value=0.8, label="Judge accuracy (0-1)")
+                    dr_out = gr.Markdown(dr_advice(0.3, 0.8))
+                    for _c in (dr_a2, dr_j2):
+                        _c.change(dr_advice, [dr_a2, dr_j2], dr_out)
+                with gr.Tab("Implementation Patterns"):
+                    from decision_roles import IMPL_PATTERNS as DR_PATTERNS
+                    for p in DR_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** agent training loops, LLM-as-judge pipelines, reward design. "
+                "Related to Tab 28 (Agent Wiki). Simulated data: illustration only."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
