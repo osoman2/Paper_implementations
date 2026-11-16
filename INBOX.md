@@ -1,11 +1,18 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-14
+Last updated: 2026-11-16
 
 
 
 
 
 
+
+
+## New Papers (this run — 2026-11-16)
+
+### 🧠 [Nvidia: agents rarely need long contexts; compaction keeps accuracy at up to 7x throughput] — Score 7/10
+> **Source:** AlphaSignal · 2026-11-15
+> Threshold-based compaction and single-action state resets kept SWE-bench Verified accuracy close to full history (median peak context 7-9K tokens); long inputs work better stored as files and searched with grep. Caveats: Qwen 3 Coder Next collapsed under a 16K limit, and compaction breaks prompt caching (cost rose from $167.68 to $203.12). Overlaps Tab 24 (Prune+Spill), Tab 38 (Jev Memory Compaction) and Tab 53 (MemoryTax), so a demo adds little. No paper link in the newsletter (link omitted).
 
 ## New Papers (this run — 2026-11-14)
 
