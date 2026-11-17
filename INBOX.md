@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 
 
 
@@ -7,6 +7,41 @@ Last updated: 2026-11-16
 
 
 
+
+
+## New Papers (this run — 2026-11-17)
+
+### ⚡ [1980s energy model (CRAM, Hopfield-based) trains reasoning tasks 1,000x faster than looped models] — Score 7/10
+> **Source:** AlphaSignal · 2026-11-16
+> Hopfield-style energy architecture solves Sudoku in 42 ms on one GPU, trained far faster than transformer reasoning loops. Interesting and demo-able, but the newsletter gives no paper link and the claim is on narrow puzzle tasks (link omitted).
+
+### 👁️ [Meta study of 200+ models: vision encoders need parameters, not pretraining] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-16
+> Vision-encoder scaling finding; relevant to vision pretraining, not to LLM app engineering. No paper link in the newsletter (link omitted).
+
+### 🔊 [Open-source 18 MB text-to-speech model runs on CPU, never trained on real voices] — Score 6/10
+> **Source:** AlphaSignal · 2026-11-16
+> Tiny CPU TTS trained on synthetic voices; useful for edge, outside the Lab's agent/retrieval focus. No source link (link omitted).
+
+### 🗺️ [Open-source tool reverse engineers any codebase into plain business workflows] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-16
+> Repo tool (1,805 stars); a code-to-docs wrapper with no research claim.
+
+### 🌐 [DeepSeek opens web search, file parsing and URL reading to V4.1-Flash API] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-16
+> Product/API update, no research contribution.
+
+### 🐉 [Qwen4-Max released: 60% lower cost, 1M-token context] — Score 4/10
+> **Source:** AlphaSignal · 2026-11-16
+> Release of the model previewed on 2026-11-12 (scored 4/10 there). Vendor claims, no technical report.
+
+### 🧵 [Claude Code Projects upgrade: coordinator, thread sharing] — Score 3/10
+> **Source:** AlphaSignal · 2026-11-16
+> Product feature update.
+
+### 🎨 [Claude Code desktop app custom themes] — Score 2/10
+> **Source:** AlphaSignal · 2026-11-16
+> Cosmetic product update.
 
 ## New Papers (this run — 2026-11-16)
 
