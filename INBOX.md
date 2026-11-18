@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-17
+Last updated: 2026-11-18
 
 
 
@@ -8,6 +8,11 @@ Last updated: 2026-11-17
 
 
 
+
+
+## New Papers (this run — 2026-11-18)
+
+No new candidates: no new JournalClub/AlphaSignal emails since 2026-11-16 and the source feeds (last fetched 2026-11-17T20:59Z) listed 0 candidates. No open agent PRs. Backlog unchanged (2 items >= 8).
 
 ## New Papers (this run — 2026-11-17)
 
