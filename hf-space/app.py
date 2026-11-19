@@ -8959,6 +8959,57 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "Related to Tab 28 (Agent Wiki). Simulated data: illustration only."
             )
 
+        # ── Tab 56: Multi-Branch Transformer (Joint-KV)
+        with poc_tab("Multi-Branch Transformer: parallel blocks and a Joint-KV cache"):
+            gr.Markdown(
+                "## Multi-Branch Transformer: parallel blocks and a Joint-KV cache\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-18 · Score 8/10*\n\n"
+                "The paper branches Transformer blocks in parallel and builds one shared KV cache "
+                "(Joint-KV) from the branches, reporting up to 34% less KV storage and 51.4% higher "
+                "decoding throughput. This demo is a layer-counting illustration built from the "
+                "abstract, not the paper's measurements."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from mbt import FINDINGS as MBT_CARDS
+                    for card in MBT_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                    from mbt import VARIANT_ROWS as MBT_ROWS
+                    gr.Dataframe(value=MBT_ROWS, headers=["Design", "Structure", "KV layers stored"],
+                                 interactive=False)
+                with gr.Tab("KV Cache Calculator"):
+                    from mbt import kv_calc as mbt_calc
+                    with gr.Row():
+                        mbt_h = gr.Number(value=4, label="Shared head layers")
+                        mbt_d = gr.Number(value=6, label="Blocks per branch")
+                        mbt_b = gr.Number(value=2, label="Branches")
+                        mbt_t = gr.Number(value=2, label="Shared tail layers")
+                    with gr.Row():
+                        mbt_c = gr.Number(value=128000, label="Context tokens")
+                        mbt_k = gr.Number(value=2048, label="KV bytes per layer per token")
+                    mbt_btn = gr.Button("Calculate")
+                    mbt_txt = gr.Markdown()
+                    mbt_tbl = gr.Dataframe(value=[], headers=["Design", "KV layers", "KV GB (illustrative)"],
+                                           interactive=False)
+                    mbt_btn.click(mbt_calc, [mbt_h, mbt_d, mbt_b, mbt_t, mbt_c, mbt_k], [mbt_txt, mbt_tbl])
+                with gr.Tab("When Joint-KV Helps"):
+                    from mbt import advice as mbt_advice
+                    mbt_b2 = gr.Number(value=2, label="Branches")
+                    mbt_c2 = gr.Number(value=128000, label="Context tokens")
+                    mbt_out = gr.Markdown(mbt_advice(2, 128000))
+                    for _c in (mbt_b2, mbt_c2):
+                        _c.change(mbt_advice, [mbt_b2, mbt_c2], mbt_out)
+                with gr.Tab("Implementation Patterns"):
+                    from mbt import IMPL_PATTERNS as MBT_PATTERNS
+                    for p in MBT_PATTERNS:
+                        gr.Markdown(f"#### {p['name']}\n\n{p['description']}")
+                        gr.Code(value=p["code"], language="python", label=p["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** long-context serving, KV-cache budgeting, architecture choice. "
+                "Related to Tab 35 (DeepSeek V4.1-Flash KV) and Tab 49 (KV Cache Multi-Model Agents). "
+                "Illustration only."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
