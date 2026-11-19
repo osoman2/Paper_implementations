@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-18
+Last updated: 2026-11-19
 
 
 
@@ -9,6 +9,52 @@ Last updated: 2026-11-18
 
 
 
+
+
+## New Papers (this run — 2026-11-19)
+
+No new JournalClub/AlphaSignal emails since 2026-11-16 (both already scored). 8 new Hugging Face Daily Papers candidates; none was seen before.
+
+### 🌿 [Multi-Branch Transformer] — Score 8/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.19800 · code: https://github.com/GaotangLi/Multi-Branch-Transformer
+> Parallel branches of Transformer blocks plus a shared Joint-KV cache: up to 34% less KV storage and 51.4% higher decoding throughput (H200) at matched quality. Direct inference-efficiency value. Overlaps Tab 35 (DeepSeek V4.1-Flash KV) and Tab 49 (KV Cache Multi-Model Agents).
+**Implemented:** Yes — `hf-space/mbt/` · Tab 56 in `hf-space/app.py` (2026-11-19)
+
+### 🧠 [Self-Improvement Memory Enables Continual Recursive Self-Improvement] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.18856
+> Harness optimizers store rationales and predicted vs observed outcomes to reuse prior edits across benchmarks. Agent-memory angle, but overlaps Tab 53 (MemoryTax).
+
+### 🧮 [Weight-Space Programming Doesn't Need Transformers] — Score 7/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.22055 · code: https://github.com/effl-lab/Weight-Space-Programming
+> LLMs writing weights directly produce sparse-table/associative-memory models that beat same-size Transformers. Curious, but research-stage.
+
+### 🐉 [TeleChat to Xing4: Advancing Frontier Agentic Models on Domestic Chips and Frameworks] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.22115
+> Model report on Ascend (sparse activation, speculative decoding, agentic post-training); infrastructure-specific.
+
+### ⚙️ [AscendGYM: A Cost-Aware Kernel Optimization Benchmark for Real-World Workloads on Ascend NPUs] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.17621 · code: https://github.com/SLAI-AITP/AscendGYM
+> Kernel-agent benchmark tied to Ascend hardware; tangential.
+
+### 🦾 [ForceHarness: Turning Force into Action and Physics for Frozen Frontier Models] — Score 4/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.21099
+> Robotics force control with frozen models; outside Lab focus.
+
+### 🤖 [TCP4D: A Unified Tool-Center-Point Tracking and Generation Model for Robot Manipulation] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.23143
+> Robot manipulation video model; not relevant.
+
+### 🌬️ [Breath-Dx: A Time Series Classification Benchmark for Disease Screening with eNose] — Score 2/10
+> **Source:** Hugging Face Daily Papers · 2026-11-18
+> **Link:** https://arxiv.org/abs/2611.15348
+> Medical sensor time-series benchmark; not relevant.
 
 ## New Papers (this run — 2026-11-18)
 
