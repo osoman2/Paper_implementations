@@ -9009,6 +9009,52 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "Related to Tab 35 (DeepSeek V4.1-Flash KV) and Tab 49 (KV Cache Multi-Model Agents). "
                 "Illustration only."
             )
+        with poc_tab("Resolution Hypothesis: can agent evolution detect real improvements?"):
+            gr.Markdown(
+                "## Resolution Hypothesis: can agent evolution detect real improvements?\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-19 · Score 8/10*\n\n"
+                "The paper argues that agent evolution is bottlenecked by noisy evaluations that cannot "
+                "reliably rank candidates, so improvements must be detectable to accumulate. This demo "
+                "is a simulated evaluator built from the abstract, not the paper's data or method."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from resolution import FINDINGS as RES_CARDS
+                    for card in RES_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                with gr.Tab("Selection Accuracy"):
+                    from resolution import selection_accuracy as res_sel
+                    with gr.Row():
+                        res_p = gr.Number(value=0.5, label="Baseline pass rate")
+                        res_g = gr.Number(value=0.03, label="True gain of the better candidate")
+                        res_n = gr.Number(value=100, label="Evaluation tasks")
+                    res_btn = gr.Button("Simulate")
+                    res_txt = gr.Markdown()
+                    res_tbl = gr.Dataframe(value=[], headers=["Tasks", "Better candidate picked (%)", "Min detectable gain (points)"],
+                                           interactive=False)
+                    res_btn.click(lambda p, g, n: res_sel(p, g, n), [res_p, res_g, res_n], [res_txt, res_tbl])
+                with gr.Tab("Evolution Loop"):
+                    from resolution import evolve as res_evolve
+                    with gr.Row():
+                        res_p2 = gr.Number(value=0.4, label="Starting pass rate")
+                        res_g2 = gr.Number(value=0.02, label="Mutation size")
+                        res_n2 = gr.Number(value=100, label="Evaluation tasks")
+                        res_k2 = gr.Number(value=20, label="Generations")
+                    res_btn2 = gr.Button("Run loop")
+                    res_txt2 = gr.Markdown()
+                    res_tbl2 = gr.Dataframe(value=[], headers=["Generation", "True rate", "Best measured"],
+                                            interactive=False)
+                    res_btn2.click(lambda p, g, n, k: res_evolve(p, g, n, k), [res_p2, res_g2, res_n2, res_k2],
+                                   [res_txt2, res_tbl2])
+                with gr.Tab("Implementation Patterns"):
+                    from resolution import IMPL_PATTERNS as RES_PATTERNS
+                    for p_ in RES_PATTERNS:
+                        gr.Markdown(f"#### {p_['name']}\n\n{p_['description']}")
+                        gr.Code(value=p_["code"], language="python", label=p_["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** agent self-improvement loops, eval budgeting, candidate selection. "
+                "Related to Tab 54 (BestRand benchmark subsets). Illustration only."
+            )
 
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
