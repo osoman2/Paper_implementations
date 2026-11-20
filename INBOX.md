@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-19
+Last updated: 2026-11-20
 
 
 
@@ -10,6 +10,52 @@ Last updated: 2026-11-19
 
 
 
+
+
+## New Papers (this run — 2026-11-20)
+
+No new JournalClub/AlphaSignal emails. 8 Hugging Face Daily Papers candidates from the feed, none seen before.
+
+### 🧪 [The Resolution Hypothesis: Agent Evolution's Key Is Identifying Improvements] — Score 8/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.23068
+> Agent evolution is bottlenecked by noisy evaluations that cannot rank candidates; progress needs detectable, accumulable improvements. Direct agent/eval value. Overlaps Tab 54 (BestRand) and the 7/10 "Beneath the Surface" agent-evolution paper.
+**Implemented:** Yes — `hf-space/resolution/` · Tab 57 in `hf-space/app.py` (2026-11-20)
+
+### 🧬 [CurvDelta: Low-Curvature Delta Modeling For Surgical Learning and Unlearning] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.24654
+> Constrains LLM updates to a low-curvature space for better retention and unlearning. Applicable to fine-tuning, not core to the Lab.
+
+### 🎮 [Game2Player: Scaling Gameplay Experience for Visual Agents] — Score 6/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.24154 · code: https://github.com/game2player/Game2Player
+> Builder agent adapts web games into verifiable environments for visual agents. Applicable to agent training data.
+
+### 🎬 [ALIVE: Making Streaming Video Models Interactive] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.21366 · code: https://github.com/lijinzhao30/ALIVE
+> Interactive streaming video LLM with RL credit assignment. Tangential (video).
+
+### 📊 [LightTAR: Light and Fast Target-Aware Representations for Multimodal Tabular Learning] — Score 5/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.17600 · code: https://github.com/eilamshapira/LightTAR
+> Target-aware PLS features for multimodal tabular models. Tangential.
+
+### 🖼️ [Jeveration: System One Models Now Generate] — Score 4/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.24738 · code: https://github.com/Carol-lyh/Jeveration
+> Frozen VLM repurposed for image generation. Not an LLM-engineering topic.
+
+### 🤖 [HINT-WAM: Hindsight-Informed Training for World Action Models] — Score 3/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.24789 · code: https://github.com/tuandattt/hintwam_code
+> Robot manipulation post-training. Not relevant.
+
+### 🌦️ [PROLA: Principal-Orthogonal Low-rank Adaptation for Predictive Spatiotemporal Weather Downscaling] — Score 2/10
+> **Source:** Hugging Face Daily Papers · 2026-11-19
+> **Link:** https://arxiv.org/abs/2611.11318 · code: https://github.com/yms020615/PROLA
+> Weather downscaling. Not relevant.
 
 ## New Papers (this run — 2026-11-19)
 
