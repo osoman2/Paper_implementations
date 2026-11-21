@@ -1,0 +1,473 @@
+{
+ "fetched_at": "2026-11-21T19:21:34+00:00",
+ "items": [
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "WeVisForensics: Self-Evolving Agent for Omni AI-Generated Video Detection",
+   "url": "https://arxiv.org/abs/2611.21373",
+   "repo": "https://github.com/Tencent/WeVisForensics",
+   "signal": "51 upvotes",
+   "summary": "WeVisForensics coordinates self-evolving visual and audio forensic inspector agents under a dual-timescale reinforcement learning policy to detect generated-video artifacts with localized evidence and high accuracy."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "Mind2Act World: A Diagnostic Benchmark for Embodied Mind, Physical Action, and Mind-Action Composition in Robotic Manipulation",
+   "url": "https://arxiv.org/abs/2611.26444",
+   "repo": "https://github.com/Mind2Act/Mind2Act_World",
+   "signal": "49 upvotes",
+   "summary": "A diagnostic benchmark of 180 simulated manipulation configurations evaluates whether embodied systems can combine history-based reasoning, precise execution, and closed-loop environmental feedback, revealing that single-view competence does not transfer to composed tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "WeMM-Video: Pushing the Frontiers of Open-Source Omni-Modal Video Understanding",
+   "url": "https://arxiv.org/abs/2611.26409",
+   "repo": "https://github.com/Tencent/WeMM-Video",
+   "signal": "43 upvotes",
+   "summary": "WeMM-Video is a family of Chinese-English bilingual omni-modal foundation models that unify text, image, audio, and video processing for joint audio-visual perception and reasoning, using hybrid thinking modes and large-scale training to achieve strong open-source video understanding results."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "Probing the \"Conscious\" Mind: Selective Access and Global Workspace in Vision-Language Models",
+   "url": "https://arxiv.org/abs/2611.26590",
+   "repo": "",
+   "signal": "42 upvotes",
+   "summary": "Vision-language models (VLMs) integrate visual and textual information, but their outputs do not reveal internal concept representations. Global workspace theory (GWT) proposes that information is selected from parallel brain processes, integrated in a shared workspace, and made available to specialised processes. We introduce the Multimodal Concept Lens (MC-Lens), a multimodal Jacobian lens, to study these functions in VLM concept processing. Its vision encoder and language decoder lenses map intermediate states to a shared semantic space defined by the decoder's output vocabulary to compare "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "Posterior Matching Distillation",
+   "url": "https://arxiv.org/abs/2611.26629",
+   "repo": "https://github.com/yesiltepe-hidir/PMD",
+   "signal": "36 upvotes",
+   "summary": "Posterior Matching Distillation trains a stochastic student to match a teacher diffusion model’s full posterior via tilted mean constraints, enabling high-quality few-step image generation without auxiliary score networks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "Coda-DaVinci: Reimagining Video Generation with Code2Video",
+   "url": "https://arxiv.org/abs/2611.26595",
+   "repo": "https://github.com/FrankYang-17/Coda",
+   "signal": "35 upvotes",
+   "summary": "A task-adaptive agentic framework utilizes 3D proxies, physics simulation, and multi-agent coordination to enhance the structural control, physical plausibility, and visual realism of generated videos."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "The Mask Is Not the Object: Volumetric Supervision for 3D Gaussian Segmentation",
+   "url": "https://arxiv.org/abs/2611.21383",
+   "repo": "https://github.com/jhxcho/voda",
+   "signal": "32 upvotes",
+   "summary": "A plug-and-play objective, VODA, groups per-pixel contributors by local depth to supervise all Gaussians in selected depth clusters, improving volumetric segmentation and enabling evaluation via Removal-3D and Removal Depth Error."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-20",
+   "title": "Depth Pro 2: Sharp and Temporally Consistent Metric Monocular Depth",
+   "url": "https://arxiv.org/abs/2611.26603",
+   "repo": "https://github.com/apple-aiml-research/ml-depth-pro-2",
+   "signal": "29 upvotes",
+   "summary": "A single scalable network estimates dense metric depth for images and video at native resolution, jointly improving metric accuracy, boundary sharpness, and temporal consistency."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "Jeveration: System One Models Now Generate",
+   "url": "https://arxiv.org/abs/2611.24738",
+   "repo": "https://github.com/Carol-lyh/Jeveration",
+   "signal": "148 upvotes",
+   "summary": "Jeveration repurposes a frozen vision-language model to generate coherent images and perform image-to-image and dense prediction tasks in a single forward pass with fast 512x512 generation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "Tideway: Phase-Aware Tiered Memory Management for MoE Inference on Consumer Devices",
+   "url": "https://arxiv.org/abs/2611.14848",
+   "repo": "https://github.com/Afterglow231/Tideway",
+   "signal": "67 upvotes",
+   "summary": "TIDEWAY enables efficient inference of large Mixture-of-Experts models on memory-constrained consumer devices by treating host RAM and GPU VRAM as a unified memory pool with phase-aware layouts and optimized CUDA Graph execution under expert paging."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "ALIVE: Making Streaming Video Models Interactive",
+   "url": "https://arxiv.org/abs/2611.21366",
+   "repo": "https://github.com/lijinzhao30/ALIVE",
+   "signal": "40 upvotes",
+   "summary": "Streaming video LLMs can continuously observe the world, yet often handle user requests in isolation. We introduce ALIVE, an interactive streaming video model supporting proactive monitoring, streaming task coordination, and feedback-seeking interaction. We construct ALIVE-SFT-288K and ALIVE-RL-3K for two-stage training. Contrastive supervised fine-tuning teaches when and how to respond, while reinforcement learning with Behavior-Aligned Credit Assignment (BACA) combines trajectory-level and local advantages to refine decisions, responses, and silence across multi-turn interactions. We also in"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "The Resolution Hypothesis: Agent Evolution's Key Is Identifying Improvements",
+   "url": "https://arxiv.org/abs/2611.23068",
+   "repo": "",
+   "signal": "39 upvotes",
+   "summary": "Agent evolution is often bottlenecked by noisy evaluations that cannot reliably identify better candidate artifacts or rank methods, so progress requires making true improvements detectable and accumulable."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "Game2Player: Scaling Gameplay Experience for Visual Agents through Environment-Player Co-Development",
+   "url": "https://arxiv.org/abs/2611.24154",
+   "repo": "https://github.com/game2player/Game2Player",
+   "signal": "29 upvotes",
+   "summary": "Games are a rich testbed for visual agents, demanding perception, long-horizon planning, and precise control. However, collecting human gameplay is costly, and learning from gameplay videos requires inferring missing actions. Existing datasets also cover a limited range of games, often without explicit tasks or verifiable outcomes. To address these gaps, we introduce Game2Player, a framework that co-develops game environments and players to collect diverse and verifiable gameplay experience at scale. In the Game2Player loop, a Builder agent adapts existing web games, exposes their internal sta"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "PROLA: Principal-Orthogonal Low-rank Adaptation for Predictive Spatiotemporal Weather Downscaling",
+   "url": "https://arxiv.org/abs/2611.11318",
+   "repo": "https://github.com/yms020615/PROLA",
+   "signal": "27 upvotes",
+   "summary": "High-resolution weather prediction is important for resolving local atmospheric patterns missed by coarse global forecasts. Large pretrained weather backbones have improved global forecasting, but adapting them to produce future high-resolution fields from recent coarse states remains challenging and costly. We formulate this setting as Predictive Spatiotemporal Weather Downscaling (PSWD), a task that jointly refines spatial and temporal resolution while predicting future high-resolution trajectories. To this end, we propose a framework that decomposes prediction into spatial and temporal stag"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "CurvDelta: Low-Curvature Delta Modeling For Surgical Learning and Unlearning",
+   "url": "https://arxiv.org/abs/2611.24654",
+   "repo": "",
+   "signal": "26 upvotes",
+   "summary": "CurvDelta and CurvLoRA constrain LLM updates to a low-curvature preservation space, improving retention while maintaining target adaptation across reasoning, code, and unlearning tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-19",
+   "title": "LightTAR: Light and Fast Target-Aware Representations for Multimodal Tabular Learning",
+   "url": "https://arxiv.org/abs/2611.17600",
+   "repo": "https://github.com/eilamshapira/LightTAR",
+   "signal": "23 upvotes",
+   "summary": "LightTAR adapts dimensionality reduction to the prediction task by adding target-aware features from encoder layers via regularized partial least squares, improving multimodal tabular model performance with minimal runtime overhead."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "TeleChat to Xing4: Advancing Frontier Agentic Models on Domestic Chips and Frameworks",
+   "url": "https://arxiv.org/abs/2611.22115",
+   "repo": "",
+   "signal": "167 upvotes",
+   "summary": "We present Xing 4, a series of large language models that extends the TeleChat lineage through coordinated advances in model architecture and training infrastructure on Ascend. This report describes the design principles and systems engineering behind the series, spanning architecture selection, large-scale pretraining, and reasoning and agentic post-training. We study how sparse activation, attention design, model depth and width, and speculative decoding balance model capacity with computation, memory access, and execution overhead. Our pretraining infrastructure builds on MindSpore HyperPar"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "AscendGYM: A Cost-Aware Kernel Optimization Benchmark for Real-World Workloads on Ascend NPUs",
+   "url": "https://arxiv.org/abs/2611.17621",
+   "repo": "https://github.com/SLAI-AITP/AscendGYM",
+   "signal": "94 upvotes",
+   "summary": "AscendGYM provides a benchmark for assessing kernel optimization capabilities on Ascend NPUs using real-workload test cases, two evaluation modes, and a Speedup-Token Score that balances speedup against token cost."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "Weight-Space Programming Doesn't Need Transformers",
+   "url": "https://arxiv.org/abs/2611.22055",
+   "repo": "https://github.com/effl-lab/Weight-Space-Programming",
+   "signal": "59 upvotes",
+   "summary": "When large language models write neural network weights without gradient-based training, they tend to design sparse table or associative-memory models that outperform same-sized Transformers with far fewer parameters and faster GPU inference, though pretrained LLMs remain more accurate."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "Multi-Branch Transformer",
+   "url": "https://arxiv.org/abs/2611.19800",
+   "repo": "https://github.com/GaotangLi/Multi-Branch-Transformer",
+   "signal": "47 upvotes",
+   "summary": "Branching Transformer blocks into parallel parameterized branches, combined with shared KV caching, improves language model quality and inference efficiency compared with standard sequential Transformers."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "ForceHarness: Turning Force into Action and Physics for Frozen Frontier Models",
+   "url": "https://arxiv.org/abs/2611.21099",
+   "repo": "https://github.com/showlab/ForceHarness",
+   "signal": "45 upvotes",
+   "summary": "Frontier multimodal models can now control robots zero-shot from images, yet many manipulation tasks depend on contact forces that images cannot show. Bringing force to an API-only frozen model raises two challenges. First, contact evolves much faster than an API model can decide, so the system must close the loop on force beneath the model. Second, a frozen model cannot interpret raw force streams, so force must be returned in a form the model can reason about. Therefore, we present ForceHarness, a harness that lets frozen models use force without demonstrations or finetuning. After calibrati"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "Self-Improvement Memory Enables Continual Recursive Self-Improvement",
+   "url": "https://arxiv.org/abs/2611.18856",
+   "repo": "",
+   "signal": "38 upvotes",
+   "summary": "Continual recursive self-improvement lets harness optimizers reuse and revise prior edits across changing benchmarks or policy models by storing rationales, predicted and observed outcomes, and evaluation contexts in a self-improvement memory, improving final scores over continuation baselines."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "Breath-Dx: A Time Series Classification Benchmark for Disease Screening with eNose",
+   "url": "https://arxiv.org/abs/2611.15348",
+   "repo": "https://github.com/ivanpodd/Breath-Dx",
+   "signal": "33 upvotes",
+   "summary": "A comprehensive benchmark evaluates time-series classification methods on a large clinical breath dataset under realistic temporal splits, showing that sensor drift lowers performance and recurrent models are most consistent across diseases."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-18",
+   "title": "FastFrames: Video Generation at Interactive Latency",
+   "url": "https://arxiv.org/abs/2611.23226",
+   "repo": "https://github.com/apple-aiml-research/ml-fastframes",
+   "signal": "32 upvotes",
+   "summary": "Autoregressive video diffusion models generate frames based on new observations and inputs, making them a promising medium for interactive visual experiences. However, existing models are orders of magnitude too slow for fluid interaction. This paper introduces FastFrames, a family of fast autoregressive video diffusion models that achieves interactive latency without compromising quality. We profile the inference pipeline of state-of-the-art models and find that operations often treated as fixed implementation details, such as VAE decoding and KV cache updates, in fact account for over half o"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "InclusionMed: Benchmarking AI for Inclusive Healthcare",
+   "url": "https://arxiv.org/abs/2611.21218",
+   "repo": "https://github.com/panuvi/inclusionmed",
+   "signal": "104 upvotes",
+   "summary": "InclusionMed is an open medical AI evaluation initiative that audits and reproduces benchmarks across healthcare roles and capabilities, revealing that model rankings and inference costs vary by context and motivating broader, context-specific evaluation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "Sage S2.1 Flash Technical Report",
+   "url": "https://arxiv.org/abs/2611.21072",
+   "repo": "https://github.com/InternLM/Sage-S2.1-Flash",
+   "signal": "98 upvotes",
+   "summary": "We introduce Sage S1.5 Flash, a 320-billion-parameter general-purpose mixture-of-experts model designed to reason over scientific evidence and act in interactive environments. Sage Sci-Perception uses dedicated encoders for molecular graphs and biological sequences and represents spectra as ordered patches of measurements. Modality-specific projectors map these representations into the input space of a shared backbone, which processes them alongside text and images. To develop the model's agent capabilities, we construct verifiable environments for tool use, search, and coding, as well as spec"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "K2-Horizon: A Frontier Fleet of Open Source Language Models",
+   "url": "https://arxiv.org/abs/2611.21003",
+   "repo": "",
+   "signal": "89 upvotes",
+   "summary": "We present K2-Horizon, a fleet of six fully open language models, from a 0.9B dense model to a 375B-A23B MoE, built for general-purpose reasoning and agentic work across math and science, software engineering, deep research, office automation, and beyond. The models lead or are competitive with strong open models of their size on agentic and coding benchmarks. On the modeling side, to strengthen reasoning, we introduce Mixture-of-Value Attention (MoVA), applying MoE to attention value projections, and softplus attention gating, a more flexible, theoretically motivated gate. Our 36B-A4B model u"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "AllocFlow: End-to-End Portfolio Trading Action Generation from Raw Market Data",
+   "url": "https://arxiv.org/abs/2611.19937",
+   "repo": "https://github.com/allocflow/AllocFlow",
+   "signal": "74 upvotes",
+   "summary": "An end-to-end flow-matching framework generates joint portfolio allocations from raw multi-asset market histories via a cross-asset flow Transformer and a two-stage imitation and group-relative reinforcement learning procedure, improving risk-adjusted returns on cryptocurrency perpetual futures."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "SWE-CoWork: Benchmarking Coding Agents as Digital Employees in Organizations",
+   "url": "https://arxiv.org/abs/2611.20218",
+   "repo": "https://github.com/TokenWave-AI/swe-cowork-bench",
+   "signal": "53 upvotes",
+   "summary": "A benchmark of realistic software engineering assignments reveals that current coding agents struggle to track requirements from clarification through implementation, verification, and handoff, completing few tasks despite partial test success."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection",
+   "url": "https://arxiv.org/abs/2611.07222",
+   "repo": "https://github.com/saintmachines/spillway",
+   "signal": "46 upvotes",
+   "summary": "Tool-using agents act on email, files, and payments, so an instruction hidden in a web page or a shared document can make an agent send data or money to an attacker. Many runtime defenses put a language model on the decision that lets an action through, so the decision depends on a model that may read the attacker's text and adds model calls to every step. Provenance defenses keep the model off the final check but need a model to plan or route each task first. Where an action goes can instead be read from the tools' typed returns: an email's sender or a payment's account arrives in a typed fie"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "ScaleVLA: Scaling Vision-Language-Action Models to 552 Billion Parameters",
+   "url": "https://arxiv.org/abs/2611.21607",
+   "repo": "",
+   "signal": "40 upvotes",
+   "summary": "Frontier Vision-Language Models (VLMs) such as GPT-6 Astra have demonstrated remarkable capabilities in robot control, suggesting that broad pretraining provides knowledge valuable for physical action. Yet most Vision-Language-Action (VLA) policies still rely on much smaller VLM backbones, leaving this potential largely untapped. We ask whether frontier-scale representations can provide a stronger foundation for robot learning. We introduce ScaleVLA, which connects a 552B DeepSeek-V4.1-Flash backbone to a trainable action DiT, and systematically compare VLMs from 2B to 552B under a shared trai"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-17",
+   "title": "PaperCritic: Training AI Reviewers to Assess the Soundness of Papers",
+   "url": "https://arxiv.org/abs/2611.17834",
+   "repo": "",
+   "signal": "33 upvotes",
+   "summary": "An AI reviewer trained by reinforcement learning to jointly maximize precision and recall of soundness review points outperforms frontier models and other training methods and transfers to other review domains."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent",
+   "url": "https://arxiv.org/abs/2611.18397",
+   "repo": "https://github.com/RainBowLuoCS/Gamer",
+   "signal": "146 upvotes",
+   "summary": "Gamer is a generalist agent framework that integrates perception, memory, and multi-step reasoning, trained through continued pre-training, sparse-thinking instruction tuning, and multi-turn reinforcement learning to interact efficiently in 2D and 3D environments."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "Envisioning Agentic Robotics: A New Era of Robotic Systems",
+   "url": "https://arxiv.org/abs/2611.18359",
+   "repo": "",
+   "signal": "136 upvotes",
+   "summary": "Agentic robotics, centered on an Embodied System 2 formed by a foundation model and embodied harness, requires a shared evaluation framework and research roadmap to achieve reliable physical autonomy."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender",
+   "url": "https://arxiv.org/abs/2611.15789",
+   "repo": "https://github.com/vibeprevisbench/vibeprevisbench",
+   "signal": "87 upvotes",
+   "summary": "Controllable real-world video generation models can condition on a rendered graybox proxy video, which fixes layout, motion and camera. Coding agents can build such videos by reconstructing a 4D scene in Blender, yet no benchmark checks both these videos and the long, multi-shot scenes behind them. We introduce VibePrevisBench, a benchmark for 4D scene reconstruction: an agent turns a brief into an executable 4D scene and renders its proxy video. Its 242 tasks span four input kinds, including scripts, photos, continuations, and reference videos. Each delivery is scored along two evaluation dim"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "MIRIX-2.0: Multi-Agent Memory System",
+   "url": "https://arxiv.org/abs/2611.12068",
+   "repo": "https://github.com/Mirix-AI/MIRIX",
+   "signal": "56 upvotes",
+   "summary": "MIRIX-2.0 is a multi-agent memory system for LLM agents that achieves high accuracy and efficiency across QA and procedural benchmarks without fine-tuning."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "MMFlash: Faster Speculative Decoding for Vision-Language Models",
+   "url": "https://arxiv.org/abs/2611.18482",
+   "repo": "https://github.com/fscdc/MMFlash",
+   "signal": "42 upvotes",
+   "summary": "MMFlash improves multimodal speculative decoding by adaptively upweighting visually dependent tokens and using sparse attention for long video, yielding up to 3.58× lossless speedup."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "V-JEPA-LM: Video-Language Models That Read Dynamics Beyond Static, Text-Aligned Representations",
+   "url": "https://arxiv.org/abs/2611.17831",
+   "repo": "https://github.com/kkt94/Llama-V-JEPA-LM",
+   "signal": "27 upvotes",
+   "summary": "Counterfactual supervision over pixel transformations enables language models to read motion dynamics from frozen predictive video encoders, yielding V-JEPA-LM models that outperform open video LLMs across benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "Loopback Transformer: Towards a Unified View of Residual Looped Transformers",
+   "url": "https://arxiv.org/abs/2611.07226",
+   "repo": "https://github.com/yancyou/Loopback",
+   "signal": "27 upvotes",
+   "summary": "A looped Transformer that separately controls input strength, total update weight, and per-update allocation achieves lower validation loss and higher downstream accuracy than standard and looped residual baselines while using fewer parameters."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-16",
+   "title": "G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands",
+   "url": "https://arxiv.org/abs/2611.17814",
+   "repo": "",
+   "signal": "21 upvotes",
+   "summary": "With the rapid advancement of Large Language Models (LLMs), an increasing number of users are turning to LLM-powered agents for conversational shopping in e-commerce. However, the user needs continue to change as new product categories, procurement scenarios, and feature requests emerge. At the same time, the product's execution harness-including its tools, skills, and operating procedures-continues to evolve to support increasingly sophisticated interactions. These changes create two practical challenges: 1) Demand drift alters the distribution, intent, and complexity of user requests, causin"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-16",
+   "title": "erkamyaman/rust-anything: Rewrite your whole app in Rust, one piece at a time, checked against the original's recorded behavior at every step. CLIs, HTTP servers and libraries in TypeScript, Python, C, Go, Ruby and Java.",
+   "url": "https://github.com/erkamyaman/rust-anything",
+   "repo": "https://github.com/erkamyaman/rust-anything",
+   "signal": "7278 stars",
+   "summary": "Rewrite your whole app in Rust, one piece at a time, checked against the original's recorded behavior at every step. CLIs, HTTP servers and libraries in TypeScript, Python, C, Go, Ruby and Java."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-19",
+   "title": "bookwjitchieni1986/blender-ai-mcp-addon: AI assistant and MCP server for Blender: visual chat, scene tools, multi-agent workflows. Works with ChatGPT/GPT, Claude, Gemini, Ollama, OpenCode. Blender AI addon, copilot for 3D, bpy Python scripting, MCP integration.",
+   "url": "https://github.com/bookwjitchieni1986/blender-ai-mcp-addon",
+   "repo": "https://github.com/bookwjitchieni1986/blender-ai-mcp-addon",
+   "signal": "2147 stars",
+   "summary": "AI assistant and MCP server for Blender: visual chat, scene tools, multi-agent workflows. Works with ChatGPT/GPT, Claude, Gemini, Ollama, OpenCode. Blender AI addon, copilot for 3D, bpy Python scripting, MCP integration."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-16",
+   "title": "sybil-solutions/inference-optimisation-skill: Agent skill for hill-climbing local LLM serving speed (decode, speculative decoding, prefill, KV, startup, TTFT) on any hardware and quantization",
+   "url": "https://github.com/sybil-solutions/inference-optimisation-skill",
+   "repo": "https://github.com/sybil-solutions/inference-optimisation-skill",
+   "signal": "1457 stars",
+   "summary": "Agent skill for hill-climbing local LLM serving speed (decode, speculative decoding, prefill, KV, startup, TTFT) on any hardware and quantization"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-16",
+   "title": "boringmarketer/boring-marketing-skills: 32 free marketing skills for your AI agent: research, positioning, copy, pages, SEO, AI search, ads, email and content, plus a deep local-business pack. MIT.",
+   "url": "https://github.com/boringmarketer/boring-marketing-skills",
+   "repo": "https://github.com/boringmarketer/boring-marketing-skills",
+   "signal": "767 stars",
+   "summary": "32 free marketing skills for your AI agent: research, positioning, copy, pages, SEO, AI search, ads, email and content, plus a deep local-business pack. MIT."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-14",
+   "title": "mankidev/antialgorithm: Agent skill that steers the model away from its first, most average pick in creative work: names, ideas, logo, posters, UI.",
+   "url": "https://github.com/mankidev/antialgorithm",
+   "repo": "https://github.com/mankidev/antialgorithm",
+   "signal": "599 stars",
+   "summary": "Agent skill that steers the model away from its first, most average pick in creative work: names, ideas, logo, posters, UI."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "weightcashiercupola/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/weightcashiercupola/Gemini-Config-Checker-",
+   "repo": "https://github.com/weightcashiercupola/Gemini-Config-Checker-",
+   "signal": "471 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "YellowLaborerMarket/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/YellowLaborerMarket/Gemini-Config-Checker-",
+   "repo": "https://github.com/YellowLaborerMarket/Gemini-Config-Checker-",
+   "signal": "471 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "Visionbeyondtrack/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/Visionbeyondtrack/Gemini-Config-Checker-",
+   "repo": "https://github.com/Visionbeyondtrack/Gemini-Config-Checker-",
+   "signal": "470 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "VortexHostFeel/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/VortexHostFeel/Gemini-Config-Checker-",
+   "repo": "https://github.com/VortexHostFeel/Gemini-Config-Checker-",
+   "signal": "470 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "Violetnyudress/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/Violetnyudress/Gemini-Config-Checker-",
+   "repo": "https://github.com/Violetnyudress/Gemini-Config-Checker-",
+   "signal": "470 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "TurtleReside/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/TurtleReside/Gemini-Config-Checker-",
+   "repo": "https://github.com/TurtleReside/Gemini-Config-Checker-",
+   "signal": "470 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  },
+  {
+   "source": "github",
+   "date": "2026-11-15",
+   "title": "TypeTyrantScheme/Gemini-Config-Checker-: Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+   "url": "https://github.com/TypeTyrantScheme/Gemini-Config-Checker-",
+   "repo": "https://github.com/TypeTyrantScheme/Gemini-Config-Checker-",
+   "signal": "470 stars",
+   "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android) "
+  }
+ ]
+}
