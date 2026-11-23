@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-22
+Last updated: 2026-11-23
 
 
 
@@ -13,6 +13,16 @@ Last updated: 2026-11-22
 
 
 
+
+
+## New Papers (this run — 2026-11-23)
+
+No new JournalClub/AlphaSignal emails since the last scan. The feeds (published 2026-11-22) have one candidate after 2026-11-20:
+
+### 🛠️ [fast-anything (EL4CTEO): profile Python/Node/Ruby apps and port hot functions with a coding agent] — Score 3/10
+**Source:** GitHub new repos · 2026-11-21 (1656 stars)
+**Link:** https://github.com/EL4CTEO/fast-anything
+Developer tooling workflow, not a paper: no method or result to reproduce as a demo. No POC today.
 
 ## New Papers (this run — 2026-11-22)
 
