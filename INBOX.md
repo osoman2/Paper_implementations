@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-23
+Last updated: 2026-11-24
 
 
 
@@ -14,6 +14,11 @@ Last updated: 2026-11-23
 
 
 
+
+
+## New Papers (this run — 2026-11-24)
+
+No new candidates: no JournalClub/AlphaSignal emails since 2026-11-23 and the Hugging Face Daily Papers / GitHub feeds returned 0 items after that date. No POC opened.
 
 ## New Papers (this run — 2026-11-23)
 
