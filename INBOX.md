@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-24
+Last updated: 2026-11-26
 
 
 
@@ -15,6 +15,92 @@ Last updated: 2026-11-24
 
 
 
+
+
+## New Papers (this run — 2026-11-26)
+
+No JournalClub/AlphaSignal emails since 2026-11-23. The feeds (published 2026-11-25) bring 16 Hugging Face Daily Papers candidates; none was previously scored.
+
+### 🖥️ [Don't Sleep, Keep Watch: Proactive Perception for Computer-Use Agents (NightWatch)] — Score 8/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (84 upvotes)
+**Link:** https://arxiv.org/abs/2611.28947
+A lightweight streaming watcher keeps a computer-use agent's perception in sync with dynamic UIs: less latency and wasted waiting, same or better task success. Directly an agent-latency/orchestration topic; simulable as a demo.
+**Implemented:** Yes — `hf-space/nightwatch/` · Tab 58 in `hf-space/app.py` (2026-11-26)
+
+### 🧪 [Self-Evolving Evaluation Environments for Computer-Use Agents (CUA-SEE)] — Score 8/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (45 upvotes)
+**Link:** https://arxiv.org/abs/2611.30962
+Closed loop that co-evolves tasks and executable verifiers to measure agent boundaries. Strong eval-of-agents angle; overlaps the evaluation region.
+
+### 🧭 [Lazy Agents Answer Against Their Own Beliefs: RL with Verifiable Beliefs] — Score 8/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (87 upvotes)
+**Link:** https://arxiv.org/abs/2611.32884
+Rewards agents for delaying commitment until the inferred posterior over answers is narrow. Relevant to agent calibration, but needs RL training to show the effect.
+
+### 🧵 [Rewirable Circuits in Transformers with Loom Attention (LoomFormer)] — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (84 upvotes)
+**Link:** https://arxiv.org/abs/2611.30634
+Dual-stream architecture with vertical attention over earlier heads. Architecture research, limited production applicability.
+
+### 🔧 [Let the Fixer Decide: Training a Code Localizer from the Fixer's Likelihood] — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (59 upvotes)
+**Link:** https://arxiv.org/abs/2611.12164
+Weighted SFT of a localizer using a frozen fixer's scores; coding agents, but requires training.
+
+### 🤖 [Embo-Harness: Frontier-Model-as-Policy Harness] — Score 6/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (103 upvotes)
+**Link:** https://arxiv.org/abs/2611.31201
+Harness design for frontier models as robot policies; robotics-focused, tool-use interface lessons transfer partially.
+
+### 🦾 [ACAP: Asynchronous Coding Agents for Efficient Robot Control] — Score 6/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (61 upvotes)
+**Link:** https://arxiv.org/abs/2611.31205
+Team of persistent asynchronous agents per robot component; interesting orchestration idea, robotics domain.
+
+### 💳 [Antom 3-in-1 Transformer: A Payment Foundation Model] — Score 5/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (99 upvotes)
+**Link:** https://arxiv.org/abs/2611.25403
+Proprietary payment data, not reproducible as a demo.
+
+### 🏁 [WorldLeague: Benchmarking Physical Agency] — Score 5/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (136 upvotes)
+**Link:** https://arxiv.org/abs/2611.30989
+Simulated robot benchmark; outside the Lab's focus.
+
+### 🧩 [PartAgent: Agentic 3D Part Segmentation] — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (33 upvotes)
+**Link:** https://arxiv.org/abs/2611.32554
+3D vision agent; tangential.
+
+### 🦿 [A Glimpse of Training VLMs as Foundation Models for Robotic Manipulation (nanoAstra)] — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (56 upvotes)
+**Link:** https://arxiv.org/abs/2611.29338
+Robot VLM training; tangential.
+
+### 🛒 [WeMM-Ecom: Multimodal Content Understanding for WeChat E-Commerce] — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (54 upvotes)
+**Link:** https://arxiv.org/abs/2611.30662
+Domain-specific multimodal model family; tangential.
+
+### 🧊 [S-Mind: Internalizing Multi-View Geometry for Spatial Intelligence] — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-25 (41 upvotes)
+**Link:** https://arxiv.org/abs/2611.28649
+3D spatial reasoning in MLLMs; not relevant.
+
+### 🕺 [Motion Mamba 2.0: Autoregressive Diffusion Mamba for Long-Horizon Humanoid Control] — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (194 upvotes)
+**Link:** https://arxiv.org/abs/2611.29897
+Motion generation; not relevant.
+
+### 🎮 [3AGameFactory-Motion: Agentic Rigging for 3D Assets] — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (59 upvotes)
+**Link:** https://arxiv.org/abs/2611.30013
+3D asset pipeline; not relevant.
+
+### 🌍 [Innata-0: Native Embodied World System] — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-24 (42 upvotes)
+**Link:** https://arxiv.org/abs/2611.30254
+Embodied world model system; not relevant.
 
 ## New Papers (this run — 2026-11-24)
 

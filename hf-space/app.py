@@ -9055,6 +9055,56 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "---\n**Applicable to:** agent self-improvement loops, eval budgeting, candidate selection. "
                 "Related to Tab 54 (BestRand benchmark subsets). Illustration only."
             )
+        with poc_tab("NightWatch: proactive perception for computer-use agents"):
+            gr.Markdown(
+                "## NightWatch: proactive perception for computer-use agents\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-25 · Score 8/10*\n\n"
+                "The paper adds a lightweight streaming watcher to a vision-language computer-use agent so its "
+                "perception stays synchronized with a changing interface, reducing latency and wasted waiting "
+                "while keeping or improving task success. This demo is a simulated interface built from the "
+                "abstract, not the paper's data or method."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from nightwatch import FINDINGS as NW_CARDS
+                    for card in NW_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                with gr.Tab("Step Simulator"):
+                    from nightwatch import simulate as nw_sim
+                    with gr.Row():
+                        nw_m = gr.Number(value=2.0, label="Mean settle time (s)")
+                        nw_w = gr.Number(value=2.0, label="Fixed wait (s)")
+                        nw_p = gr.Number(value=0.25, label="Watcher poll interval (s)")
+                        nw_r = gr.Number(value=3.0, label="Model reasoning time (s)")
+                        nw_q = gr.Number(value=0.3, label="Error rate on a stale screen")
+                    nw_btn = gr.Button("Simulate")
+                    nw_txt = gr.Markdown()
+                    nw_tbl = gr.Dataframe(value=[], headers=["Strategy", "Seconds per step", "Idle seconds", "Failed steps (%)"],
+                                          interactive=False)
+                    nw_btn.click(lambda m, w, p, r, q: nw_sim(m, w, p, r, q), [nw_m, nw_w, nw_p, nw_r, nw_q],
+                                 [nw_txt, nw_tbl])
+                with gr.Tab("Wait Sweep"):
+                    from nightwatch import sweep_wait as nw_sweep
+                    with gr.Row():
+                        nw_m2 = gr.Number(value=2.0, label="Mean settle time (s)")
+                        nw_p2 = gr.Number(value=0.25, label="Watcher poll interval (s)")
+                        nw_r2 = gr.Number(value=3.0, label="Model reasoning time (s)")
+                        nw_q2 = gr.Number(value=0.3, label="Error rate on a stale screen")
+                    nw_btn2 = gr.Button("Sweep waits")
+                    nw_txt2 = gr.Markdown()
+                    nw_tbl2 = gr.Dataframe(value=[], headers=["Fixed wait (s)", "Fixed: s per step", "Fixed: failed (%)", "Watcher: s per step"],
+                                           interactive=False)
+                    nw_btn2.click(lambda m, p, r, q: nw_sweep(m, p, r, q), [nw_m2, nw_p2, nw_r2, nw_q2],
+                                  [nw_txt2, nw_tbl2])
+                with gr.Tab("Implementation Patterns"):
+                    from nightwatch import IMPL_PATTERNS as NW_PATTERNS
+                    for p_ in NW_PATTERNS:
+                        gr.Markdown(f"#### {p_['name']}\n\n{p_['description']}")
+                        gr.Code(value=p_["code"], language="python", label=p_["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** computer-use and browser agents, UI automation, agent latency budgets. "
+                "Related to Tab 57 (Resolution Hypothesis, noisy agent evaluation). Illustration only."
+            )
 
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
