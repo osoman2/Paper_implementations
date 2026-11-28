@@ -9105,7 +9105,6 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "---\n**Applicable to:** computer-use and browser agents, UI automation, agent latency budgets. "
                 "Related to Tab 57 (Resolution Hypothesis, noisy agent evaluation). Illustration only."
             )
-
         with poc_tab("Stable Gated DeltaNet-2: why non-normal erasure blows up recurrent state"):
             gr.Markdown(
                 "## Stable Gated DeltaNet-2: why non-normal erasure blows up recurrent state\n"
