@@ -9106,6 +9106,54 @@ with gr.Blocks(title="Vector Ridge Lab — POC demos", theme=LAB_THEME, css=LAB_
                 "Related to Tab 57 (Resolution Hypothesis, noisy agent evaluation). Illustration only."
             )
 
+        with poc_tab("Stable Gated DeltaNet-2: why non-normal erasure blows up recurrent state"):
+            gr.Markdown(
+                "## Stable Gated DeltaNet-2: why non-normal erasure blows up recurrent state\n"
+                "*Source: Hugging Face Daily Papers · 2026-11-27 · Score 8/10*\n\n"
+                "The paper traces long-context training failures of Gated DeltaNet-2 to erase operators whose read and "
+                "modify directions differ: their gains accumulate across tokens and the recurrent state grows "
+                "exponentially. Symmetric erasure keeps propagation non-expansive. This demo uses random toy matrices, "
+                "not the paper's models or data."
+            )
+            with gr.Tabs():
+                with gr.Tab("Findings"):
+                    from stable_gdn2 import FINDINGS as SG_CARDS
+                    for card in SG_CARDS:
+                        gr.Markdown(f"### {card['name']}\n\n{card['body']}")
+                with gr.Tab("State Growth"):
+                    from stable_gdn2 import compare as sg_compare
+                    with gr.Row():
+                        sg_d = gr.Number(value=16, label="State dimension")
+                        sg_t = gr.Number(value=500, label="Tokens")
+                        sg_b = gr.Number(value=1.5, label="Erase strength beta (symmetric is clipped to 1)")
+                        sg_c = gr.Number(value=0.8, label="Read/modify skew (0-1)")
+                        sg_w = gr.Number(value=0.0, label="Write scale")
+                    sg_btn = gr.Button("Simulate")
+                    sg_txt = gr.Markdown()
+                    sg_tbl = gr.Dataframe(value=[], headers=["Token", "Asymmetric norm", "Symmetric norm", "sqrt(T) reference"],
+                                          interactive=False)
+                    sg_btn.click(lambda d, t, b, c, w: sg_compare(d, t, b, c, w), [sg_d, sg_t, sg_b, sg_c, sg_w],
+                                 [sg_txt, sg_tbl])
+                with gr.Tab("Erase Gain"):
+                    from stable_gdn2 import gain_table as sg_gain
+                    with gr.Row():
+                        sg_d2 = gr.Number(value=16, label="State dimension")
+                        sg_b2 = gr.Number(value=1.5, label="Erase strength beta")
+                    sg_btn2 = gr.Button("Measure gain")
+                    sg_txt2 = gr.Markdown()
+                    sg_tbl2 = gr.Dataframe(value=[], headers=["Skew", "Mean spectral norm", "Max spectral norm", "Samples with gain > 1 (%)"],
+                                           interactive=False)
+                    sg_btn2.click(lambda d, b: sg_gain(d, b), [sg_d2, sg_b2], [sg_txt2, sg_tbl2])
+                with gr.Tab("Implementation Patterns"):
+                    from stable_gdn2 import IMPL_PATTERNS as SG_PATTERNS
+                    for p_ in SG_PATTERNS:
+                        gr.Markdown(f"#### {p_['name']}\n\n{p_['description']}")
+                        gr.Code(value=p_["code"], language="python", label=p_["name"])
+            gr.Markdown(
+                "---\n**Applicable to:** linear-attention and hybrid long-context models, training-stability monitoring. "
+                "Related to Tab 56 (Multi-Branch Transformer, efficiency). Illustration only."
+            )
+
     wire_navigation(demo, region_dd, poc_dd, poc_tabs)
 
 
