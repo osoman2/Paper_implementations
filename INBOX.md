@@ -1,5 +1,5 @@
 # INBOX — JournalClub.io Paper Scan
-Last updated: 2026-11-26
+Last updated: 2026-11-28
 
 
 
@@ -16,6 +16,42 @@ Last updated: 2026-11-26
 
 
 
+
+
+## New Papers (this run — 2026-11-28)
+
+No JournalClub/AlphaSignal emails since 2026-11-26. The feeds (published 2026-11-27) bring 6 Hugging Face Daily Papers candidates; none was previously scored. Re-listed from the backlog (not re-scored): CUA-SEE (8/10), Lazy Agents (8/10).
+
+### 🌀 [Stable Gated DeltaNet-2: Understanding and Mitigating Recurrent State Instability] — Score 8/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (126 upvotes)
+**Link:** https://arxiv.org/abs/2611.34051
+Non-normal erase operators in linear-attention recurrent states grow exponentially over long contexts; symmetric erasure plus decay-regulated residual writing gives an O(sqrt(T)) state bound and better 128K RULER. Direct inference-efficiency topic; the state-growth effect is simulable with plain numpy.
+**Implemented:** Yes — `hf-space/stable_gdn2/` · Tab 59 in `hf-space/app.py` (2026-11-28)
+
+### 🖥️ [OS-Omni: Benchmarking Generalist Computer-Using Agents on Long-Horizon Workflows Across Platforms] — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (101 upvotes)
+**Link:** https://arxiv.org/abs/2611.34232
+Live cross-platform benchmark for computer-use agents. Useful reference for agent eval, but a demo would need the live environments. Overlaps Tab 58 and CUA-SEE.
+
+### 📏 [What a Forecasting Leaderboard Can Establish: Resolution Reporting for Zero-Shot Time-Series Models (Vernier)] — Score 7/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (57 upvotes)
+**Link:** https://arxiv.org/abs/2611.31619
+Measures the smallest score difference a leaderboard can distinguish. Good eval idea, but overlaps Tab 57 (Resolution Hypothesis) and Tab 54 (BestRand); time-series domain.
+
+### 👁️ [Solve Vision with Code: Coding Agents Are Stronger Visual Reasoners Than Video Models] — Score 6/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (58 upvotes)
+**Link:** https://arxiv.org/abs/2611.34813
+Coding agents beat video generators on visual reasoning tasks. Interesting agent angle, but vision-centric and hard to demo cheaply.
+
+### 🎬 [ProxyGenBench: Benchmarking Proxy-Guided Video Generation] — Score 3/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (36 upvotes)
+**Link:** https://arxiv.org/abs/2611.34457
+Video generation benchmark. Not relevant to the Lab's engineering focus.
+
+### 🎬 [StateWeaver: Multi-Agent Coordination of Story-State Transitions for Long-Horizon Video Generation] — Score 4/10
+**Source:** Hugging Face Daily Papers · 2026-11-27 (27 upvotes)
+**Link:** https://arxiv.org/abs/2611.34290
+Multi-agent video generation pipeline. Tangential.
 
 ## New Papers (this run — 2026-11-26)
 
