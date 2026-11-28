@@ -1,0 +1,446 @@
+{
+ "fetched_at": "2026-11-28T20:11:32+00:00",
+ "items": [
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "Stable Gated DeltaNet-2: Understanding and Mitigating Recurrent State Instability",
+   "url": "https://arxiv.org/abs/2611.34051",
+   "repo": "",
+   "signal": "135 upvotes",
+   "summary": "Linear attention offers an efficient solution for long-sequence modeling via linear complexity and fixed-size recurrent states. Gated DeltaNet-2 (GDN-2) introduces independent channel-wise control over erasure and writing, enhancing state-update expressiveness and in-context retrieval, yet it suffers from training failures during long-context training. We trace these failures to the asymmetry between reading and modification directions during erasure, which yields non-normal erase operators whose directional gains accumulate across tokens, triggering exponential state growth even without new w"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "OS-Omni: Benchmarking Generalist Computer-Using Agents on Long-Horizon Workflows Across Platforms",
+   "url": "https://arxiv.org/abs/2611.34232",
+   "repo": "https://github.com/OS-Copilot/OS-Omni",
+   "signal": "114 upvotes",
+   "summary": "A live cross-platform benchmark evaluates computer-using agents on long-horizon workflows across Windows, Ubuntu, macOS, iOS, Android, and Web, showing that current agents remain far from platform-robust computer use and trail humans on iOS and macOS."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "Solve Vision with Code: Coding Agents Are Stronger Visual Reasoners Than Video Models",
+   "url": "https://arxiv.org/abs/2611.34813",
+   "repo": "",
+   "signal": "63 upvotes",
+   "summary": "Video generation models are increasingly evaluated as visual reasoners: given a first frame and a natural-language prompt, can the model produce the video in which the specified task is carried out? The paradigm is considered advantageous because the reasoning is native to the visual medium, unfolding directly in the frames rather than through language or code. Whether this native route is in fact the more reliable path to visual reasoning has not been tested against a symbolic alternative under the same conditions. We therefore pose the same tasks, with identical inputs, output specification "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "What a Forecasting Leaderboard Can Establish: Resolution Reporting for Zero-Shot Time-Series Models",
+   "url": "https://arxiv.org/abs/2611.31619",
+   "repo": "https://github.com/therealram18/vernier",
+   "signal": "59 upvotes",
+   "summary": "A tool called Vernier measures the smallest score difference a time-series forecasting leaderboard can distinguish, showing that most boards cannot separate top entries and that ranking order can change with pool composition."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "ProxyGenBench: Benchmarking Proxy-Guided Video Generation",
+   "url": "https://arxiv.org/abs/2611.34457",
+   "repo": "https://github.com/2kxx/ProxyGenBench",
+   "signal": "36 upvotes",
+   "summary": "A benchmark assesses how well video generators follow animated 3D blockouts while preserving structure, filling missing content, correcting proxy artifacts, and binding multimodal conditions to the correct entities and events."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "StateWeaver: Multi-Agent Coordination of Story-State Transitions for Long-Horizon Video Generation",
+   "url": "https://arxiv.org/abs/2611.34290",
+   "repo": "https://github.com/ghost233lism/StateWeaver",
+   "signal": "28 upvotes",
+   "summary": "StateWeaver improves long-video generation by preserving cross-shot consistency and updating visual references through active state tracking and hierarchical collaboration."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-27",
+   "title": "ShowNow: Fine-Grained Speculative Streaming for Responsive World Models",
+   "url": "https://arxiv.org/abs/2611.34693",
+   "repo": "https://github.com/showlab/ShowNow",
+   "signal": "22 upvotes",
+   "summary": "A fine-grained speculative streaming framework prepares action-conditioned video futures during playback to reduce input-to-display latency in interactive world models while sustaining real-time generation."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "Sage-Med: Scaling Medical Multimodal Intelligence",
+   "url": "https://arxiv.org/abs/2611.34575",
+   "repo": "https://github.com/Sage-Med/Sage-Med-Preview",
+   "signal": "82 upvotes",
+   "summary": "Establishing effective scaling laws for medical multimodal large language models (MLLMs) remains a persistent and fundamental challenge. Our systematic evaluation shows that existing medical MLLMs tend to underperform frontier general-purpose MLLMs across a range of medical tasks, while scaling model size primarily improves text capabilities rather than multimodal perception, and enabling reasoning modes fails to close this visual gap. To investigate how medical multimodal intelligence scales in practice, we introduce Sage-Med-Preview, a 35B-parameter medical multimodal model with 3B activated"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "Mixture-of-Loops Transformer",
+   "url": "https://arxiv.org/abs/2611.34923",
+   "repo": "https://github.com/hustvl/MoLT",
+   "signal": "76 upvotes",
+   "summary": "A Mixture-of-Loops Transformer reuses key-value memory across loops and depths, and its U-shaped variant improves pretraining efficiency and inference latency."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "DyLoMo-DiT: Dynamic Looped Mixture-of-Experts Diffusion Transformers",
+   "url": "https://arxiv.org/abs/2611.30844",
+   "repo": "https://github.com/OneBoxCream/DyLoMo-DiT",
+   "signal": "73 upvotes",
+   "summary": "A dynamic looped mixture-of-experts diffusion transformer reuses shared parameters and varies compute across noise levels, improving image generation quality under matched budgets."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "VibeVideoAgent: Closing the Perceptual Loop for Code-Driven Video Generation",
+   "url": "https://arxiv.org/abs/2611.34237",
+   "repo": "https://github.com/Kling-Keye/VibeVideoAgent",
+   "signal": "58 upvotes",
+   "summary": "Code-driven video generation asks a coding agent to write and run rendering programs. This gives exact control over typography, data visualizations, synchronized audio, and multi-shot scenes, and it leaves an editable project behind. A program that exits cleanly can still render overlapping labels, a camera aimed away from its subject, broken object interactions, or narration that drifts out of sync, and none of these raise a runtime error. Feeding rendered frames and audio back into the coding session bloats its long-horizon context, while critiquing only the finished full-resolution render t"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "Improving and Expanding Video Editing Capabilities Without Videos",
+   "url": "https://arxiv.org/abs/2611.34941",
+   "repo": "https://github.com/HorizonWind2004/i2v-transfer",
+   "signal": "47 upvotes",
+   "summary": "Image-to-Video Transfer improves pretrained video editors by training them as image editors on single images, enabling new video editing tasks and state-of-the-art results on OpenVE-Bench and OpenVE++."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "PyRUA-Dex: Learning Programmatic Policies for Dexterous Bimanual Manipulation with Coding Agents",
+   "url": "https://arxiv.org/abs/2611.33144",
+   "repo": "",
+   "signal": "43 upvotes",
+   "summary": "A framework enables coding agents to develop dexterous manipulation policies without demonstrations by exploring and distilling successful attempts into a program, then refining it for strong simulated and real-world results."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "Entangle: Scaling Human-Video In-Context World-Action Models across Unseen Tasks and Contexts",
+   "url": "https://arxiv.org/abs/2611.28732",
+   "repo": "",
+   "signal": "34 upvotes",
+   "summary": "In-context learning (ICL) enables foundation models to perform unseen tasks from context without parameter updates. In robotic manipulation, a human video provides the context that specifies how a task should be performed. However, scaling human-video ICL on world-action models (WAMs) faces two challenges: task-level human-robot pairs are not temporally aligned with robot actions, and standard action losses allow policies to rely on initial-scene or task-identity shortcuts rather than tracking the context. We present Entangle, an in-context world-action model that maps a single human video and"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-26",
+   "title": "DocSEAM: Bidirectional Cross-Page Encoding for Multi-Page Document Understanding",
+   "url": "https://arxiv.org/abs/2611.34420",
+   "repo": "https://github.com/mossbee/DocSEAM",
+   "signal": "28 upvotes",
+   "summary": "DocSEAM is a lightweight module between a pretrained vision encoder and language model that enriches page visual tokens with neighboring-page context via center-anchored masked self-attention, improving multi-page document VQA and reducing boundary sensitivity."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "Rewirable Circuits in Transformers with Loom Attention",
+   "url": "https://arxiv.org/abs/2611.30634",
+   "repo": "https://github.com/Caiyun-AI/LoomFormer",
+   "signal": "94 upvotes",
+   "summary": "We propose loom attention, which allows a Transformer to dynamically rewire its circuits at every token by interweaving a head's vertical attention over the outputs of earlier heads (to obtain its query, key and value) with its horizontal attention over tokens. We instantiate vertical attention efficiently with normalized and gated linear attention over a per-token matrix memory, which stores the compressed head outputs and serves as a second residual stream. This yields LoomFormer, a dual-stream architecture that splits control and content between the vector and matrix streams. Across model s"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "ACAP: Asynchronous Coding Agents for Efficient Robot Control",
+   "url": "https://arxiv.org/abs/2611.31205",
+   "repo": "",
+   "signal": "67 upvotes",
+   "summary": "Coding agents can construct and revise robot behavior during execution, but using one agent for the whole robot can delay otherwise independent work. We introduce Asynchronous Coding Agents as Policy (ACAP), an asynchronous framework that organizes one robot as a team of persistent agents. Each member reasons and acts for a configurable control group, such as an arm with its gripper or the torso and chassis, enabling asynchronous reasoning and execution. However, different robot components often have physical dependencies that require coordination. To address this challenge, ACAP introduces a "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "Antom 3-in-1 Transformer: A Payment Foundation Model",
+   "url": "https://arxiv.org/abs/2611.25403",
+   "repo": "",
+   "signal": "67 upvotes",
+   "summary": "We report the development of Antom 3-in-1 Transformer, a payment foundation model that integrates sequence, tabular, and graph representations for payment risk detection. The model contains approximately 7B parameters, with approximately 1.7B activated per task route. Antom 3-in-1 Transformer is pretrained to learn reusable behavioral and relational representations, primarily on Ant International's internal payment data. In a cross-business transfer experiment, pretraining improves the target business metric by 34.5% over the same architecture trained from scratch. With only 25% of the trainin"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "Don't Sleep, Keep Watch: Proactive Perception for Computer-Use Agents",
+   "url": "https://arxiv.org/abs/2611.28947",
+   "repo": "https://github.com/SuJQ0722/NightWatch",
+   "signal": "66 upvotes",
+   "summary": "NightWatch adds a lightweight streaming watcher to vision-language computer-use agents to keep perception synchronized with dynamic interfaces, reducing latency and wasted time while maintaining or improving task success."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "Lazy Agents Answer Against Their Own Beliefs: Reinforcement Learning with Verifiable Beliefs Teaches Them to Act on What They Believe",
+   "url": "https://arxiv.org/abs/2611.32884",
+   "repo": "https://github.com/declare-lab/RLVB",
+   "signal": "65 upvotes",
+   "summary": "A reinforcement learning method rewards agents for delaying commitment until their inferred posterior over answers is sufficiently narrow, improving evidence-based answering across vision-language benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "Self-Evolving Evaluation Environments for Computer-Use Agents",
+   "url": "https://arxiv.org/abs/2611.30962",
+   "repo": "",
+   "signal": "52 upvotes",
+   "summary": "CUA-SEE is a closed-loop evaluation environment that co-evolves tasks and executable verifiers to adaptively measure computer-use agents’ capabilities, boundaries, and progress reliability."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "S-Mind: Internalizing Multi-View Geometry for Spatial Intelligence",
+   "url": "https://arxiv.org/abs/2611.28649",
+   "repo": "https://github.com/KANABOON1/S-Mind",
+   "signal": "42 upvotes",
+   "summary": "Spatial intelligence, the ability to reason about 3D space from visual observations, becomes essential as multimodal large language models (MLLMs) move into the physical world. Beyond perceiving each view, it rests on two cornerstones of human cognition: fusing multiple views into one coherent 3D scene and mentally transforming that scene to new viewpoints as reasoning unfolds. Yet our spatial probes reveal that MLLMs largely lack both capabilities, even after spatial fine-tuning. We therefore present S-Mind, which internalizes multi-view geometry within the MLLM through a compact set of spati"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-25",
+   "title": "PartAgent: Agentic 3D Part Segmentation via Expert Integration and Closed-Loop Refinement",
+   "url": "https://arxiv.org/abs/2611.32554",
+   "repo": "https://github.com/yangcaoai/PartAgent_Agent_for_3D_Part_Seg",
+   "signal": "36 upvotes",
+   "summary": "A training-free agentic framework integrates pretrained 3D and 2D experts with closed-loop refinement to achieve state-of-the-art 3D part segmentation across multiple benchmarks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "Motion Mamba 2.0: Autoregressive Diffusion Mamba for Long-Horizon Humanoid Control",
+   "url": "https://arxiv.org/abs/2611.29897",
+   "repo": "https://github.com/AIGeeksGroup/MotionMamba2.0",
+   "signal": "229 upvotes",
+   "summary": "Long-horizon, real-time controllable motion generation is essential for interactive animation and humanoid robotics, where an agent must respond to changing instructions and spatial goals while moving. Existing autoregressive diffusion methods generate motion incrementally, but bounded attention caches limit access to distant history, while repeated denoising introduces substantial inference overhead. We present Motion Mamba 2.0, a Mamba-based root-body diffusion architecture that integrates local attention, resumable recurrent states, and persistent content memory (PCM) for long-horizon contr"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "Embo-Harness: Towards Understanding Frontier-Model-as-Policy Harness",
+   "url": "https://arxiv.org/abs/2611.31201",
+   "repo": "https://github.com/DravenALG/Embo-Harness",
+   "signal": "107 upvotes",
+   "summary": "A systematic framework shows that frontier multimodal models can serve as robot policies when harnessed with interfaces favoring native visual reasoning and tool use, achieving high success in simulated and real manipulation tasks."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "WorldLeague: Benchmarking Physical Agency",
+   "url": "https://arxiv.org/abs/2611.30989",
+   "repo": "https://github.com/xyangzhou/WorldLeague",
+   "signal": "86 upvotes",
+   "summary": "WorldLeague benchmarks 13 AI systems on 60 simulated robot tasks spanning exploration, rearrangement, and adaptation, measuring progress and success to compare autonomous physical goal achievement."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "Let the Fixer Decide: Training a Code Localizer from the Fixer's Likelihood",
+   "url": "https://arxiv.org/abs/2611.12164",
+   "repo": "https://github.com/misraj-ai/locfix",
+   "signal": "62 upvotes",
+   "summary": "A code localizer is trained with scores from a frozen fixer via weighted supervised fine-tuning, improving bug localization and patch success for a small coding agent without tests or reinforcement learning."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "3AGameFactory-Motion: Agentic Rigging and Reliable Complex Motion Generation for Diverse 3D Assets",
+   "url": "https://arxiv.org/abs/2611.30013",
+   "repo": "https://github.com/OpenDCAI/GameFactory-3A",
+   "signal": "62 upvotes",
+   "summary": "A new benchmark evaluates rigging and motion generation across six 3D morphology categories, compares specialized, video-based, and agent-driven paradigms, and proposes an agentic framework that writes compact parametric skeleton and motion programs executed deterministically for reliable control."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "WeMM-Ecom: Advancing Multimodal Content Understanding for WeChat E-Commerce",
+   "url": "https://arxiv.org/abs/2611.30662",
+   "repo": "https://github.com/Tencent/WeMM-Ecom",
+   "signal": "54 upvotes",
+   "summary": "WeMM-Ecom, a family of multimodal large language models spanning dense and mixture-of-experts sizes, is trained with continued pre-training and hybrid-thinking post-training to achieve strong e-commerce and general-purpose results and is deployed in WeChat."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "A Glimpse of Training VLMs as Foundation Models for Robotic Manipulation",
+   "url": "https://arxiv.org/abs/2611.29338",
+   "repo": "https://github.com/Hugo-AGI/nanoAstra",
+   "signal": "46 upvotes",
+   "summary": "nanoAstra combines semantic action modeling with capability-preserving supervised fine-tuning to train vision-language models for generalizable robot manipulation, achieving strong zero-shot success and faster streaming execution."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-24",
+   "title": "Innata-0: A Native Embodied World System with Model-Agent Co-Design",
+   "url": "https://arxiv.org/abs/2611.30254",
+   "repo": "",
+   "signal": "45 upvotes",
+   "summary": "Innata-0 is a native embodied world system that co-designs a world-action model and an agent to enable reliable long-horizon physical behaviors through integrated understanding, prediction, action generation, memory, verification, and recovery."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "cmHC: Balancing Stream Mixing in Hyper-Connections via Geometric Contraction",
+   "url": "https://arxiv.org/abs/2611.27193",
+   "repo": "https://github.com/Newiz430/cmHC",
+   "signal": "94 upvotes",
+   "summary": "Constraining residual stream mixing within the Birkhoff polytope via geometric contraction improves stability and scalability of hyper-connections in large-scale dense and mixture-of-experts model pretraining."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "Non-penetrating World Models",
+   "url": "https://arxiv.org/abs/2611.27963",
+   "repo": "https://github.com/yuhangdai427/NoPeWorld",
+   "signal": "63 upvotes",
+   "summary": "A benchmark and lightweight framework leverage hidden states from frozen diffusion transformers to detect and prevent object penetration in interactive video world models, reducing physical violations and generalizing zero-shot."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "Clover-35B-A3B-Preview Technical Report",
+   "url": "https://arxiv.org/abs/2611.24636",
+   "repo": "https://github.com/DiffuSpace/Clover-35B-A3B-Preview",
+   "signal": "45 upvotes",
+   "summary": "We introduce Clover-35B-A3B-Preview (Clover), a mixture-of-experts diffusion language model with 35 billion total parameters and 3 billion activated parameters, supporting thinking-mode generation. Clover adapts Gated Delta Networks to block diffusion by combining recurrent memory of previously generated context with bidirectional softmax attention inside the current block. Historical memory readout competes with current-block tokens in a shared softmax, with learnable block-size calibration and a separate, zero-initialized right-context convolution branch. Clover leads the seven evaluated age"
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "Learning Video Foresight Reasoning from Unlabeled Videos via On-Policy Self-Distillation",
+   "url": "https://arxiv.org/abs/2611.26954",
+   "repo": "https://github.com/Jingchensun/future-opsd",
+   "signal": "43 upvotes",
+   "summary": "Future-OPSD trains vision-language models via on-policy self-distillation and a contrastive privilege advantage derived from a foresight score, improving video foresight prediction and planning without extra annotations or LLM supervision."
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "MemOnce: A Scalable Memory Architecture for Large Language Models",
+   "url": "https://arxiv.org/abs/2611.27973",
+   "repo": "https://github.com/Clare-Nie/MemOnce",
+   "signal": "30 upvotes",
+   "summary": "Deploying large language models (LLMs) in long-horizon and continual interactions requires maintaining reusable memory states for future inference, posing challenges for existing architectures. Standard Transformers accumulate layer-wise, token-level KV caches, incurring linear GPU memory growth and quadratic computational complexity as the context expands. In contrast, linear-time architectures compress history into fixed-size states, but struggle to retain fine-grained details. We introduce MemOnce, a foundation architecture that learns scalable memory states for language models. MemOnce is "
+  },
+  {
+   "source": "huggingface",
+   "date": "2026-11-23",
+   "title": "Reading the Unreadable: Text-Aware Image Super-Resolution Needs Reasoning",
+   "url": "https://arxiv.org/abs/2611.15449",
+   "repo": "https://github.com/jasonleex1995/TAISR_needs_Reasoning",
+   "signal": "26 upvotes",
+   "summary": "Text-aware image super-resolution (TAISR) aims to recover high-resolution images from low-resolution inputs while preserving textual content. Existing methods treat this as a visual restoration problem, yet severely degraded text often cannot be read from local visual evidence alone. Humans instead read it by reasoning over image context, logical patterns, and prior knowledge. This raises a fundamental question: Does TAISR need reasoning? To answer this, we introduce two diagnostic tools. The first, ReasonText, is a human-curated benchmark that separates reasoning-required text from locally re"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-21",
+   "title": "EL4CTEO/fast-anything: Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kotlin, Go, PHP, C/C++, C#, R.",
+   "url": "https://github.com/EL4CTEO/fast-anything",
+   "repo": "https://github.com/EL4CTEO/fast-anything",
+   "signal": "4670 stars",
+   "summary": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kotlin, Go, PHP, C/C++, C#, R."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-25",
+   "title": "nexu-io/opengame: The Super Game Agent — the Unity & Unreal for AI agents, with 100+ viral games to remix. Turn 20+ coding agents (Claude Code, Codex, DeepSeek, etc.) into a full-stack AI game studio. Build and publish 3D & mini-games to WeChat, Douyin, TikTok, Telegram, itch.io, and more.",
+   "url": "https://github.com/nexu-io/opengame",
+   "repo": "https://github.com/nexu-io/opengame",
+   "signal": "2898 stars",
+   "summary": "The Super Game Agent — the Unity & Unreal for AI agents, with 100+ viral games to remix. Turn 20+ coding agents (Claude Code, Codex, DeepSeek, etc.) into a full-stack AI game studio. Build and publish 3D & mini-games to WeChat, Douyin, TikTok, Telegram, itch.io, and more."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-25",
+   "title": "alesha-pro/llm.asm: Qwen3-0.6B inference (12 KB), bare-metal bootable OS (22 KB), and from-scratch Mini-GPT trainer with live Braille TUI (32 KB) in 100% pure x86-64 NASM assembly. Zero C, zero libc, zero dependencies.",
+   "url": "https://github.com/alesha-pro/llm.asm",
+   "repo": "https://github.com/alesha-pro/llm.asm",
+   "signal": "2804 stars",
+   "summary": "Qwen3-0.6B inference (12 KB), bare-metal bootable OS (22 KB), and from-scratch Mini-GPT trainer with live Braille TUI (32 KB) in 100% pure x86-64 NASM assembly. Zero C, zero libc, zero dependencies."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-21",
+   "title": "qianyiai/KuroCat: KuroCat — Free open-source 3D/2D desktop typing cat & AI companion (Bongo Cat alternative · MCP · Win/Mac/Linux/Android) 开源3D桌面打字小黑猫",
+   "url": "https://github.com/qianyiai/KuroCat",
+   "repo": "https://github.com/qianyiai/KuroCat",
+   "signal": "1929 stars",
+   "summary": "KuroCat — Free open-source 3D/2D desktop typing cat & AI companion (Bongo Cat alternative · MCP · Win/Mac/Linux/Android) 开源3D桌面打字小黑猫"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-23",
+   "title": "DeadInternetStudios/100x-engineer-skill: 100x is a skill by a former Cursor engineer that turns prompts into formally verified, production-ready code",
+   "url": "https://github.com/DeadInternetStudios/100x-engineer-skill",
+   "repo": "https://github.com/DeadInternetStudios/100x-engineer-skill",
+   "signal": "1681 stars",
+   "summary": "100x is a skill by a former Cursor engineer that turns prompts into formally verified, production-ready code"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-26",
+   "title": "gary23w/f-ck_data_brokers: f*ck_data_brokers.py is a free, open-source Python script that sends opt-out and deletion requests to data brokers on your behalf.",
+   "url": "https://github.com/gary23w/f-ck_data_brokers",
+   "repo": "https://github.com/gary23w/f-ck_data_brokers",
+   "signal": "1247 stars",
+   "summary": "f*ck_data_brokers.py is a free, open-source Python script that sends opt-out and deletion requests to data brokers on your behalf."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-22",
+   "title": "erkamyaman/safe-anything: Find the holes before someone else does. A fast, 100% Rust vulnerability scanner: XSS, SQL injection, leaked secrets, dependency CVEs and AI agent setups.",
+   "url": "https://github.com/erkamyaman/safe-anything",
+   "repo": "https://github.com/erkamyaman/safe-anything",
+   "signal": "850 stars",
+   "summary": "Find the holes before someone else does. A fast, 100% Rust vulnerability scanner: XSS, SQL injection, leaked secrets, dependency CVEs and AI agent setups."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-23",
+   "title": "chanke17/KuroCat: KuroCat — Free open-source native desktop cat pet & OBS overlay (Bongo Cat alternative, Swift/C++, 802 KB)｜开源免费原生桌面萌猫（全平台 macOS·Win·Linux·UOS / 2.5D转头捕猎 / 数位板 / OBS透明绿幕 / 在线皮肤工坊 / 零按键上传）",
+   "url": "https://github.com/chanke17/KuroCat",
+   "repo": "https://github.com/chanke17/KuroCat",
+   "signal": "814 stars",
+   "summary": "KuroCat — Free open-source native desktop cat pet & OBS overlay (Bongo Cat alternative, Swift/C++, 802 KB)｜开源免费原生桌面萌猫（全平台 macOS·Win·Linux·UOS / 2.5D转头捕猎 / 数位板 / OBS透明绿幕 / 在线皮肤工坊 / 零按键上传）"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-21",
+   "title": "w01fb0ss/PiBot: Open-source, local-first AI agent team for your desktop: multi-agent group chats, computer use, browser, MCP, routines and approvals. macOS, Windows, Linux + Android. Built on pi.",
+   "url": "https://github.com/w01fb0ss/PiBot",
+   "repo": "https://github.com/w01fb0ss/PiBot",
+   "signal": "712 stars",
+   "summary": "Open-source, local-first AI agent team for your desktop: multi-agent group chats, computer use, browser, MCP, routines and approvals. macOS, Windows, Linux + Android. Built on pi."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-21",
+   "title": "Developing-Gamer/agent-sim: iOS simulators for AI agents, on Linux. The agent layer for x86Sim.",
+   "url": "https://github.com/Developing-Gamer/agent-sim",
+   "repo": "https://github.com/Developing-Gamer/agent-sim",
+   "signal": "635 stars",
+   "summary": "iOS simulators for AI agents, on Linux. The agent layer for x86Sim."
+  },
+  {
+   "source": "github",
+   "date": "2026-11-26",
+   "title": "sol1560/Captae: Local media downloader and library for macOS, Windows and Linux, with a browser extension and an MCP server for AI assistants",
+   "url": "https://github.com/sol1560/Captae",
+   "repo": "https://github.com/sol1560/Captae",
+   "signal": "573 stars",
+   "summary": "Local media downloader and library for macOS, Windows and Linux, with a browser extension and an MCP server for AI assistants"
+  },
+  {
+   "source": "github",
+   "date": "2026-11-22",
+   "title": "clipy-recorder/clipy: The AI-native screen recorder. Record your screen and talk; the people you share it with and your AI agents both get it.",
+   "url": "https://github.com/clipy-recorder/clipy",
+   "repo": "https://github.com/clipy-recorder/clipy",
+   "signal": "555 stars",
+   "summary": "The AI-native screen recorder. Record your screen and talk; the people you share it with and your AI agents both get it."
+  }
+ ]
+}
